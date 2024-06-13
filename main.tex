@@ -1,0 +1,339 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+%\usepackage{enumerate}
+\usepackage{natbib}
+\usepackage{url} % not crucial - just used below for the URL 
+
+%\pdfminorversion=4
+% NOTE: To produce blinded version, replace "0" with "1" below.
+\newcommand{\blind}{0}
+
+% DON'T change margins - should be 1 inch all around.
+\addtolength{\oddsidemargin}{-.5in}%
+\addtolength{\evensidemargin}{-1in}%
+\addtolength{\textwidth}{1in}%
+\addtolength{\textheight}{1.7in}%
+\addtolength{\topmargin}{-1in}%
+
+
+\usepackage{amsfonts,amsthm}
+\newcommand{\R}{\mathbb{R}}
+%\theoremstyle{plain}
+%\newtheorem*{theorem*}{Theorem}
+\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{claim}[]{Claim}
+\newtheorem{cor}[theorem]{Corollary}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{thm}[theorem]{Theorem}
+\newtheorem{lem}[theorem]{Lemma}
+\newtheorem{porism}[theorem]{Porism}
+\newtheorem{scolium}[theorem]{Scholium}
+\newtheorem{counter}[theorem]{Counterexample}
+
+
+\begin{document}
+
+%\bibliographystyle{natbib}
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize} \spacingset{1}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\if0\blind
+{
+  \title{\bf Title}
+  \author{Author 1\thanks{
+    The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
+    Department of YYY, University of XXX\\
+    and \\
+    Author 2 \\
+    Department of ZZZ, University of WWW}
+  \maketitle
+} \fi
+
+\if1\blind
+{
+  \bigskip
+  \bigskip
+  \bigskip
+  \begin{center}
+    {\LARGE\bf Title}
+\end{center}
+  \medskip
+} \fi
+
+\bigskip
+\begin{abstract}
+The text of your abstract.  200 or fewer words.
+\end{abstract}
+
+\noindent%
+{\it Keywords:}  3 to 6 keywords, that do not appear in the title
+\vfill
+
+\newpage
+\spacingset{1.75} % DON'T change the spacing!
+% -----------------------------------------------------------
+\section{Introduction} \label{sec:intro}
+% ------------------------------------------------------------
+
+Extending the method in \cite{lookoutori}
+
+% Body of paper.  Margins in this document are roughly 0.75 inches all
+% around, letter size paper.
+
+% \begin{figure}
+% \begin{center}
+% \includegraphics[width=3in]{fig1.pdf}
+% \end{center}
+% \caption{Consistency comparison in fitting surrogate model in the tidal
+% power example. \label{fig:first}}
+% \end{figure}
+
+% \begin{table}
+% \caption{D-optimality values for design $X$ under five different scenarios.  \label{tab:tabone}}
+% \begin{center}
+% \begin{tabular}{rrrrr}
+% one & two & three & four & five\\\hline
+% 1.23 & 3.45 & 5.00 & 1.21 & 3.41 \\
+% 1.23 & 3.45 & 5.00 & 1.21 & 3.42 \\
+% 1.23 & 3.45 & 5.00 & 1.21 & 3.43 \\
+% \end{tabular}
+% \end{center}
+% \end{table}
+
+% \begin{itemize}
+% \item Note that figures and tables (such as Figure~\ref{fig:first} and
+% Table~\ref{tab:tabone}) should appear in the paper, not at the end or
+% in separate files.
+% \item In the latex source, near the top of the file the command
+% \verb+\newcommand{\blind}{1}+ can be used to hide the authors and
+% acknowledgements, producing the required blinded version.
+% \item Remember that in the blind version, you should not identify authors
+% indirectly in the text.  That is, don't say ``In Smith et. al.  (2009) we
+% showed that ...''.  Instead, say ``Smith et. al. (2009) showed that ...''.
+% \item These points are only intended to remind you of some requirements.
+% Please refer to the instructions for authors
+% at \url{http://amstat.tandfonline.com/action/authorSubmission?journalCode=ubes20&page=instructions#}
+% \item For more about ASA\ style, please see \url{http://journals.taylorandfrancis.com/amstat/asa-style-guide/}
+% \item If you have supplementary material (e.g., software, data, technical
+% proofs), identify them in the section below.  In early stages of the
+% submission process, you may be unsure what to include as supplementary
+% material.  Don't worry---this is something that can be worked out at later stages.
+% \end{itemize}
+
+
+
+% \bigskip
+% \begin{center}
+% {\large\bf SUPPLEMENTARY MATERIAL}
+% \end{center}
+
+% \begin{description}
+
+% \item[Title:] Brief description. (file type)
+
+% \item[R-package for  MYNEW routine:] R-package ÒMYNEWÓ containing code to perform the diagnostic methods described in the article. The package also contains all datasets used as examples in the article. (GNU zipped tar file)
+
+% \item[HIV data set:] Data set used in the illustration of MYNEW method in Section~ 3.2. (.txt file)
+
+% \end{description}
+
+\section{Proofs}
+\subsection{Gaussian $d_* \rightarrow 0$}
+Let $S_n$ denote. random sample of $n$ points from a mulitvariate Gaussian in $\R^d$. The probability density function of this Gaussian is $c e^{-\frac{\|x\|^2}{2}}$ for some constant $c$. Note this pdf is sphereically symmetric. Denote $f(R)=c e^{-\frac{R^2}{2}}$ for this density in terms of the radial coordinate.
+
+Let $X(n,r)$ be the event that $\cup_{x\in S_n} B(x, r)$ is connected. We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and 
+$\mathbb{P}(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
+
+Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1.$  By construction  $r(n)\rightarrow 0$ as $n \rightarrow \infty$.  We will use $r(n)$ to show that the core is covered by balls around the samples with radius $r(n)$.
+
+Cover $B(0, R)$ with a grid with side lengths $g$. Let $\tilde{C}_n^c$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in the crackle paper states:
+$$\mathbb{P}(\tilde{C}(n,R,g)) \leq (2g^{-1})^d R^de^{-ng^d f(R)}.$$
+
+Set $R_n^c=\sqrt{2(\log n -\log \log n)}$ which will represent the core of point cloud. Note that 
+$$f(R_n^c)= c e^{-\log n+\log\log n}=c\frac{\log n}{n}.$$
+
+Set $g=\frac{r(n)}{2\sqrt{d}}$ so $g^d=\frac{1}{c \log \log n 2^d d^{d/2}}$.
+
+\begin{align*}
+\mathbb{P}(\tilde{C}(n,R_n^c,r(n)))&\leq 2^{2d}d^{d/2}c \log \log n (2(\log n -\log \log n))^{d/2}e^{-ng^dc\frac{\log n}{n}}\\
+&\leq K\frac{(\log n)^{d/2}\log\log n }{\exp(\frac{\log n}{2^d d^{d/2} \log \log n})}
+\end{align*}
+
+where $K$ is a constant independent of $n$.
+
+For large $n$, $\log n>(d\log\log n) 2^d d^{d/2} \log \log n$ and thus 
+$$\exp\left(\frac{\log n}{2^d d^{d/2} \log \log n}\right)>\exp(d\log\log n)=(\log n)^d.$$
+
+Thus for large $n$
+$$\mathbb{P}(\tilde{C}(n,R_n^c,r(n)))\leq K \frac{(\log n)^{d/2}\log\log n }{(\log n)^d}$$
+which goes to $0$ as $n \to \infty$.
+
+Set $R_n^2:=\sqrt{2(\log n+d\log \log n)}$.
+
+Also directly from the crackle paper we have that the probability of there being a point more that $R_n^2:=\sqrt{2(\log n +d\log\log n)}$ goes to zero as $n\to \infty$.
+This implies that we can assume all points are within $B(0,R_n^2)$ and that every point in $B(0, R_n^c)$ is within $\frac{1}{ c \log \log n}$ of a sample point. 
+
+\begin{align*}
+R_n^2-R_n^c&= \sqrt{2(\log n +d\log\log n)}-\sqrt{2(\log n -\log \log n)}\\
+&=\sqrt{2(\log n)}(\sqrt{1+\frac{d\log\log n}{2\log n}}-\sqrt{1- \frac{\log\log n}{2\log n}})
+&\sim\sqrt{2(\log n)}((1+\frac{d\log\log n}{4\log n})-(1-\frac{\log\log n}{4\log n})\\
+&=\sqrt{2}\sqrt{\log n}\frac{(d+1)\log\log n}{4\log n}\\
+&=\frac{\sqrt{2}(d+1)}{4}\frac{\log\log n}{\sqrt{\log n}}\\
+\end{align*}
+
+Let $s(n)=\max\{r(n), (d+1)\frac{\log\log n}{\sqrt{\log n}}\}$. Then by the above arguments $\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $0<d_*<s(n)$. We also have $s(n)\to 0$ as $n\to \infty$. Together they squeeze $d_*$ to satisfy $d_*\to 0$ as $n\to \infty$.
+
+\subsection{Exponential $d_*\to 0$ but only for percentiles.}
+Let $S_n$ denote. random sample of $n$ points from a exponential distributions in $\R^d$. The probability density function of this Gaussian is $c e^{-\|x\|}$ for some constant $c$. Note this pdf is spherically symmetric. Denote $f(R)=c e^{-R}$ for this density in terms of the radial coordinate.
+
+Set $$R_n:=\log n -3\log \log \log n.$$
+This will the radius of the core in which we will show that all the points will be connected at a radius $r_n$ that will decrease to $0$ very slowly. Set $g>0$ such that $g^d=\frac{d+1}{c}(\log \log n)^{-2}$.
+
+Let $X(n,r)$ be the event that $\cup_{x\in S_n\cap B(0, R_n^c)} B(x, r)$ is connected. Set $r_n=2g$
+%We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and 
+%$\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
+
+By construction  $r(n)\rightarrow 0$ as $n \rightarrow \infty$.  
+
+Cover $B(0, R_n)$ with a grid with side lengths $g$. Let $\tilde{C}_n^c$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in the crackle paper states:
+$$\mathbb{P}(\tilde{C}(n,R,g)) \leq (2g^{-1})^d R^de^{-ng^d f(R)}.$$
+
+Set $R_n=\log n - 3\log \log \log n$ which will represent the core of point cloud. Note that 
+$$f(R_n)= c e^{-\log n+3\log\log\log n}= c \frac{(\log \log n)^3}{n}.$$
+
+
+\begin{align*}
+\mathbb{P}(\tilde{C}(n,R_n^c,r(n)))&\leq\frac{2^d c}{d+1} (\log \log n)^2 (\log n - 3\log \log \log n)^d \exp(-n \frac{d+1}{c}(\log \log n)^{-2}c \frac{(\log \log n)^3}{n})\\
+&\leq \frac{2^d c}{d+1} (\log \log n)^2 (\log n)^d \exp(-(d+1)(\log \log n)^{-2} (\log \log n)^3)\\
+&\leq  \frac{2^d c}{d+1} (\log \log n)^2 (\log n)^d \exp(\log (\log n)^{-d-1})\\
+&\leq  \frac{2^d c}{d+1} \frac{(\log \log n)^2 (\log n)^d }{(\log n)^{d+1}}\\
+&\to 0 \text{ as } n \to \infty
+\end{align*}
+
+
+%
+%where $K$ is a constant independent of $n$.
+%
+%For large $n$, $\log n>(d\log\log n) 2^d d^{d/2} \log \log n$ and thus 
+%$$\exp\left(\frac{\log n}{2^d d^{d/2} \log \log n}\right)>\exp(d\log\log n)=(\log n)^d.$$
+%
+%Thus for large $n$
+%$$\P(\tilde{C}(n,R_n^c,r(n)))\leq K \frac{(\log n)^{d/2}\log\log n }{(\log n)^d}$$
+%which goes to $0$ as $n \to \infty$.
+
+
+Let $Y(n, R_n)$ denote the points with radius larger than $R_n$, so there are $n-Y$ samples in $B(0, R_n)$. We have that at least $n-Y$ deaths have occurred by radius $r(n)$ as all the samples in $B(0, R_n)$ are connected by then.
+
+We have $\mathbb{E}[Y]=O(\log n)$ which implies 
+$$\mathbb{P}(Y\geq(1-\alpha) n)\to 0$$
+for all $\alpha \in (0,1)$
+
+This implies that $d_{\alpha n} \to 0$ as $n\to \infty$.
+%Also directly from the crackle paper we have that the probability of there being a point more that $R_n^2:=\sqrt{2(\log n +d\log\log n)}$ goes to zero as $n\to \infty$.
+
+
+\subsection{$nd_*\to \infty$}
+
+A consequence of the below theorems is that $nd_*\to \infty$ whenever $d_*$ is chosen as the any fixed percentile of the death times. This holds for very general distributions. We only require a global upper bound on the pdf and the dimension of the space at least $2$. 
+
+\begin{theorem}
+Let $d_k$ denote the $k$-th smallest death time of the $0$-homology for the Rips fitrations of a set of $n$ points sampled from probability distribution $X$ over $\R^2$ such that the density is bounded above. Note that there are $n-1$ finite death times.
+
+Choose any non-decreasing sequence of integers $\{\omega(n)\}$ such that $0<\omega(n) <n$ for all $n$ and $\lim_{n\to \infty} \omega_n =\infty$. Then $nd_{\omega(n)}\to \infty$ as $n\to \infty$ with probability $1$.
+\end{theorem}
+\begin{proof}
+It is sufficient for there to exist a function $r(n)$ such that $\mathbb{P}(d_{\omega(n)})\geq \frac{r(n)}{n}) \to 1$ as $n\to \infty$ and $r(n)\to \infty$ as $n\to \infty$. 
+Let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$. 
+
+Now $d_{\omega(n)} > \frac{r(n)}{n}$ occurs when $C(n, \frac{r(n)}{n})> n - \omega(n)$.
+
+
+Since the number of components can only be an integer between $1$ and $n$, 
+$$\mathbb{P}(C(n, \frac{r(n)}{n})> n-\omega(n)) \geq \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-(n-\omega(n))}{n-(n-\omega(n))}= \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n+\omega(n))}{\omega(n)}.$$
+
+This implies that it is sufficient to show that there exists a suitable $r(n)$ such that $r(n)\to \infty$ as $n\to \infty$. and
+$$\lim_{n\to \infty}\frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n+\omega(n))}{\omega(n)} = 1.$$ 
+For small radii $r$ a useful lower bound on the number of connected components is $n-E(n,r)$ where $E(n,r)$ is the number of edges in the graph connecting any two points are less that $2r$ apart, that is 
+$\mathbb{E}[C(n, \frac{r(n)}{n})]\geq n-\mathbb{E}[E(n,\frac{r(n)}{n})]$. The expected number of edges is much easier to calculate than the expected number of components. 
+\begin{align*}
+\mathbb{E}[E(n,\frac{r(n)}{n})]&=\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r\mid x,y \sim X)\\
+&\leq \frac{n(n-1)}{2} K\pi (\frac{r(n)}{n})^2\\
+&\leq \frac{K \pi}{2}r(n)^2
+\end{align*}
+where $K$ is the global upper bound on the pdf of $X$.
+
+Set $r(n)=\log (\omega (n)+1)$. We automatically get $\lim_{n\to \infty} r(n)= \infty$ as $\lim_{n\to \infty} \omega(n)=\infty$.
+
+$\mathbb{E}[C(n, \frac{r(n)}{n})]\geq n- K \pi\log(\omega(n)+1)$ and thus 
+$$\lim_{n\to \infty} \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n+\omega(n)}{\omega(n))} \geq \lim_{n\to \infty} \frac{\omega(n)-K \pi\log(\omega(n)+1)}{\omega(n)}= 1$$
+\end{proof}
+
+
+\begin{theorem}
+Let $d_1$ denote the smallest death time of the $0$-homology for the Rips fitrations of a set of $n$ points sampled from probability distribution over $\R^d$, $d\geq 3$ such that the density is bounded above. 
+
+Then $nd_{1}\to \infty$ as $n\to \infty$ with probability $1$.
+\end{theorem}
+\begin{proof}
+The argument here is an easier version of the above theorem. We wish to find a function $r(n)$ such that $\lim_{n\to \infty}r(n)=\infty$ and 
+
+$$\lim_{n\to \infty}\mathbb{P}(C(n, \frac{r(n)}{n})=n)=1.$$
+Set $r(n)=\log(n)$.
+
+\begin{align*}
+\mathbb{E}[E(n,\frac{r(n)}{n})]&=\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r(n)\mid x,y \sim X)\\
+&\leq \frac{n(n-1)}{2} K\pi s_d(\frac{2\log(n)}{n})^d\\
+&\leq 2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}
+\end{align*}
+where $K$ is the global upper bound on the pdf of $X$ and $s_d$ is the volume of the unit ball in $\R^d$.
+
+$\mathbb{E}[C(n, \frac{r(n)}{n})]\geq n- 2^{d-1}Ks_d\frac{(\log(n))^d}{n^{d-1}}$.
+
+Since the number of connected components must be an integer between $1$ and $n$ we deduce 
+\begin{align*}
+\mathbb{P}(C(n, \frac{r(n)}{n})=n)&\geq \mathbb{E}[C(n, \frac{r(n)}{n})]+1-n
+\geq n-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}+1-n\\
+&=1-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}\\
+\end{align*}
+and thus $\lim_{n\to \infty}\mathbb{P}(C(n, \frac{r(n)}{n})=n)=1.$
+\end{proof}
+
+% \section{BibTeX}
+
+%We hope you've chosen to use BibTeX!\ If you have, please feel free to use the package natbib with any bibliography style you're comfortable with. The .bst file Chicago was used here, and agsm.bst has been included here for your convenience. 
+
+\section{Results}\label{sec:results}
+\subsection{Gamma distribution}
+Non-outlier distribution: 500 data points, shape = 2, rate = 2 \\
+Outlier distribution: 10 data points, shape = 2, rate $\in \{0.1, 0.2, \ldots 1\}$.
+
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics{Figures/Gamma_Experiment.pdf}
+    \caption{Results of the Gamma distribution experiment. False negatives, false positives, true negatives and true positives of the old and new versions lookout shown.}
+    \label{fig:expGamma}
+\end{figure}
+
+\subsection{Normal distribution - comparison with the previous version}
+
+For the normal distribution -- False positives are slightly higher with the new version. But true positives are better.  
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics{Figures/Normal_Comparison_Old_New.pdf}
+    \caption{Caption}
+    \label{fig:expnormal}
+\end{figure}
+
+\bibliographystyle{agsm}
+\bibliography{References}
+\end{document}
