@@ -34,10 +34,10 @@
 \newtheorem{scolium}[theorem]{Scholium}
 \newtheorem{counter}[theorem]{Counterexample}
 
+\graphicspath{{Figures/}}
 
 \begin{document}
 
-%\bibliographystyle{natbib}
 
 \def\spacingset#1{\renewcommand{\baselinestretch}%
 {#1}\small\normalsize} \spacingset{1}
@@ -48,12 +48,15 @@
 \if0\blind
 {
   \title{\bf Title}
-  \author{Author 1\thanks{
+  \author{Sevvandi Kandanaarachchi\thanks{
     The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
-    Department of YYY, University of XXX\\
+    CSIRO, Australia\\
+    Rob J Hyndman\\
+    Department of Econometrics \& Business Statistics, Monash University, Australia\\
     and \\
-    Author 2 \\
-    Department of ZZZ, University of WWW}
+    Katharine Turner\\
+    Mathematical Sciences Institute, Australian National University, Australia
+    }
   \maketitle
 } \fi
 
@@ -79,73 +82,30 @@ The text of your abstract.  200 or fewer words.
 
 \newpage
 \spacingset{1.75} % DON'T change the spacing!
+
+
 % -----------------------------------------------------------
 \section{Introduction} \label{sec:intro}
 % ------------------------------------------------------------
 
 Extending the method in \cite{lookoutori}
 
-% Body of paper.  Margins in this document are roughly 0.75 inches all
-% around, letter size paper.
+    - Describe original lookout algorithm (SK)
 
-% \begin{figure}
-% \begin{center}
-% \includegraphics[width=3in]{fig1.pdf}
-% \end{center}
-% \caption{Consistency comparison in fitting surrogate model in the tidal
-% power example. \label{fig:first}}
-% \end{figure}
+    - Conditions for consistent estimation of kde (RH)
+    
+    - Describe crackle idea and why it matters (KT)
+    
+    - Outline of updated algorithm (RH)
 
-% \begin{table}
-% \caption{D-optimality values for design $X$ under five different scenarios.  \label{tab:tabone}}
-% \begin{center}
-% \begin{tabular}{rrrrr}
-% one & two & three & four & five\\\hline
-% 1.23 & 3.45 & 5.00 & 1.21 & 3.41 \\
-% 1.23 & 3.45 & 5.00 & 1.21 & 3.42 \\
-% 1.23 & 3.45 & 5.00 & 1.21 & 3.43 \\
-% \end{tabular}
-% \end{center}
-% \end{table}
 
-% \begin{itemize}
-% \item Note that figures and tables (such as Figure~\ref{fig:first} and
-% Table~\ref{tab:tabone}) should appear in the paper, not at the end or
-% in separate files.
-% \item In the latex source, near the top of the file the command
-% \verb+\newcommand{\blind}{1}+ can be used to hide the authors and
-% acknowledgements, producing the required blinded version.
-% \item Remember that in the blind version, you should not identify authors
-% indirectly in the text.  That is, don't say ``In Smith et. al.  (2009) we
-% showed that ...''.  Instead, say ``Smith et. al. (2009) showed that ...''.
-% \item These points are only intended to remind you of some requirements.
-% Please refer to the instructions for authors
-% at \url{http://amstat.tandfonline.com/action/authorSubmission?journalCode=ubes20&page=instructions#}
-% \item For more about ASA\ style, please see \url{http://journals.taylorandfrancis.com/amstat/asa-style-guide/}
-% \item If you have supplementary material (e.g., software, data, technical
-% proofs), identify them in the section below.  In early stages of the
-% submission process, you may be unsure what to include as supplementary
-% material.  Don't worry---this is something that can be worked out at later stages.
-% \end{itemize}
+\section{Consistency and crackle}
+
+KT
+    - Main mathematical results with proofs (possibly relegated to appendices).
 
 
 
-% \bigskip
-% \begin{center}
-% {\large\bf SUPPLEMENTARY MATERIAL}
-% \end{center}
-
-% \begin{description}
-
-% \item[Title:] Brief description. (file type)
-
-% \item[R-package for  MYNEW routine:] R-package ÒMYNEWÓ containing code to perform the diagnostic methods described in the article. The package also contains all datasets used as examples in the article. (GNU zipped tar file)
-
-% \item[HIV data set:] Data set used in the illustration of MYNEW method in Section~ 3.2. (.txt file)
-
-% \end{description}
-
-\section{Proofs}
 \subsection{Gaussian $d_* \rightarrow 0$}
 Let $S_n$ denote. random sample of $n$ points from a mulitvariate Gaussian in $\R^d$. The probability density function of this Gaussian is $c e^{-\frac{\|x\|^2}{2}}$ for some constant $c$. Note this pdf is sphereically symmetric. Denote $f(R)=c e^{-\frac{R^2}{2}}$ for this density in terms of the radial coordinate.
 
@@ -306,11 +266,26 @@ Since the number of connected components must be an integer between $1$ and $n$ 
 and thus $\lim_{n\to \infty}\mathbb{P}(C(n, \frac{r(n)}{n})=n)=1.$
 \end{proof}
 
-% \section{BibTeX}
 
-%We hope you've chosen to use BibTeX!\ If you have, please feel free to use the package natbib with any bibliography style you're comfortable with. The .bst file Chicago was used here, and agsm.bst has been included here for your convenience. 
+\section{Lookout algorithm v2}
 
-\section{Results}\label{sec:results}
+RH
+
+    - Using upper quantile of Rips death diameters
+
+    - Normalization of data via a Yeo-Johnson transformation
+    
+    - Robust scaling of data
+
+\section{Empirical comparisons} 
+
+SK
+
+    - Show anomaly detection examples using normal distribution and gamma distribution, with lookout 2 vs lookout 1
+
+    - Show comparisons of lookout v1, lookout v2, stray, KDEOS and RDOS on ODDS and KMASH data repositories
+
+
 \subsection{Gamma distribution}
 Non-outlier distribution: 500 data points, shape = 2, rate = 2 \\
 Outlier distribution: 10 data points, shape = 2, rate $\in \{0.1, 0.2, \ldots 1\}$.
@@ -333,7 +308,30 @@ For the normal distribution -- False positives are slightly higher with the new 
     \caption{Caption}
     \label{fig:expnormal}
 \end{figure}
+\section{Discussion and conclusions}
+
+SK
+
+
 
 \bibliographystyle{agsm}
 \bibliography{References}
+
+
+% \bigskip
+% \begin{center}
+% {\large\bf SUPPLEMENTARY MATERIAL}
+% \end{center}
+
+% \begin{description}
+
+% \item[Title:] Brief description. (file type)
+
+% \item[R-package for  MYNEW routine:] R-package ÒMYNEWÓ containing code to perform the diagnostic methods described in the article. The package also contains all datasets used as examples in the article. (GNU zipped tar file)
+
+% \item[HIV data set:] Data set used in the illustration of MYNEW method in Section~ 3.2. (.txt file)
+
+% \end{description}
+
+
 \end{document}
