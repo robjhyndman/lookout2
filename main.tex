@@ -1,9 +1,10 @@
-\documentclass[12pt]{article}
-\usepackage{amsmath}
+\documentclass[11pt,letterpaper]{article}
+\usepackage{mathpazo,parskip}
+\usepackage{amsmath,bm}
 \usepackage{graphicx}
-%\usepackage{enumerate}
 \usepackage{natbib}
-\usepackage{url} % not crucial - just used below for the URL 
+\usepackage{hyperref,url}
+\usepackage{amsfonts,amsthm}
 
 %\pdfminorversion=4
 % NOTE: To produce blinded version, replace "0" with "1" below.
@@ -16,307 +17,347 @@
 \addtolength{\textheight}{1.7in}%
 \addtolength{\topmargin}{-1in}%
 
-
-\usepackage{amsfonts,amsthm}
 \newcommand{\R}{\mathbb{R}}
-%\theoremstyle{plain}
-%\newtheorem*{theorem*}{Theorem}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
 \newtheorem{theorem}{Theorem}[section]
-%\newtheorem{conjecture}{Conjecture}[section]
 \newtheorem{lemma}[theorem]{Lemma}
-%\newtheorem{claim}[]{Claim}
 \newtheorem{cor}[theorem]{Corollary}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{prop}[theorem]{Proposition}
 \newtheorem{thm}[theorem]{Theorem}
 \newtheorem{lem}[theorem]{Lemma}
-\newtheorem{porism}[theorem]{Porism}
-\newtheorem{scolium}[theorem]{Scholium}
-\newtheorem{counter}[theorem]{Counterexample}
 
 \graphicspath{{Figures/}}
 
 \begin{document}
 
-
 \def\spacingset#1{\renewcommand{\baselinestretch}%
-{#1}\small\normalsize} \spacingset{1}
-
+  {#1}\small\normalsize} \spacingset{1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \if0\blind
-{
-  \title{\bf Title}
-  \author{Sevvandi Kandanaarachchi\thanks{
-    The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
-    CSIRO, Australia\\
-    Rob J Hyndman\\
-    Department of Econometrics \& Business Statistics, Monash University, Australia\\
-    and \\
-    Katharine Turner\\
-    Mathematical Sciences Institute, Australian National University, Australia
+  {
+    \title{\bf When lookout sees crackle: anomaly detection via kernel density estimation}
+    \author{Sevvandi Kandanaarachchi\thanks{
+        The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
+      \textit{CSIRO, Australia}\\[0.3cm]
+      Rob J Hyndman\\
+      \textit{Monash University, Australia}\\[0.3cm]
+      Katharine Turner\\
+      \textit{Australian National University, Australia}
     }
-  \maketitle
-} \fi
+    \maketitle
+  } \fi
 
 \if1\blind
-{
-  \bigskip
-  \bigskip
-  \bigskip
-  \begin{center}
-    {\LARGE\bf Title}
-\end{center}
-  \medskip
-} \fi
+  {
+    \bigskip
+    \bigskip
+    \bigskip
+    \begin{center}
+      {\LARGE\bf Title}
+    \end{center}
+    \medskip
+  } \fi
 
 \bigskip
 \begin{abstract}
-The text of your abstract.  200 or fewer words.
+  The text of your abstract.  200 or fewer words.
 \end{abstract}
 
-\noindent%
-{\it Keywords:}  3 to 6 keywords, that do not appear in the title
-\vfill
+\textit{Keywords:}  3 to 6 keywords, that do not appear in the title
 
 \newpage
 \spacingset{1.75} % DON'T change the spacing!
-
 
 % -----------------------------------------------------------
 \section{Introduction} \label{sec:intro}
 % ------------------------------------------------------------
 
-Extending the method in \cite{lookoutori}
+Two contributions: 1. theoretical properties of lookout algorithm \citep{lookoutori}; and 2. modified lookout algorithm with better properties and performance.
 
-    - Describe original lookout algorithm (SK)
+\subsection{The lookout algorithm for anomaly detection (SK)}
 
-    - Conditions for consistent estimation of kde (RH)
-    
-    - Describe crackle idea and why it matters (KT)
-    
-    - Outline of updated algorithm (RH)
+Describe original lookout algorithm
 
+\subsection{Consistency of kde when bandwidths use Rips death diameters (RH)}
 
-\section{Consistency and crackle}
+Suppose we have a sample of $n$ points in $\mathbb{R}^p$, and we want to estimate the density of the underlying distribution $f$ using a multivariate kernel density estimator with the bandwidth matrix chosen by the method described in \cite{lookoutori}.
 
-KT
-    - Main mathematical results with proofs (possibly relegated to appendices).
+Let $d_1,\dots,d_N$ denote the (ordered) Rips death diameters, and we choose
+$$
+  d_* = d_{i_*}\qquad\text{where}\quad i_* = \text{arg max}\{d_{i+1} - d_i\}_{i=1}^{N-1}
+$$
+That is, $d_*$ is the Rips diameter corresponding to the lower point of the largest gap in the Rips diameters. Then the bandwidth matrix proposed by \cite{lookoutori} is given by
+\begin{equation}\label{eq:bandwidth}
+  \bm{H} = d_*^{2/p}\bm{I},
+\end{equation}
+where $p$ is the dimension of the data.
 
+To obtain a consistent estimate, we need the bandwidth matrix $\bm{H}$ to be positive definite and symmetric, and to satisfy the following conditions \citep[][p31--37]{chacon2018multivariate}:
+\begin{itemize}
+  \item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
+  \item $n^{-1}|\bm{H}|^{-1/2} \rightarrow 0$ as $n\rightarrow\infty$.
+\end{itemize}
 
+Thus, we need to show that
+\begin{equation}\label{eq:conditions}
+d_*^{2/p}\rightarrow 0 \quad\text{and}\quad (d_*n)^{-1}\rightarrow0\quad{as}\quad
+n\rightarrow\infty
+\end{equation}
+
+\subsection{Crackle (KT)}
+
+Describe crackle idea and why it matters here
+
+\subsection{The modified lookout algorithm (RH)}
+
+As a result of these theoretical considerations, we propose a modification to the lookout algorithm. We will use the upper quantile of the Rips death diameters as the bandwidth parameter, and we will normalize the data using a Yeo-Johnson transformation followed by a robust scaling to ensure that the data are approximately normally distributed with zero pairwise correlations.
+
+Outline of updated algorithm
+
+\section{Consistency and crackle (KT)}
+
+Main mathematical results with proofs (possibly relegated to appendices).
 
 \subsection{Gaussian $d_* \rightarrow 0$}
-Let $S_n$ denote. random sample of $n$ points from a mulitvariate Gaussian in $\R^d$. The probability density function of this Gaussian is $c e^{-\frac{\|x\|^2}{2}}$ for some constant $c$. Note this pdf is sphereically symmetric. Denote $f(R)=c e^{-\frac{R^2}{2}}$ for this density in terms of the radial coordinate.
+Let $S_n$ denote. random sample of $n$ points from a multivariate Gaussian in $\R^d$. The probability density function of this Gaussian is $c e^{-\frac{\|x\|^2}{2}}$ for some constant $c$. Note this pdf is spherically symmetric. Denote $f(R)=c e^{-\frac{R^2}{2}}$ for this density in terms of the radial coordinate.
 
-Let $X(n,r)$ be the event that $\cup_{x\in S_n} B(x, r)$ is connected. We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and 
-$\mathbb{P}(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
+Let $X(n,r)$ be the event that $\cup_{x\in S_n} B(x, r)$ is connected. We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and $\mathbb{P}(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
 
-Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1.$  By construction  $r(n)\rightarrow 0$ as $n \rightarrow \infty$.  We will use $r(n)$ to show that the core is covered by balls around the samples with radius $r(n)$.
+Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction  $r(n)\rightarrow 0$ as $n \rightarrow \infty$. We will use $r(n)$ to show that the core is covered by balls around the samples with radius $r(n)$.
 
 Cover $B(0, R)$ with a grid with side lengths $g$. Let $\tilde{C}_n^c$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in the crackle paper states:
-$$\mathbb{P}(\tilde{C}(n,R,g)) \leq (2g^{-1})^d R^de^{-ng^d f(R)}.$$
+$$
+  \mathbb{P}(\tilde{C}(n,R,g)) \leq (2g^{-1})^d R^de^{-ng^d f(R)}.
+$$
 
-Set $R_n^c=\sqrt{2(\log n -\log \log n)}$ which will represent the core of point cloud. Note that 
-$$f(R_n^c)= c e^{-\log n+\log\log n}=c\frac{\log n}{n}.$$
+Set $R_n^c=\sqrt{2(\log n -\log \log n)}$ which will represent the core of point cloud. Note that
+$$
+  f(R_n^c)= c e^{-\log n+\log\log n}=c\frac{\log n}{n}.
+$$
 
 Set $g=\frac{r(n)}{2\sqrt{d}}$ so $g^d=\frac{1}{c \log \log n 2^d d^{d/2}}$.
-
 \begin{align*}
-\mathbb{P}(\tilde{C}(n,R_n^c,r(n)))&\leq 2^{2d}d^{d/2}c \log \log n (2(\log n -\log \log n))^{d/2}e^{-ng^dc\frac{\log n}{n}}\\
-&\leq K\frac{(\log n)^{d/2}\log\log n }{\exp(\frac{\log n}{2^d d^{d/2} \log \log n})}
+  \mathbb{P}(\tilde{C}(n,R_n^c,r(n)))
+    & \leq 2^{2d}d^{d/2}c \log \log n (2(\log n -\log \log n))^{d/2}e^{-ng^dc\frac{\log n}{n}} \\
+    & \leq K\frac{(\log n)^{d/2}\log\log n }{\exp(\frac{\log n}{2^d d^{d/2} \log \log n})}
 \end{align*}
-
 where $K$ is a constant independent of $n$.
 
-For large $n$, $\log n>(d\log\log n) 2^d d^{d/2} \log \log n$ and thus 
-$$\exp\left(\frac{\log n}{2^d d^{d/2} \log \log n}\right)>\exp(d\log\log n)=(\log n)^d.$$
-
+For large $n$, $\log n>(d\log\log n) 2^d d^{d/2} \log \log n$ and thus
+$$
+  \exp\left(\frac{\log n}{2^d d^{d/2} \log \log n}\right)>\exp(d\log\log n)=(\log n)^d.
+$$
 Thus for large $n$
-$$\mathbb{P}(\tilde{C}(n,R_n^c,r(n)))\leq K \frac{(\log n)^{d/2}\log\log n }{(\log n)^d}$$
+$$
+  \mathbb{P}(\tilde{C}(n,R_n^c,r(n)))\leq K \frac{(\log n)^{d/2}\log\log n }{(\log n)^d}
+$$
 which goes to $0$ as $n \to \infty$.
 
 Set $R_n^2:=\sqrt{2(\log n+d\log \log n)}$.
 
-Also directly from the crackle paper we have that the probability of there being a point more that $R_n^2:=\sqrt{2(\log n +d\log\log n)}$ goes to zero as $n\to \infty$.
-This implies that we can assume all points are within $B(0,R_n^2)$ and that every point in $B(0, R_n^c)$ is within $\frac{1}{ c \log \log n}$ of a sample point. 
-
+Also directly from the crackle paper we have that the probability of there being a point more that $R_n^2:=\sqrt{2(\log n +d\log\log n)}$ goes to zero as $n\to \infty$. This implies that we can assume all points are within $B(0,R_n^2)$ and that every point in $B(0, R_n^c)$ is within $\frac{1}{ c \log \log n}$ of a sample point.
 \begin{align*}
-R_n^2-R_n^c&= \sqrt{2(\log n +d\log\log n)}-\sqrt{2(\log n -\log \log n)}\\
-&=\sqrt{2(\log n)}(\sqrt{1+\frac{d\log\log n}{2\log n}}-\sqrt{1- \frac{\log\log n}{2\log n}})
-&\sim\sqrt{2(\log n)}((1+\frac{d\log\log n}{4\log n})-(1-\frac{\log\log n}{4\log n})\\
-&=\sqrt{2}\sqrt{\log n}\frac{(d+1)\log\log n}{4\log n}\\
-&=\frac{\sqrt{2}(d+1)}{4}\frac{\log\log n}{\sqrt{\log n}}\\
+  R_n^2-R_n^c
+    & = \sqrt{2(\log n +d\log\log n)}-\sqrt{2(\log n -\log \log n)}                                \\
+    & =\sqrt{2(\log n)}(\sqrt{1+\frac{d\log\log n}{2\log n}}-\sqrt{1- \frac{\log\log n}{2\log n}}) \\
+    & \sim\sqrt{2(\log n)}((1+\frac{d\log\log n}{4\log n})-(1-\frac{\log\log n}{4\log n})          \\
+    & =\sqrt{2}\sqrt{\log n}\frac{(d+1)\log\log n}{4\log n}                                        \\
+    & =\frac{\sqrt{2}(d+1)}{4}\frac{\log\log n}{\sqrt{\log n}}                                     \\
 \end{align*}
-
 Let $s(n)=\max\{r(n), (d+1)\frac{\log\log n}{\sqrt{\log n}}\}$. Then by the above arguments $\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $0<d_*<s(n)$. We also have $s(n)\to 0$ as $n\to \infty$. Together they squeeze $d_*$ to satisfy $d_*\to 0$ as $n\to \infty$.
 
-\subsection{Exponential $d_*\to 0$ but only for percentiles.}
+\subsection{Exponential $d_*\to 0$ but only for percentiles}
+
 Let $S_n$ denote. random sample of $n$ points from a exponential distributions in $\R^d$. The probability density function of this Gaussian is $c e^{-\|x\|}$ for some constant $c$. Note this pdf is spherically symmetric. Denote $f(R)=c e^{-R}$ for this density in terms of the radial coordinate.
 
-Set $$R_n:=\log n -3\log \log \log n.$$
+Set
+$$
+  R_n:=\log n -3\log \log \log n.
+$$
 This will the radius of the core in which we will show that all the points will be connected at a radius $r_n$ that will decrease to $0$ very slowly. Set $g>0$ such that $g^d=\frac{d+1}{c}(\log \log n)^{-2}$.
 
 Let $X(n,r)$ be the event that $\cup_{x\in S_n\cap B(0, R_n^c)} B(x, r)$ is connected. Set $r_n=2g$
-%We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and 
+%We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and
 %$\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
 
-By construction  $r(n)\rightarrow 0$ as $n \rightarrow \infty$.  
+By construction  $r(n)\rightarrow 0$ as $n \rightarrow \infty$.
 
 Cover $B(0, R_n)$ with a grid with side lengths $g$. Let $\tilde{C}_n^c$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in the crackle paper states:
-$$\mathbb{P}(\tilde{C}(n,R,g)) \leq (2g^{-1})^d R^de^{-ng^d f(R)}.$$
-
-Set $R_n=\log n - 3\log \log \log n$ which will represent the core of point cloud. Note that 
-$$f(R_n)= c e^{-\log n+3\log\log\log n}= c \frac{(\log \log n)^3}{n}.$$
-
-
+$$
+  \mathbb{P}(\tilde{C}(n,R,g)) \leq (2g^{-1})^d R^de^{-ng^d f(R)}.
+$$
+Set $R_n=\log n - 3\log \log \log n$ which will represent the core of point cloud. Note that
+$$
+  f(R_n)= c e^{-\log n+3\log\log\log n}= c \frac{(\log \log n)^3}{n}.
+$$
 \begin{align*}
-\mathbb{P}(\tilde{C}(n,R_n^c,r(n)))&\leq\frac{2^d c}{d+1} (\log \log n)^2 (\log n - 3\log \log \log n)^d \exp(-n \frac{d+1}{c}(\log \log n)^{-2}c \frac{(\log \log n)^3}{n})\\
-&\leq \frac{2^d c}{d+1} (\log \log n)^2 (\log n)^d \exp(-(d+1)(\log \log n)^{-2} (\log \log n)^3)\\
-&\leq  \frac{2^d c}{d+1} (\log \log n)^2 (\log n)^d \exp(\log (\log n)^{-d-1})\\
-&\leq  \frac{2^d c}{d+1} \frac{(\log \log n)^2 (\log n)^d }{(\log n)^{d+1}}\\
-&\to 0 \text{ as } n \to \infty
+  \mathbb{P}(\tilde{C}(n,R_n^c,r(n)))
+    & \leq\frac{2^d c}{d+1} (\log \log n)^2 (\log n - 3\log \log \log n)^d \exp(-n \frac{d+1}{c}(\log \log n)^{-2}c \frac{(\log \log n)^3}{n}) \\
+    & \leq \frac{2^d c}{d+1} (\log \log n)^2 (\log n)^d \exp(-(d+1)(\log \log n)^{-2} (\log \log n)^3)                                         \\
+    & \leq  \frac{2^d c}{d+1} (\log \log n)^2 (\log n)^d \exp(\log (\log n)^{-d-1})                                                            \\
+    & \leq  \frac{2^d c}{d+1} \frac{(\log \log n)^2 (\log n)^d }{(\log n)^{d+1}}                                                               \\
+    & \to 0 \text{ as } n \to \infty
 \end{align*}
 
-
-%
 %where $K$ is a constant independent of $n$.
 %
-%For large $n$, $\log n>(d\log\log n) 2^d d^{d/2} \log \log n$ and thus 
+%For large $n$, $\log n>(d\log\log n) 2^d d^{d/2} \log \log n$ and thus
 %$$\exp\left(\frac{\log n}{2^d d^{d/2} \log \log n}\right)>\exp(d\log\log n)=(\log n)^d.$$
 %
 %Thus for large $n$
 %$$\P(\tilde{C}(n,R_n^c,r(n)))\leq K \frac{(\log n)^{d/2}\log\log n }{(\log n)^d}$$
 %which goes to $0$ as $n \to \infty$.
 
-
 Let $Y(n, R_n)$ denote the points with radius larger than $R_n$, so there are $n-Y$ samples in $B(0, R_n)$. We have that at least $n-Y$ deaths have occurred by radius $r(n)$ as all the samples in $B(0, R_n)$ are connected by then.
 
-We have $\mathbb{E}[Y]=O(\log n)$ which implies 
-$$\mathbb{P}(Y\geq(1-\alpha) n)\to 0$$
+We have $\mathbb{E}[Y]=O(\log n)$ which implies
+$$
+  \mathbb{P}(Y\geq(1-\alpha) n)\to 0
+$$
 for all $\alpha \in (0,1)$
 
 This implies that $d_{\alpha n} \to 0$ as $n\to \infty$.
 %Also directly from the crackle paper we have that the probability of there being a point more that $R_n^2:=\sqrt{2(\log n +d\log\log n)}$ goes to zero as $n\to \infty$.
 
-
 \subsection{$nd_*\to \infty$}
 
-A consequence of the below theorems is that $nd_*\to \infty$ whenever $d_*$ is chosen as the any fixed percentile of the death times. This holds for very general distributions. We only require a global upper bound on the pdf and the dimension of the space at least $2$. 
+A consequence of the below theorems is that $nd_*\to \infty$ whenever $d_*$ is chosen as the any fixed percentile of the death times. This holds for very general distributions. We only require a global upper bound on the pdf and the dimension of the space at least $2$.
 
 \begin{theorem}
-Let $d_k$ denote the $k$-th smallest death time of the $0$-homology for the Rips fitrations of a set of $n$ points sampled from probability distribution $X$ over $\R^2$ such that the density is bounded above. Note that there are $n-1$ finite death times.
+  Let $d_k$ denote the $k$-th smallest death time of the $0$-homology for the Rips fitrations of a set of $n$ points sampled from probability distribution $X$ over $\R^2$ such that the density is bounded above. Note that there are $n-1$ finite death times.
 
-Choose any non-decreasing sequence of integers $\{\omega(n)\}$ such that $0<\omega(n) <n$ for all $n$ and $\lim_{n\to \infty} \omega_n =\infty$. Then $nd_{\omega(n)}\to \infty$ as $n\to \infty$ with probability $1$.
+  Choose any non-decreasing sequence of integers $\{\omega(n)\}$ such that $0<\omega(n) <n$ for all $n$ and $\lim_{n\to \infty} \omega_n =\infty$. Then $nd_{\omega(n)}\to \infty$ as $n\to \infty$ with probability $1$.
 \end{theorem}
 \begin{proof}
-It is sufficient for there to exist a function $r(n)$ such that $\mathbb{P}(d_{\omega(n)})\geq \frac{r(n)}{n}) \to 1$ as $n\to \infty$ and $r(n)\to \infty$ as $n\to \infty$. 
-Let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$. 
+  It is sufficient for there to exist a function $r(n)$ such that $\mathbb{P}(d_{\omega(n)})\geq \frac{r(n)}{n}) \to 1$ as $n\to \infty$ and $r(n)\to \infty$ as $n\to \infty$.
+  Let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$.
 
-Now $d_{\omega(n)} > \frac{r(n)}{n}$ occurs when $C(n, \frac{r(n)}{n})> n - \omega(n)$.
+  Now $d_{\omega(n)} > \frac{r(n)}{n}$ occurs when $C(n, \frac{r(n)}{n})> n - \omega(n)$.
 
+  Since the number of components can only be an integer between $1$ and $n$,
+  $$
+    \mathbb{P}(C(n, \frac{r(n)}{n})> n-\omega(n)) \geq \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-(n-\omega(n))}{n-(n-\omega(n))}= \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n+\omega(n))}{\omega(n)}.
+  $$
+  This implies that it is sufficient to show that there exists a suitable $r(n)$ such that $r(n)\to \infty$ as $n\to \infty$. and
+  $$
+    \lim_{n\to \infty}\frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n+\omega(n))}{\omega(n)} = 1.
+  $$
+  For small radii $r$ a useful lower bound on the number of connected components is $n-E(n,r)$ where $E(n,r)$ is the number of edges in the graph connecting any two points are less that $2r$ apart, that is
+  $\mathbb{E}[C(n, \frac{r(n)}{n})]\geq n-\mathbb{E}[E(n,\frac{r(n)}{n})]$. The expected number of edges is much easier to calculate than the expected number of components.
+  \begin{align*}
+    \mathbb{E}[E(n,\frac{r(n)}{n})]
+      & =\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r\mid x,y \sim X) \\
+      & \leq \frac{n(n-1)}{2} K\pi (\frac{r(n)}{n})^2         \\
+      & \leq \frac{K \pi}{2}r(n)^2
+  \end{align*}
+  where $K$ is the global upper bound on the pdf of $X$.
 
-Since the number of components can only be an integer between $1$ and $n$, 
-$$\mathbb{P}(C(n, \frac{r(n)}{n})> n-\omega(n)) \geq \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-(n-\omega(n))}{n-(n-\omega(n))}= \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n+\omega(n))}{\omega(n)}.$$
+  Set $r(n)=\log (\omega (n)+1)$. We automatically get $\lim_{n\to \infty} r(n)= \infty$ as $\lim_{n\to \infty} \omega(n)=\infty$.
 
-This implies that it is sufficient to show that there exists a suitable $r(n)$ such that $r(n)\to \infty$ as $n\to \infty$. and
-$$\lim_{n\to \infty}\frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n+\omega(n))}{\omega(n)} = 1.$$ 
-For small radii $r$ a useful lower bound on the number of connected components is $n-E(n,r)$ where $E(n,r)$ is the number of edges in the graph connecting any two points are less that $2r$ apart, that is 
-$\mathbb{E}[C(n, \frac{r(n)}{n})]\geq n-\mathbb{E}[E(n,\frac{r(n)}{n})]$. The expected number of edges is much easier to calculate than the expected number of components. 
-\begin{align*}
-\mathbb{E}[E(n,\frac{r(n)}{n})]&=\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r\mid x,y \sim X)\\
-&\leq \frac{n(n-1)}{2} K\pi (\frac{r(n)}{n})^2\\
-&\leq \frac{K \pi}{2}r(n)^2
-\end{align*}
-where $K$ is the global upper bound on the pdf of $X$.
-
-Set $r(n)=\log (\omega (n)+1)$. We automatically get $\lim_{n\to \infty} r(n)= \infty$ as $\lim_{n\to \infty} \omega(n)=\infty$.
-
-$\mathbb{E}[C(n, \frac{r(n)}{n})]\geq n- K \pi\log(\omega(n)+1)$ and thus 
-$$\lim_{n\to \infty} \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n+\omega(n)}{\omega(n))} \geq \lim_{n\to \infty} \frac{\omega(n)-K \pi\log(\omega(n)+1)}{\omega(n)}= 1$$
+  $\mathbb{E}[C(n, \frac{r(n)}{n})]\geq n- K \pi\log(\omega(n)+1)$ and thus
+  $$
+    \lim_{n\to \infty} \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n+\omega(n)}{\omega(n))} \geq \lim_{n\to \infty} \frac{\omega(n)-K \pi\log(\omega(n)+1)}{\omega(n)}= 1.
+  $$
 \end{proof}
-
 
 \begin{theorem}
-Let $d_1$ denote the smallest death time of the $0$-homology for the Rips fitrations of a set of $n$ points sampled from probability distribution over $\R^d$, $d\geq 3$ such that the density is bounded above. 
+  Let $d_1$ denote the smallest death time of the $0$-homology for the Rips fitrations of a set of $n$ points sampled from probability distribution over $\R^d$, $d\geq 3$ such that the density is bounded above.
 
-Then $nd_{1}\to \infty$ as $n\to \infty$ with probability $1$.
+  Then $nd_{1}\to \infty$ as $n\to \infty$ with probability $1$.
 \end{theorem}
 \begin{proof}
-The argument here is an easier version of the above theorem. We wish to find a function $r(n)$ such that $\lim_{n\to \infty}r(n)=\infty$ and 
+  The argument here is an easier version of the above theorem. We wish to find a function $r(n)$ such that $\lim_{n\to \infty}r(n)=\infty$ and
+  $$
+    \lim_{n\to \infty}\mathbb{P}(C(n, \frac{r(n)}{n})=n)=1.
+  $$
+  Set $r(n)=\log(n)$.
+  \begin{align*}
+    \mathbb{E}[E(n,\frac{r(n)}{n})]
+      & =\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r(n)\mid x,y \sim X) \\
+      & \leq \frac{n(n-1)}{2} K\pi s_d(\frac{2\log(n)}{n})^d     \\
+      & \leq 2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}
+  \end{align*}
+  where $K$ is the global upper bound on the pdf of $X$ and $s_d$ is the volume of the unit ball in $\R^d$.
 
-$$\lim_{n\to \infty}\mathbb{P}(C(n, \frac{r(n)}{n})=n)=1.$$
-Set $r(n)=\log(n)$.
+  $\mathbb{E}[C(n, \frac{r(n)}{n})]\geq n- 2^{d-1}Ks_d\frac{(\log(n))^d}{n^{d-1}}$.
 
-\begin{align*}
-\mathbb{E}[E(n,\frac{r(n)}{n})]&=\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r(n)\mid x,y \sim X)\\
-&\leq \frac{n(n-1)}{2} K\pi s_d(\frac{2\log(n)}{n})^d\\
-&\leq 2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}
-\end{align*}
-where $K$ is the global upper bound on the pdf of $X$ and $s_d$ is the volume of the unit ball in $\R^d$.
-
-$\mathbb{E}[C(n, \frac{r(n)}{n})]\geq n- 2^{d-1}Ks_d\frac{(\log(n))^d}{n^{d-1}}$.
-
-Since the number of connected components must be an integer between $1$ and $n$ we deduce 
-\begin{align*}
-\mathbb{P}(C(n, \frac{r(n)}{n})=n)&\geq \mathbb{E}[C(n, \frac{r(n)}{n})]+1-n
-\geq n-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}+1-n\\
-&=1-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}\\
-\end{align*}
-and thus $\lim_{n\to \infty}\mathbb{P}(C(n, \frac{r(n)}{n})=n)=1.$
+  Since the number of connected components must be an integer between $1$ and $n$ we deduce
+  \begin{align*}
+    \mathbb{P}(C(n, \frac{r(n)}{n})=n)
+      & \geq \mathbb{E}[C(n, \frac{r(n)}{n})]+1-n \geq n-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}+1-n  \\
+      & =1-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}} \\
+  \end{align*}
+  and thus $\lim_{n\to \infty}\mathbb{P}(C(n, \frac{r(n)}{n})=n)=1.$
 \end{proof}
 
+\section{Lookout algorithm v2 (RH)}
 
-\section{Lookout algorithm v2}
+- Using upper quantile of Rips death diameters
 
-RH
+\subsection{Normalization}
 
-    - Using upper quantile of Rips death diameters
+Since we are interested in anomaly detection, we do not have to estimate the density of the underlying distribution directly. Instead, we can estimate the density of a transformation of the data, and identify anomalies in the transformed space.
 
-    - Normalization of data via a Yeo-Johnson transformation
-    
-    - Robust scaling of data
+Because the bandwidth selection method appears to work for normal distributions, one approach is to transform the data to something closer to a normal distribution to lighten the tails. Transforming to a multivariate normal distribution can be challenging, but we could easily transform to a distribution with approximate normal marginals, and with zero pairwise correlations. Then it would be appropriate to apply \eqref{eq:bandwidth}.
 
-\section{Empirical comparisons} 
+First, to transform the marginal distributions, we can use a Yeo-Johnson transformation \citep{yj00} on each variable separately. A Yeo-Johnson transformation can be written as
+\begin{equation}\label{eq:yj}
+  f(x) = \begin{cases}
+     ((x+1)^\lambda-1)/\lambda                      & \text{if }\lambda \neq 0, x \geq 0 \\
+     \log(x + 1)                                    & \text{if }\lambda = 0, x \geq 0 \\
+     -((-x + 1)^{(2-\lambda)} - 1) / (2 - \lambda)  & \text{if }\lambda \neq 2, x < 0 \\
+     -\log(-x + 1)                                  & \text{if }\lambda = 2, x < 0
+  \end{cases}
+\end{equation}
+where $\lambda$ is a parameter that can be estimated by minimizing the Kulback-Leibler divergence between the transformed data and a normal distribution. In principle, $\lambda$ can be any real number, but we restrict it to lie in the interval $[0,1]$ to avoid overly aggressive transformations (and thereby disguising anomalies as legitimate observations).
 
-SK
+We transform $x_{i,j}$ to $x_{i,j}^* = f_j(x_{i,j}) - m_j$ where ${f}_j$ is the optimal Yeo-Johnson transformation for the $j$th variable, and $m_j$ is the median of $f_j(x_{1,j}),\dots,f_j(x_{n,j})$. (Medians are used because the purpose of the exercise is anomaly detection, and we want to avoid the influence of outliers.) This is implemented using the bestNormalize package in R \citep{bestNormalize,bestNormalizeR}.
 
-    - Show anomaly detection examples using normal distribution and gamma distribution, with lookout 2 vs lookout 1
+\subsection{Standardization}
 
-    - Show comparisons of lookout v1, lookout v2, stray, KDEOS and RDOS on ODDS and KMASH data repositories
+Then we can rotate the data to ensure zero pairwise correlations. Let $\hat{\bm{\Sigma}}$ denote the orthogonalized Gnanadesikan-Kettenring estimator of the covariance matrix of $\bm{X}^{*}$ \citep{Maronna2002-qn}, and let its eigendecomposition be given by $\hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}$. Finally the data can be scaled by $\bm{U}$, giving $\bm{z} = \bm{U}\bm{X}^*$, so that the covariance matrix of the scaled data is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
 
+
+\section{Empirical comparisons (SK)}
+
+- Show anomaly detection examples using normal distribution and gamma distribution, with lookout 2 vs lookout 1
 
 \subsection{Gamma distribution}
+
 Non-outlier distribution: 500 data points, shape = 2, rate = 2 \\
 Outlier distribution: 10 data points, shape = 2, rate $\in \{0.1, 0.2, \ldots 1\}$.
 
-
 \begin{figure}[!ht]
-    \centering
-    \includegraphics{Figures/Gamma_Experiment.pdf}
-    \caption{Results of the Gamma distribution experiment. False negatives, false positives, true negatives and true positives of the old and new versions lookout shown.}
-    \label{fig:expGamma}
+  \centering
+  \includegraphics[width=\textwidth]{Figures/Gamma_Experiment.pdf}
+  \caption{Results of the Gamma distribution experiment. False negatives, false positives, true negatives and true positives of the old and new versions lookout shown.}
+  \label{fig:expGamma}
 \end{figure}
 
 \subsection{Normal distribution - comparison with the previous version}
 
-For the normal distribution -- False positives are slightly higher with the new version. But true positives are better.  
+For the normal distribution -- False positives are slightly higher with the new version. But true positives are better.
 
 \begin{figure}[!ht]
-    \centering
-    \includegraphics{Figures/Normal_Comparison_Old_New.pdf}
-    \caption{Caption}
-    \label{fig:expnormal}
+  \centering
+  \includegraphics[width=\textwidth]{Figures/Normal_Comparison_Old_New.pdf}
+  \caption{Caption}
+  \label{fig:expnormal}
 \end{figure}
-\section{Discussion and conclusions}
-
-SK
 
 
+- Show comparisons of lookout v1, lookout v2, stray, KDEOS and RDOS on ODDS and KMASH data repositories
+
+\clearpage
+
+\section{Discussion and conclusions (SK)}
 
 \bibliographystyle{agsm}
 \bibliography{References}
-
 
 % \bigskip
 % \begin{center}
@@ -332,6 +373,5 @@ SK
 % \item[HIV data set:] Data set used in the illustration of MYNEW method in Section~ 3.2. (.txt file)
 
 % \end{description}
-
 
 \end{document}
