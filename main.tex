@@ -127,14 +127,14 @@ Let $S_n$ denote. random sample of $n$ points from a multivariate Gaussian in $\
 
 Let $X(n,r)$ be the event that $\cup_{x\in S_n} B(x, r)$ is connected. We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and $\mathbb{P}(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
 
-Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction  $r(n)\rightarrow 0$ as $n \rightarrow \infty$. We will use $r(n)$ to show that the core is covered by balls around the samples with radius $r(n)$.
+Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction $r(n)\rightarrow 0$ as $n \rightarrow \infty$. We will use $r(n)$ to show that the core is covered by balls around the samples with radius $r(n)$.
 
 Cover $B(0, R)$ with a grid with side lengths $g$. Let $\tilde{C}_n^c$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in the crackle paper states:
 $$
   \mathbb{P}(\tilde{C}(n,R,g)) \leq (2g^{-1})^d R^de^{-ng^d f(R)}.
 $$
 
-Set $R_n^c=\sqrt{2(\log n -\log \log n)}$ which will represent the core of point cloud. Note that
+Set $R_n^c=\sqrt{2(\log n -\log \log n)}$, which will represent the core of the point cloud. Note that
 $$
   f(R_n^c)= c e^{-\log n+\log\log n}=c\frac{\log n}{n}.
 $$
@@ -168,23 +168,23 @@ Also directly from the crackle paper we have that the probability of there being
     & =\sqrt{2}\sqrt{\log n}\frac{(d+1)\log\log n}{4\log n}                                        \\
     & =\frac{\sqrt{2}(d+1)}{4}\frac{\log\log n}{\sqrt{\log n}}                                     \\
 \end{align*}
-Let $s(n)=\max\{r(n), (d+1)\frac{\log\log n}{\sqrt{\log n}}\}$. Then by the above arguments $\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $0<d_*<s(n)$. We also have $s(n)\to 0$ as $n\to \infty$. Together they squeeze $d_*$ to satisfy $d_*\to 0$ as $n\to \infty$.
+Let $s(n)=\max\{r(n), (d+1)\frac{\log\log n}{\sqrt{\log n}}\}$. Then by the above arguments $\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $0<d_*<s(n)$. We also have $s(n)\to 0$ as $n\to \infty$. Together, they squeeze $d_*$ to satisfy $d_*\to 0$ as $n\to \infty$.
 
 \subsection{Exponential $d_*\to 0$ but only for percentiles}
 
-Let $S_n$ denote. random sample of $n$ points from a exponential distributions in $\R^d$. The probability density function of this Gaussian is $c e^{-\|x\|}$ for some constant $c$. Note this pdf is spherically symmetric. Denote $f(R)=c e^{-R}$ for this density in terms of the radial coordinate.
+Let $S_n$ denote. random sample of $n$ points from an exponential distribution in $\R^d$. The probability density function of this Gaussian is $c e^{-\|x\|}$ for some constant $c$. Note this pdf is spherically symmetric. Denote $f(R)=c e^{-R}$ for this density in terms of the radial coordinate.
 
 Set
 $$
   R_n:=\log n -3\log \log \log n.
 $$
-This will the radius of the core in which we will show that all the points will be connected at a radius $r_n$ that will decrease to $0$ very slowly. Set $g>0$ such that $g^d=\frac{d+1}{c}(\log \log n)^{-2}$.
+This will the radius of the core in which we will show that all points will be connected at a radius $r_n$ that will decrease to $0$ very slowly. Set $g>0$ such that $g^d=\frac{d+1}{c}(\log \log n)^{-2}$.
 
 Let $X(n,r)$ be the event that $\cup_{x\in S_n\cap B(0, R_n^c)} B(x, r)$ is connected. Set $r_n=2g$
 %We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and
 %$\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
 
-By construction  $r(n)\rightarrow 0$ as $n \rightarrow \infty$.
+By construction $r(n)\rightarrow 0$ as $n \rightarrow \infty$.
 
 Cover $B(0, R_n)$ with a grid with side lengths $g$. Let $\tilde{C}_n^c$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in the crackle paper states:
 $$
@@ -313,13 +313,13 @@ First, to transform the marginal distributions, we can use a Yeo-Johnson transfo
      -\log(-x + 1)                                  & \text{if }\lambda = 2, x < 0
   \end{cases}
 \end{equation}
-where $\lambda$ is a parameter that can be estimated by minimizing the Kulback-Leibler divergence between the transformed data and a normal distribution. In principle, $\lambda$ can be any real number, but we restrict it to lie in the interval $[0,1]$ to avoid overly aggressive transformations (and thereby disguising anomalies as legitimate observations).
+where $\lambda$ is a parameter that can be estimated by minimizing the Kullback-Leibler divergence between the transformed data and a normal distribution. In principle, $\lambda$ can be any real number, but we restrict it to lie in the interval $[0,1]$ to avoid overly aggressive transformations (and thereby disguising anomalies as legitimate observations).
 
 We transform $x_{i,j}$ to $x_{i,j}^* = f_j(x_{i,j}) - m_j$ where ${f}_j$ is the optimal Yeo-Johnson transformation for the $j$th variable, and $m_j$ is the median of $f_j(x_{1,j}),\dots,f_j(x_{n,j})$. (Medians are used because the purpose of the exercise is anomaly detection, and we want to avoid the influence of outliers.) This is implemented using the bestNormalize package in R \citep{bestNormalize,bestNormalizeR}.
 
 \subsection{Standardization}
 
-Then we can rotate the data to ensure zero pairwise correlations. Let $\hat{\bm{\Sigma}}$ denote the orthogonalized Gnanadesikan-Kettenring estimator of the covariance matrix of $\bm{X}^{*}$ \citep{Maronna2002-qn}, and let its eigendecomposition be given by $\hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}$. Finally the data can be scaled by $\bm{U}$, giving $\bm{z} = \bm{U}\bm{X}^*$, so that the covariance matrix of the scaled data is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
+Then we can rotate the data to ensure zero pairwise correlations. Let $\hat{\bm{\Sigma}}$ denote the orthogonalized Gnanadesikan-Kettenring estimator of the covariance matrix of $\bm{X}^{*}$ \citep{Maronna2002-qn}, and let its eigendecomposition be given by $\hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}$. Finally, the data can be scaled by $\bm{U}$, giving $\bm{z} = \bm{U}\bm{X}^*$, so that the covariance matrix of the scaled data is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
 
 
 \section{Empirical comparisons (SK)}
