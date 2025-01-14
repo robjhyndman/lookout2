@@ -6,6 +6,8 @@
 \usepackage{hyperref,url}
 \usepackage{amsfonts,amsthm}
 \usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
+\usepackage{xcolor}
+
 
 %\pdfminorversion=4
 % NOTE: To produce blinded version, replace "0" with "1" below.
@@ -28,6 +30,9 @@
 \newtheorem{prop}[theorem]{Proposition}
 \newtheorem{thm}[theorem]{Theorem}
 \newtheorem{lem}[theorem]{Lemma}
+
+\newcommand{\SK}[1]{\textcolor{blue}{[{\sc SK}] #1}}
+
 
 \graphicspath{{Figures/}}
 
@@ -298,6 +303,51 @@ A consequence of the below theorems is that $nd_*\to \infty$ whenever $d_*$ is c
   and thus $\lim_{n\to \infty}\mathbb{P}(C(n, \frac{r(n)}{n})=n)=1.$
 \end{proof}
 
+\SK{Rob to check the following lemma! It feels too simple, I might have done something wrong.}
+\subsection{Bounds for kernel density estimates}
+\begin{lemma}\label{lemma:boundsforkdeGaussian}
+    Let $\{\bm{x}_1, \ldots, \bm{x}_n\}$ be $n$ data points in $\mathbb{R}^p$ and $K(\bm{x}) = \frac{1}{(2 \pi)^{p/2}} \exp \left( - \frac{\lVert \bm{x} \rVert^2}{2} \right)$ denote the multivariate Gaussian kernel. 
+    Then the kernel density estimates of $\bm{x}_j$ given by 
+    $$ \hat{f}(\bm{x}_j) = \frac{1}{n} \sum_{i = 1}^n K(\bm{x}_j - \bm{x}_i)
+    $$
+    and its negative logarithm $- \log \hat{f}(\bm{x}_j)$ are bounded by constants that depend only on $p$ and $n$ for all $j \in \{1, \ldots, n\}$.
+\end{lemma}
+\begin{proof}
+    Consider 
+    \begin{align*} 
+        \hat{f}(\bm{x}_j) & = \frac{1}{n} \sum_{i = 1}^n K(\bm{x}_j - \bm{x}_i) \, , \\
+        & = \frac{1}{n} \sum_{i = 1}^n \frac{1}{(2 \pi)^{p/2}} \exp \left( - \frac{\lVert \bm{x}_j - \bm{x}_i \rVert^2}{2} \right) \, . 
+    \end{align*}
+    For the upper bound we use the fact $\exp \left( - \frac{\lVert \bm{x}_j - \bm{x}_i \rVert^2}{2} \right)  \leq 1$ and for the lower bound we consider the term when $i = j$ giving us $\exp \left( - \frac{\lVert \bm{x}_j - \bm{x}_j \rVert^2}{2} \right)  = 1$. This gives us
+    \begin{align*}
+   \frac{1}{n}  K(\bm{x}_j - \bm{x}_j)  \leq  & \hat{f}(\bm{x}_j)  \leq  \frac{1}{n} n  \max K(\bm{x}_j - \bm{x}_i) \\
+   \frac{1}{n (2 \pi)^{p/2}}  \leq & \hat{f}(\bm{x}_j)  \leq \frac{1}{ (2 \pi)^{p/2}} \, , \\
+   \text{giving} \quad  -\log n - \frac{p}{2} \log (2\pi) \leq & \log \left(\hat{f}(\bm{x}_j) \right)  \leq - \frac{p}{2} \log (2\pi) \, , \\
+   \frac{p}{2} \log (2\pi) \leq  & -\log \left(\hat{f}(\bm{x}_j) \right) \leq   -\log n + \frac{p}{2} \log (2\pi) \, . 
+    \end{align*}
+\end{proof}
+
+
+\begin{lemma}\label{lemma:boundsforkdeEpanechnikov}
+    Let $\{\bm{x}_1, \ldots, \bm{x}_n\}$ be $n$ data points in $\mathbb{R}^p$ and $K(\bm{x}) = \frac{p+2}{c_p} \left( 1 - \frac{\lVert \bm{x} \rVert^2}{5}\right)_{+}$ denote the multivariate Epanechnikov kernel where $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$ and $u_+ = max(0, u)$. 
+    Then the kernel density estimates of $\bm{x}_j$ given by 
+    $$ \hat{f}(\bm{x}_j) = \frac{1}{n} \sum_{i = 1}^n K(\bm{x}_j - \bm{x}_i)
+    $$
+    and its negative logarithm $- \log \hat{f}(\bm{x}_j)$ are bounded by constants that depend only on $p$ and $n$ for all $j \in \{1, \ldots, n\}$.
+\end{lemma}
+\begin{proof}
+    Similar to Lemma \ref{lemma:boundsforkdeGaussian} we have
+    \begin{align*}
+           \frac{1}{n}  K(\bm{x}_j - \bm{x}_j)  \leq  & \hat{f}(\bm{x}_j)  \leq  \frac{1}{n} n  \max K(\bm{x}_j - \bm{x}_i) \, , \\
+            \frac{p+2}{nc_p} \leq  & \hat{f}(\bm{x}_j)  \leq \frac{p+2}{c_p} \, , \\
+            \log({p+2}) - \log(nc_p) \leq  & \log \left( \hat{f}(\bm{x}_j) \right)  \leq \log({p+2}) - \log({c_p}) \, , \\
+           \log({c_p}) - \log({p+2}) \leq  & - \log \left( \hat{f}(\bm{x}_j) \right)  \leq  \log(nc_p) - \log({p+2})  \, .
+    \end{align*}
+ \end{proof}
+When there is a bandwidth $h$, the lower bound of $\hat{f}(\bm{x}_j)$ has an additional $h$ in the denominator. 
+
+\SK{As these values are bounded, we can use the parameter shape\_zero = TRUE. }
+
 \section{Lookout algorithm v2 (RH)}
 
 The lookout2 algorithm identifies anomalies by first transforming the data to a distribution with approximate normal marginals and zero pairwise correlations. Then it estimates the density of the transformed data using a multivariate kernel density estimator with a bandwidth matrix $\bm{H}$, where $\bm{H}$ is chosen to be a function of the Rips death diameters computed from the transformed data.
@@ -332,40 +382,145 @@ $$\bm{H} = d^{*2/p}\bm{I},$$
 where $p$ is the dimension of the data.
 
 
-
-\section{Empirical comparisons (SK)}
+% ---------------------------------------------------------------------------
+\section{Comparing new lookout with the older version (SK)} \label{sec:comparewitholderversion}
+% ---------------------------------------------------------------------------
 
 - Show anomaly detection examples using normal distribution and gamma distribution, with lookout 2 vs lookout 1
 
-\subsection{Gamma distribution}
+\subsection{Experiment 1:  Different anomaly rates for Gamma distribution}
 
 Non-outlier distribution: 500 data points, shape = 2, rate = 2 \\
 Outlier distribution: 10 data points, shape = 2, rate $\in \{0.1, 0.2, \ldots 1\}$.
 
-\begin{figure}[!ht]
+
+\begin{figure}[!p]
   \centering
-  \includegraphics[width=\textwidth]{Figures/Gamma_Experiment.pdf}
-  \caption{Results of the Gamma distribution experiment. False negatives, false positives, true negatives and true positives of the old and new versions lookout shown.}
-  \label{fig:expGamma}
+  \includegraphics[width=0.8\textwidth]{Figures/EXP1_Gamma_Raw.pdf}
+  \caption{Results of the Gamma Experiment - Raw numbers.}
+  \label{fig:exp1GammaRaw}
+  \includegraphics[width=0.8\textwidth]{Figures/EXP1_Gamma_Rates.pdf}
+  \caption{Results of the Gamma Experiment - Rates.}
+  \label{fig:exp1GammaRates}  
 \end{figure}
 
-\subsection{Normal distribution - comparison with the previous version}
+\subsection{Experiment 2:  Different anomaly rates for Normal distribution}
+
+Non-outlier distribution: 1000 data points in $\mathbb{R}^2$, mean = $(0,0)$,  standard deviation = 1 \\
+Outlier distribution: 10 data points,  mean $\in \{ 2.50, 2.75,  3.00 , 3.25,  3.50, 3.75, 4.00\}$ standard deviation = 0.2.
 
 For the normal distribution -- False positives are slightly higher with the new version. But true positives are better.
 
-\begin{figure}[!ht]
+\SK{For Experiments 1 and 2 (Gamma and Normal experiments), I've put both graphs, one with false positives and the other with false positive rates. We need to choose one of these graphs. I prefer the rates because 6 or 4 false positives doesn't really make a difference when there are 1000 data points. Similarly for true negatives. But 6 true positives (or false negatives) are different from 4 true positives when there are only 10 anomalies.   }
+
+\begin{figure}[!p]
   \centering
-  \includegraphics[width=\textwidth]{Figures/Normal_Comparison_Old_New.pdf}
-  \caption{Caption}
-  \label{fig:expnormal}
+  \includegraphics[width=0.8\textwidth]{Figures/EXP2_Normal_Raw.pdf}
+  \caption{Results of the Normal Dist. Exp. - Raw numbers.}
+  \label{fig:exp2NormalRaw}
+  \includegraphics[width=0.8\textwidth]{Figures/EXP2_Normal_Rates.pdf}
+  \caption{Results of the Normal Dist. Exp. - Rates.}
+  \label{fig:exp2NormalRates}  
 \end{figure}
 
 
-- Show comparisons of lookout v1, lookout v2, stray, KDEOS and RDOS on ODDS and KMASH data repositories
+\subsection{Experiment 3: As $N$ increases - Normal distribution}
+Non-outlier distribution: $N \in \{1000, 2000, \ldots, 10000\}$, mean =0, sd = 1 \\
+Outlier distribution: 5 points mean = 2.2, sd = 0.2 \\
+Both non-outlier and outlier distributions are Normal. 
 
+\begin{figure}[!p]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/Exp3_N_Increases_Normal.pdf}
+    \caption{Experiment 3 results - Normal distribution}
+    \label{fig:exp3NormalIncreasingN}
+    \includegraphics[width=0.9\linewidth]{Figures/EXP4_N_increases_Gamma.pdf}
+    \caption{Experiment 4 results - Gamma and Normal distributions}
+    \label{fig:exp4GammaIncreasingN}
+\end{figure}
+
+\subsection{Experiment 4: As $N$ increases - Gamma + Normal distributions}
+Non-outlier distribution: Gamma with $N \in \{1000, 2000, \ldots, 10000\}$, shape =2, rate = 2 \\
+Outlier distribution: Normal 5 points with mean = $(3,3)$, sd = 0.5. \\
+Outlier distribution is normal, while non-outlier distribution is Gamma. 
+
+
+\subsection{Showcase examples}
+\begin{figure}[!p]
+    \centering
+    \includegraphics[width=0.85\linewidth]{Figures/Showcase_Examples.pdf}
+    \caption{Comparing new lookout with the older version on some showcase examples}
+    \label{fig:showcaseExamples}
+\end{figure}
 \clearpage
 
+% ---------------------------------------------------------------------------
+\section{Evaluating lookout with other EVT-based anomaly detection methods}\label{sec:compareWithOtherMethods}
+% ---------------------------------------------------------------------------
+
+\subsection{Experiment 5: Normal distributions moving out in each iteration}
+Non-outlier distribution: Normal 400 data points in $\mathbb{R}^6$ with mean 0 and sd 1 \\
+Outlier distribution: 5 points normally distributed. In 5 dimensions they are similarly distributed as non-outlying points. In the other dimension they have mean $2 + (i-1)*0.5$ for $i \in \{1, \ldots, 10\}$ with sd = 0.2. \\
+In each iteration the anomalous points get further away from the rest. Each iteration is repeated 10 times. 
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Figures/Experiment5_Comparison.pdf}
+    \caption{Experiment 5 results}
+    \label{fig:comparisonExp5}
+\end{figure}
+
+
+\subsection{Experiment 6: Annulus in $\mathbb{R}^4$}
+Non-outlier distribution: 800 points distributed in an annulus in $\mathbb{R}^4$.  \\
+Outlier distribution: 5 points moving in to the annulus in each iteration. 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Figures/Experiment6_Comparison.pdf}
+    \caption{Experiment 6 results}
+    \label{fig:comparisonExp6}
+\end{figure}
+
+
+\subsection{Experiment 7: Unit cube in $\mathbb{R}^{20}$}
+
+Non-outlier distribution: Uniformly distributed unit cube in $\mathbb{R}^{20}$.  \\
+Outlier distribution: 1 outlier at $(0.9, \bm{x}_{19})$ in iteration 1,   $(0.9, 0.9,  \bm{x}_{18})$ in iteration 2, and so on where $\bm{x}_{19} \in \mathbb{R}^{19}$ is uniformly distributed in the 19-dimensional unit cube. 
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Figures/Experiment7_Comparison.pdf}
+    \caption{Experiment 7 results}
+    \label{fig:comparisonExp7}
+\end{figure}
+
+\subsection{Real-world Examples}
+
+\subsubsection{Old-faithful dataset}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Figures/old_faithful.pdf}
+    \caption{Anomalies in Old-Faithful dataset}
+    \label{fig:oldfaithful}
+\end{figure}
+
+
+\subsubsection{Wine-reviews dataset}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{Figures/wine_reviews.pdf}
+    \caption{Anomalies in Wine Reviews dataset}
+    \label{fig:winereviews}
+\end{figure}
+
+\SK{Wine reviews is better than old-faithful dataset. All experiments are with shape\_zero = TRUE. }
+
+% ---------------------------------------------------------------------------
 \section{Discussion and conclusions (SK)}
+% ---------------------------------------------------------------------------
+
 
 \bibliographystyle{agsm}
 \bibliography{References}
