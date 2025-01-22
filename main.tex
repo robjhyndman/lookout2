@@ -23,6 +23,7 @@
 \newcommand{\R}{\mathbb{R}}
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
+\newcommand{\diag}{\text{diag}}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{cor}[theorem]{Corollary}
@@ -30,6 +31,8 @@
 \newtheorem{prop}[theorem]{Proposition}
 \newtheorem{thm}[theorem]{Theorem}
 \newtheorem{lem}[theorem]{Lemma}
+\newtheorem*{remark}{Remark}
+
 
 \newcommand{\SK}[1]{\textcolor{blue}{[{\sc SK}] #1}}
 
@@ -319,14 +322,23 @@ A consequence of the below theorems is that $nd_*\to \infty$ whenever $d_*$ is c
         & = \frac{1}{n} \sum_{i = 1}^n \frac{1}{(2 \pi)^{p/2}} \exp \left( - \frac{\lVert \bm{x}_j - \bm{x}_i \rVert^2}{2} \right) \, . 
     \end{align*}
     For the upper bound we use the fact $\exp \left( - \frac{\lVert \bm{x}_j - \bm{x}_i \rVert^2}{2} \right)  \leq 1$ and for the lower bound we consider the term when $i = j$ giving us $\exp \left( - \frac{\lVert \bm{x}_j - \bm{x}_j \rVert^2}{2} \right)  = 1$. This gives us
-    \begin{align*}
-   \frac{1}{n}  K(\bm{x}_j - \bm{x}_j)  \leq  & \hat{f}(\bm{x}_j)  \leq  \frac{1}{n} n  \max K(\bm{x}_j - \bm{x}_i) \\
-   \frac{1}{n (2 \pi)^{p/2}}  \leq & \hat{f}(\bm{x}_j)  \leq \frac{1}{ (2 \pi)^{p/2}} \, , \\
-   \text{giving} \quad  -\log n - \frac{p}{2} \log (2\pi) \leq & \log \left(\hat{f}(\bm{x}_j) \right)  \leq - \frac{p}{2} \log (2\pi) \, , \\
-   \frac{p}{2} \log (2\pi) \leq  & -\log \left(\hat{f}(\bm{x}_j) \right) \leq   -\log n + \frac{p}{2} \log (2\pi) \, . 
-    \end{align*}
+    \begin{align}
+   \frac{1}{n}  K(\bm{x}_j - \bm{x}_j)  \leq  & \hat{f}(\bm{x}_j)  \leq  \frac{1}{n} n  \max K(\bm{x}_j - \bm{x}_i) \notag \\
+   \frac{1}{n (2 \pi)^{p/2}}  \leq & \hat{f}(\bm{x}_j)  \leq \frac{1}{ (2 \pi)^{p/2}} \, , \label{eq:boundsKDE} \\
+   \text{giving} \quad  -\log n - \frac{p}{2} \log (2\pi) \leq & \log \left(\hat{f}(\bm{x}_j) \right)  \leq - \frac{p}{2} \log (2\pi) \, , \notag \\
+   \frac{p}{2} \log (2\pi) \leq  & -\log \left(\hat{f}(\bm{x}_j) \right) \leq   -\log n + \frac{p}{2} \log (2\pi) \, .  \notag
+    \end{align}
 \end{proof}
 
+\begin{remark}\label{rem:GaussianH}
+    For the multivariate Gaussian kernel with bandwidth matrix $H$ we have 
+    $$     K_H(\bm{x}) = \frac{1}{(2\pi)^{p/2}} \vert H\vert^{-1/2} \exp\left( \frac{1}{2} \bm{x}^T H^{-1} \bm{x} \right) \, , 
+    $$
+    which results in inequality \eqref{eq:boundsKDE} being multiplied by $|H|^{-1/2}$ on either side. For $H = \diag(h)$ we have  $|H|^{-1/2} = h^{-p/2} $, giving us
+    $$  \frac{1}{n (2 \pi h)^{p/2}}  \leq  \hat{f}(\bm{x}_j)  \, . 
+    $$
+    However, lookout unitizes the data to $[0, 1]^p$ making $h < 1$. As $ \frac{1}{h} > 1$ we get the original lower bound for $ \hat{f}(\bm{x}_j)$ and the same upper bound for $-\log( \hat{f}(\bm{x}_j))$. 
+\end{remark}
 
 \begin{lemma}\label{lemma:boundsforkdeEpanechnikov}
     Let $\{\bm{x}_1, \ldots, \bm{x}_n\}$ be $n$ data points in $\mathbb{R}^p$ and $K(\bm{x}) = \frac{p+2}{c_p} \left( 1 - \frac{\lVert \bm{x} \rVert^2}{5}\right)_{+}$ denote the multivariate Epanechnikov kernel where $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$ and $u_+ = max(0, u)$. 
@@ -344,9 +356,18 @@ A consequence of the below theorems is that $nd_*\to \infty$ whenever $d_*$ is c
            \log({c_p}) - \log({p+2}) \leq  & - \log \left( \hat{f}(\bm{x}_j) \right)  \leq  \log(nc_p) - \log({p+2})  \, .
     \end{align*}
  \end{proof}
-When there is a bandwidth $h$, the lower bound of $\hat{f}(\bm{x}_j)$ has an additional $h$ in the denominator. 
 
-\SK{As these values are bounded, we can use the parameter shape\_zero = TRUE. }
+\SK{Rob, is the Epanechnikov kernel formula given below correct?}
+\begin{remark}
+     The multivariate Epanechnikov kernel with bandwidth matrix $H$ is given by
+    $$     K_H(\bm{x}) = \frac{p+2}{c_p} \vert H\vert^{-1/2} \left(1 - \frac{1}{5} \bm{x}^T H^{-1} \bm{x} \right)_+ \,  .
+    $$
+    The same argument as in Remark \ref{rem:GaussianH} gives lower bounds for $ \hat{f}(\bm{x}_j)$ and upper bounds for $- \log(\hat{f}(\bm{x}_j)$. 
+\end{remark}
+ 
+% When there is a bandwidth $h$, the lower bound of $\hat{f}(\bm{x}_j)$ has an additional $h$ in the denominator. 
+
+\SK{As these values are bounded, we can use the parameter shape\_zero = TRUE. But maybe say this somewhere else.  }
 
 \section{Lookout algorithm v2 (RH)}
 
@@ -455,7 +476,7 @@ Outlier distribution is normal, while non-outlier distribution is Gamma.
 \clearpage
 
 % ---------------------------------------------------------------------------
-\section{Evaluating lookout with other EVT-based anomaly detection methods}\label{sec:compareWithOtherMethods}
+\section{Evaluating lookout with other anomaly detection methods}\label{sec:compareWithOtherMethods}
 % ---------------------------------------------------------------------------
 
 \subsection{Experiment 5: Normal distributions moving out in each iteration}
