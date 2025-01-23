@@ -487,9 +487,11 @@ Figure \ref{fig:exp3NormalIncreasingN} shows the results of Experiment 3. Both n
 \end{figure}
 
 \subsection{Experiment 4: As $N$ increases - Gamma + Normal distributions}
-Non-outlier distribution: Gamma with $N \in \{1000, 2000, \ldots, 10000\}$, shape =2, rate = 2 \\
-Outlier distribution: Normal 5 points with mean = $(3,3)$, sd = 0.5. \\
-Outlier distribution is normal, while non-outlier distribution is Gamma. 
+For this experiment we consider $X_i \in \mathbb{R}^2$ with $X_i = (X_{i1}, X_{i2})$.  The non-anomalies  $X_{i1}, X_{i2} \sim \text{Gamma}(2, 2)$ and the anomalies $X_{i1}, X_{i2} \sim  \mathcal{N}(3, 0.5)$. There are $n$ non-anomalies and $5$ anomalies with $n \in \{1000, 2000, \ldots, 10000\}$ in each iteration. Figure \ref{fig:exp4GammaIncreasingN} shows the results and as before we see new lookout performs better. 
+
+% Non-outlier distribution: Gamma with $N \in \{1000, 2000, \ldots, 10000\}$, shape =2, rate = 2 \\
+% Outlier distribution: Normal 5 points with mean = $(3,3)$, sd = 0.5. \\
+% Outlier distribution is normal, while non-outlier distribution is Gamma. 
 
 
 \subsection{Showcase examples}
