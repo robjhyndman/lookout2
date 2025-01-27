@@ -303,69 +303,26 @@ A consequence of the below theorems is that $nd_*\to \infty$ whenever $d_*$ is c
       & \geq \mathbb{E}[C(n, \frac{r(n)}{n})]+1-n \geq n-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}+1-n  \\
       & =1-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}} \\
   \end{align*}
-  and thus $\lim_{n\to \infty}\mathbb{P}(C(n, \frac{r(n)}{n})=n)=1.$
+	and thus $\lim_{n\to \infty}\mathbb{P}(C(n, \frac{r(n)}{n})=n)=1.$
 \end{proof}
 
-\SK{Rob to check the following lemma! }
 \subsection{Bounds for kernel density estimates}
-\begin{lemma}\label{lemma:boundsforkdeGaussian}
-    Let $\{\bm{x}_1, \ldots, \bm{x}_n\}$ be $n$ data points in $\mathbb{R}^p$ and $K(\bm{x}) = \frac{1}{(2 \pi)^{p/2}} \exp \left( - \frac{\lVert \bm{x} \rVert^2}{2} \right)$ denote the multivariate Gaussian kernel. 
-    Then the kernel density estimates of $\bm{x}_j$ given by 
-    $$ \hat{f}(\bm{x}_j) = \frac{1}{n} \sum_{i = 1}^n K(\bm{x}_j - \bm{x}_i)
-    $$
-    and its negative logarithm $- \log \hat{f}(\bm{x}_j)$ are bounded by constants that depend only on $p$ and $n$ for all $j \in \{1, \ldots, n\}$.
+\begin{lemma}\label{lemma:boundsforkde}
+	Let $\{\bm{x}_1, \dots, \bm{x}_n\}$ be $n$ data points in $\mathbb{R}^p$, with kernel density estimate given by
+	$$ \hat{f}(\bm{x}) = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{x} - \bm{x}_i)\right),
+	$$
+	where $K(\bm{u})$ is a multivariate kernel function that is bounded below by 0 and above by $K(\bm{0}) = M$, and $\bm{H}$ is a $p\times p$ symmetric positive-definite bandwidth matrix. Then for all $j \in \{1, \dots, n\}$, the kernel density estimates at the observations, $\hat{f}(\bm{x}_j)$, and their negative logarithms,  $- \log \hat{f}(\bm{x}_j)$, are bounded by constants that depend only on $p$ and $n$.
 \end{lemma}
 \begin{proof}
-    Consider 
-    \begin{align*} 
-        \hat{f}(\bm{x}_j) & = \frac{1}{n} \sum_{i = 1}^n K(\bm{x}_j - \bm{x}_i) \, , \\
-        & = \frac{1}{n} \sum_{i = 1}^n \frac{1}{(2 \pi)^{p/2}} \exp \left( - \frac{\lVert \bm{x}_j - \bm{x}_i \rVert^2}{2} \right) \, . 
-    \end{align*}
-    For the upper bound we use the fact $\exp \left( - \frac{\lVert \bm{x}_j - \bm{x}_i \rVert^2}{2} \right)  \leq 1$ and for the lower bound we consider the term when $i = j$ giving us $\exp \left( - \frac{\lVert \bm{x}_j - \bm{x}_j \rVert^2}{2} \right)  = 1$. This gives us
-    \begin{align}
-   \frac{1}{n}  K(\bm{x}_j - \bm{x}_j)  \leq  & \hat{f}(\bm{x}_j)  \leq  \frac{1}{n} n  \max K(\bm{x}_j - \bm{x}_i) \notag \\
-   \frac{1}{n (2 \pi)^{p/2}}  \leq & \hat{f}(\bm{x}_j)  \leq \frac{1}{ (2 \pi)^{p/2}} \, , \label{eq:boundsKDE} \\
-   \text{giving} \quad  -\log n - \frac{p}{2} \log (2\pi) \leq & \log \left(\hat{f}(\bm{x}_j) \right)  \leq - \frac{p}{2} \log (2\pi) \, , \notag \\
-   \frac{p}{2} \log (2\pi) \leq  & -\log \left(\hat{f}(\bm{x}_j) \right) \leq   \log n + \frac{p}{2} \log (2\pi) \, .  \notag
-    \end{align}
+	$$
+		0 \leq\hat{f}(\bm{x}_j)  = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{x}_j - \bm{x}_i)\right) \leq \frac{M}{n}|\bm{H}|^{-1/2}\, .
+	$$
+  The constant $M$ may depend on $p$.
 \end{proof}
 
-\begin{remark}\label{rem:GaussianH}
-    For the multivariate Gaussian kernel with bandwidth matrix $H$ we have 
-    $$     K_H(\bm{x}) = \frac{1}{(2\pi)^{p/2}} \vert H\vert^{-1/2} \exp\left( \frac{1}{2} \bm{x}^T H^{-1} \bm{x} \right) \, , 
-    $$
-    which results in inequality \eqref{eq:boundsKDE} being multiplied by $|H|^{-1/2}$ on either side. For $H = \diag(h)$ we have  $|H|^{-1/2} = h^{-p/2} $, giving us
-    $$  \frac{1}{n (2 \pi h)^{p/2}}  \leq  \hat{f}(\bm{x}_j)  \, . 
-    $$
-    However, lookout unitizes the data to $[0, 1]^p$ making $h < 1$. As $ \frac{1}{h} > 1$ we get the original lower bound for $ \hat{f}(\bm{x}_j)$ and the same upper bound for $-\log( \hat{f}(\bm{x}_j))$. 
-\end{remark}
+For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{p/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $M = \frac{1}{(2 \pi)^{p/2}}$.  If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{p+2}{2c_p} \left( 1 - \|\bm{u}\| \right)_{+}$, where $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$, and $u_+ = max(0, u)$, then $M = (p+2)/(2c_p)$.
 
-\begin{lemma}\label{lemma:boundsforkdeEpanechnikov}
-    Let $\{\bm{x}_1, \ldots, \bm{x}_n\}$ be $n$ data points in $\mathbb{R}^p$ and $K(\bm{x}) = \frac{p+2}{c_p} \left( 1 - \frac{\lVert \bm{x} \rVert^2}{5}\right)_{+}$ denote the multivariate Epanechnikov kernel where $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$ and $u_+ = max(0, u)$. 
-    Then the kernel density estimates of $\bm{x}_j$ given by 
-    $$ \hat{f}(\bm{x}_j) = \frac{1}{n} \sum_{i = 1}^n K(\bm{x}_j - \bm{x}_i)
-    $$
-    and its negative logarithm $- \log \hat{f}(\bm{x}_j)$ are bounded by constants that depend only on $p$ and $n$ for all $j \in \{1, \ldots, n\}$.
-\end{lemma}
-\begin{proof}
-    Similar to Lemma \ref{lemma:boundsforkdeGaussian} we have
-    \begin{align*}
-           \frac{1}{n}  K(\bm{x}_j - \bm{x}_j)  \leq  & \hat{f}(\bm{x}_j)  \leq  \frac{1}{n} n  \max K(\bm{x}_j - \bm{x}_i) \, , \\
-            \frac{p+2}{nc_p} \leq  & \hat{f}(\bm{x}_j)  \leq \frac{p+2}{c_p} \, , \\
-            \log({p+2}) - \log(nc_p) \leq  & \log \left( \hat{f}(\bm{x}_j) \right)  \leq \log({p+2}) - \log({c_p}) \, , \\
-           \log({c_p}) - \log({p+2}) \leq  & - \log \left( \hat{f}(\bm{x}_j) \right)  \leq  \log(nc_p) - \log({p+2})  \, .
-    \end{align*}
- \end{proof}
-
-\SK{Rob, is the Epanechnikov kernel formula given below correct?}
-\begin{remark}
-     The multivariate Epanechnikov kernel with bandwidth matrix $H$ is given by
-    $$     K_H(\bm{x}) = \frac{p+2}{c_p} \vert H\vert^{-1/2} \left(1 - \frac{1}{5} \bm{x}^T H^{-1} \bm{x} \right)_+ \,  .
-    $$
-    The same argument as in Remark \ref{rem:GaussianH} gives lower bounds for $ \hat{f}(\bm{x}_j)$ and upper bounds for $- \log(\hat{f}(\bm{x}_j)$. 
-\end{remark}
- 
-% When there is a bandwidth $h$, the lower bound of $\hat{f}(\bm{x}_j)$ has an additional $h$ in the denominator. 
+% When there is a bandwidth $h$, the lower bound of $\hat{f}(\bm{x}_j)$ has an additional $h$ in the denominator.
 
 \SK{As these values are bounded, we can use the parameter shape\_zero = TRUE. But maybe say this somewhere else.  }
 
