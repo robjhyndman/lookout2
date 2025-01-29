@@ -7,18 +7,11 @@
 \usepackage{amsfonts,amsthm}
 \usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
 \usepackage{xcolor}
+\usepackage[margin=2cm]{geometry}
 
-
-%\pdfminorversion=4
-% NOTE: To produce blinded version, replace "0" with "1" below.
-\newcommand{\blind}{0}
-
-% DON'T change margins - should be 1 inch all around.
-\addtolength{\oddsidemargin}{-.5in}%
-\addtolength{\evensidemargin}{-1in}%
-\addtolength{\textwidth}{1in}%
-\addtolength{\textheight}{1.7in}%
-\addtolength{\topmargin}{-1in}%
+\sloppy
+\clubpenalty 10000
+\widowpenalty 10000
 
 \newcommand{\R}{\mathbb{R}}
 \renewcommand{\P}{\mathbb{P}}
@@ -33,47 +26,30 @@
 \newtheorem{lem}[theorem]{Lemma}
 \newtheorem*{remark}{Remark}
 
-
 \newcommand{\SK}[1]{\textcolor{blue}{[{\sc SK}] #1}}
 
-
 \graphicspath{{Figures/}}
-
-\begin{document}
-
 \def\spacingset#1{\renewcommand{\baselinestretch}%
 	{#1}\small\normalsize} \spacingset{1}
 
+\begin{document}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\if0\blind
-	{
-		\title{\bf When lookout sees crackle: anomaly detection via kernel density estimation}
-		\author{Sevvandi Kandanaarachchi\thanks{
-				The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
-			\textit{CSIRO, Australia}\\[0.3cm]
-			Rob J Hyndman\\
-			\textit{Monash University, Australia}\\[0.3cm]
-			Katharine Turner\\
-			\textit{Australian National University, Australia}
-		}
-		\maketitle
-	} \fi
+\title{\bf When lookout sees crackle: Anomaly~detection~via~kernel~density~estimation}
+\author{
+  Sevvandi Kandanaarachchi\thanks{
+    The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
+    \textit{CSIRO, Australia}\\[0.3cm]
+  Rob J Hyndman\\
+    \textit{Monash University, Australia}\\[0.3cm]
+  Katharine Turner\\
+    \textit{Australian National University, Australia}
+}
+\maketitle
 
-\if1\blind
-	{
-		\bigskip
-		\bigskip
-		\bigskip
-		\begin{center}
-			{\LARGE\bf Title}
-		\end{center}
-		\medskip
-	} \fi
-
-\bigskip
 \begin{abstract}
-	The text of your abstract.  200 or fewer words.
+    The text of your abstract.  200 or fewer words.
 \end{abstract}
 
 \textit{Keywords:}  3 to 6 keywords, that do not appear in the title
@@ -134,7 +110,7 @@ Note that we do not need to estimate the density of the underlying distribution 
 
 Main mathematical results with proofs (possibly relegated to appendices).
 
-\subsection{Gaussian $d_* \rightarrow 0$}
+\subsection[Gaussian d* to 0]{Gaussian $d_* \rightarrow 0$}
 Let $S_n$ denote. random sample of $n$ points from a multivariate Gaussian in $\R^d$. The probability density function of this Gaussian is $c e^{-\frac{\|x\|^2}{2}}$ for some constant $c$. Note this pdf is spherically symmetric. Denote $f(R)=c e^{-\frac{R^2}{2}}$ for this density in terms of the radial coordinate.
 
 Let $X(n,r)$ be the event that $\cup_{x\in S_n} B(x, r)$ is connected. We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and $\mathbb{P}(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
@@ -182,7 +158,7 @@ Also directly from the crackle paper we have that the probability of there being
 \end{align*}
 Let $s(n)=\max\{r(n), (d+1)\frac{\log\log n}{\sqrt{\log n}}\}$. Then by the above arguments $\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $0<d_*<s(n)$. We also have $s(n)\to 0$ as $n\to \infty$. Together, they squeeze $d_*$ to satisfy $d_*\to 0$ as $n\to \infty$.
 
-\subsection{Exponential $d_*\to 0$ but only for percentiles}
+\subsection[Exponential d*to 0 but only for percentiles]{Exponential $d_*\to 0$ but only for percentiles}
 
 Let $S_n$ denote. random sample of $n$ points from an exponential distribution in $\R^d$. The probability density function of this Gaussian is $c e^{-\|x\|}$ for some constant $c$. Note this pdf is spherically symmetric. Denote $f(R)=c e^{-R}$ for this density in terms of the radial coordinate.
 
@@ -204,15 +180,19 @@ $$
 $$
 Set $R_n=\log n - 3\log \log \log n$ which will represent the core of point cloud. Note that
 $$
-	f(R_n)= c e^{-\log n+3\log\log\log n}= c \frac{(\log \log n)^3}{n}.
+  f(R_n)= c e^{-\log n+3\log\log\log n}= c \frac{(\log \log n)^3}{n}.
 $$
 \begin{align*}
-	\mathbb{P}(\tilde{C}(n,R_n^c,r(n)))
-	 & \leq\frac{2^d c}{d+1} (\log \log n)^2 (\log n - 3\log \log \log n)^d \exp(-n \frac{d+1}{c}(\log \log n)^{-2}c \frac{(\log \log n)^3}{n}) \\
-	 & \leq \frac{2^d c}{d+1} (\log \log n)^2 (\log n)^d \exp(-(d+1)(\log \log n)^{-2} (\log \log n)^3)                                         \\
-	 & \leq  \frac{2^d c}{d+1} (\log \log n)^2 (\log n)^d \exp(\log (\log n)^{-d-1})                                                            \\
-	 & \leq  \frac{2^d c}{d+1} \frac{(\log \log n)^2 (\log n)^d }{(\log n)^{d+1}}                                                               \\
-	 & \to 0 \text{ as } n \to \infty
+ \mathbb{P}(\tilde{C}(n,R_n^c,r(n))) 
+ \hspace*{-.8cm} &  \\
+ & \leq\frac{2^d c}{d+1} (\log \log n)^2 (\log n - 3\log \log \log n)^d 
+    \exp\left(-n \frac{d+1}{c}(\log \log n)^{-2}c \frac{(\log \log n)^3}{n}\right) \\
+ & \leq \frac{2^d c}{d+1} (\log \log n)^2 (\log n)^d 
+    \exp\left(-(d+1)(\log \log n)^{-2} (\log \log n)^3\right) \\
+ & \leq  \frac{2^d c}{d+1} (\log \log n)^2 (\log n)^d 
+    \exp\left(\log (\log n)^{-d-1}\right) \\
+ & \leq  \frac{2^d c}{d+1} \frac{(\log \log n)^2 (\log n)^d }{(\log n)^{d+1}}   \\
+ & \to 0 \text{ as } n \to \infty
 \end{align*}
 
 %where $K$ is a constant independent of $n$.
@@ -235,7 +215,7 @@ for all $\alpha \in (0,1)$
 This implies that $d_{\alpha n} \to 0$ as $n\to \infty$.
 %Also directly from the crackle paper we have that the probability of there being a point more that $R_n^2:=\sqrt{2(\log n +d\log\log n)}$ goes to zero as $n\to \infty$.
 
-\subsection{$nd_*\to \infty$}
+\subsection[nd* to infinity]{$nd_*\to \infty$}
 
 A consequence of the below theorems is that $nd_*\to \infty$ whenever $d_*$ is chosen as the any fixed percentile of the death times. This holds for very general distributions. We only require a global upper bound on the pdf and the dimension of the space at least $2$.
 
@@ -417,7 +397,7 @@ Figure \ref{fig:exp2NormalRates} shows Experiment 2 results. As $\mu$ increases,
 % \end{figure}
 
 
-\subsection{Experiment 3: As $N$ increases - Normal distribution}
+\subsection[Experiment 3: As N increases - Normal distribution]{Experiment 3: As $N$ increases - Normal distribution}
 We consider $X_i = (X_{i1}, X_{i1}) \in \mathbb{R}^2$ with $X_{i1}, X_{i2} \sim \mathcal{N}(\mu, \sigma)$ with $\mu = 0$ and $\sigma = 1$ for non-anomalies  and $\mu = 2.2$ and $\sigma = 0.2$ for anomalies. We consider $n$ non-anomalies for $n \in \{1000, 2000, \ldots, 10000\}$ and 5 anomalies. Each iteration for a given $n$ is repeated 10 times.
 
 \begin{figure}[!ht]
@@ -443,7 +423,7 @@ Figure \ref{fig:exp3NormalIncreasingN} shows the results of Experiment 3. Both n
 	\label{fig:exp4GammaIncreasingN}
 \end{figure}
 
-\subsection{Experiment 4: As $N$ increases - Gamma + Normal distributions}
+\subsection[Experiment 4: As N increases - Gamma + Normal distributions]{Experiment 4: As $N$ increases - Gamma + Normal distributions}
 For this experiment we consider $X_i \in \mathbb{R}^2$ with $X_i = (X_{i1}, X_{i2})$.  The non-anomalies  $X_{i1}, X_{i2} \sim \text{Gamma}(2, 2)$ and the anomalies $X_{i1}, X_{i2} \sim  \mathcal{N}(3, 0.5)$. There are $n$ non-anomalies and $5$ anomalies with $n \in \{1000, 2000, \ldots, 10000\}$ in each iteration. Figure \ref{fig:exp4GammaIncreasingN} shows the results and as before we see new lookout performs better.
 
 % Non-outlier distribution: Gamma with $N \in \{1000, 2000, \ldots, 10000\}$, shape =2, rate = 2 \\
@@ -454,7 +434,7 @@ For this experiment we consider $X_i \in \mathbb{R}^2$ with $X_i = (X_{i1}, X_{i
 \subsection{Showcase examples}
 \begin{figure}[!p]
 	\centering
-	\includegraphics[width=0.85\linewidth]{Figures/Showcase_Examples.pdf}
+	\includegraphics[width=0.84\linewidth]{Figures/Showcase_Examples.pdf}
 	\caption{Comparing new lookout with the older version on some showcase examples}
 	\label{fig:showcaseExamples}
 \end{figure}
@@ -477,7 +457,7 @@ In each iteration the anomalous points get further away from the rest. Each iter
 \end{figure}
 
 
-\subsection{Experiment 6: Annulus in $\mathbb{R}^4$}
+\subsection[Experiment 6: Annulus in R4]{Experiment 6: Annulus in $\mathbb{R}^4$}
 Non-outlier distribution: 800 points distributed in an annulus in $\mathbb{R}^4$.  \\
 Outlier distribution: 5 points moving in to the annulus in each iteration.
 \begin{figure}[!ht]
@@ -488,7 +468,7 @@ Outlier distribution: 5 points moving in to the annulus in each iteration.
 \end{figure}
 
 
-\subsection{Experiment 7: Unit cube in $\mathbb{R}^{20}$}
+\subsection[Experiment 7: Unit cube in R20]{Experiment 7: Unit cube in $\mathbb{R}^{20}$}
 
 Non-outlier distribution: Uniformly distributed unit cube in $\mathbb{R}^{20}$.  \\
 Outlier distribution: 1 outlier at $(0.9, \bm{x}_{19})$ in iteration 1,   $(0.9, 0.9,  \bm{x}_{18})$ in iteration 2, and so on where $\bm{x}_{19} \in \mathbb{R}^{19}$ is uniformly distributed in the 19-dimensional unit cube.
