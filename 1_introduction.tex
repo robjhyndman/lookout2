@@ -1,0 +1,49 @@
+% -----------------------------------------------------------
+\section{Introduction} \label{sec:intro}
+% ------------------------------------------------------------
+
+Two contributions: 1. theoretical properties of lookout algorithm \citep{lookoutori}; and 2. modified lookout algorithm with better properties and performance.
+
+\subsection{The lookout algorithm for anomaly detection (SK)}
+
+Describe original lookout algorithm
+
+\subsection{Consistency of kde when bandwidths use Rips death diameters (RH)}
+
+Suppose we have a sample of $n$ points in $\mathbb{R}^p$, and we want to estimate the density of the underlying distribution $f$ using a multivariate kernel density estimator with the bandwidth matrix $\bm{H}$.
+
+Let $d_1,\dots,d_N$ denote the (ordered) Rips death diameters computed from the sample $\bm{y}_1,\dots,\bm{y}_N$, and let
+$$
+	d_* = d_{i_*}\qquad\text{where}\quad i_* = \text{arg max}\{d_{i+1} - d_i\}_{i=1}^{N-1}
+$$
+That is, $d_*$ is the Rips diameter corresponding to the lower point of the largest gap in the Rips diameters. Then the bandwidth matrix proposed by \cite{lookoutori} is given by
+\begin{equation}\label{eq:bandwidth}
+	\bm{H} = d_*^{2/p}\bm{I},
+\end{equation}
+where $p$ is the dimension of the data. \citet{lookoutori} demonstrated the results of their algorithm on a variety of simulated and real datasets, but did not provide a theoretical justification for their choice of bandwidth. In this paper, we revisit the issue and establish some conditions under which this choice of bandwidth provides a consistent estimator of the density. As a result, we propose a modification of the bandwidth selection method, leading to a lookout algorithm that works under a much broader range of conditions.
+
+To obtain a consistent estimator, we need $\bm{H}$ to be positive definite and symmetric, and to satisfy the following conditions \citep[][p31--37]{chacon2018multivariate}:
+\begin{itemize}
+	\item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
+	\item $n^{-1}|\bm{H}|^{-1/2} \rightarrow 0$ as $n\rightarrow\infty$.
+\end{itemize}
+Thus, for the approach of \cite{lookoutori} to work, we need to show that
+\begin{equation}\label{eq:conditions}
+	d_*^{2/p}\rightarrow 0 \quad\text{and}\quad (d_*n)^{-1}\rightarrow0\quad{as}\quad
+	n\rightarrow\infty
+\end{equation}
+
+\subsection{Crackle (KT)}
+
+Describe crackle idea and why it matters here
+
+\subsection{The modified lookout algorithm (RH)}
+
+As a result of these theoretical considerations, we propose several modifications to the lookout algorithm.
+\begin{enumerate}
+	\item Rather than use the lower point of the largest gap in Rips death diameters, we propose to use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest Rips diameters.
+	\item We propose to use a Yeo-Johnson transformation on the margins of the distribution, to avoid the problem of distributions with heavy tails.
+	\item Finally, we scale and rotate the transformed data to ensure that the data have zero pairwise correlations. This better aligns the bandwidth matrix to the data.
+\end{enumerate}
+Note that we do not need to estimate the density of the underlying distribution directly. Instead, we can estimate the density of a transformation of the data, and identify anomalies in the transformed space. Hence, there is no need to undo the scaling, rotation or Yeo-Johnson transformation.
+
