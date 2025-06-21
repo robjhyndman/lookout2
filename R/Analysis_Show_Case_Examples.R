@@ -9,8 +9,8 @@ library(gridExtra)
 set.seed(2025)
 X <- bind_rows(
   tibble(
-    x = rnorm(500),
-    y = rnorm(500)
+    x = rnorm(1000),
+    y = rnorm(1000)
   ),
   tibble(
     x = rnorm(5, mean = 10, sd = 0.2),
@@ -23,7 +23,8 @@ lookobj1 <- lookout::lookout(X,
                              unitize = TRUE,
                              normalize = FALSE,
                              bw_para = 0.98,
-                             shape_zero = TRUE)
+                             version = 2,
+                             bw_power = NA)
 lookobj1
 g1 <- autoplot(lookobj1) +
   ggtitle("New lookout")
@@ -35,7 +36,8 @@ lookobj2 <- lookout::lookout(X,
                              unitize = TRUE,
                              normalize = FALSE,
                              bw_para = 1,
-                             shape_zero = FALSE)
+                             version = 1,
+                             bw_power = NA)
 lookobj2
 g2 <- autoplot(lookobj2) +
   ggtitle("Old Lookout")
@@ -50,12 +52,12 @@ grid.arrange(g1, g2, ncol = 2)
 
 X <- bind_rows(
   tibble(
-    x = rnorm(500, mean = -10),
-    y = rnorm(500),
+    x = rnorm(1000, mean = -10),
+    y = rnorm(1000),
   ),
   tibble(
-    x = rnorm(500, mean = 10),
-    y = rnorm(500)
+    x = rnorm(1000, mean = 10),
+    y = rnorm(1000)
   ),
   tibble(
     x = rnorm(5, sd = 0.2),
@@ -68,11 +70,11 @@ lookobj1 <- lookout::lookout(X,
                              unitize = TRUE,
                              normalize = FALSE,
                              bw_para = 0.98,
-                             shape_zero = TRUE)
+                             version = 2,
+                             bw_power = NA)
 
 lookobj1
 g3 <- autoplot(lookobj1)
-
 
 
 lookobj2 <- lookout::lookout(X,
@@ -80,7 +82,8 @@ lookobj2 <- lookout::lookout(X,
                              unitize = TRUE,
                              normalize = FALSE,
                              bw_para = 1,
-                             shape_zero = FALSE)
+                             version = 1,
+                             bw_power = NA)
 lookobj2
 g4 <- autoplot(lookobj2)
 grid.arrange(g3, g4, ncol = 2)
@@ -117,7 +120,8 @@ lookobj1 <- lookout::lookout(X,
                              unitize = TRUE,
                              normalize = FALSE,
                              bw_para = 0.98,
-                             shape_zero = TRUE)
+                             version = 2,
+                             bw_power = NA)
 
 
 lookobj1
@@ -130,7 +134,8 @@ lookobj2 <- lookout::lookout(X,
                              unitize = TRUE,
                              normalize = FALSE,
                              bw_para = 1,
-                             shape_zero = FALSE)
+                             version = 1,
+                             bw_power = NA)
 lookobj2
 g6 <- autoplot(lookobj2)
 # same performance
@@ -168,7 +173,8 @@ lookobj1 <- lookout::lookout(X,
                              unitize = TRUE,
                              normalize = FALSE,
                              bw_para = 0.98,
-                             shape_zero = TRUE)
+                             version = 2,
+                             bw_power = NA)
 lookobj1
 g7 <- autoplot(lookobj1)
 
@@ -179,7 +185,8 @@ lookobj2 <- lookout::lookout(X,
                              unitize = TRUE,
                              normalize = FALSE,
                              bw_para = 1,
-                             shape_zero = FALSE)
+                             version = 1,
+                             bw_power = NA)
 lookobj2
 g8 <- autoplot(lookobj2)
 # same performance
@@ -209,7 +216,8 @@ lookobj1 <- lookout::lookout(X,
                              unitize = TRUE,
                              normalize = FALSE,
                              bw_para = 0.98,
-                             shape_zero = TRUE)
+                             version = 2,
+                             bw_power = NA)
 lookobj1
 g9 <- autoplot(lookobj1)
 
@@ -221,7 +229,8 @@ lookobj2 <- lookout::lookout(X,
                              unitize = TRUE,
                              normalize = FALSE,
                              bw_para = 1,
-                             shape_zero = FALSE)
+                             version = 1,
+                             bw_power = NA)
 lookobj2
 g10 <- autoplot(lookobj2)
 

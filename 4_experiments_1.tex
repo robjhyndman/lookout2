@@ -21,7 +21,7 @@ For experiment 1 we consider the  $\text{Gamma}(\alpha, \beta)$ distribution wit
 
 Figure \ref{fig:exp1GammaRates}  shows the data and results of Experiment 1. As the rate $r$ of the anomalous Gamma distribution increases, the anomalies and non-anomalies become similar. Thus, we expect a decrease in the true positive rate and an increase in the false negative rate as $r$ increases. The anomalies are maximally different from non-anomalies when $r = 0.1$. We see that new lookout performs better for these cases compared to the old version. Old lookout oscillates between high and low performances for $r = 0.1$, whereas the new version consistently performs well.
 
-\subsection{Experiment 2:  Different anomaly rates for Normal distribution}
+\subsection{Experiment 2:  Different anomaly means for Normal distribution}
 
 For experiment 2 we consider the normal distribution $\mathcal{N}(\mu, \sigma)$ with mean $\mu$ and standard deviation $\sigma$. As before we consider separate $\mu$ and $\sigma$ for non-anomalous and anomalous distributions. We let $X_i = (X_{i1}, X_{i2}) \in \mathbb{R}^2$ with $X_{i1}, X_{i2} \sim \mathcal{N}(\mu, \sigma)$. The non-anomalous distribution is  $\mathcal{N}(0, 1)$. The anomalous distribution has $\mu \in \{ 2.50, 2.75,  3.00 , 3.25,  3.50, 3.75, 4.00\} $ and $\sigma = 0.2$. We consider 1000 non-anomalies and 10 anomalies and repeat every iteration (for each $\mu$) 10 times.
 

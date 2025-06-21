@@ -91,14 +91,14 @@ for (kk in seq(pp)) {
     stray_fmeasure[kk, i] <- strayoutput$fmeasure
     stray_time[ll, ] <- tt
 
-    # LOOKOUT - 1
-    tt1 <- system.time(lookoutobj1 <- lookout(X,
-                                            alpha=0.05,
-                                            unitize = TRUE,
-                                            normalize = FALSE,
-                                            bw_para = 0.98,
-                                            shape_zero = TRUE
-                                            ))
+    # LOOKOUT - NEW
+    tt1 <- system.time(lookoutobj1 <- lookout::lookout(X,
+                                                       alpha = 0.05,
+                                                       unitize = TRUE,
+                                                       normalize = FALSE,
+                                                       bw_para = 0.98,
+                                                       version = 2,
+                                                       bw_power = NA))
     lookoutlabs1 <- rep(0, 405)
     lookoutlabs1[lookoutobj1$outliers[ ,1]] <- 1
     lookoutput1 <- diff_metrics(labs, lookoutlabs1)
@@ -112,12 +112,13 @@ for (kk in seq(pp)) {
 
 
     # LOOKOUT - OLD
-    tt3 <- system.time(lookoutobjold <- lookout(X,
-                                              alpha=0.05,
-                                              unitize = TRUE,
-                                              normalize = FALSE,
-                                              bw_para = 1,
-                                              shape_zero = FALSE))
+    tt3 <- system.time(lookoutobjold <- lookout::lookout(X,
+                                                         alpha = 0.05,
+                                                         unitize = TRUE,
+                                                         normalize = FALSE,
+                                                         bw_para = 1,
+                                                         version = 1,
+                                                         bw_power = NA))
     lookoutlabsold <- rep(0, 405)
     lookoutlabsold[lookoutobjold$outliers[ ,1]] <- 1
     lookoutputold <- diff_metrics(labs, lookoutlabsold)
@@ -322,8 +323,7 @@ for (kk in seq(pp)) {
   X <- tibble(
     x1 = dist * cos(theta),
     x2 = dist * sin(theta),
-    x3 = runif(nn),
-    x4 = runif(nn)
+    x3 = runif(nn)
   )
   labs <- c(rep(0, nn-5), rep(1, 5))
 
@@ -342,13 +342,14 @@ for (kk in seq(pp)) {
     stray_fmeasure[kk, i] <- strayoutput$fmeasure
     stray_time[ll, ] <- tt
 
-    # LOOKOUT - 1
-    tt1 <- system.time(lookoutobj1 <- lookout(X,
-                                              alpha=0.05,
-                                              unitize = TRUE,
-                                              normalize = FALSE,
-                                              bw_para = 0.95,
-                                              shape_zero = TRUE))
+    # LOOKOUT - NEW
+    tt1 <- system.time(lookoutobj1 <- lookout::lookout(X,
+                                                       alpha = 0.05,
+                                                       unitize = TRUE,
+                                                       normalize = FALSE,
+                                                       bw_para = 0.98,
+                                                       version = 2,
+                                                       bw_power = NA))
     lookoutlabs1 <- rep(0, nn)
     lookoutlabs1[lookoutobj1$outliers[ ,1]] <- 1
     lookoutput1 <- diff_metrics(labs, lookoutlabs1)
@@ -361,12 +362,13 @@ for (kk in seq(pp)) {
 
 
     # LOOKOUT - OLD
-    tt3 <- system.time(lookoutobjold <- lookout(X,
-                                                alpha=0.05,
-                                                unitize = TRUE,
-                                                normalize = FALSE,
-                                                bw_para = 1,
-                                                shape_zero = FALSE))
+    tt3 <- system.time(lookoutobjold <-lookout::lookout(X,
+                                                        alpha = 0.05,
+                                                        unitize = TRUE,
+                                                        normalize = FALSE,
+                                                        bw_para = 1,
+                                                        version = 1,
+                                                        bw_power = NA))
     lookoutlabsold <- rep(0, nn)
     lookoutlabsold[lookoutobjold$outliers[ ,1]] <- 1
     lookoutputold <- diff_metrics(labs, lookoutlabsold)
@@ -547,7 +549,7 @@ write.csv(dftime, "Data_Output/For_Paper/Time_Taken_For_Experiment_6_Comparison_
 # ----------------------------------------------------------------------------------
 # TASK 03 : EXPERIMENT 7
 # ----------------------------------------------------------------------------------
-set.seed(2024)
+set.seed(2025)
 values <- rep(0, 10)
 pp <- 10
 hdoutliers_gmean <- hdoutliers_fmeasure <- lookout1_fmeasure <-
@@ -581,13 +583,14 @@ for (kk in seq(pp)) {
     stray_fmeasure[kk, i] <- strayoutput$fmeasure
     stray_time[ll, ] <- tt
 
-    # LOOKOUT - 1
-    tt1 <- system.time(lookoutobj1 <- lookout(X,
-                                              alpha=0.05,
-                                              unitize = TRUE,
-                                              normalize = FALSE,
-                                              bw_para = 0.98,
-                                              shape_zero = TRUE))
+    # LOOKOUT - NEW
+    tt1 <- system.time(lookoutobj1 <- lookout::lookout(X,
+                                                       alpha = 0.05,
+                                                       unitize = TRUE,
+                                                       normalize = FALSE,
+                                                       bw_para = 0.98,
+                                                       version = 2,
+                                                       bw_power = NA))
     lookoutlabs1 <- rep(0, nn)
     lookoutlabs1[lookoutobj1$outliers[ ,1]] <- 1
     lookoutput1 <- diff_metrics(labs, lookoutlabs1)
@@ -600,12 +603,13 @@ for (kk in seq(pp)) {
 
 
     # LOOKOUT - OLD
-    tt3 <- system.time(lookoutobjold <- lookout(X,
-                                                alpha=0.05,
-                                                unitize = TRUE,
-                                                normalize = FALSE,
-                                                bw_para = 1,
-                                                shape_zero = FALSE))
+    tt3 <- system.time(lookoutobjold <- lookout::lookout(X,
+                                                         alpha = 0.05,
+                                                         unitize = TRUE,
+                                                         normalize = FALSE,
+                                                         bw_para = 1,
+                                                         version = 1,
+                                                         bw_power = NA))
     lookoutlabsold <- rep(0, nn)
     lookoutlabsold[lookoutobjold$outliers[ ,1]] <- 1
     lookoutputold <- diff_metrics(labs, lookoutlabsold)

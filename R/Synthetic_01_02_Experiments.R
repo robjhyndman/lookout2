@@ -3,8 +3,6 @@
 # TASK 00: LOAD LIBRARIES AND FUNCTIONS
 # TASK 01: EXP1 - GAMMA DISTRIBUTION TWO SEPARATE DISTRIBUTIONS
 # TASK 02: EXP2 - NORMAL DISTRIBUTION TWO DISTRIBUTIONS
-# TASK 03: EXP3 - AS N INCREASES - NORMAL DISTRIBUTION
-# TASK 04: EXP4 - AS N INCREASES - GAMMA DISTRIBUTION
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -83,22 +81,27 @@ results_old <- results_new <- tibble(outrate = 0,
                                      false_neg_rate= 0)
 kk <- 1
 for(jj in 1:10){
-  for(i in 1:length(rate2)) {
+  for(i in 1:length(rate2)){
     # Generate random data
     X <- matrix(rgamma(n = 2*n1, shape = shape1, rate = rate1), ncol=2)
     X2 <- matrix(rgamma(n = 2*n2, shape = shape2, rate = rate2[i]), ncol=2)
     X <- rbind(X, X2)
 
     lookobj_new <- lookout::lookout(X,
+                                    alpha = 0.05,
                                     unitize = TRUE,
                                     normalize = FALSE,
-                                    bw_para = bw,
-                                    shape_zero = TRUE)
+                                    bw_para = 0.98,
+                                    version = 2,
+                                    bw_power = NA)
+
     lookobj_old <- lookout::lookout(X,
+                                    alpha = 0.05,
                                     unitize = TRUE,
                                     normalize = FALSE,
                                     bw_para = 1,
-                                    shape_zero = FALSE)
+                                    version = 1,
+                                    bw_power = NA)
 
 
     act <- c(rep(0, n1), rep(1, n2))
@@ -110,8 +113,8 @@ for(jj in 1:10){
     kk <- kk + 1
   }
 }
-write.csv(results_new, "Data_Output/For_Paper/EXP_1_gamma_new_lookout.csv", row.names = FALSE)
-write.csv(results_old, "Data_Output/For_Paper/EXP_1_gamma_old_lookout.csv", row.names = FALSE)
+write.csv(results_new, "Data_Output/For_Paper/Synthetic_Exp_01_gamma_new_lookout.csv", row.names = FALSE)
+write.csv(results_old, "Data_Output/For_Paper/Synthetic_Exp_01_gamma_old_lookout.csv", row.names = FALSE)
 
 
 
@@ -136,7 +139,7 @@ n1 = 1000
 n2 = 10
 bw = 0.98
 
-results_old <- results_new <- tibble(outrate = 0,
+results_old <- results_new <- tibble(mean = 0,
                                      outliers = 0,
                                      N=0,
                                      true_pos = 0,
@@ -160,168 +163,30 @@ for(jj in 1:reps){
     )
 
     lookobj_new <- lookout::lookout(X,
+                                    alpha = 0.05,
                                     unitize = TRUE,
                                     normalize = FALSE,
-                                    bw_para = bw,
-                                    shape_zero = TRUE)
+                                    bw_para = 0.98,
+                                    version = 2,
+                                    bw_power = NA)
+
     lookobj_old <- lookout::lookout(X,
+                                    alpha = 0.05,
                                     unitize = TRUE,
                                     normalize = FALSE,
                                     bw_para = 1,
-                                    shape_zero = FALSE)
+                                    version = 1,
+                                    bw_power = NA)
 
 
     act <- c(rep(0, n1), rep(1, n2))
     preds_old <- preds_new <- rep(0, n1+n2)
     preds_new[lookobj_new$outliers[ ,1]] <- 1
     preds_old[lookobj_old$outliers[ ,1]] <- 1
-    results_new[kk, ] <- c(rate2[i], n2, diff_metrics(act, preds_new))
-    results_old[kk, ] <- c(rate2[i], n2, diff_metrics(act, preds_old))
+    results_new[kk, ] <- c(mm, n2, diff_metrics(act, preds_new))
+    results_old[kk, ] <- c(mm, n2, diff_metrics(act, preds_old))
     kk <- kk + 1
   }
 }
-write.csv(results_new, "Data_Output/For_Paper/EXP_2_normal_new_lookout.csv", row.names = FALSE)
-write.csv(results_old, "Data_Output/For_Paper/EXP_2_normal_old_lookout.csv", row.names = FALSE)
-
-# ------------------------------------------------------------------------------
-# TASK 03: EXP3 - AS N INCREASES - NORMAL DISTRIBUTION
-# ------------------------------------------------------------------------------
-
-set.seed(2025)
-nnvals <- (1:10)*1000
-nnvals <- rep(nnvals, each = 10)
-results_old <- results_new <- data.frame(
-  N = numeric(100),
-  true_pos = numeric(100),
-  true_neg = numeric(100),
-  false_pos = numeric(100),
-  false_neg = numeric(100),
-  true_positive_rate = numeric(100),
-  true_negative_rate = numeric(100),
-  false_positive_rate = numeric(100),
-  false_negative_rate = numeric(100)
-)
-
-for(ii in 1:length(nnvals)){ #
-  nn <- nnvals[ii]
-  X <- bind_rows(
-    tibble(
-      x = rnorm(nn),
-      y = rnorm(nn)
-    ),
-    tibble(
-      x = rnorm(5, mean = 2.2, sd = 0.2),
-      y = rnorm(5, mean = 2.2, sd = 0.2)
-    )
-  )
-  labs <- c(rep(0, nn), rep(1, 5))
-
-  # New lookout - Normalize = FALSE, Unitize = TRUE
-  lookobj_new <- lookout::lookout(X,
-                               alpha = 0.05,
-                               unitize = TRUE,
-                               normalize = FALSE,
-                               bw_para = 0.98,
-                               shape_zero = TRUE)
-
-
-
-  pred1 <- rep(0, NROW(X))
-  pred1[lookobj_new$outliers[ ,1]] <- 1
-  results_new[ii, ] <- diff_metrics(labs, pred1)
-
-
-
-  # Old lookout
-  lookobj_old <- lookout::lookout(X,
-                                  alpha = 0.05,
-                                  unitize = TRUE,
-                                  normalize = FALSE,
-                                  bw_para = 1,
-                                  shape_zero = FALSE)
-
-  pred3 <- rep(0, NROW(X))
-  pred3[lookobj_old$outliers[ ,1]] <- 1
-  results_old[ii, ] <- diff_metrics(labs, pred3)
-}
-
-write.csv(results_new, "Data_Output/For_Paper/Exp3_Increasing_N_Normal_Distribution_New_Lookout.csv", row.names = FALSE)
-write.csv(results_old, "Data_Output/For_Paper/Exp3_Increasing_N_Normal_Distribution_Old_Lookout.csv", row.names = FALSE)
-
-
-
-# ------------------------------------------------------------------------------
-# TASK 04: EXP4 - AS N INCREASES - GAMMA DISTRIBUTION
-# ------------------------------------------------------------------------------
-
-set.seed(2025)
-nnvals <- (1:10)*1000
-nnvals <- rep(nnvals, each = 10)
-results_old <- results_new <- data.frame(
-  N = numeric(100),
-  true_pos = numeric(100),
-  true_neg = numeric(100),
-  false_pos = numeric(100),
-  false_neg = numeric(100),
-  true_positive_rate = numeric(100),
-  true_negative_rate = numeric(100),
-  false_positive_rate = numeric(100),
-  false_negative_rate = numeric(100)
-)
-
-shape1 <- 2
-rate1 <- 2
-
-for(ii in 1:length(nnvals)){ #
-  nn <- nnvals[ii]
-  X1 <- tibble(
-      x = rgamma(nn, shape = shape1, rate = rate1),
-      y = rgamma(nn, shape = shape1, rate = rate1)
-  )
-
-
-  X2 <- tibble(
-    x = rnorm(5, mean = 3, sd = 0.5),
-    y = rnorm(5, mean = 3, sd = 0.5)
-  )
-  X <- bind_rows(X1, X2)
-
-  labs <- c(rep(0, nn), rep(1, 5))
-
-  # New lookout - Normalize = FALSE, Unitize = TRUE
-  lookobj_new <- lookout::lookout(X,
-                                  alpha = 0.05,
-                                  unitize = TRUE,
-                                  normalize = FALSE,
-                                  bw_para = 0.98,
-                                  shape_zero = TRUE)
-
-
-
-  pred1 <- rep(0, NROW(X))
-  pred1[lookobj_new$outliers[ ,1]] <- 1
-  results_new[ii, ] <- diff_metrics(labs, pred1)
-
-
-
-  # Old lookout
-  lookobj_old <- lookout::lookout(X,
-                                  alpha = 0.05,
-                                  unitize = TRUE,
-                                  normalize = FALSE,
-                                  bw_para = 1,
-                                  shape_zero = FALSE)
-
-  pred3 <- rep(0, NROW(X))
-  pred3[lookobj_old$outliers[ ,1]] <- 1
-  results_old[ii, ] <- diff_metrics(labs, pred3)
-}
-
-write.csv(results_new, "Data_Output/For_Paper/Exp4_Increasing_N_Gamma_Distribution_New_Lookout.csv", row.names = FALSE)
-write.csv(results_old, "Data_Output/For_Paper/Exp4_Increasing_N_Gamma_Distribution_Old_Lookout.csv", row.names = FALSE)
-
-
-
-
-
-
+write.csv(results_new, "Data_Output/For_Paper/Synthetic_Exp_02_normal_new_lookout.csv", row.names = FALSE)
+write.csv(results_old, "Data_Output/For_Paper/Synthetic_Exp_02_normal_old_lookout.csv", row.names = FALSE)

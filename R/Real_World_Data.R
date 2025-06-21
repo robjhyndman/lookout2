@@ -3,11 +3,13 @@
 # TASK 2: WINE QUALITY AND PRICE
 # --------------------------------------------------------------------------
 
+library(lookout)
 library(weird)
 library(ggplot2)
 library(gridExtra)
 library(stray)
 library(HDoutliers)
+
 
 # --------------------------------------------------------------------------
 # TASK 1: OLD FAITHFUL DATA
@@ -30,7 +32,8 @@ lookobjNew <- lookout::lookout(oldfaithful2[ ,2:3],
                                unitize = TRUE,
                                normalize = FALSE,
                                bw_para = 0.98,
-                               shape_zero = TRUE)
+                               version = 2,
+                               bw_power = NA)
 lookobjNew
 g1 <- autoplot(lookobjNew) +
   ggtitle("New lookout")
@@ -40,7 +43,10 @@ lookobjOld <- lookout::lookout(oldfaithful2[ ,2:3],
                                unitize = TRUE,
                                normalize = FALSE,
                                bw_para = 1,
-                               shape_zero = FALSE)
+                               version = 1,
+                               bw_power = NA)
+
+
 lookobjOld
 g2 <- autoplot(lookobjOld) +
   ggtitle("Old lookout")
@@ -70,7 +76,8 @@ lookobjNew <- lookout::lookout(wine_reviews2,
                                unitize = TRUE,
                                normalize = FALSE,
                                bw_para = 0.98,
-                               shape_zero = TRUE)
+                               version = 2,
+                               bw_power = NA)
 lookobjNew
 
 
@@ -83,7 +90,8 @@ lookobjOld <- lookout::lookout(wine_reviews2,
                                unitize = TRUE,
                                normalize = FALSE,
                                bw_para = 1,
-                               shape_zero = FALSE)
+                               version = 1,
+                               bw_power = NA)
 
 lookobjOld
 
@@ -94,3 +102,4 @@ g2 <- autoplot(lookobjOld) +
   ggtitle("Old lookout")
 
 grid.arrange(g1, g2, nrow = 1)
+
