@@ -67,25 +67,35 @@ The anomalous point is not anomalous in any single dimension or on any $X_iX_j$ 
 	\label{fig:comparisonExp7}
 \end{figure}
 
-\subsection{Real-world Examples}
+% \subsection{Real-world Examples}
 
-\subsubsection{Old-faithful dataset}
-
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=\linewidth]{Figures/old_faithful.pdf}
-	\caption{Anomalies in Old-Faithful dataset}
-	\label{fig:oldfaithful}
-\end{figure}
+% We check the new and old versions of lookout on two real world examples. Neither of these examples have labeled anomalies and as such we cannot compute accuracy measures. However, as both datasets have a small number of variables, we can visualize the output. The datasets are
+% \begin{enumerate}
+%     \item Old faithful dataset \citep{weirdBook}: this dataset contains eruptions of the the Old Faithful Geyser in Yellowstone National Park, Wyoming, USA, from 1 January 2015 to 1 October 2021. For each recorded eruption the duration is given in seconds as well as the waiting time to the following eruption. The records are incomplete, especially during winter. 
+%     \item Wine reviews dataset \citep{weirdBook}: this dataset contains different wine attributes from 44 countries taken from Wine Enthusiast Magazine during the week of 15 June 2017. We focus on the numerical attributes in this data: points given by Wine Enthusiast reviewer on a scale of 0-100 and the price of a bottle of wine. 
+% \end{enumerate}
 
 
-\subsubsection{Wine-reviews dataset}
+% %\subsubsection{Old-faithful dataset}
+% Figure \ref{fig:oldfaithful} shows the output of new and old versions of lookout with the anomalies depicted in red. New lookout identifies a couple of more points as anomalous compared to the old version. The two versions are quite similar. 
+% \begin{figure}[!ht]
+% 	\centering
+% 	\includegraphics[width=\linewidth]{Figures/old_faithful.pdf}
+% 	\caption{Anomalies in Old-Faithful dataset}
+% 	\label{fig:oldfaithful}
+% \end{figure}
 
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=\linewidth]{Figures/wine_reviews.pdf}
-	\caption{Anomalies in Wine Reviews dataset}
-	\label{fig:winereviews}
-\end{figure}
 
-\SK{Wine reviews is better than old-faithful dataset. All experiments are with shape\_zero = TRUE. }
+% % \subsubsection{Wine-reviews dataset}
+
+% Figure \ref{fig:winereviews} shows the output of lookout on the wine reviews dataset. For this dataset we see that the new version identifies less anomalies than the old version. Especially boundary points are not identified as anomalies by the new version, which is an improvement. 
+
+% \begin{figure}[!ht]
+% 	\centering
+% 	\includegraphics[width=\linewidth]{Figures/wine_reviews.pdf}
+% 	\caption{Anomalies in Wine Reviews dataset}
+% 	\label{fig:winereviews}
+% \end{figure}
+
+
+% \SK{Wine reviews is better than old-faithful dataset. All experiments are with shape\_zero = TRUE. }
