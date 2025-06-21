@@ -5,8 +5,20 @@
 Two contributions: 1. theoretical properties of lookout algorithm \citep{lookoutori}; and 2. modified lookout algorithm with better properties and performance.
 
 \subsection{The lookout algorithm for anomaly detection (SK)}
+The \textit{lookout}  algorithm has 3 inputs: the dataset $\bm{X}$ containing $N$ data points in $\mathbb{R}^p$, a parameter $\alpha \in (0,1)$ signifying the cut-off for the Generalized Pareto Distribution (GPD) and a binary variable \textit{unitize} which tells the algorithm whether to normalize the data or to keep it as it is. We briefly outline the steps below.
 
-Describe original lookout algorithm
+% Given a set of $N$ points in $\mathbb{R}^p$ denoted by $\bm{X}$ and a parameter $\alpha \in (0,1)$ signifying the upper bound for the proportion of anomalies, \textit{lookout} finds anomalies as follows:
+\begin{enumerate}
+    \item If \textit{unitize} = TRUE, then normalize $\bm{X}$ using min-max scaling so that normalized data lies in the unit cube in $\mathbb{R}^p$.
+    \item Construct the persistence homology barcode of the data cloud for dimension zero using the Vietoris-Rips diameter. From the barcode we obtain the death diameters $\{d_i\}_{i = 1}^N$ for connected components. We compute successive differences $\Delta d_i = d_{i+1} - d_i$ for $i \in \{1, \ldots , N\}$ and choose the diameter $d_i$ corresponding to the maximum $\Delta d_i$. That is, $i_{*} = \arg max \{ \Delta d_i \}_{i=1}^N$ and  $d_{*} = d_{i_*}$.
+    \item Using $\bm{H} = (d_*)^{2/p} \bm{I}$, we compute kernel density estimates $\hat{f}(\bm{x}; \bm{H}) = \frac{1}{N} \sum_{i = 1}^N K_{\bm{H}}(\bm{x} - \bm{x}_i) $ using the multivariate scaled Epanechnikov kernel  $K(\bm{x}) = \frac{p+2}{ c_p}(1 - \lVert x \rVert^2/5)_+$ where  $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$ and $u_+ = \max(0, u)$. Using $\hat{f}(\bm{x}; \bm{H})$ we compute the leave-one-out kernel density estimates $\hat{f}_{-j}(\bm{x}_j; \bm{H}) = \frac{1}{N-1} \left( N \hat{f}(\bm{x}_j; \bm{H}) - \bm{H}^{-1/2} K(\bm{0}) \right) $.
+    \item Let $y_i$ and $y_{-i}$ be the kde and leave-one-out kde of $\bm{x}_i$ respectively. 
+    \item Using the Peak Over Threshold (POT) approach, fit a Generalized Pareto Distribution (GPD) to $\left\{ - \log y_i \right\}_{i = 1}^N$ and estimate the location, scale and shape parameters of the GPD $\mu$, $\sigma$ and $\xi$. 
+    \item Using the estimated GPD  parameters $\hat{\mu}$, $\hat{\sigma}$ and $\hat{\xi}$ find the probability of the leave-one-out kde values $\left\{ - \log y_{-i}.  \right\}_{i = 1}^N$. This is the probability of observing the datapoints given the estimated GPD parameters $P\left(- \log y_{-i} | \hat{\mu}, \hat{\sigma}, \hat{\xi} \right)$. 
+    \item If $P\left(- \log y_{-i} | \hat{\mu}, \hat{\sigma}, \hat{\xi} \right) < \alpha$ declare $\bm{x}_i$ as anomalous.     
+\end{enumerate}
+The output of \textit{lookout} is the list of anomalies, their GPD probabilities, the anomaly scores computed as $1 - P\left(- \log y_{-i} | \hat{\mu}, \hat{\sigma}, \hat{\xi} \right)$, the bandwidth computed using $d_*$, the kde values $\{y_i\}_{i=1}^N$, the leave-one-out kde values $\{y_{-i}\}_{i=1}^N$ and the estimated GPD parameters. More details of this approach are given in \cite{lookoutori}. 
+% 
 
 \subsection{Consistency of kde when bandwidths use Rips death diameters (RH)}
 
