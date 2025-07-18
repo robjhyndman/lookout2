@@ -1,5 +1,5 @@
 \documentclass[11pt,a4paper]{article}
-\usepackage{mathpazo,parskip}
+\usepackage{mathpazo,parskip,setspace}
 \usepackage{amsmath,bm}
 \usepackage{graphicx}
 \usepackage{natbib}
@@ -9,6 +9,11 @@
 \usepackage{xcolor}
 \usepackage[margin=2cm]{geometry}
 \usepackage{subfig}
+\usepackage{titling}
+\pretitle{\begin{center}\LARGE\bfseries}
+\preauthor{\vspace*{4ex}\begin{center}\large \lineskip 0.5em\begin{tabular}[t]{c}}
+\postauthor{\end{tabular}\vspace*{4ex}\par\end{center}}
+\postdate{\par\vspace*{4ex}\end{center}}
 
 \sloppy
 \clubpenalty 10000
@@ -32,20 +37,19 @@
 \newcommand{\SK}[1]{\textcolor{blue}{[{\sc SK}] #1}}
 
 \graphicspath{{Figures/}}
-\def\spacingset#1{\renewcommand{\baselinestretch}%
-{#1}\small\normalsize} \spacingset{1}
+\onehalfspacing
 
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{\bf When lookout sees crackle: Anomaly~detection~via~kernel~density~estimation}
+\title{When lookout sees crackle: Anomaly~detection~via~kernel~density~estimation}
 \author{
   Sevvandi Kandanaarachchi\thanks{
-  The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\hspace{.2cm}\\
-  \textit{CSIRO, Australia}\\[0.3cm]
+  The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\\
+  \textit{CSIRO, Australia}\\[2ex]
   Rob J Hyndman\\
-  \textit{Monash University, Australia}\\[0.3cm]
+  \textit{Monash University, Australia}\\[2ex]
   Katharine Turner\\
   \textit{Australian National University, Australia}
 }
@@ -58,7 +62,6 @@
 \textit{Keywords:}  3 to 6 keywords, that do not appear in the title
 
 \newpage
-\spacingset{1.75} % DON'T change the spacing!
 
 \input{1_introduction}
 \input{2_crackle}
@@ -66,6 +69,8 @@
 \input{4_experiments_1}
 \input{5_experiments_2}
 \input{6_discussion}
+
+\clearpage
 
 \bibliographystyle{agsm}
 \bibliography{References}
