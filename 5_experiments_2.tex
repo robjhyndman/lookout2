@@ -1,101 +1,95 @@
 % ---------------------------------------------------------------------------
 \section{Evaluating lookout with other anomaly detection methods}\label{sec:compareWithOtherMethods}
 % ---------------------------------------------------------------------------
-In this section we compare the new and old versions of lookout with 2 Extreme Value Theory (EVT) based methods and 2 KDE-based methods. The EVT-based methods are HDoutliers \citep{wilkinson2017visualizing} and \textit{stray} \citep{talagala2019anomaly}. The KDE-based methods are KDEOS \citep{Schubert2014} and RDOS \citep{Tang2017}. The same anomaly detection methods were used for comparison in the original version of lookout \citep{lookout}. 
+In this section we compare the new and old versions of lookout with 2 Extreme Value Theory (EVT) based methods and 2 KDE-based methods. The EVT-based methods are HDoutliers \citep{wilkinson2017visualizing} and \textit{stray} \citep{talagala2019anomaly}. The KDE-based methods are KDEOS \citep{Schubert2014} and RDOS \citep{Tang2017}. The same anomaly detection methods were used for comparison in the original version of lookout \citep{lookout}.
 
 Both HDoutliers and stray identify anomalies, i.e., they give a binary label 1 to anomalies and 0 to non-anomalies. Therefore, to compare lookout with stray and HDoutliers we have used the metrics \textit{Fmeasure} and \textit{Gmean}. Suppose  $tp$ denotes the true positives (actual = 1, predicted = 1), $fp$ denotes the false positives (actual = 0, predicted = 1),  $tn$ denotes the true negatives (actual = 0, predicted = 0) and $fn$ denotes the false negatives (actual = 1, predicted = 0). Then these metrics are defined as follows:
 \[
-\text{Fmeasure} = 2\frac{ \text{Precision}\times\text{Recall} }{\text{Precision} + \text{Recall}}  \quad \text{where} \quad 
-\text{Precision} = \frac{tp}{tp + fp} \quad \text{and} \quad \text{Recall} = \frac{tp}{tp + fn} \, , 
+  \text{Fmeasure} = 2\frac{ \text{Precision}\times\text{Recall} }{\text{Precision} + \text{Recall}}  \quad \text{where} \quad
+  \text{Precision} = \frac{tp}{tp + fp} \quad \text{and} \quad \text{Recall} = \frac{tp}{tp + fn} \, ,
 \]
 \[
-\text{Gmean} = \sqrt{\text{Sensitivity} \times \text{Specificity} } \quad \text{where} \quad \text{Sensitivity} = \frac{tp}{tp + fn}
-\quad \text{and} \quad \text{Specificity} = \frac{tn}{tn + fp} \, .
+  \text{Gmean} = \sqrt{\text{Sensitivity} \times \text{Specificity} } \quad \text{where} \quad \text{Sensitivity} = \frac{tp}{tp + fn}
+  \quad \text{and} \quad \text{Specificity} = \frac{tn}{tn + fp} \, .
 \]
-Note that recall and sensitivity define the same quantity. Sensitivity is commonly used in epidemiological settings while recall is used  in computer science. 
+Note that recall and sensitivity define the same quantity. Sensitivity is commonly used in epidemiological settings while recall is used  in computer science.
 
-The KDE-based methods KDEOS and RDOS give anomaly scores instead of identifying points as anomalous or not. A standard way to compare anomaly scores is by using the area under the Receiver Operator Curve (ROC). For a given set of anomaly scores the ROC  plots 1 - Specificity on the $x$-axis for different cut-off points and Sensitivity on the $y$-axis. A method $A$ is better than method $B$ if the area under the ROC  is greater for method $A$ compared to $B$. As lookout gives anomaly scores as well as binary labels, we compare lookout with KDEOS and RDOS using the area under the ROC, which we denote by AUC. 
+The KDE-based methods KDEOS and RDOS give anomaly scores instead of identifying points as anomalous or not. A standard way to compare anomaly scores is by using the area under the Receiver Operator Curve (ROC). For a given set of anomaly scores the ROC  plots 1 - Specificity on the $x$-axis for different cut-off points and Sensitivity on the $y$-axis. A method $A$ is better than method $B$ if the area under the ROC  is greater for method $A$ compared to $B$. As lookout gives anomaly scores as well as binary labels, we compare lookout with KDEOS and RDOS using the area under the ROC, which we denote by AUC.
 
-% For these type of methods the user needs to select a threshold and call out points as anomalous if they have scores greater than the threshold. 
+% For these type of methods the user needs to select a threshold and call out points as anomalous if they have scores greater than the threshold.
 \subsection{Experiment 5: Normal distributions moving out in each iteration}
-In this experiment we consider 405 points in $\mathbb{R}^6$, of which 5 points are anomalies. The experiment is run for 10 iterations with anomalies becoming more obvious in each iteration. The non-anomalies are distributed as $\mathcal{N}(0,1)$ in all dimensions. The anomalies differ the non-anomalies only in the first dimension. The anomalies are distributed as $\mathcal{N}\left(2 + (i-1)\times0.5, \, 0.2 \right)$ for iterations $i \in \{1, \ldots, 10\}$  in the first dimension.  In the other dimensions the anomalies are distributed as  $\mathcal{N}(0,1)$. We run the experiment for 10 iterations and in each iteration the anomalies move further away from the non-anomalous points. Each iteration is repeated 10 times to account for randomness. 
+In this experiment we consider 405 points in $\mathbb{R}^6$, of which 5 points are anomalies. The experiment is run for 10 iterations with anomalies becoming more obvious in each iteration. The non-anomalies are distributed as $\mathcal{N}(0,1)$ in all dimensions. The anomalies differ the non-anomalies only in the first dimension. The anomalies are distributed as $\mathcal{N}\left(2 + (i-1)\times0.5, \, 0.2 \right)$ for iterations $i \in \{1, \ldots, 10\}$  in the first dimension.  In the other dimensions the anomalies are distributed as  $\mathcal{N}(0,1)$. We run the experiment for 10 iterations and in each iteration the anomalies move further away from the non-anomalous points. Each iteration is repeated 10 times to account for randomness.
 
 % Non-outlier distribution: Normal 400 data points in $\mathbb{R}^6$ with mean 0 and sd 1 \\
 % Outlier distribution: 5 points normally distributed. In 5 dimensions they are similarly distributed as non-outlying points. In the other dimension they have mean $2 + (i-1)*0.5$ for $i \in \{1, \ldots, 10\}$ with sd = 0.2. \\
 % In each iteration the anomalous points get further away from the rest. Each iteration is repeated 10 times.
 
-Figure \ref{fig:comparisonExp5} shows the data and the results of this experiment. The top left plot shows the data on the $X_1X_2$ plane for the 3rd iteration and the middle left plot shows the data for the 9th iteration. The anomalies are shown in light blue. We see that the anomalies have drifted out. The bottom left plot shows the data on the $X_3X_4$ plane. The anomalies are  distinguishable only on the $X_1$ axis and as such they are mixed with the non-anomalies on the $X_3X_4$ plane. 
+Figure \ref{fig:comparisonExp5} shows the data and the results of this experiment. The top left plot shows the data on the $X_1X_2$ plane for the 3rd iteration and the middle left plot shows the data for the 9th iteration. The anomalies are shown in light blue. We see that the anomalies have drifted out. The bottom left plot shows the data on the $X_3X_4$ plane. The anomalies are  distinguishable only on the $X_1$ axis and as such they are mixed with the non-anomalies on the $X_3X_4$ plane.
 
 \begin{figure}[!ht]
-	\centering
-	\includegraphics[width=\linewidth]{Figures/EXP5_Data_and_Results.pdf}
-	\caption{Experiment 5 results. Top left: data on the $X_1X_2$ plane in the 3rd iteration with anomalies in light blue. Middle left: data on the $X_1X_2$ plane in the 9th iteration with anomalies moving further away. Bottom left: data on the $X_3X_4$ plane.  The anomalies move out in the $X_1$ direction resulting in  the anomalies and non-anomalies being mixed on the $X_3X_4$ plane. Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
-	\label{fig:comparisonExp5}
+  \centering
+  \includegraphics[width=\linewidth]{Figures/EXP5_Data_and_Results.pdf}
+  \caption{Experiment 5 results. Top left: data on the $X_1X_2$ plane in the 3rd iteration with anomalies in light blue. Middle left: data on the $X_1X_2$ plane in the 9th iteration with anomalies moving further away. Bottom left: data on the $X_3X_4$ plane.  The anomalies move out in the $X_1$ direction resulting in  the anomalies and non-anomalies being mixed on the $X_3X_4$ plane. Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
+  \label{fig:comparisonExp5}
 \end{figure}
 
-The plot on the right gives the AUC when comparing lookout  with KDEOS and RDOS and Fmeasure and Gmean for comparison with HDoutliers and stray. 
-As discussed the reason for different metrics is because KDEOS and RDOS give anomaly scores, while stray and HDoutiers identify anomalies. We see that new lookout performs better than the old lookout in terms of Gmean and Fmeasure for higher iterations. In terms of AUC both versions of lookout give the same performance. 
+The plot on the right gives the AUC when comparing lookout  with KDEOS and RDOS and Fmeasure and Gmean for comparison with HDoutliers and stray.
+As discussed the reason for different metrics is because KDEOS and RDOS give anomaly scores, while stray and HDoutiers identify anomalies. We see that new lookout performs better than the old lookout in terms of Gmean and Fmeasure for higher iterations. In terms of AUC both versions of lookout give the same performance.
 
 \subsection[Experiment 6: Annulus in R4]{Experiment 6: Annulus in $\mathbb{R}^4$}
-For this experiment we consider 805 points in $\mathbb{R}^3$ of which 5 points are anomalies. As shown in Figure \ref{fig:comparisonExp6}, the data lies in an annulus on the $X_1X_2$ plane with $X_3 \sim \mathcal{U}(0,1)$. As before, the experiment is run for 10 iterations with anomalies moving into the hole in each iteration. Plots from iteration 3 and 9 are shown on the left in Figure \ref{fig:comparisonExp6}.  The results of the different methods are shown on the right. 
-
+For this experiment we consider 805 points in $\mathbb{R}^3$ of which 5 points are anomalies. As shown in Figure \ref{fig:comparisonExp6}, the data lies in an annulus on the $X_1X_2$ plane with $X_3 \sim \mathcal{U}(0,1)$. As before, the experiment is run for 10 iterations with anomalies moving into the hole in each iteration. Plots from iteration 3 and 9 are shown on the left in Figure \ref{fig:comparisonExp6}.  The results of the different methods are shown on the right.
 
 % Non-outlier distribution: 800 points distributed in an annulus in $\mathbb{R}^3$.  \\
 % Outlier distribution: 5 points moving in to the annulus in each iteration.
 \begin{figure}[!ht]
-	\centering
-	\includegraphics[width=\linewidth]{Figures/EXP6_Data_and_Results.pdf}
-	\caption{Experiment 6 results. Top left: data on the $X_1X_2$ plane in the 3rd iteration with anomalies in light blue. Middle left: data on the $X_1X_2$ plane in the 9th iteration with anomalies moving into the annulus. Bottom left: data on the $X_2X_3$ plane.   Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
-	\label{fig:comparisonExp6}
+  \centering
+  \includegraphics[width=\linewidth]{Figures/EXP6_Data_and_Results.pdf}
+  \caption{Experiment 6 results. Top left: data on the $X_1X_2$ plane in the 3rd iteration with anomalies in light blue. Middle left: data on the $X_1X_2$ plane in the 9th iteration with anomalies moving into the annulus. Bottom left: data on the $X_2X_3$ plane.   Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
+  \label{fig:comparisonExp6}
 \end{figure}
-
 
 \subsection[Experiment 7: Unit cube in R20]{Experiment 7: Unit cube in $\mathbb{R}^{20}$}
 This experiment considers 500 points in $\mathbb{R}^{20}$ of which one is an anomaly. At the start of the experiment all 500 points are uniformly distributed with  ${x}_i \sim \mathcal{U}(0,1)$ in each dimension. For this experiment we consider 20 iterations and in each iteration the 500th data point becomes more anomalous as follows. In the first iteration the 500th point is updated with the first coordinate $X_1 = 0.9$. In the second iteration it is further updated with $X_2 = 0.9$, resulting in $(0.9, 0.9, \ldots )$
-and the $i$th iteration the 500th point is updated with $X_i = 0.9$. Each iteration is repeated 10 times to account for randomness.  
+and the $i$th iteration the 500th point is updated with $X_i = 0.9$. Each iteration is repeated 10 times to account for randomness.
 
-The anomalous point is not anomalous in any single dimension or on any $X_iX_j$ plane. In fact even in the first two Principal Component space the anomaly is not distinguishable. We use \textit{dobin} \citep{dobinPaper}, a dimension reduction method especially developed for  anomalies to visualize this space. Figure \ref{fig:comparisonExp7} shows the data and the results of this experiment. The plots on the left show the data on the $D_1D_2$ plane for iterations 5, 12 and 20, where $D_1$ and $D_2$ are the first two axes of dobin projection. We see that in the 20th iteration the anomaly can be  easily identified on the $D_1D_2$ plane. The plot on the right shows the results.  
-
+The anomalous point is not anomalous in any single dimension or on any $X_iX_j$ plane. In fact even in the first two Principal Component space the anomaly is not distinguishable. We use \textit{dobin} \citep{dobinPaper}, a dimension reduction method especially developed for  anomalies to visualize this space. Figure \ref{fig:comparisonExp7} shows the data and the results of this experiment. The plots on the left show the data on the $D_1D_2$ plane for iterations 5, 12 and 20, where $D_1$ and $D_2$ are the first two axes of dobin projection. We see that in the 20th iteration the anomaly can be  easily identified on the $D_1D_2$ plane. The plot on the right shows the results.
 
 % Non-outlier distribution: Uniformly distributed unit cube in $\mathbb{R}^{20}$.  \\
 % Outlier distribution: 1 outlier at $(0.9, \bm{x}_{19})$ in iteration 1,   $(0.9, 0.9,  \bm{x}_{18})$ in iteration 2, and so on where $\bm{x}_{19} \in \mathbb{R}^{19}$ is uniformly distributed in the 19-dimensional unit cube.
 
 \begin{figure}[!ht]
-	\centering
-	\includegraphics[width=\linewidth]{Figures/EXP7_Data_and_Results.pdf}
-	\caption{Experiment 7 results}
-	\label{fig:comparisonExp7}
+  \centering
+  \includegraphics[width=\linewidth]{Figures/EXP7_Data_and_Results.pdf}
+  \caption{Experiment 7 results}
+  \label{fig:comparisonExp7}
 \end{figure}
 
 % \subsection{Real-world Examples}
 
 % We check the new and old versions of lookout on two real world examples. Neither of these examples have labeled anomalies and as such we cannot compute accuracy measures. However, as both datasets have a small number of variables, we can visualize the output. The datasets are
 % \begin{enumerate}
-%     \item Old faithful dataset \citep{weirdBook}: this dataset contains eruptions of the the Old Faithful Geyser in Yellowstone National Park, Wyoming, USA, from 1 January 2015 to 1 October 2021. For each recorded eruption the duration is given in seconds as well as the waiting time to the following eruption. The records are incomplete, especially during winter. 
-%     \item Wine reviews dataset \citep{weirdBook}: this dataset contains different wine attributes from 44 countries taken from Wine Enthusiast Magazine during the week of 15 June 2017. We focus on the numerical attributes in this data: points given by Wine Enthusiast reviewer on a scale of 0-100 and the price of a bottle of wine. 
+%     \item Old faithful dataset \citep{weirdBook}: this dataset contains eruptions of the the Old Faithful Geyser in Yellowstone National Park, Wyoming, USA, from 1 January 2015 to 1 October 2021. For each recorded eruption the duration is given in seconds as well as the waiting time to the following eruption. The records are incomplete, especially during winter.
+%     \item Wine reviews dataset \citep{weirdBook}: this dataset contains different wine attributes from 44 countries taken from Wine Enthusiast Magazine during the week of 15 June 2017. We focus on the numerical attributes in this data: points given by Wine Enthusiast reviewer on a scale of 0-100 and the price of a bottle of wine.
 % \end{enumerate}
 
-
 % %\subsubsection{Old-faithful dataset}
-% Figure \ref{fig:oldfaithful} shows the output of new and old versions of lookout with the anomalies depicted in red. New lookout identifies a couple of more points as anomalous compared to the old version. The two versions are quite similar. 
+% Figure \ref{fig:oldfaithful} shows the output of new and old versions of lookout with the anomalies depicted in red. New lookout identifies a couple of more points as anomalous compared to the old version. The two versions are quite similar.
 % \begin{figure}[!ht]
-% 	\centering
-% 	\includegraphics[width=\linewidth]{Figures/old_faithful.pdf}
-% 	\caption{Anomalies in Old-Faithful dataset}
-% 	\label{fig:oldfaithful}
+%   \centering
+%   \includegraphics[width=\linewidth]{Figures/old_faithful.pdf}
+%   \caption{Anomalies in Old-Faithful dataset}
+%   \label{fig:oldfaithful}
 % \end{figure}
-
 
 % % \subsubsection{Wine-reviews dataset}
 
-% Figure \ref{fig:winereviews} shows the output of lookout on the wine reviews dataset. For this dataset we see that the new version identifies less anomalies than the old version. Especially boundary points are not identified as anomalies by the new version, which is an improvement. 
+% Figure \ref{fig:winereviews} shows the output of lookout on the wine reviews dataset. For this dataset we see that the new version identifies less anomalies than the old version. Especially boundary points are not identified as anomalies by the new version, which is an improvement.
 
 % \begin{figure}[!ht]
-% 	\centering
-% 	\includegraphics[width=\linewidth]{Figures/wine_reviews.pdf}
-% 	\caption{Anomalies in Wine Reviews dataset}
-% 	\label{fig:winereviews}
+%   \centering
+%   \includegraphics[width=\linewidth]{Figures/wine_reviews.pdf}
+%   \caption{Anomalies in Wine Reviews dataset}
+%   \label{fig:winereviews}
 % \end{figure}
-
 
 % \SK{Wine reviews is better than old-faithful dataset. All experiments are with shape\_zero = TRUE. }

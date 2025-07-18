@@ -1,11 +1,10 @@
 \section{Lookout algorithm v2 (RH)}
 \SK{To Rob: We don't do the normalization in the next subsection anymore. The main changes are
-\begin{enumerate}
-\item Use the percentile Rips diameters.
-\item If the estimated GPD shape parameter $\hat{\xi} > 0$, then set it to zero $\hat{\xi} = 0$.
-\end{enumerate}
+  \begin{enumerate}
+    \item Use the percentile Rips diameters.
+    \item If the estimated GPD shape parameter $\hat{\xi} > 0$, then set it to zero $\hat{\xi} = 0$.
+  \end{enumerate}
 }
-
 
 The lookout2 algorithm identifies anomalies by first transforming the data to a distribution with approximate normal marginals and zero pairwise correlations. Then it estimates the density of the transformed data using a multivariate kernel density estimator with a bandwidth matrix $\bm{H}$, where $\bm{H}$ is chosen to be a function of the Rips death diameters computed from the transformed data.
 
@@ -13,12 +12,13 @@ The lookout2 algorithm identifies anomalies by first transforming the data to a 
 
 First, we transform each variable using Yeo-Johnson transformations \citep{yj00} so that the marginal distributions are closer to normal. A Yeo-Johnson transformation can be written as
 \begin{equation}\label{eq:yj}
-	f(x) = \begin{cases}
-		((x+1)^\lambda-1)/\lambda                     & \text{if }\lambda \neq 0, x \geq 0 \\
-		\log(x + 1)                                   & \text{if }\lambda = 0, x \geq 0    \\
-		-((-x + 1)^{(2-\lambda)} - 1) / (2 - \lambda) & \text{if }\lambda \neq 2, x < 0    \\
-		-\log(-x + 1)                                 & \text{if }\lambda = 2, x < 0
-	\end{cases}
+  f(x) =
+  \begin{cases}
+    ((x+1)^\lambda-1)/\lambda                     & \text{if }\lambda \neq 0, x \geq 0 \\
+    \log(x + 1)                                   & \text{if }\lambda = 0, x \geq 0    \\
+    -((-x + 1)^{(2-\lambda)} - 1) / (2 - \lambda) & \text{if }\lambda \neq 2, x < 0    \\
+    -\log(-x + 1)                                 & \text{if }\lambda = 2, x < 0
+  \end{cases}
 \end{equation}
 where $\lambda$ is a parameter that can be estimated by minimizing the Kullback-Leibler divergence between the transformed data and a normal distribution. In principle, $\lambda$ can be any real number, but we restrict it to lie in the interval $[0,1]$ to avoid overly aggressive transformations (and thereby disguising anomalies as legitimate observations).
 
