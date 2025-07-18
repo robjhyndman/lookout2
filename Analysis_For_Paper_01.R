@@ -6,13 +6,29 @@ set.seed(2024)
 
 # Okabe-Ito colours
 options(
-  ggplot2.discrete.colour = c("#D55E00", "#0072B2","#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
-  ggplot2.discrete.fill = c("#D55E00", "#0072B2","#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+  ggplot2.discrete.colour = c(
+    "#D55E00",
+    "#0072B2",
+    "#009E73",
+    "#CC79A7",
+    "#E69F00",
+    "#56B4E9",
+    "#F0E442"
+  ),
+  ggplot2.discrete.fill = c(
+    "#D55E00",
+    "#0072B2",
+    "#009E73",
+    "#CC79A7",
+    "#E69F00",
+    "#56B4E9",
+    "#F0E442"
+  )
 )
 # Fira Sans font for graphics
 ggplot2::theme_set(
   ggplot2::theme_get() +
-  ggplot2::theme(text = ggplot2::element_text(family = "Fira Sans"))
+    ggplot2::theme(text = ggplot2::element_text(family = "Fira Sans"))
 )
 
 # ------------------------------------------------------------------------------
@@ -44,9 +60,9 @@ out_new <- gamma_outliers(
 )
 
 gamma_out <- bind_rows(
-    out_old |> mutate(method = "Old lookout"),
-    out_new |> mutate(method = "New lookout")
-  ) |>
+  out_old |> mutate(method = "Old lookout"),
+  out_new |> mutate(method = "New lookout")
+) |>
   relocate(method, ) |>
   select(-c(specificity)) |>
   rename(
@@ -66,7 +82,7 @@ p <- gamma_out |>
     y = "Count"
   ) +
   theme(legend.position = "none") +
-  scale_y_continuous(breaks = seq(0,500,by=2))
+  scale_y_continuous(breaks = seq(0, 500, by = 2))
 
 fig <- here::here(paste0("Figures/Gamma_Experiment.pdf"))
 cairo_pdf(file = fig, width = 8, height = 6)
@@ -96,8 +112,14 @@ dfout_new <- dfout_old <- tibble(
 kk <- 1
 for (ii in 1:length(mm)) {
   for (jj in 1:reps) {
-    out <- exp_normal(n1 = 1000, n2 = 10, mm = mm[ii], bw = 0.98,
-                      shape_zero = TRUE, transform = TRUE)
+    out <- exp_normal(
+      n1 = 1000,
+      n2 = 10,
+      mm = mm[ii],
+      bw = 0.98,
+      shape_zero = TRUE,
+      transform = TRUE
+    )
     dfout_new[kk, ] <- c("New lookout", mm[ii], out)
     kk <- kk + 1
   }
@@ -106,7 +128,14 @@ for (ii in 1:length(mm)) {
 kk <- 1
 for (ii in 1:length(mm)) {
   for (jj in 1:reps) {
-    out <- exp_normal(n1 = 1000, n2 = 10, mm = mm[ii], bw = 0.98, shape_zero = FALSE, transform = FALSE)
+    out <- exp_normal(
+      n1 = 1000,
+      n2 = 10,
+      mm = mm[ii],
+      bw = 0.98,
+      shape_zero = FALSE,
+      transform = FALSE
+    )
     dfout_old[kk, ] <- c("Old lookout", mm[ii], out)
     kk <- kk + 1
   }
@@ -133,12 +162,10 @@ p <- normal_out |>
   xlab("Mean of anomaly distribution") +
   ylab("Count") +
   theme(legend.position = "none") +
-  scale_y_continuous(breaks = seq(0,1000,by=2))
+  scale_y_continuous(breaks = seq(0, 1000, by = 2))
 
 
 fig <- here::here(paste0("Figures/Normal_Comparison_Old_New.pdf"))
 cairo_pdf(file = fig, width = 8, height = 6)
 print(p)
 crop::dev.off.crop(fig)
-
-

@@ -4,7 +4,6 @@
 # TASK 03 : EXPERIMENT 7
 # ----------------------------------------------------------------------------------
 
-
 # ----------------------------------------------------------------------------------
 # TASK 01 : EXPERIMENT 5
 # ----------------------------------------------------------------------------------
@@ -59,11 +58,19 @@ values <- rep(0, 10)
 pp <- 10
 hdoutliers_gmean <- hdoutliers_fmeasure <- lookout1_fmeasure <-
   lookoutOld_fmeasure <- lookout1_gmean <- lookoutOld_gmean <-
-  stray_gmean <- stray_fmeasure <- matrix(0, nrow = pp, ncol = 10)
+    stray_gmean <- stray_fmeasure <- matrix(0, nrow = pp, ncol = 10)
 
-lookout1_roc <- lookoutOld_roc <- kdeos_roc <- rdos_roc <- matrix(0, nrow=pp, ncol=10)
+lookout1_roc <- lookoutOld_roc <- kdeos_roc <- rdos_roc <- matrix(
+  0,
+  nrow = pp,
+  ncol = 10
+)
 
-hdoutliers_time <- lookout1_time <- lookoutOld_time <- stray_time <- kdeos_time <- rdos_time <- matrix(0, nrow=pp*10, ncol=5)
+hdoutliers_time <- lookout1_time <- lookoutOld_time <- stray_time <- kdeos_time <- rdos_time <- matrix(
+  0,
+  nrow = pp * 10,
+  ncol = 5
+)
 
 for (kk in seq(pp)) {
   X <- bind_cols(
@@ -77,13 +84,19 @@ for (kk in seq(pp)) {
   labs <- c(rep(0, 400), rep(1, 5))
 
   for (i in seq(10)) {
-    x1_2 <- rnorm(5, mean = 2 + (i-1)*0.5, sd = 0.2)
+    x1_2 <- rnorm(5, mean = 2 + (i - 1) * 0.5, sd = 0.2)
     X <- X %>% mutate(x1 = c(x1_1, x1_2))
 
-    ll <- (kk-1)*10 + i
+    ll <- (kk - 1) * 10 + i
 
     # STRAY
-    tt <- system.time(strayout <- stray::find_HDoutliers(X, knnsearchtype = "kd_tree", alpha=0.05))
+    tt <- system.time(
+      strayout <- stray::find_HDoutliers(
+        X,
+        knnsearchtype = "kd_tree",
+        alpha = 0.05
+      )
+    )
     straylabs <- rep(0, 405)
     straylabs[strayout$outliers] <- 1
     strayoutput <- diff_metrics(labs, straylabs)
@@ -92,45 +105,51 @@ for (kk in seq(pp)) {
     stray_time[ll, ] <- tt
 
     # LOOKOUT - NEW
-    tt1 <- system.time(lookoutobj1 <- lookout::lookout(X,
-                                                       alpha = 0.05,
-                                                       unitize = TRUE,
-                                                       normalize = FALSE,
-                                                       bw_para = 0.98,
-                                                       version = 2,
-                                                       bw_power = NA))
+    tt1 <- system.time(
+      lookoutobj1 <- lookout::lookout(
+        X,
+        alpha = 0.05,
+        unitize = TRUE,
+        normalize = FALSE,
+        bw_para = 0.98,
+        version = 2,
+        bw_power = NA
+      )
+    )
     lookoutlabs1 <- rep(0, 405)
-    lookoutlabs1[lookoutobj1$outliers[ ,1]] <- 1
+    lookoutlabs1[lookoutobj1$outliers[, 1]] <- 1
     lookoutput1 <- diff_metrics(labs, lookoutlabs1)
     lookout1_gmean[kk, i] <- lookoutput1$gmean
     lookout1_fmeasure[kk, i] <- lookoutput1$fmeasure
     lookout1_scores <- lookoutobj1$outlier_scores
-    roc_obj1 <- roc(labs, lookout1_scores, direction="<")
+    roc_obj1 <- roc(labs, lookout1_scores, direction = "<")
     lookout1_roc[kk, i] <- roc_obj1$auc
     lookout1_time[ll, ] <- tt1
 
-
-
     # LOOKOUT - OLD
-    tt3 <- system.time(lookoutobjold <- lookout::lookout(X,
-                                                         alpha = 0.05,
-                                                         unitize = TRUE,
-                                                         normalize = FALSE,
-                                                         bw_para = 1,
-                                                         version = 1,
-                                                         bw_power = NA))
+    tt3 <- system.time(
+      lookoutobjold <- lookout::lookout(
+        X,
+        alpha = 0.05,
+        unitize = TRUE,
+        normalize = FALSE,
+        bw_para = 1,
+        version = 1,
+        bw_power = NA
+      )
+    )
     lookoutlabsold <- rep(0, 405)
-    lookoutlabsold[lookoutobjold$outliers[ ,1]] <- 1
+    lookoutlabsold[lookoutobjold$outliers[, 1]] <- 1
     lookoutputold <- diff_metrics(labs, lookoutlabsold)
     lookoutOld_gmean[kk, i] <- lookoutputold$gmean
     lookoutOld_fmeasure[kk, i] <- lookoutputold$fmeasure
     lookoutOld_scores <- lookoutobjold$outlier_scores
-    roc_objold <- roc(labs, lookoutOld_scores, direction="<")
+    roc_objold <- roc(labs, lookoutOld_scores, direction = "<")
     lookoutOld_roc[kk, i] <- roc_objold$auc
     lookoutOld_time[ll, ] <- tt3
 
     # HDOUTLIERS
-    tt <- system.time(hdoutobj <- HDoutliers(X, alpha=0.05))
+    tt <- system.time(hdoutobj <- HDoutliers(X, alpha = 0.05))
     hdoutlabs <- rep(0, dim(X)[1])
     hdoutlabs[hdoutobj] <- 1
     hdoutput <- diff_metrics(labs, hdoutlabs)
@@ -140,16 +159,15 @@ for (kk in seq(pp)) {
 
     # KDEOS
     tt <- system.time(kdeos_scores <- DDoutlier::KDEOS(X)) # using default parameters
-    roc_obj <- roc(labs, kdeos_scores, direction="<")
+    roc_obj <- roc(labs, kdeos_scores, direction = "<")
     kdeos_roc[kk, i] <- roc_obj$auc
     kdeos_time[ll, ] <- tt
 
     # RDOS
     tt <- system.time(rdos_scores <- DDoutlier::RDOS(X)) # using default parameters
-    roc_obj <- roc(labs, rdos_scores, direction="<")
+    roc_obj <- roc(labs, rdos_scores, direction = "<")
     rdos_roc[kk, i] <- roc_obj$auc
     rdos_time[ll, ] <- tt
-
   }
 }
 
@@ -159,10 +177,10 @@ lookout1_mean <- colMeans(lookout1_fmeasure)
 lookoutOld_mean <- colMeans(lookoutOld_fmeasure)
 hdoutliers_mean <- colMeans(hdoutliers_fmeasure)
 
-str_se <- apply(stray_fmeasure, 2, sd)/sqrt(10)
-lookout1_se <- apply(lookout1_fmeasure, 2, sd)/sqrt(10)
-lookoutOld_se <- apply(lookoutOld_fmeasure, 2, sd)/sqrt(10)
-hdoutliers_se <- apply(hdoutliers_fmeasure, 2, sd)/sqrt(10)
+str_se <- apply(stray_fmeasure, 2, sd) / sqrt(10)
+lookout1_se <- apply(lookout1_fmeasure, 2, sd) / sqrt(10)
+lookoutOld_se <- apply(lookoutOld_fmeasure, 2, sd) / sqrt(10)
+hdoutliers_se <- apply(hdoutliers_fmeasure, 2, sd) / sqrt(10)
 
 dfl1 <- tibble(
   Iteration = seq(10),
@@ -170,7 +188,7 @@ dfl1 <- tibble(
   lookoutNew = lookout1_mean,
   lookoutOld = lookoutOld_mean,
   HDoutliers = hdoutliers_mean
- ) %>%
+) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
   mutate(Metric = 'Fmeasure') |>
   rename(mean = value)
@@ -196,10 +214,10 @@ lookout1_mean <- colMeans(lookout1_gmean)
 lookoutOld_mean <- colMeans(lookoutOld_gmean)
 hdoutliers_mean <- colMeans(hdoutliers_gmean)
 
-str_se <- apply(stray_gmean, 2, sd)/sqrt(10)
-lookout1_se <- apply(lookout1_gmean, 2, sd)/sqrt(10)
-lookoutOld_se <- apply(lookoutOld_gmean, 2, sd)/sqrt(10)
-hdoutliers_se <- apply(hdoutliers_gmean, 2, sd)/sqrt(10)
+str_se <- apply(stray_gmean, 2, sd) / sqrt(10)
+lookout1_se <- apply(lookout1_gmean, 2, sd) / sqrt(10)
+lookoutOld_se <- apply(lookoutOld_gmean, 2, sd) / sqrt(10)
+hdoutliers_se <- apply(hdoutliers_gmean, 2, sd) / sqrt(10)
 
 
 dfl2 <- tibble(
@@ -231,14 +249,14 @@ dfl2 <- dfl2 |>
 
 # AUC FOR KDEOS, RDOS AND LOOKOUT
 kdeos_mean <- colMeans(kdeos_roc)
-lookout1_mean <-  colMeans(lookout1_roc)
-lookoutOld_mean <-  colMeans(lookoutOld_roc)
-rdos_mean <-  colMeans(rdos_roc)
+lookout1_mean <- colMeans(lookout1_roc)
+lookoutOld_mean <- colMeans(lookoutOld_roc)
+rdos_mean <- colMeans(rdos_roc)
 
-kdeos_se <- apply(kdeos_roc, 2, sd)/sqrt(10)
-lookout1_se <- apply(lookout1_roc, 2, sd)/sqrt(10)
-lookoutOld_se <- apply(lookoutOld_roc, 2, sd)/sqrt(10)
-rdos_se <- apply(rdos_roc, 2, sd)/sqrt(10)
+kdeos_se <- apply(kdeos_roc, 2, sd) / sqrt(10)
+lookout1_se <- apply(lookout1_roc, 2, sd) / sqrt(10)
+lookoutOld_se <- apply(lookoutOld_roc, 2, sd) / sqrt(10)
+rdos_se <- apply(rdos_roc, 2, sd) / sqrt(10)
 
 dfl3 <- tibble(
   Iteration = seq(10),
@@ -268,14 +286,18 @@ dfl3 <- dfl3 |>
   relocate(Iteration, Algorithm, Metric, mean, se)
 
 dfl <- bind_rows(dfl1, dfl2, dfl3)
-write.csv( dfl, "Data_Output/For_Paper/Experiment_5_Comparison_with_Other_Methods_Results.csv", row.names = FALSE)
+write.csv(
+  dfl,
+  "Data_Output/For_Paper/Experiment_5_Comparison_with_Other_Methods_Results.csv",
+  row.names = FALSE
+)
 
-g3 <- ggplot(dfl, aes(x=Iteration, y=mean, color = Algorithm)) +
+g3 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.1) +
-  geom_line(aes(color=Algorithm), linewidth=1) +
+  geom_line(aes(color = Algorithm), linewidth = 1) +
   ylab("Performance") +
   facet_wrap(~Metric) +
-  scale_x_continuous(breaks=2*(1:5)) +
+  scale_x_continuous(breaks = 2 * (1:5)) +
   theme_bw()
 g3
 
@@ -283,18 +305,20 @@ g3
 # TIME TAKEN
 dftime <- tibble(
   Run = seq(100),
-  stray = stray_time[ ,3],
-  lookoutNew = lookout1_time[ ,3],
-  lookoutOld = lookoutOld_time[ ,3],
-  HDoutliers = hdoutliers_time[ ,3],
-  kdeos = kdeos_time[ ,3],
-  rdos = rdos_time[ ,3]
+  stray = stray_time[, 3],
+  lookoutNew = lookout1_time[, 3],
+  lookoutOld = lookoutOld_time[, 3],
+  HDoutliers = hdoutliers_time[, 3],
+  kdeos = kdeos_time[, 3],
+  rdos = rdos_time[, 3]
 ) %>%
   pivot_longer(-Run, names_to = "Algorithm")
 
-write.csv(dftime, "Data_Output/For_Paper/Time_Taken_For_Experiment_5_Comparison_with_Other_Methods_Results.csv", row.names = FALSE)
-
-
+write.csv(
+  dftime,
+  "Data_Output/For_Paper/Time_Taken_For_Experiment_5_Comparison_with_Other_Methods_Results.csv",
+  row.names = FALSE
+)
 
 
 # ----------------------------------------------------------------------------------
@@ -306,11 +330,19 @@ values <- rep(0, 10)
 pp <- 10
 hdoutliers_gmean <- hdoutliers_fmeasure <- lookout1_fmeasure <-
   lookoutOld_fmeasure <- lookout1_gmean <- lookoutOld_gmean <-
-  stray_gmean <- stray_fmeasure <- matrix(0, nrow = pp, ncol = 10)
+    stray_gmean <- stray_fmeasure <- matrix(0, nrow = pp, ncol = 10)
 
-lookout1_roc <- lookoutOld_roc <- kdeos_roc <- rdos_roc <- matrix(0, nrow=pp, ncol=10)
+lookout1_roc <- lookoutOld_roc <- kdeos_roc <- rdos_roc <- matrix(
+  0,
+  nrow = pp,
+  ncol = 10
+)
 
-hdoutliers_time <-  lookout1_time <- lookoutOld_time <- stray_time <- kdeos_time <- rdos_time <- matrix(0, nrow=pp*10, ncol=5)
+hdoutliers_time <- lookout1_time <- lookoutOld_time <- stray_time <- kdeos_time <- rdos_time <- matrix(
+  0,
+  nrow = pp * 10,
+  ncol = 5
+)
 
 
 for (kk in seq(pp)) {
@@ -325,16 +357,22 @@ for (kk in seq(pp)) {
     x2 = dist * sin(theta),
     x3 = runif(nn)
   )
-  labs <- c(rep(0, nn-5), rep(1, 5))
+  labs <- c(rep(0, nn - 5), rep(1, 5))
 
   for (i in seq(10)) {
-    X[nn - 5 + seq(5), 1] <- rnorm(5, 5 - (i-1)*0.5, sd = 0.1)
+    X[nn - 5 + seq(5), 1] <- rnorm(5, 5 - (i - 1) * 0.5, sd = 0.1)
     X[nn - 5 + seq(5), 2] <- rnorm(5, 0, sd = 0.1)
 
-    ll <- (kk-1)*10 + i
+    ll <- (kk - 1) * 10 + i
 
     # STRAY
-    tt <- system.time(strayout <- stray::find_HDoutliers(X, knnsearchtype = "kd_tree", alpha=0.05))
+    tt <- system.time(
+      strayout <- stray::find_HDoutliers(
+        X,
+        knnsearchtype = "kd_tree",
+        alpha = 0.05
+      )
+    )
     straylabs <- rep(0, nn)
     straylabs[strayout$outliers] <- 1
     strayoutput <- diff_metrics(labs, straylabs)
@@ -343,44 +381,51 @@ for (kk in seq(pp)) {
     stray_time[ll, ] <- tt
 
     # LOOKOUT - NEW
-    tt1 <- system.time(lookoutobj1 <- lookout::lookout(X,
-                                                       alpha = 0.05,
-                                                       unitize = TRUE,
-                                                       normalize = FALSE,
-                                                       bw_para = 0.98,
-                                                       version = 2,
-                                                       bw_power = NA))
+    tt1 <- system.time(
+      lookoutobj1 <- lookout::lookout(
+        X,
+        alpha = 0.05,
+        unitize = TRUE,
+        normalize = FALSE,
+        bw_para = 0.98,
+        version = 2,
+        bw_power = NA
+      )
+    )
     lookoutlabs1 <- rep(0, nn)
-    lookoutlabs1[lookoutobj1$outliers[ ,1]] <- 1
+    lookoutlabs1[lookoutobj1$outliers[, 1]] <- 1
     lookoutput1 <- diff_metrics(labs, lookoutlabs1)
     lookout1_gmean[kk, i] <- lookoutput1$gmean
     lookout1_fmeasure[kk, i] <- lookoutput1$fmeasure
     lookout1_scores <- lookoutobj1$outlier_scores
-    roc_obj1 <- roc(labs, lookout1_scores, direction="<")
+    roc_obj1 <- roc(labs, lookout1_scores, direction = "<")
     lookout1_roc[kk, i] <- roc_obj1$auc
     lookout1_time[ll, ] <- tt1
 
-
     # LOOKOUT - OLD
-    tt3 <- system.time(lookoutobjold <-lookout::lookout(X,
-                                                        alpha = 0.05,
-                                                        unitize = TRUE,
-                                                        normalize = FALSE,
-                                                        bw_para = 1,
-                                                        version = 1,
-                                                        bw_power = NA))
+    tt3 <- system.time(
+      lookoutobjold <- lookout::lookout(
+        X,
+        alpha = 0.05,
+        unitize = TRUE,
+        normalize = FALSE,
+        bw_para = 1,
+        version = 1,
+        bw_power = NA
+      )
+    )
     lookoutlabsold <- rep(0, nn)
-    lookoutlabsold[lookoutobjold$outliers[ ,1]] <- 1
+    lookoutlabsold[lookoutobjold$outliers[, 1]] <- 1
     lookoutputold <- diff_metrics(labs, lookoutlabsold)
     lookoutOld_gmean[kk, i] <- lookoutputold$gmean
     lookoutOld_fmeasure[kk, i] <- lookoutputold$fmeasure
     lookoutOld_scores <- lookoutobjold$outlier_scores
-    roc_objold <- roc(labs, lookoutOld_scores, direction="<")
+    roc_objold <- roc(labs, lookoutOld_scores, direction = "<")
     lookoutOld_roc[kk, i] <- roc_objold$auc
     lookoutOld_time[ll, ] <- tt3
 
     # HDOUTLIERS
-    tt <- system.time(hdoutobj <- HDoutliers(X, alpha=0.05))
+    tt <- system.time(hdoutobj <- HDoutliers(X, alpha = 0.05))
     hdoutlabs <- rep(0, dim(X)[1])
     hdoutlabs[hdoutobj] <- 1
     hdoutput <- diff_metrics(labs, hdoutlabs)
@@ -390,16 +435,15 @@ for (kk in seq(pp)) {
 
     # KDEOS
     tt <- system.time(kdeos_scores <- DDoutlier::KDEOS(X)) # using default parameters
-    roc_obj <- roc(labs, kdeos_scores, direction="<")
+    roc_obj <- roc(labs, kdeos_scores, direction = "<")
     kdeos_roc[kk, i] <- roc_obj$auc
     kdeos_time[ll, ] <- tt
 
     # RDOS
     tt <- system.time(rdos_scores <- DDoutlier::RDOS(X)) # using default parameters
-    roc_obj <- roc(labs, rdos_scores, direction="<")
+    roc_obj <- roc(labs, rdos_scores, direction = "<")
     rdos_roc[kk, i] <- roc_obj$auc
     rdos_time[ll, ] <- tt
-
   }
 }
 
@@ -409,10 +453,10 @@ lookout1_mean <- colMeans(lookout1_fmeasure)
 lookoutOld_mean <- colMeans(lookoutOld_fmeasure)
 hdoutliers_mean <- colMeans(hdoutliers_fmeasure)
 
-str_se <- apply(stray_fmeasure, 2, sd)/sqrt(10)
-lookout1_se <- apply(lookout1_fmeasure, 2, sd)/sqrt(10)
-lookoutOld_se <- apply(lookoutOld_fmeasure, 2, sd)/sqrt(10)
-hdoutliers_se <- apply(hdoutliers_fmeasure, 2, sd)/sqrt(10)
+str_se <- apply(stray_fmeasure, 2, sd) / sqrt(10)
+lookout1_se <- apply(lookout1_fmeasure, 2, sd) / sqrt(10)
+lookoutOld_se <- apply(lookoutOld_fmeasure, 2, sd) / sqrt(10)
+hdoutliers_se <- apply(hdoutliers_fmeasure, 2, sd) / sqrt(10)
 
 dfl1 <- tibble(
   Iteration = seq(10),
@@ -446,10 +490,10 @@ lookout1_mean <- colMeans(lookout1_gmean)
 lookoutOld_mean <- colMeans(lookoutOld_gmean)
 hdoutliers_mean <- colMeans(hdoutliers_gmean)
 
-str_se <- apply(stray_gmean, 2, sd)/sqrt(10)
-lookout1_se <- apply(lookout1_gmean, 2, sd)/sqrt(10)
-lookoutOld_se <- apply(lookoutOld_gmean, 2, sd)/sqrt(10)
-hdoutliers_se <- apply(hdoutliers_gmean, 2, sd)/sqrt(10)
+str_se <- apply(stray_gmean, 2, sd) / sqrt(10)
+lookout1_se <- apply(lookout1_gmean, 2, sd) / sqrt(10)
+lookoutOld_se <- apply(lookoutOld_gmean, 2, sd) / sqrt(10)
+hdoutliers_se <- apply(hdoutliers_gmean, 2, sd) / sqrt(10)
 
 
 dfl2 <- tibble(
@@ -481,14 +525,14 @@ dfl2 <- dfl2 |>
 
 # AUC FOR KDEOS, RDOS AND LOOKOUT
 kdeos_mean <- colMeans(kdeos_roc)
-lookout1_mean <-  colMeans(lookout1_roc)
-lookoutOld_mean <-  colMeans(lookoutOld_roc)
-rdos_mean <-  colMeans(rdos_roc)
+lookout1_mean <- colMeans(lookout1_roc)
+lookoutOld_mean <- colMeans(lookoutOld_roc)
+rdos_mean <- colMeans(rdos_roc)
 
-kdeos_se <- apply(kdeos_roc, 2, sd)/sqrt(10)
-lookout1_se <- apply(lookout1_roc, 2, sd)/sqrt(10)
-lookoutOld_se <- apply(lookoutOld_roc, 2, sd)/sqrt(10)
-rdos_se <- apply(rdos_roc, 2, sd)/sqrt(10)
+kdeos_se <- apply(kdeos_roc, 2, sd) / sqrt(10)
+lookout1_se <- apply(lookout1_roc, 2, sd) / sqrt(10)
+lookoutOld_se <- apply(lookoutOld_roc, 2, sd) / sqrt(10)
+rdos_se <- apply(rdos_roc, 2, sd) / sqrt(10)
 
 dfl3 <- tibble(
   Iteration = seq(10),
@@ -518,14 +562,18 @@ dfl3 <- dfl3 |>
   relocate(Iteration, Algorithm, Metric, mean, se)
 
 dfl <- bind_rows(dfl1, dfl2, dfl3)
-write.csv( dfl, "Data_Output/For_Paper/Experiment_6_Comparison_with_Other_Methods_Results.csv", row.names = FALSE)
+write.csv(
+  dfl,
+  "Data_Output/For_Paper/Experiment_6_Comparison_with_Other_Methods_Results.csv",
+  row.names = FALSE
+)
 
-g3 <- ggplot(dfl, aes(x=Iteration, y=mean, color = Algorithm)) +
+g3 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.1) +
-  geom_line(aes(color=Algorithm), linewidth=1) +
+  geom_line(aes(color = Algorithm), linewidth = 1) +
   ylab("Performance") +
   facet_wrap(~Metric) +
-  scale_x_continuous(breaks=2*(1:5)) +
+  scale_x_continuous(breaks = 2 * (1:5)) +
   theme_bw()
 g3
 
@@ -533,17 +581,20 @@ g3
 # TIME TAKEN
 dftime <- tibble(
   Run = seq(100),
-  stray = stray_time[ ,3],
-  lookoutNew = lookout1_time[ ,3],
-  lookoutOld = lookoutOld_time[ ,3],
-  HDoutliers = hdoutliers_time[ ,3],
-  kdeos = kdeos_time[ ,3],
-  rdos = rdos_time[ ,3]
+  stray = stray_time[, 3],
+  lookoutNew = lookout1_time[, 3],
+  lookoutOld = lookoutOld_time[, 3],
+  HDoutliers = hdoutliers_time[, 3],
+  kdeos = kdeos_time[, 3],
+  rdos = rdos_time[, 3]
 ) %>%
   pivot_longer(-Run, names_to = "Algorithm")
 
-write.csv(dftime, "Data_Output/For_Paper/Time_Taken_For_Experiment_6_Comparison_with_Other_Methods_Results.csv", row.names = FALSE)
-
+write.csv(
+  dftime,
+  "Data_Output/For_Paper/Time_Taken_For_Experiment_6_Comparison_with_Other_Methods_Results.csv",
+  row.names = FALSE
+)
 
 
 # ----------------------------------------------------------------------------------
@@ -553,29 +604,43 @@ set.seed(2025)
 values <- rep(0, 10)
 pp <- 10
 hdoutliers_gmean <- hdoutliers_fmeasure <- lookout1_fmeasure <-
-   lookoutOld_fmeasure <- lookout1_gmean <-  lookoutOld_gmean <-
-  stray_gmean <- stray_fmeasure <- matrix(0, nrow = pp, ncol = 20)
+  lookoutOld_fmeasure <- lookout1_gmean <- lookoutOld_gmean <-
+    stray_gmean <- stray_fmeasure <- matrix(0, nrow = pp, ncol = 20)
 
-lookout1_roc <- lookoutOld_roc <- kdeos_roc <- rdos_roc <- matrix(0, nrow=pp, ncol=20)
+lookout1_roc <- lookoutOld_roc <- kdeos_roc <- rdos_roc <- matrix(
+  0,
+  nrow = pp,
+  ncol = 20
+)
 
-hdoutliers_time <-  lookout1_time <- lookoutOld_time <- stray_time <- kdeos_time <- rdos_time <- matrix(0, nrow=pp*20, ncol=5)
+hdoutliers_time <- lookout1_time <- lookoutOld_time <- stray_time <- kdeos_time <- rdos_time <- matrix(
+  0,
+  nrow = pp * 20,
+  ncol = 5
+)
 
 values <- rep(0, 10)
 pp <- 10
 dd <- 19
 nn <- 500
-labs <- c(rep(0, nn-1), 1)
+labs <- c(rep(0, nn - 1), 1)
 
 for (kk in seq(pp)) {
-  X <- matrix(runif(nn*(dd+1)), ncol=dd+1, nrow=nn)
+  X <- matrix(runif(nn * (dd + 1)), ncol = dd + 1, nrow = nn)
   colnames(X) <- paste("x", 1:20, sep = "")
 
   for (i in seq(20)) {
     X[nn, seq(i)] <- rep(0.9, i)
-    ll <- (kk-1)*10 + i
+    ll <- (kk - 1) * 10 + i
 
     # STRAY
-    tt <- system.time(strayout <- stray::find_HDoutliers(X, knnsearchtype = "kd_tree", alpha=0.05))
+    tt <- system.time(
+      strayout <- stray::find_HDoutliers(
+        X,
+        knnsearchtype = "kd_tree",
+        alpha = 0.05
+      )
+    )
     straylabs <- rep(0, nn)
     straylabs[strayout$outliers] <- 1
     strayoutput <- diff_metrics(labs, straylabs)
@@ -584,44 +649,51 @@ for (kk in seq(pp)) {
     stray_time[ll, ] <- tt
 
     # LOOKOUT - NEW
-    tt1 <- system.time(lookoutobj1 <- lookout::lookout(X,
-                                                       alpha = 0.05,
-                                                       unitize = TRUE,
-                                                       normalize = FALSE,
-                                                       bw_para = 0.98,
-                                                       version = 2,
-                                                       bw_power = NA))
+    tt1 <- system.time(
+      lookoutobj1 <- lookout::lookout(
+        X,
+        alpha = 0.05,
+        unitize = TRUE,
+        normalize = FALSE,
+        bw_para = 0.98,
+        version = 2,
+        bw_power = NA
+      )
+    )
     lookoutlabs1 <- rep(0, nn)
-    lookoutlabs1[lookoutobj1$outliers[ ,1]] <- 1
+    lookoutlabs1[lookoutobj1$outliers[, 1]] <- 1
     lookoutput1 <- diff_metrics(labs, lookoutlabs1)
     lookout1_gmean[kk, i] <- lookoutput1$gmean
     lookout1_fmeasure[kk, i] <- lookoutput1$fmeasure
     lookout1_scores <- lookoutobj1$outlier_scores
-    roc_obj1 <- roc(labs, lookout1_scores, direction="<")
+    roc_obj1 <- roc(labs, lookout1_scores, direction = "<")
     lookout1_roc[kk, i] <- roc_obj1$auc
     lookout1_time[ll, ] <- tt1
 
-
     # LOOKOUT - OLD
-    tt3 <- system.time(lookoutobjold <- lookout::lookout(X,
-                                                         alpha = 0.05,
-                                                         unitize = TRUE,
-                                                         normalize = FALSE,
-                                                         bw_para = 1,
-                                                         version = 1,
-                                                         bw_power = NA))
+    tt3 <- system.time(
+      lookoutobjold <- lookout::lookout(
+        X,
+        alpha = 0.05,
+        unitize = TRUE,
+        normalize = FALSE,
+        bw_para = 1,
+        version = 1,
+        bw_power = NA
+      )
+    )
     lookoutlabsold <- rep(0, nn)
-    lookoutlabsold[lookoutobjold$outliers[ ,1]] <- 1
+    lookoutlabsold[lookoutobjold$outliers[, 1]] <- 1
     lookoutputold <- diff_metrics(labs, lookoutlabsold)
     lookoutOld_gmean[kk, i] <- lookoutputold$gmean
     lookoutOld_fmeasure[kk, i] <- lookoutputold$fmeasure
     lookoutOld_scores <- lookoutobjold$outlier_scores
-    roc_objold <- roc(labs, lookoutOld_scores, direction="<")
+    roc_objold <- roc(labs, lookoutOld_scores, direction = "<")
     lookoutOld_roc[kk, i] <- roc_objold$auc
     lookoutOld_time[ll, ] <- tt3
 
     # HDOUTLIERS
-    tt <- system.time(hdoutobj <- HDoutliers(X, alpha=0.05))
+    tt <- system.time(hdoutobj <- HDoutliers(X, alpha = 0.05))
     hdoutlabs <- rep(0, dim(X)[1])
     hdoutlabs[hdoutobj] <- 1
     hdoutput <- diff_metrics(labs, hdoutlabs)
@@ -631,16 +703,15 @@ for (kk in seq(pp)) {
 
     # KDEOS
     tt <- system.time(kdeos_scores <- DDoutlier::KDEOS(X)) # using default parameters
-    roc_obj <- roc(labs, kdeos_scores, direction="<")
+    roc_obj <- roc(labs, kdeos_scores, direction = "<")
     kdeos_roc[kk, i] <- roc_obj$auc
     kdeos_time[ll, ] <- tt
 
     # RDOS
     tt <- system.time(rdos_scores <- DDoutlier::RDOS(X)) # using default parameters
-    roc_obj <- roc(labs, rdos_scores, direction="<")
+    roc_obj <- roc(labs, rdos_scores, direction = "<")
     rdos_roc[kk, i] <- roc_obj$auc
     rdos_time[ll, ] <- tt
-
   }
 }
 
@@ -650,10 +721,10 @@ lookout1_mean <- colMeans(lookout1_fmeasure)
 lookoutOld_mean <- colMeans(lookoutOld_fmeasure)
 hdoutliers_mean <- colMeans(hdoutliers_fmeasure)
 
-str_se <- apply(stray_fmeasure, 2, sd)/sqrt(20)
-lookout1_se <- apply(lookout1_fmeasure, 2, sd)/sqrt(20)
-lookoutOld_se <- apply(lookoutOld_fmeasure, 2, sd)/sqrt(20)
-hdoutliers_se <- apply(hdoutliers_fmeasure, 2, sd)/sqrt(20)
+str_se <- apply(stray_fmeasure, 2, sd) / sqrt(20)
+lookout1_se <- apply(lookout1_fmeasure, 2, sd) / sqrt(20)
+lookoutOld_se <- apply(lookoutOld_fmeasure, 2, sd) / sqrt(20)
+hdoutliers_se <- apply(hdoutliers_fmeasure, 2, sd) / sqrt(20)
 
 dfl1 <- tibble(
   Iteration = seq(20),
@@ -687,10 +758,10 @@ lookout1_mean <- colMeans(lookout1_gmean)
 lookoutOld_mean <- colMeans(lookoutOld_gmean)
 hdoutliers_mean <- colMeans(hdoutliers_gmean)
 
-str_se <- apply(stray_gmean, 2, sd)/sqrt(20)
-lookout1_se <- apply(lookout1_gmean, 2, sd)/sqrt(20)
-lookoutOld_se <- apply(lookoutOld_gmean, 2, sd)/sqrt(20)
-hdoutliers_se <- apply(hdoutliers_gmean, 2, sd)/sqrt(20)
+str_se <- apply(stray_gmean, 2, sd) / sqrt(20)
+lookout1_se <- apply(lookout1_gmean, 2, sd) / sqrt(20)
+lookoutOld_se <- apply(lookoutOld_gmean, 2, sd) / sqrt(20)
+hdoutliers_se <- apply(hdoutliers_gmean, 2, sd) / sqrt(20)
 
 
 dfl2 <- tibble(
@@ -722,14 +793,14 @@ dfl2 <- dfl2 |>
 
 # AUC FOR KDEOS, RDOS AND LOOKOUT
 kdeos_mean <- colMeans(kdeos_roc)
-lookout1_mean <-  colMeans(lookout1_roc)
-lookoutOld_mean <-  colMeans(lookoutOld_roc)
-rdos_mean <-  colMeans(rdos_roc)
+lookout1_mean <- colMeans(lookout1_roc)
+lookoutOld_mean <- colMeans(lookoutOld_roc)
+rdos_mean <- colMeans(rdos_roc)
 
-kdeos_se <- apply(kdeos_roc, 2, sd)/sqrt(20)
-lookout1_se <- apply(lookout1_roc, 2, sd)/sqrt(20)
-lookoutOld_se <- apply(lookoutOld_roc, 2, sd)/sqrt(20)
-rdos_se <- apply(rdos_roc, 2, sd)/sqrt(20)
+kdeos_se <- apply(kdeos_roc, 2, sd) / sqrt(20)
+lookout1_se <- apply(lookout1_roc, 2, sd) / sqrt(20)
+lookoutOld_se <- apply(lookoutOld_roc, 2, sd) / sqrt(20)
+rdos_se <- apply(rdos_roc, 2, sd) / sqrt(20)
 
 dfl3 <- tibble(
   Iteration = seq(20),
@@ -759,14 +830,18 @@ dfl3 <- dfl3 |>
   relocate(Iteration, Algorithm, Metric, mean, se)
 
 dfl <- bind_rows(dfl1, dfl2, dfl3)
-write.csv( dfl, "Data_Output/For_Paper/Experiment_7_Comparison_with_Other_Methods_Results.csv", row.names = FALSE)
+write.csv(
+  dfl,
+  "Data_Output/For_Paper/Experiment_7_Comparison_with_Other_Methods_Results.csv",
+  row.names = FALSE
+)
 
-g3 <- ggplot(dfl, aes(x=Iteration, y=mean, color = Algorithm)) +
+g3 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.1) +
-  geom_line(aes(color=Algorithm), linewidth=1) +
+  geom_line(aes(color = Algorithm), linewidth = 1) +
   ylab("Performance") +
   facet_wrap(~Metric) +
-  scale_x_continuous(breaks=2*(1:10)) +
+  scale_x_continuous(breaks = 2 * (1:10)) +
   theme_bw()
 g3
 
@@ -774,15 +849,17 @@ g3
 # TIME TAKEN
 dftime <- tibble(
   Run = seq(200),
-  stray = stray_time[ ,3],
-  lookoutNew = lookout1_time[ ,3],
-  lookoutOld = lookoutOld_time[ ,3],
-  HDoutliers = hdoutliers_time[ ,3],
-  kdeos = kdeos_time[ ,3],
-  rdos = rdos_time[ ,3]
+  stray = stray_time[, 3],
+  lookoutNew = lookout1_time[, 3],
+  lookoutOld = lookoutOld_time[, 3],
+  HDoutliers = hdoutliers_time[, 3],
+  kdeos = kdeos_time[, 3],
+  rdos = rdos_time[, 3]
 ) %>%
   pivot_longer(-Run, names_to = "Algorithm")
 
-write.csv(dftime, "Data_Output/For_Paper/Time_Taken_For_Experiment_7_Comparison_with_Other_Methods_Results.csv", row.names = FALSE)
-
-
+write.csv(
+  dftime,
+  "Data_Output/For_Paper/Time_Taken_For_Experiment_7_Comparison_with_Other_Methods_Results.csv",
+  row.names = FALSE
+)

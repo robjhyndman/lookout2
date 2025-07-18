@@ -8,7 +8,14 @@ diff_metrics <- function(act, pred) {
 
   sp <- tn / (tn + fp)
 
-  out <- data.frame(N = n, true_pos = tp, true_neg = tn, false_pos = fp, false_neg = fn, specificity = sp)
+  out <- data.frame(
+    N = n,
+    true_pos = tp,
+    true_neg = tn,
+    false_pos = fp,
+    false_neg = fn,
+    specificity = sp
+  )
 
   return(out)
 }
@@ -19,8 +26,14 @@ everysecond <- function(x) {
   x
 }
 
-exp_normal <- function(n1 = 500, n2 = 5, mm = 10, bw = 0.95,
-                       shape_zero = TRUE, transform = TRUE) {
+exp_normal <- function(
+  n1 = 500,
+  n2 = 5,
+  mm = 10,
+  bw = 0.95,
+  shape_zero = TRUE,
+  transform = TRUE
+) {
   X <- rbind(
     data.frame(
       x = rnorm(n1),
@@ -31,11 +44,7 @@ exp_normal <- function(n1 = 500, n2 = 5, mm = 10, bw = 0.95,
       y = rnorm(n2, mean = mm, sd = 0.2)
     )
   )
-  lo <- lookout(X,
-    normalize = transform,
-    bw_para = bw,
-    shape_zero = shape_zero
-  )
+  lo <- lookout(X, normalize = transform, bw_para = bw, shape_zero = shape_zero)
   act <- c(rep(0, n1), rep(1, n2))
   preds <- rep(0, n1 + n2)
   preds[lo$outliers[, 1]] <- 1
@@ -47,11 +56,22 @@ loop_normal <- function(st_mm = 10, en_mm = 3, step = 0.5, n1 = 500, n2 = 5) {
   set.seed(1)
   mm <- seq(st_mm, en_mm, by = -step)
   mm <- rep(mm, each = 50)
-  out1 <- mapply(exp_normal, mm = mm, MoreArgs = list(n1 = n1, n2 = n2, bw = 0.95))
+  out1 <- mapply(
+    exp_normal,
+    mm = mm,
+    MoreArgs = list(n1 = n1, n2 = n2, bw = 0.95)
+  )
   out2 <- mapply(exp_normal, mm = mm, MoreArgs = list(n1 = n1, n2 = n2, bw = 1))
   out1 <- matrix(unlist(out1), byrow = TRUE, ncol = 6)
   out2 <- matrix(unlist(out2), byrow = TRUE, ncol = 6)
-  colnames(out1) <- colnames(out2) <- c("N", "true_pos", "true_neg", "false_pos", "false_neg", "specificity")
+  colnames(out1) <- colnames(out2) <- c(
+    "N",
+    "true_pos",
+    "true_neg",
+    "false_pos",
+    "false_neg",
+    "specificity"
+  )
   # make out to a dataframe
   out1 <- cbind.data.frame(out_mean = mm, bw_para = 0.95, out1)
   out2 <- cbind.data.frame(out_mean = mm, bw_para = 1, out2)
@@ -96,15 +116,37 @@ exp_gamma <- function(n1 = 500, n2 = 5, rr = 0.5, bw = 0.95, transform = TRUE) {
 }
 
 
-loop_gamma <- function(st_rr = 0.1, en_rr = 1, step = 0.1, n1 = 500, n2 = 5, transform = TRUE) {
+loop_gamma <- function(
+  st_rr = 0.1,
+  en_rr = 1,
+  step = 0.1,
+  n1 = 500,
+  n2 = 5,
+  transform = TRUE
+) {
   set.seed(1)
   rseq <- seq(st_rr, en_rr, by = step)
   rseq <- rep(rseq, each = 50)
-  out1 <- mapply(exp_gamma, rr = rseq, MoreArgs = list(n1 = n1, n2 = n2, bw = 0.95, transform = transform))
-  out2 <- mapply(exp_gamma, rr = rseq, MoreArgs = list(n1 = n1, n2 = n2, bw = 1, transform = transform))
+  out1 <- mapply(
+    exp_gamma,
+    rr = rseq,
+    MoreArgs = list(n1 = n1, n2 = n2, bw = 0.95, transform = transform)
+  )
+  out2 <- mapply(
+    exp_gamma,
+    rr = rseq,
+    MoreArgs = list(n1 = n1, n2 = n2, bw = 1, transform = transform)
+  )
   out1 <- matrix(unlist(out1), byrow = TRUE, ncol = 6)
   out2 <- matrix(unlist(out2), byrow = TRUE, ncol = 6)
-  colnames(out1) <- colnames(out2) <- c("N", "true_pos", "true_neg", "false_pos", "false_neg", "specificity")
+  colnames(out1) <- colnames(out2) <- c(
+    "N",
+    "true_pos",
+    "true_neg",
+    "false_pos",
+    "false_neg",
+    "specificity"
+  )
   # make out to a dataframe
   out1 <- cbind(out_rate = rseq, bw_para = 0.95, out1)
   out2 <- cbind(out_rate = rseq, bw_para = 1, out2)
@@ -112,8 +154,28 @@ loop_gamma <- function(st_rr = 0.1, en_rr = 1, step = 0.1, n1 = 500, n2 = 5, tra
   return(out)
 }
 
-normal_outliers_2 <- function(n1, n2, n3, mean2, mean3, bw, shape_zero, transform = TRUE, unitize = TRUE) {
-  results <- tibble(outliers = 0, mean2 = 0, mean3 = 0, N = 0, true_pos = 0, true_neg = 0, false_pos = 0, false_neg = 0, specificity = 0)
+normal_outliers_2 <- function(
+  n1,
+  n2,
+  n3,
+  mean2,
+  mean3,
+  bw,
+  shape_zero,
+  transform = TRUE,
+  unitize = TRUE
+) {
+  results <- tibble(
+    outliers = 0,
+    mean2 = 0,
+    mean3 = 0,
+    N = 0,
+    true_pos = 0,
+    true_neg = 0,
+    false_pos = 0,
+    false_neg = 0,
+    specificity = 0
+  )
   max_2_3 <- max(length(mean2), length(mean3))
   for (i in 1:max_2_3) {
     if (length(mean2) == 1) {
@@ -141,7 +203,13 @@ normal_outliers_2 <- function(n1, n2, n3, mean2, mean3, bw, shape_zero, transfor
         y = rnorm(n3, mean = m3, sd = 0.2)
       )
     )
-    lo <- lookout::lookout(X, bw_para = bw, normalize = transform, shape_zero = shape_zero, unitize = unitize)
+    lo <- lookout::lookout(
+      X,
+      bw_para = bw,
+      normalize = transform,
+      shape_zero = shape_zero,
+      unitize = unitize
+    )
     act <- c(rep(0, n1), rep(1, n2), rep(1, n3))
     preds <- rep(0, n1 + n2 + n3)
     preds[lo$outliers[, 1]] <- 1
@@ -149,13 +217,35 @@ normal_outliers_2 <- function(n1, n2, n3, mean2, mean3, bw, shape_zero, transfor
     results[i, ] <- c(numout, m2, m3, diff_metrics(act, preds))
   }
 
-
   return(results)
 }
 
 
-normal_outliers_3 <- function(n1, n2, n3, n4, mean2, mean3, mean4, bw, shape_zero, transform = TRUE, unitize = TRUE) {
-  results <- tibble(outliers = 0, mean2 = 0, mean3 = 0, mean4 = 0, N = 0, true_pos = 0, true_neg = 0, false_pos = 0, false_neg = 0, specificity = 0)
+normal_outliers_3 <- function(
+  n1,
+  n2,
+  n3,
+  n4,
+  mean2,
+  mean3,
+  mean4,
+  bw,
+  shape_zero,
+  transform = TRUE,
+  unitize = TRUE
+) {
+  results <- tibble(
+    outliers = 0,
+    mean2 = 0,
+    mean3 = 0,
+    mean4 = 0,
+    N = 0,
+    true_pos = 0,
+    true_neg = 0,
+    false_pos = 0,
+    false_neg = 0,
+    specificity = 0
+  )
   max_2_3 <- max(length(mean2), length(mean3), length(mean4))
   for (i in 1:max_2_3) {
     if (length(mean2) == 1) {
@@ -192,14 +282,19 @@ normal_outliers_3 <- function(n1, n2, n3, n4, mean2, mean3, mean4, bw, shape_zer
         y = rnorm(n4, mean = m4, sd = 0.2)
       )
     )
-    lo <- lookout::lookout(X, bw_para = bw, normalize = transform, shape_zero = shape_zero, unitize = unitize)
+    lo <- lookout::lookout(
+      X,
+      bw_para = bw,
+      normalize = transform,
+      shape_zero = shape_zero,
+      unitize = unitize
+    )
     act <- c(rep(0, n1), rep(1, n2), rep(1, n3), rep(1, n4))
     preds <- rep(0, n1 + n2 + n3 + n4)
     preds[lo$outliers[, 1]] <- 1
     numout <- n2 + n3 + n4
     results[i, ] <- c(numout, m2, m3, m4, diff_metrics(act, preds))
   }
-
 
   return(results)
 }

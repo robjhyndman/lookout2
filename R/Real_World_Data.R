@@ -17,7 +17,7 @@ library(HDoutliers)
 data("oldfaithful")
 
 oldfaithful2 <- oldfaithful |>
-  filter(duration< 6000)
+  filter(duration < 6000)
 
 oldfaithful2 <- oldfaithful |>
   filter(duration < 7200, waiting < 7200)
@@ -27,24 +27,28 @@ ggplot(oldfaithful2, aes(x = duration, y = waiting)) +
   labs(y = "Waiting time to next eruption (seconds)", x = "Duration (seconds)")
 
 
-lookobjNew <- lookout::lookout(oldfaithful2[ ,2:3],
-                               alpha = 0.05,
-                               unitize = TRUE,
-                               normalize = FALSE,
-                               bw_para = 0.98,
-                               version = 2,
-                               bw_power = NA)
+lookobjNew <- lookout::lookout(
+  oldfaithful2[, 2:3],
+  alpha = 0.05,
+  unitize = TRUE,
+  normalize = FALSE,
+  bw_para = 0.98,
+  version = 2,
+  bw_power = NA
+)
 lookobjNew
 g1 <- autoplot(lookobjNew) +
   ggtitle("New lookout")
 
-lookobjOld <- lookout::lookout(oldfaithful2[ ,2:3],
-                               alpha = 0.05,
-                               unitize = TRUE,
-                               normalize = FALSE,
-                               bw_para = 1,
-                               version = 1,
-                               bw_power = NA)
+lookobjOld <- lookout::lookout(
+  oldfaithful2[, 2:3],
+  alpha = 0.05,
+  unitize = TRUE,
+  normalize = FALSE,
+  bw_para = 1,
+  version = 1,
+  bw_power = NA
+)
 
 
 lookobjOld
@@ -71,13 +75,15 @@ wine_reviews |>
   geom_jitter(height = 0, width = 0.3, alpha = 0.5) +
   scale_y_log10()
 
-lookobjNew <- lookout::lookout(wine_reviews2,
-                               alpha = 0.05,
-                               unitize = TRUE,
-                               normalize = FALSE,
-                               bw_para = 0.98,
-                               version = 2,
-                               bw_power = NA)
+lookobjNew <- lookout::lookout(
+  wine_reviews2,
+  alpha = 0.05,
+  unitize = TRUE,
+  normalize = FALSE,
+  bw_para = 0.98,
+  version = 2,
+  bw_power = NA
+)
 lookobjNew
 
 
@@ -85,13 +91,15 @@ g1 <- autoplot(lookobjNew) +
   ggtitle("New lookout")
 
 
-lookobjOld <- lookout::lookout(wine_reviews2,
-                               alpha = 0.05,
-                               unitize = TRUE,
-                               normalize = FALSE,
-                               bw_para = 1,
-                               version = 1,
-                               bw_power = NA)
+lookobjOld <- lookout::lookout(
+  wine_reviews2,
+  alpha = 0.05,
+  unitize = TRUE,
+  normalize = FALSE,
+  bw_para = 1,
+  version = 1,
+  bw_power = NA
+)
 
 lookobjOld
 
@@ -102,4 +110,3 @@ g2 <- autoplot(lookobjOld) +
   ggtitle("Old lookout")
 
 grid.arrange(g1, g2, nrow = 1)
-
