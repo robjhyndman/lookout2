@@ -53,7 +53,7 @@ Describe crackle idea and why it matters here
 
 As a result of these theoretical considerations, we propose several modifications to the lookout algorithm.
 \begin{enumerate}
-  \item Rather than use the lower point of the largest gap in Rips death diameters, we propose to use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest Rips diameters.
+  \item Rather than use the lower point of the largest gap in Rips death diameters, we propose to use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death.
   \item We propose to use a Yeo-Johnson transformation on the margins of the distribution, to avoid the problem of distributions with heavy tails.
   \item Finally, we scale and rotate the transformed data to ensure that the data have zero pairwise correlations. This better aligns the bandwidth matrix to the data.
 \end{enumerate}
