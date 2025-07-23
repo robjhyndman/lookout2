@@ -52,7 +52,6 @@ diff_metrics <- function(act, pred) {
   )
 }
 
-
 set.seed(2025)
 values <- rep(0, 10)
 pp <- 10
@@ -219,7 +218,6 @@ lookout1_se <- apply(lookout1_gmean, 2, sd) / sqrt(10)
 lookoutOld_se <- apply(lookoutOld_gmean, 2, sd) / sqrt(10)
 hdoutliers_se <- apply(hdoutliers_gmean, 2, sd) / sqrt(10)
 
-
 dfl2 <- tibble(
   Iteration = seq(10),
   stray = str_mean,
@@ -246,7 +244,6 @@ dfl2 <- dfl2 |>
   left_join(dfl2se, by = c("Iteration", "Algorithm", "Metric")) |>
   relocate(Iteration, Algorithm, Metric, mean, se)
 
-
 # AUC FOR KDEOS, RDOS AND LOOKOUT
 kdeos_mean <- colMeans(kdeos_roc)
 lookout1_mean <- colMeans(lookout1_roc)
@@ -268,7 +265,6 @@ dfl3 <- tibble(
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
   mutate(Metric = 'AUC') |>
   rename(mean = value)
-
 
 dfl3se <- tibble(
   Iteration = seq(10),
@@ -301,7 +297,6 @@ g3 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   theme_bw()
 g3
 
-
 # TIME TAKEN
 dftime <- tibble(
   Run = seq(100),
@@ -319,7 +314,6 @@ write.csv(
   "Data_Output/For_Paper/Time_Taken_For_Experiment_5_Comparison_with_Other_Methods_Results.csv",
   row.names = FALSE
 )
-
 
 # ----------------------------------------------------------------------------------
 # TASK 02 : EXPERIMENT 6
@@ -343,7 +337,6 @@ hdoutliers_time <- lookout1_time <- lookoutOld_time <- stray_time <- kdeos_time 
   nrow = pp * 10,
   ncol = 5
 )
-
 
 for (kk in seq(pp)) {
   nn <- 805
@@ -495,7 +488,6 @@ lookout1_se <- apply(lookout1_gmean, 2, sd) / sqrt(10)
 lookoutOld_se <- apply(lookoutOld_gmean, 2, sd) / sqrt(10)
 hdoutliers_se <- apply(hdoutliers_gmean, 2, sd) / sqrt(10)
 
-
 dfl2 <- tibble(
   Iteration = seq(10),
   stray = str_mean,
@@ -522,7 +514,6 @@ dfl2 <- dfl2 |>
   left_join(dfl2se, by = c("Iteration", "Algorithm", "Metric")) |>
   relocate(Iteration, Algorithm, Metric, mean, se)
 
-
 # AUC FOR KDEOS, RDOS AND LOOKOUT
 kdeos_mean <- colMeans(kdeos_roc)
 lookout1_mean <- colMeans(lookout1_roc)
@@ -544,7 +535,6 @@ dfl3 <- tibble(
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
   mutate(Metric = 'AUC') |>
   rename(mean = value)
-
 
 dfl3se <- tibble(
   Iteration = seq(10),
@@ -577,7 +567,6 @@ g3 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   theme_bw()
 g3
 
-
 # TIME TAKEN
 dftime <- tibble(
   Run = seq(100),
@@ -595,7 +584,6 @@ write.csv(
   "Data_Output/For_Paper/Time_Taken_For_Experiment_6_Comparison_with_Other_Methods_Results.csv",
   row.names = FALSE
 )
-
 
 # ----------------------------------------------------------------------------------
 # TASK 03 : EXPERIMENT 7
@@ -763,7 +751,6 @@ lookout1_se <- apply(lookout1_gmean, 2, sd) / sqrt(20)
 lookoutOld_se <- apply(lookoutOld_gmean, 2, sd) / sqrt(20)
 hdoutliers_se <- apply(hdoutliers_gmean, 2, sd) / sqrt(20)
 
-
 dfl2 <- tibble(
   Iteration = seq(20),
   stray = str_mean,
@@ -790,7 +777,6 @@ dfl2 <- dfl2 |>
   left_join(dfl2se, by = c("Iteration", "Algorithm", "Metric")) |>
   relocate(Iteration, Algorithm, Metric, mean, se)
 
-
 # AUC FOR KDEOS, RDOS AND LOOKOUT
 kdeos_mean <- colMeans(kdeos_roc)
 lookout1_mean <- colMeans(lookout1_roc)
@@ -812,7 +798,6 @@ dfl3 <- tibble(
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
   mutate(Metric = 'AUC') |>
   rename(mean = value)
-
 
 dfl3se <- tibble(
   Iteration = seq(20),
@@ -844,7 +829,6 @@ g3 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   scale_x_continuous(breaks = 2 * (1:10)) +
   theme_bw()
 g3
-
 
 # TIME TAKEN
 dftime <- tibble(

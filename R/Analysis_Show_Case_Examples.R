@@ -31,7 +31,6 @@ lookobj1
 g1 <- autoplot(lookobj1) +
   ggtitle("New lookout")
 
-
 # Old lookout
 lookobj2 <- lookout::lookout(
   X,
@@ -81,7 +80,6 @@ lookobj1 <- lookout::lookout(
 lookobj1
 g3 <- autoplot(lookobj1)
 
-
 lookobj2 <- lookout::lookout(
   X,
   alpha = 0.05,
@@ -94,7 +92,6 @@ lookobj2 <- lookout::lookout(
 lookobj2
 g4 <- autoplot(lookobj2)
 grid.arrange(g3, g4, ncol = 2)
-
 
 # ---------------------------------------------------------------------
 # TASK 3 - EXAMPLE 3
@@ -132,10 +129,8 @@ lookobj1 <- lookout::lookout(
   bw_power = NA
 )
 
-
 lookobj1
 g5 <- autoplot(lookobj1)
-
 
 # Older version
 lookobj2 <- lookout::lookout(
@@ -151,7 +146,6 @@ lookobj2
 g6 <- autoplot(lookobj2)
 # same performance
 grid.arrange(g5, g6, ncol = 2)
-
 
 # ---------------------------------------------------------------------
 # TASK 4 - EXAMPLE 4
@@ -191,7 +185,6 @@ lookobj1 <- lookout::lookout(
 lookobj1
 g7 <- autoplot(lookobj1)
 
-
 # Older version
 lookobj2 <- lookout::lookout(
   X,
@@ -207,7 +200,6 @@ g8 <- autoplot(lookobj2)
 # same performance
 
 grid.arrange(g7, g8, ncol = 2)
-
 
 # ---------------------------------------------------------------------
 # TASK 5 - EXAMPLE 5
@@ -237,7 +229,6 @@ lookobj1 <- lookout::lookout(
 )
 lookobj1
 g9 <- autoplot(lookobj1)
-
 
 # Older version
 lookobj2 <- lookout::lookout(

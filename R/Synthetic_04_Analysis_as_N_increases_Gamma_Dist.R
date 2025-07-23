@@ -48,7 +48,6 @@ diff_metrics <- function(act, pred) {
   return(out)
 }
 
-
 # --------------------------------------------------------------
 # TASK 01: TEST 1 N INCREASES AND OUTLIERS ARE ON THE BOUNDARY - bw_power = NA
 # --------------------------------------------------------------
@@ -67,13 +66,11 @@ df3 <- df1 <- df2 <- data.frame(
   false_negative_rate = numeric(100)
 )
 
-
 experiment <- 2
 shape1 = 2
 shape2 = 2.2
 rate1 = 2
 rate2 = 2
-
 
 set.seed(2025)
 for (ii in 1:length(nnvals)) {
@@ -142,7 +139,6 @@ write.csv(
   row.names = FALSE
 )
 
-
 dfl <- df |>
   relocate(Algo) |>
   select(
@@ -154,7 +150,6 @@ dfl <- df |>
     false_negative_rate
   ) |>
   pivot_longer(cols = 3:6)
-
 
 ggplot(dfl, aes(x = N, y = value, color = Algo)) +
   geom_point(size = 0.1) +

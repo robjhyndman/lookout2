@@ -12,7 +12,6 @@ library(lookout)
 library(ggplot2)
 library(tidyverse)
 
-
 diff_metrics <- function(act, pred) {
   # positives to be denoted by 1 and negatives with 0
   n <- length(act)
@@ -129,7 +128,6 @@ write.csv(
   "Data_Output/For_Paper/Synthetic_Exp_01_gamma_old_lookout.csv",
   row.names = FALSE
 )
-
 
 # ------------------------------------------------------------------------------
 # TASK 02: EXP2 - NORMAL DISTRIBUTION TWO DISTRIBUTIONS

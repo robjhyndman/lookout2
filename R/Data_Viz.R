@@ -83,7 +83,6 @@ g1 <- ggplot(results_lng, aes(x = outrate, y = value, color = method)) +
   theme(legend.position = "none") +
   scale_y_continuous(breaks = seq(0, 500, by = 2))
 
-
 # ------------------------------------------------------------------------------
 # PLOTTING THE DATA
 # Generate random data
@@ -107,7 +106,6 @@ colnames(df)[1:2] <- c("X1", "X2")
 g2 <- ggplot(df, aes(X1, X2, color = Points)) +
   geom_point() +
   labs(color = "Points(rate = 0.2)")
-
 
 i <- 9
 X <- matrix(rgamma(n = 2 * n1, shape = shape1, rate = rate1), ncol = 2)
@@ -166,7 +164,6 @@ g1 <- ggplot(results_lng, aes(x = mean, y = value, color = method)) +
   theme(legend.position = "none") +
   scale_y_continuous(breaks = seq(0, 500, by = 2))
 
-
 # ------------------------------------------------------------------------------
 # PLOTTING THE DATA
 # Generate random data
@@ -192,7 +189,6 @@ g2 <- ggplot(df, aes(X1, X2, color = Points)) +
   labs(color = paste0("Points(mean = ", mm, ")"))
 g2
 
-
 i <- 6
 mm <- mm_seq[i]
 # Generate random data
@@ -214,7 +210,6 @@ g3
 
 lay <- rbind(c(2, 1), c(3, 1))
 gridExtra::grid.arrange(g1, g2, g3, layout_matrix = lay)
-
 
 # ------------------------------------------------------------------------------
 # TASK 03: EXP3 - AS N INCREASES - NORMAL DISTRIBUTION
@@ -253,14 +248,12 @@ results <- results |>
 results_lng <- results |>
   pivot_longer(cols = 3:6)
 
-
 ggplot(results_lng, aes(x = N, y = value, color = Algo)) +
   geom_point(size = 0.5) +
   facet_grid(~name) +
   xlab("Number of points") +
   ylab("Value") +
   geom_smooth()
-
 
 # -----------------------------------------------------------------------------
 # Generate Data to plot
@@ -299,7 +292,6 @@ ggplot(df, aes(x, y, color = as.factor(labs))) +
 
 df <- read.csv("Data_Output/For_Paper/Synthetic_Exp_04_Increasing_N_Gamma.csv")
 
-
 dfl <- df |>
   relocate(Algo) |>
   select(
@@ -312,7 +304,6 @@ dfl <- df |>
   ) |>
   pivot_longer(cols = 3:6)
 
-
 ggplot(dfl, aes(x = N, y = value, color = Algo)) +
   geom_point(size = 0.1) +
   geom_jitter(size = 0.1, height = 0.02) +
@@ -321,7 +312,6 @@ ggplot(dfl, aes(x = N, y = value, color = Algo)) +
   ylab("Value") +
   geom_smooth(se = FALSE) +
   theme_bw()
-
 
 # -----------------------------------------------------------------------------
 # Generate Data to plot
@@ -380,7 +370,6 @@ X <- bind_cols(
 x1_1 <- rnorm(400)
 labels <- c(rep(0, 400), rep(1, 5))
 
-
 x1_2 <- rnorm(5, mean = 2 + (i - 1) * 0.5, sd = 0.2)
 X <- X %>% mutate(x1 = c(x1_1, x1_2))
 
@@ -403,7 +392,6 @@ X <- bind_cols(
 x1_1 <- rnorm(400)
 labels <- c(rep(0, 400), rep(1, 5))
 
-
 x1_2 <- rnorm(5, mean = 2 + (i - 1) * 0.5, sd = 0.2)
 X <- X %>% mutate(x1 = c(x1_1, x1_2))
 
@@ -413,13 +401,11 @@ g2 <- ggplot(X, aes(x1, x2)) +
   labs(color = "Points")
 g2
 
-
 g3 <- ggplot(X, aes(x3, x4)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
 g3
-
 
 lay <- rbind(c(1, 4), c(2, 4), c(3, 4))
 gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = lay)
@@ -436,7 +422,6 @@ dfl <- read.csv(
 
 dfl[dfl$Algorithm == 'rdos', 'Algorithm'] <- 'RDOS'
 dfl[dfl$Algorithm == 'kdeos', 'Algorithm'] <- 'KDEOS'
-
 
 g4 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.1) +
@@ -497,13 +482,11 @@ g2 <- ggplot(X, aes(x1, x2)) +
   labs(color = "Points")
 g2
 
-
 g3 <- ggplot(X, aes(x2, x3)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
 g3
-
 
 lay <- rbind(c(1, 4), c(2, 4), c(3, 4))
 gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = lay)
@@ -521,7 +504,6 @@ dfl <- read.csv(
 dfl[dfl$Algorithm == 'rdos', 'Algorithm'] <- 'RDOS'
 dfl[dfl$Algorithm == 'kdeos', 'Algorithm'] <- 'KDEOS'
 
-
 g4 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.1) +
   geom_line(aes(color = Algorithm), linewidth = 1) +
@@ -530,7 +512,6 @@ g4 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   scale_x_continuous(breaks = 2 * (1:10)) +
   theme_bw()
 g4
-
 
 # plot data
 set.seed(1)
@@ -558,7 +539,6 @@ g1 <- ggplot(dobX, aes(D1, D2)) +
   labs(color = "Points")
 g1
 
-
 i <- 12
 nn <- 500
 X <- matrix(runif(nn * (dd + 1)), ncol = dd + 1, nrow = nn)
@@ -573,7 +553,6 @@ g2 <- ggplot(dobX, aes(D1, D2)) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
 g2
-
 
 i <- 20
 nn <- 500

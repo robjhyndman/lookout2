@@ -151,7 +151,6 @@ dfl <- df |>
   ) |>
   pivot_longer(cols = 3:6)
 
-
 ggplot(dfl, aes(x = N, y = value, color = Algo)) +
   geom_point(size = 0.5) +
   facet_grid(~name) +

@@ -91,7 +91,6 @@ crop::dev.off.crop(fig)
 
 write.csv(gamma_out, "Data_Output/Outliers_Gamma.csv", row.names = FALSE)
 
-
 # ------------------------------------------------------------------------------
 # TASK 02:  NORMAL DISTRIBUTION OLD LOOKOUT AND NEW LOOKOUT
 # ------------------------------------------------------------------------------
@@ -163,7 +162,6 @@ p <- normal_out |>
   ylab("Count") +
   theme(legend.position = "none") +
   scale_y_continuous(breaks = seq(0, 1000, by = 2))
-
 
 fig <- here::here(paste0("Figures/Normal_Comparison_Old_New.pdf"))
 cairo_pdf(file = fig, width = 8, height = 6)

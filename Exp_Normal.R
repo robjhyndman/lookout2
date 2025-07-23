@@ -79,7 +79,6 @@ loop_normal <- function(st_mm = 10, en_mm = 3, step = 0.5, n1 = 500, n2 = 5) {
   return(out)
 }
 
-
 plot_normal <- function(df) {
   df2 <- df |>
     select(-true_neg, -N) |>
@@ -91,7 +90,6 @@ plot_normal <- function(df) {
     xlab("Mean of outlier distribution") +
     scale_x_discrete(labels = everysecond(df2$out_mean))
 }
-
 
 exp_gamma <- function(n1 = 500, n2 = 5, rr = 0.5, bw = 0.95, transform = TRUE) {
   X <- rbind(
@@ -114,7 +112,6 @@ exp_gamma <- function(n1 = 500, n2 = 5, rr = 0.5, bw = 0.95, transform = TRUE) {
 
   return(diff_metrics(act, preds))
 }
-
 
 loop_gamma <- function(
   st_rr = 0.1,
@@ -219,7 +216,6 @@ normal_outliers_2 <- function(
 
   return(results)
 }
-
 
 normal_outliers_3 <- function(
   n1,
