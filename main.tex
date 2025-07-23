@@ -1,28 +1,31 @@
-\documentclass[11pt,a4paper]{article}
-\usepackage{mathpazo,parskip,setspace}
-\usepackage{amsmath,bm}
-\usepackage{graphicx}
-\usepackage{natbib}
-\usepackage{hyperref,url}
-\usepackage{amsfonts,amsthm}
-\usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
-\usepackage{xcolor}
-\usepackage[margin=2cm]{geometry}
-\usepackage{subfig}
-\usepackage{titling}
-\pretitle{\begin{center}\LARGE\bfseries}
-\preauthor{\vspace*{4ex}\begin{center}\large \lineskip 0.5em\begin{tabular}[t]{c}}
-\postauthor{\end{tabular}\vspace*{4ex}\par\end{center}}
-\postdate{\par\vspace*{4ex}\end{center}}
+\documentclass[referee,pdflatex,sn-mathphys-ay]{sn-jnl}
 
-\sloppy
-\clubpenalty 10000
-\widowpenalty 10000
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+
+\usepackage{subfig}
+\usepackage{bm}
+
+\geometry{margin=2.5cm,bindingoffset=0cm}
+\raggedbottom
 
 \newcommand{\R}{\mathbb{R}}
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\diag}{\text{diag}}
+
+\theoremstyle{thmstyleone}%
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{definition}[theorem]{Definition}
@@ -37,31 +40,34 @@
 \newcommand{\SK}[1]{\textcolor{blue}{[{\sc SK}] #1}}
 
 \graphicspath{{Figures/}}
-\onehalfspacing
 
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{When lookout sees crackle: Anomaly~detection~via~kernel~density~estimation}
-\author{
-  Sevvandi Kandanaarachchi\thanks{
-  The authors gratefully acknowledge \textit{please remember to list all relevant funding sources in the unblinded version}}\\
-  \textit{CSIRO, Australia}\\[2ex]
-  Rob J Hyndman\\
-  \textit{Monash University, Australia}\\[2ex]
-  Katharine Turner\\
-  \textit{Australian National University, Australia}
+\title[When lookout sees crackle]{When lookout sees crackle: Anomaly~detection~via~kernel~density~estimation}
+
+\author[1]{\fnm{Rob J} \sur{Hyndman}}
+\author*[2]{\fnm{Sevvandi} \sur{Kandanaarachchi}}\email{Sevvandi.Kandanaarachchi@csiro.au}
+\author[3]{\fnm{Katharine} \sur{Turner}}
+\affil[1]{\orgname{Monash University}, \country{Australia}}
+\affil[2]{\orgname{CSIRO}, \country{Australia}}
+\affil[3]{\orgname{Australian National University}, \country{Australia}}
+
+\abstract{
+ TBC.  200 or fewer words.
 }
+
+\keywords{
+  Bandwidth selection,
+  Extreme value theory,
+  Generalized Pareto distribution,
+  Outlier detection,
+  Persistent homology,
+  Topological data analysis
+}
+
 \maketitle
-
-\begin{abstract}
-  The text of your abstract.  200 or fewer words.
-\end{abstract}
-
-\textit{Keywords:}  3 to 6 keywords, that do not appear in the title
-
-\newpage
 
 \input{1_introduction}
 \input{2_crackle}
@@ -70,24 +76,16 @@
 \input{5_experiments_2}
 \input{6_discussion}
 
-\clearpage
+\backmatter
 
-\bibliographystyle{agsm}
+\bmhead{Supplementary information}
+
+Files to reproduce all numerical examples are available at \url{https://github.com/robjhyndman/Look-Out-2}
+
+\bmhead{Acknowledgements}
+
+Rob Hyndman is part of the Australian Research Council Industrial Transformation Training Centre in Optimisation Technologies, Integrated Methodologies, and Applications (OPTIMA), Project ID IC200100009. 
+
 \bibliography{References}
-
-% \bigskip
-% \begin{center}
-% {\large\bf SUPPLEMENTARY MATERIAL}
-% \end{center}
-
-% \begin{description}
-
-% \item[Title:] Brief description. (file type)
-
-% \item[R-package for  MYNEW routine:] R-package ÒMYNEWÓ containing code to perform the diagnostic methods described in the article. The package also contains all datasets used as examples in the article. (GNU zipped tar file)
-
-% \item[HIV data set:] Data set used in the illustration of MYNEW method in Section~ 3.2. (.txt file)
-
-% \end{description}
 
 \end{document}
