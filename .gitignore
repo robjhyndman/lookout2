@@ -11,3 +11,4 @@ main.pdf
 *.log
 *.out
 *.synctex.gz
+.vscode/*
