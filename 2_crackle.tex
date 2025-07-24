@@ -143,7 +143,7 @@ Let $S_n$ denote a random sample of $n$ points from a multivariate Gaussian in $
 \end{corollary}
 
 \begin{proof}
-	Note that $i_*< n-1$ and so $d_*=d_{i_*}<d_{n-1}$ which we know limits to $0$ almost surely from Theorem \ref{thm:d_n-1 Gaussian}.
+	Note that $i_*< n-1$ and so $d_*=d_{i_*}<d_{n-1}$ which we know limits to $0$ almost surely from \cref{thm:d_n-1 Gaussian}.
 \end{proof}
 
 If we wished to prove that $d_*$ results in a consistent density estimator, the only remaining task is to show $i(n) \to \infty$ at $n \to \infty$ almost surely. This seems intuitively clear but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem.
@@ -168,9 +168,9 @@ There are many choices of function $f(n)$ to decide which death time to use as a
 
 We will particularly focus on $d_{\alpha(n-1)}$ for some $\alpha\in [0,1]$. Recall that there are only $n-1$ finite death times so $d_{n-1}$ is the largest finite death value. Strictly speaking we will need an integer value, so you can interpret $\alpha(n-1)$ as either the floor or the ceiling, the same limits will hold in either case.
 
-The following is a standard useful lemma but we include for completeness.
+The following is a standard useful lemma, but we include for completeness.
 
-\begin{lemma}
+\begin{lemma}\label{lem:samplescover}
 	Let $U_1, \ldots, U_l\subset \R^d$ and $X$ a random sample such that $\P(X\in U_i)>\delta $ for all $i$. Let $\{x_1, \ldots x_n\}$ be i.i.d. draws of $X$. If $Z_i$ is the event that at no samples $x_j$ lie in $U_i$ then
 	$$\P(\cup Z_i) \leq l e^{-n\delta}.$$
 \end{lemma}
@@ -181,7 +181,7 @@ The following is a standard useful lemma but we include for completeness.
 
 Put in notation of offset $K^\delta$ for $K\subset \R^d$ and $\delta>0$. Let $L^\epsilon=\{y+v \mid y\in L, \|v\| \leq \epsilon\}$.
 
-\begin{lemma}
+\begin{lemma}\label{lem:covernumber}
 	Let $f: \R^d\to [0,\infty)$ be a Lipschitz probability density function (constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$.  For all $\epsilon\in(0, c/2M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that
 	$\{B(x_i, \epsilon)\}$ is a cover of $L$, $\P(X\in B(x_i, \epsilon))>\frac{c\omega_d}{2} \epsilon^d$  and $$l\leq \frac{2^{d+1}}{c\omega_d \epsilon ^d}.$$
 	%Furthermore, $\cup_i B(x_i, \epsilon)$ contains at most $$??$$ connected components.
@@ -206,11 +206,11 @@ Put in notation of offset $K^\delta$ for $K\subset \R^d$ and $\delta>0$. Let $L^
 \begin{proof}
 	Fix $\alpha\in [0,1)$ and fix $c>0$ such that for $L=\{x|f(x)>c\}$ we have $\P(X\notin L)<(1-\alpha)/2$.
 	Choose $\epsilon(n)$ so that $$\frac{c\omega_d \epsilon^d}{2} =\frac{\log n}{n}.$$
-	Note that for large enough $n$ this will lie in $(0,c/2M)$. By Lemma \ref{lem:covernumber} there exists a cover of $L$ by $l$ balls $\{B(y_i, \epsilon(n))\}$, with
+	Note that for large enough $n$ this will lie in $(0,c/2M)$. By \cref{lem:covernumber} there exists a cover of $L$ by $l$ balls $\{B(y_i, \epsilon(n))\}$, with
 	$$l\leq \frac{2^{d+1}}{c\omega_d \epsilon(n)^d}=\frac{2^d n}{\log n}$$ and
 	$\P(X\in B(y_i, \epsilon(n)))>\frac{c\omega_d \epsilon(n)^d}{2} = \frac{\log n}{n}$.
 
-	If $Z_i$ is the event that at there are no samples in $B(y_i, \epsilon)$. By Lemma \ref{lem:samplescover}
+	If $Z_i$ is the event that at there are no samples in $B(y_i, \epsilon)$. By \cref{lem:samplescover}
 	$$\P(\cup Z_i) \leq  \frac{2^d n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^d}{\log n} .$$
 
 	This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon(n))$. All points with the same ball $B(y_i, \epsilon(n))$ will be connected in the Rips complex with radius $2\epsilon(n)$. This implies that the number of connected components when restricting to points inside $L$ will be bounded above by $\frac{2^d n}{\log n}$ (almost surely).
@@ -244,13 +244,13 @@ Put in notation of offset $K^\delta$ for $K\subset \R^d$ and $\delta>0$. Let $L^
 
 \end{proof}
 
-\begin{corollary}
+\begin{corollary}\label{cor:consistency}
 	Let $f:\R^d \to \R$ be a Lipschitz probability density function for $X$ such that . Fix $\alpha\in (0,1)$. Then $d_{\alpha (n-1)} \to 0$ (where $d_{\alpha (n-1)}$ is the $\alpha$ percentile of finite death times) is a consistent....
 \end{corollary}
 \begin{proof}
-	By Theorem \ref{thm:d_alphan to 0} we have $\lim_{n\to \infty} d_{\alpha(n-1)} =0$.
+	By \cref{thm:d_alphan to 0} we have $\lim_{n\to \infty} d_{\alpha(n-1)} =0$.
 
-	As $f$ is a Lipschitz probability function it must be bounded. If $d=2$ then by Theorem \ref{thm:nd_f(n) in plane}, or if $d>2$ then by Theorem \ref{thm:nd_f(n) in higher dimensions}, we know that $\lim_{n\to \infty} nd_{\alpha(n-1)}=\infty$.
+	As $f$ is a Lipschitz probability function it must be bounded. If $d=2$ then by \cref{thm:nd_f(n) in plane}, or if $d>2$ then by \cref{thm:nd_f(n) in higher dimensions}, we know that $\lim_{n\to \infty} nd_{\alpha(n-1)}=\infty$.
 \end{proof}
 
 % \subsection{Bounds for kernel density estimates}

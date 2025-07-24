@@ -18,7 +18,7 @@ For experiment 1 we consider the  $\text{Gamma}(\alpha, \beta)$ distribution wit
 	\label{fig:exp1GammaRates}
 \end{figure}
 
-Figure \ref{fig:exp1GammaRates}  shows the data and results of Experiment 1. As the rate $r$ of the anomalous Gamma distribution increases, the anomalies and non-anomalies become similar. Thus, we expect a decrease in the true positive rate and an increase in the false negative rate as $r$ increases. The anomalies are maximally different from non-anomalies when $r = 0.1$. We see that new lookout performs better for these cases compared to the old version. Old lookout oscillates between high and low performances for $r = 0.1$, whereas the new version consistently performs well.
+\cref{fig:exp1GammaRates}  shows the data and results of Experiment 1. As the rate $r$ of the anomalous Gamma distribution increases, the anomalies and non-anomalies become similar. Thus, we expect a decrease in the true positive rate and an increase in the false negative rate as $r$ increases. The anomalies are maximally different from non-anomalies when $r = 0.1$. We see that new lookout performs better for these cases compared to the old version. Old lookout oscillates between high and low performances for $r = 0.1$, whereas the new version consistently performs well.
 
 \subsection{Experiment 2:  Different anomaly means for Normal distribution}
 
@@ -34,7 +34,7 @@ For experiment 2 we consider the normal distribution $\mathcal{N}(\mu, \sigma)$ 
 	\label{fig:exp2NormalRates}
 \end{figure}
 
-Figure \ref{fig:exp2NormalRates} shows Experiment 2 data and results. As $\mu$ increases, the anomalies shift away from the non-anomalies. Thus, we expect the true positive rate to increase and the false negative rate to decrease with $\mu$. Again new lookout performs better than old lookout, achieving higher true positive rates as well as lower false negative rates sooner with increasing $\mu$.
+\cref{fig:exp2NormalRates} shows Experiment 2 data and results. As $\mu$ increases, the anomalies shift away from the non-anomalies. Thus, we expect the true positive rate to increase and the false negative rate to decrease with $\mu$. Again new lookout performs better than old lookout, achieving higher true positive rates as well as lower false negative rates sooner with increasing $\mu$.
 
 % Non-outlier distribution: 1000 data points in $\mathbb{R}^2$, mean = $(0,0)$,  standard deviation = 1 \\
 % Outlier distribution: 10 data points,  mean $\in \{ 2.50, 2.75,  3.00 , 3.25,  3.50, 3.75, 4.00\}$ standard deviation = 0.2.
@@ -66,7 +66,7 @@ We consider $n$ non-anomalies for $n \in \{1000, 2000, \ldots, 10000\}$ and $0.0
 	\label{fig:exp3NormalIncreasingN}
 \end{figure}
 
-Figure \ref{fig:exp3NormalIncreasingN} shows the data of a single run and the results of experiment 3. Both new and old lookout give low false positive rates and high true negative rates. However, we see that new lookout has a larger true positive rate and a lower false negative rate compared to old lookout demonstrating that it performs better.
+\cref{fig:exp3NormalIncreasingN} shows the data of a single run and the results of experiment 3. Both new and old lookout give low false positive rates and high true negative rates. However, we see that new lookout has a larger true positive rate and a lower false negative rate compared to old lookout demonstrating that it performs better.
 
 % Non-outlier distribution: $N \in \{1000, 2000, \ldots, 10000\}$, mean =0, sd = 1 \\
 % Outlier distribution: 5 points mean = 2.2, sd = 0.2 \\
@@ -81,9 +81,9 @@ Figure \ref{fig:exp3NormalIncreasingN} shows the data of a single run and the re
 \end{figure}
 
 \subsection[Experiment 4: As N increases - Gamma distributions]{Experiment 4: As $N$ increases - Gamma distribution}
-This experiment is similar to experiment 3, but uses a Gamma distribution instead. As before, the aim is to check the effectiveness of \textit{lookout} when anomalies are near the boundary of non-anomalous points. For this experiment we consider $X_i \in \mathbb{R}^2$ with $X_i = (X_{i1}, X_{i2})$. We consider $n$ non-anomalies $X_i$ with  $X_{i1}, X_{i2} \sim \text{Gamma}(2, 2)$ where $n \in \{1000, 2000, \ldots, 10000\}$ in each iteration. The anomalies are generated somewhat differently. We first generate $n$ points $Y_i = (Y_{i1}, Y_{i2})$ from $\text{Gamma}(2.2, 2)$. From this set of points we sample a subset that are on the outer periphery of $X_i$. We do this by considering the subset $\{Y_i: \lVert Y_i \rVert >  \lVert X\rVert _{0.99} \}$ where $\lVert Y_i \rVert = \sqrt{ Y_{i1}^2 + Y_{i2}^2} $ denotes the distance from the origin to $Y_i$ and $\lVert X\rVert _{0.99}$ denotes the 99th percentile of $\left \{\sqrt{ X_{i1}^2 + X_{i2}^2} \right \}_{i=1}^n$. Of this subset we sample $0.005 \times n$ points and label them as anomalies. Each iteration for a given $n$ is repeated 10 times.  Figure \ref{fig:exp4GammaIncreasingN} shows the data from an iteration of the experiment with $n = 10000$ and the results for the new and old version of \textit{lookout}. Again we see that new lookout performs better in terms of true positive and false negative rates.
+This experiment is similar to experiment 3, but uses a Gamma distribution instead. As before, the aim is to check the effectiveness of \textit{lookout} when anomalies are near the boundary of non-anomalous points. For this experiment we consider $X_i \in \mathbb{R}^2$ with $X_i = (X_{i1}, X_{i2})$. We consider $n$ non-anomalies $X_i$ with  $X_{i1}, X_{i2} \sim \text{Gamma}(2, 2)$ where $n \in \{1000, 2000, \ldots, 10000\}$ in each iteration. The anomalies are generated somewhat differently. We first generate $n$ points $Y_i = (Y_{i1}, Y_{i2})$ from $\text{Gamma}(2.2, 2)$. From this set of points we sample a subset that are on the outer periphery of $X_i$. We do this by considering the subset $\{Y_i: \lVert Y_i \rVert >  \lVert X\rVert _{0.99} \}$ where $\lVert Y_i \rVert = \sqrt{ Y_{i1}^2 + Y_{i2}^2} $ denotes the distance from the origin to $Y_i$ and $\lVert X\rVert _{0.99}$ denotes the 99th percentile of $\left \{\sqrt{ X_{i1}^2 + X_{i2}^2} \right \}_{i=1}^n$. Of this subset we sample $0.005 \times n$ points and label them as anomalies. Each iteration for a given $n$ is repeated 10 times.  \cref{fig:exp4GammaIncreasingN} shows the data from an iteration of the experiment with $n = 10000$ and the results for the new and old version of \textit{lookout}. Again we see that new lookout performs better in terms of true positive and false negative rates.
 
-% For this experiment we consider $X_i \in \mathbb{R}^2$ with $X_i = (X_{i1}, X_{i2})$.  The non-anomalies  $X_{i1}, X_{i2} \sim \text{Gamma}(2, 2)$ and the anomalies $X_{i1}, X_{i2} \sim  \mathcal{N}(3, 0.5)$. There are $n$ non-anomalies and $5$ anomalies with $n \in \{1000, 2000, \ldots, 10000\}$ in each iteration. Figure \ref{fig:exp4GammaIncreasingN} shows the results and as before we see new lookout performs better.
+% For this experiment we consider $X_i \in \mathbb{R}^2$ with $X_i = (X_{i1}, X_{i2})$.  The non-anomalies  $X_{i1}, X_{i2} \sim \text{Gamma}(2, 2)$ and the anomalies $X_{i1}, X_{i2} \sim  \mathcal{N}(3, 0.5)$. There are $n$ non-anomalies and $5$ anomalies with $n \in \{1000, 2000, \ldots, 10000\}$ in each iteration. \cref{fig:exp4GammaIncreasingN} shows the results and as before we see new lookout performs better.
 
 % Non-outlier distribution: Gamma with $N \in \{1000, 2000, \ldots, 10000\}$, shape =2, rate = 2 \\
 % Outlier distribution: Normal 5 points with mean = $(3,3)$, sd = 0.5. \\
@@ -91,7 +91,7 @@ This experiment is similar to experiment 3, but uses a Gamma distribution instea
 
 \subsection{Showcase examples}\label{sec:realworld}
 
-Figure \ref{fig:showcaseExamples} shows some examples of new and old versions of lookout with identified anomalies in red. The purpose of this exercise is to check if the new version agrees with the old version on obvious anomalies. The graphs on the first row have anomalies at the top right hand corner. The second row depicts a bi-modal distribution with anomalies placed in the middle. Due to sparsity of points both versions of lookout identify some non-anomalous points as anomalies. The third row has 3 clusters of normally distributed points with anomalies placed around the point $(6, 6)$. The same setting is repeated in the fourth row with the anomalies spreaded out. The last row has non-anomalous points in a parabola and the anomalous points outside of it. This is a tricky example as the points are on a manifold and we are not considering their geometry. In this example the new version of lookout identifies 2 of the 3 anomalies, but also identifies the boundary points as anomalous. In contrast, the old version of lookout does not identify any of the 3 anomalies, but identifies 2 boundary points as anomalous. Apart from the last example, the overall performance of new and old versions of lookout is similar on these obvious cases.
+\cref{fig:showcaseExamples} shows some examples of new and old versions of lookout with identified anomalies in red. The purpose of this exercise is to check if the new version agrees with the old version on obvious anomalies. The graphs on the first row have anomalies at the top right hand corner. The second row depicts a bi-modal distribution with anomalies placed in the middle. Due to sparsity of points both versions of lookout identify some non-anomalous points as anomalies. The third row has 3 clusters of normally distributed points with anomalies placed around the point $(6, 6)$. The same setting is repeated in the fourth row with the anomalies spreaded out. The last row has non-anomalous points in a parabola and the anomalous points outside of it. This is a tricky example as the points are on a manifold and we are not considering their geometry. In this example the new version of lookout identifies 2 of the 3 anomalies, but also identifies the boundary points as anomalous. In contrast, the old version of lookout does not identify any of the 3 anomalies, but identifies 2 boundary points as anomalous. Apart from the last example, the overall performance of new and old versions of lookout is similar on these obvious cases.
 
 \begin{figure}[!p]
 	\centering
@@ -109,7 +109,7 @@ We check the new and old versions of lookout on two real world examples. Neither
 \end{enumerate}
 
 %\subsubsection{Old-faithful dataset}
-Figure \ref{fig:oldfaithful} shows the output of new and old versions of lookout with the anomalies depicted in red for the \textit{Old Faithful} dataset. New lookout identifies a couple of more points as anomalous compared to the old version. The output of the two versions are quite similar.
+\cref{fig:oldfaithful} shows the output of new and old versions of lookout with the anomalies depicted in red for the \textit{Old Faithful} dataset. New lookout identifies a couple of more points as anomalous compared to the old version. The output of the two versions are quite similar.
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=\linewidth]{Figures/old_faithful.pdf}
@@ -119,7 +119,7 @@ Figure \ref{fig:oldfaithful} shows the output of new and old versions of lookout
 
 % \subsubsection{Wine-reviews dataset}
 
-Figure \ref{fig:winereviews} shows the output of lookout on the \textit{Wine Reviews} dataset. For this dataset we see that the new version identifies less anomalies compared the old version. Especially boundary points are not identified as anomalous by the new version, which is an improvement.
+\cref{fig:winereviews} shows the output of lookout on the \textit{Wine Reviews} dataset. For this dataset we see that the new version identifies less anomalies compared the old version. Especially boundary points are not identified as anomalous by the new version, which is an improvement.
 
 \begin{figure}[!ht]
 	\centering

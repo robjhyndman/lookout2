@@ -1,26 +1,26 @@
-\section{Lookout algorithm v2 (RH)}\label{sec:modified}
+\section{Lookout algorithm v2}\label{sec:modified}
 
-The modified lookout algorithm introduces three main changes to the original lookout algorithm:
-\begin{enumerate}
-\item Rather than use a max-min scaling of the data, we standardize the data using a robust covariance estimator. This ensures that the data have zero pairwise correlations, which leads to more efficient kernel density estimates. It also leads to each variable having approximately unit variance, which provides a more robust scaling than min-max scaling.
-\item Rather than using the lower point of the largest gap in Rips death diameters, we use a quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death.
-\item The estimated GPD shape parameter is constrained to be non-positive, which improves the stability of the GPD fitting. This is justified by noting that the kernel density estimates are  bounded, so the limiting distribution under the Fisher-Tippett-Gnedenko theorem is a Weibell distribution, which has a negative shape parameter \citep{coles2001introduction}.
-\end{enumerate}
+The following subsections describe each of the modifications to the original lookout algorithm  \citep{lookout}.
 
 \subsection{Standardization}
 
-Let $\bm{Y}$ be the data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. Let $\hat{\bm{\Sigma}}$ denote the orthogonalized Gnanadesikan-Kettenring estimator of the covariance matrix of $\bm{Y}$ \citep{Maronna2002-qn}, and let its eigendecomposition be given by $\hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}$. Then, the data can be scaled by $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, so that the covariance matrix of the scaled data $\bm{Z}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
+Let $\bm{Y}$ be the $p\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. Let $\hat{\bm{\Sigma}}$ denote the orthogonalized Gnanadesikan-Kettenring estimator of the covariance matrix of $\bm{Y}$ \citep{Maronna2002-qn}, and let its eigendecomposition be given by $\hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}$. Then, the data can be scaled by $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, so that the covariance matrix of the scaled data $\bm{Z}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
 
+We prefer this to the min-max scaling used in the original lookout algorithm, as it is robust to outliers and removes the correlations between variables, leading to more efficient kernel density estimates.
 
 \subsection{Bandwidth matrix selection}
 
-The Rips death diameters are computed from the scaled and rotated data $\bm{Z}$. Let $d_1,\dots,d_n$ denote the (ordered) Rips death diameters computed from the sample $\bm{z}_1,\dots,\bm{z}_n$, and let $d^*$ denote the 0.9 sample quantile \citep{HF96} computed from $\{d_1,\dots,d_n\}$.
+The Rips death diameters are computed from the scaled and rotated data $\bm{Z}$. Let $d_1,\dots,d_n$ denote the (ordered) Rips death diameters computed from the sample $\bm{z}_1,\dots,\bm{z}_n$, and let $d^* = d_{0.9(n-1)}$ denote the 0.9 sample quantile \citep{HF96} computed from $\{d_1,\dots,d_n\}$.
 
 A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ using the bandwidth matrix
 $$\bm{H} = d^{*2/p}\bm{I},$$
-where $p$ is the dimension of the data.
+where $p$ is the dimension of the data. Under this estimator, up to 10\% of the data may be anomalous without affecting the bandwidth matrix selection, and the density estimator is consistent under \cref{cor:consistency}.
+
+Further, the kernels are now aligned with the data, as both have covariance matrices that are scalar multiples of the identity matrix. While alignment is not necessary for consistency, it does improve the efficiency of the kernel density estimates \citep{chacon2018multivariate}.
 
 \subsection{Bounds for kernel density estimates}
+
+In the following lemma we show that the kernel density estimates at the observations and their negative logarithms are bounded by constants that depend only on the dimension $p$ and the sample size $n$.
 
 \begin{lemma}\label{lemma:boundsforkde}
 	Let $\{\bm{y}_1, \dots, \bm{y}_n\}$ be $n$ data points in $\mathbb{R}^p$, with kernel density estimate given by
@@ -36,3 +36,7 @@ where $p$ is the dimension of the data.
 \end{proof}
 
 For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{p/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $M = \frac{1}{(2 \pi)^{p/2}}$.  If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{p+2}{2c_p} \left( 1 - \|\bm{u}\| \right)_{+}$, where $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$, and $u_+ = max(0, u)$, then $M = (p+2)/(2c_p)$.
+
+
+
+Under the Fisher-Tippett-Gnedenko theorem, the limiting distribution of the extremes of the negative logarithm of the kernel density estimates is a Weibull distribution, corresponding to a Generalized Extreme Value distribution with negative shape parameter

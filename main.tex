@@ -13,6 +13,7 @@
 \usepackage{algorithm}%
 \usepackage{algorithmicx}%
 \usepackage{algpseudocode}%
+\usepackage[capitalize,nameinlink]{cleveref}
 
 \usepackage{subfig}
 \usepackage{bm}
@@ -28,17 +29,13 @@
 \theoremstyle{thmstyleone}%
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{cor}[theorem]{Corollary}
 \newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{prop}[theorem]{Proposition}
-\newtheorem{thm}[theorem]{Theorem}
-\newtheorem{lem}[theorem]{Lemma}
-\newtheorem*{remark}{Remark}
 
 \renewcommand{\sectionautorefname}{Section}
 \renewcommand{\subsectionautorefname}{Section}
 \renewcommand{\subsubsectionautorefname}{Section}
+\newcommand{\corollaryautorefname}{Corollary}
+\newcommand{\lemmaautorefname}{Corollary}
 
 \usepackage{comment}
 \newcommand{\SK}[1]{\textcolor{blue}{[{\sc SK}] #1}}
