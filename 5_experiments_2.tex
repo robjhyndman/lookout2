@@ -5,12 +5,12 @@ In this section we compare the new and old versions of lookout with 2 Extreme Va
 
 Both HDoutliers and stray identify anomalies, i.e., they give a binary label 1 to anomalies and 0 to non-anomalies. Therefore, to compare lookout with stray and HDoutliers we have used the metrics \textit{Fmeasure} and \textit{Gmean}. Suppose  $tp$ denotes the true positives (actual = 1, predicted = 1), $fp$ denotes the false positives (actual = 0, predicted = 1),  $tn$ denotes the true negatives (actual = 0, predicted = 0) and $fn$ denotes the false negatives (actual = 1, predicted = 0). Then these metrics are defined as follows:
 \[
-  \text{Fmeasure} = 2\frac{ \text{Precision}\times\text{Recall} }{\text{Precision} + \text{Recall}}  \quad \text{where} \quad
-  \text{Precision} = \frac{tp}{tp + fp} \quad \text{and} \quad \text{Recall} = \frac{tp}{tp + fn} \, ,
+	\text{Fmeasure} = 2\frac{ \text{Precision}\times\text{Recall} }{\text{Precision} + \text{Recall}}  \quad \text{where} \quad
+	\text{Precision} = \frac{tp}{tp + fp} \quad \text{and} \quad \text{Recall} = \frac{tp}{tp + fn} \, ,
 \]
 \[
-  \text{Gmean} = \sqrt{\text{Sensitivity} \times \text{Specificity} } \quad \text{where} \quad \text{Sensitivity} = \frac{tp}{tp + fn}
-  \quad \text{and} \quad \text{Specificity} = \frac{tn}{tn + fp} \, .
+	\text{Gmean} = \sqrt{\text{Sensitivity} \times \text{Specificity} } \quad \text{where} \quad \text{Sensitivity} = \frac{tp}{tp + fn}
+	\quad \text{and} \quad \text{Specificity} = \frac{tn}{tn + fp} \, .
 \]
 Note that recall and sensitivity define the same quantity. Sensitivity is commonly used in epidemiological settings while recall is used  in computer science.
 
@@ -27,10 +27,10 @@ In this experiment we consider 405 points in $\mathbb{R}^6$, of which 5 points a
 Figure \ref{fig:comparisonExp5} shows the data and the results of this experiment. The top left plot shows the data on the $X_1X_2$ plane for the 3rd iteration and the middle left plot shows the data for the 9th iteration. The anomalies are shown in light blue. We see that the anomalies have drifted out. The bottom left plot shows the data on the $X_3X_4$ plane. The anomalies are  distinguishable only on the $X_1$ axis and as such they are mixed with the non-anomalies on the $X_3X_4$ plane.
 
 \begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\linewidth]{Figures/EXP5_Data_and_Results.pdf}
-  \caption{Experiment 5 results. Top left: data on the $X_1X_2$ plane in the 3rd iteration with anomalies in light blue. Middle left: data on the $X_1X_2$ plane in the 9th iteration with anomalies moving further away. Bottom left: data on the $X_3X_4$ plane.  The anomalies move out in the $X_1$ direction resulting in  the anomalies and non-anomalies being mixed on the $X_3X_4$ plane. Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
-  \label{fig:comparisonExp5}
+	\centering
+	\includegraphics[width=\linewidth]{Figures/EXP5_Data_and_Results.pdf}
+	\caption{Experiment 5 results. Top left: data on the $X_1X_2$ plane in the 3rd iteration with anomalies in light blue. Middle left: data on the $X_1X_2$ plane in the 9th iteration with anomalies moving further away. Bottom left: data on the $X_3X_4$ plane.  The anomalies move out in the $X_1$ direction resulting in  the anomalies and non-anomalies being mixed on the $X_3X_4$ plane. Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
+	\label{fig:comparisonExp5}
 \end{figure}
 
 The plot on the right gives the AUC when comparing lookout  with KDEOS and RDOS and Fmeasure and Gmean for comparison with HDoutliers and stray.
@@ -42,10 +42,10 @@ For this experiment we consider 805 points in $\mathbb{R}^3$ of which 5 points a
 % Non-outlier distribution: 800 points distributed in an annulus in $\mathbb{R}^3$.  \\
 % Outlier distribution: 5 points moving in to the annulus in each iteration.
 \begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\linewidth]{Figures/EXP6_Data_and_Results.pdf}
-  \caption{Experiment 6 results. Top left: data on the $X_1X_2$ plane in the 3rd iteration with anomalies in light blue. Middle left: data on the $X_1X_2$ plane in the 9th iteration with anomalies moving into the annulus. Bottom left: data on the $X_2X_3$ plane.   Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
-  \label{fig:comparisonExp6}
+	\centering
+	\includegraphics[width=\linewidth]{Figures/EXP6_Data_and_Results.pdf}
+	\caption{Experiment 6 results. Top left: data on the $X_1X_2$ plane in the 3rd iteration with anomalies in light blue. Middle left: data on the $X_1X_2$ plane in the 9th iteration with anomalies moving into the annulus. Bottom left: data on the $X_2X_3$ plane.   Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
+	\label{fig:comparisonExp6}
 \end{figure}
 
 \subsection[Experiment 7: Unit cube in R20]{Experiment 7: Unit cube in $\mathbb{R}^{20}$}
@@ -58,10 +58,10 @@ The anomalous point is not anomalous in any single dimension or on any $X_iX_j$ 
 % Outlier distribution: 1 outlier at $(0.9, \bm{x}_{19})$ in iteration 1,   $(0.9, 0.9,  \bm{x}_{18})$ in iteration 2, and so on where $\bm{x}_{19} \in \mathbb{R}^{19}$ is uniformly distributed in the 19-dimensional unit cube.
 
 \begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\linewidth]{Figures/EXP7_Data_and_Results.pdf}
-  \caption{Experiment 7 results}
-  \label{fig:comparisonExp7}
+	\centering
+	\includegraphics[width=\linewidth]{Figures/EXP7_Data_and_Results.pdf}
+	\caption{Experiment 7 results}
+	\label{fig:comparisonExp7}
 \end{figure}
 
 % \subsection{Real-world Examples}

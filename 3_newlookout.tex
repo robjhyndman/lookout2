@@ -2,25 +2,25 @@
 
 \subsection{Bounds for kernel density estimates}
 \begin{lemma}\label{lemma:boundsforkde}
-Let $\{\bm{x}_1, \dots, \bm{x}_n\}$ be $n$ data points in $\mathbb{R}^p$, with kernel density estimate given by
-$$ \hat{f}(\bm{x}) = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{x} - \bm{x}_i)\right),
-$$
-where $K(\bm{u})$ is a multivariate kernel function that is bounded below by 0 and above by $K(\bm{0}) = M$, and $\bm{H}$ is a $p\times p$ symmetric positive-definite bandwidth matrix. Then for all $j \in \{1, \dots, n\}$, the kernel density estimates at the observations, $\hat{f}(\bm{x}_j)$, and their negative logarithms,  $- \log \hat{f}(\bm{x}_j)$, are bounded by constants that depend only on $p$ and $n$.
+	Let $\{\bm{x}_1, \dots, \bm{x}_n\}$ be $n$ data points in $\mathbb{R}^p$, with kernel density estimate given by
+	$$ \hat{f}(\bm{x}) = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{x} - \bm{x}_i)\right),
+	$$
+	where $K(\bm{u})$ is a multivariate kernel function that is bounded below by 0 and above by $K(\bm{0}) = M$, and $\bm{H}$ is a $p\times p$ symmetric positive-definite bandwidth matrix. Then for all $j \in \{1, \dots, n\}$, the kernel density estimates at the observations, $\hat{f}(\bm{x}_j)$, and their negative logarithms,  $- \log \hat{f}(\bm{x}_j)$, are bounded by constants that depend only on $p$ and $n$.
 \end{lemma}
 \begin{proof}
-$$
-\frac{M|\bm{H}|^{-1/2}}{n} \leq\hat{f}(\bm{x}_j)  = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{x}_j - \bm{x}_i)\right) \leq M|\bm{H}|^{-1/2}\, .
-$$
-The constant $M$ may depend on $p$.
+	$$
+		\frac{M|\bm{H}|^{-1/2}}{n} \leq\hat{f}(\bm{x}_j)  = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{x}_j - \bm{x}_i)\right) \leq M|\bm{H}|^{-1/2}\, .
+	$$
+	The constant $M$ may depend on $p$.
 \end{proof}
 
 For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{p/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $M = \frac{1}{(2 \pi)^{p/2}}$.  If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{p+2}{2c_p} \left( 1 - \|\bm{u}\| \right)_{+}$, where $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$, and $u_+ = max(0, u)$, then $M = (p+2)/(2c_p)$.
 
 \SK{To Rob: We don't do the normalization in the next subsection anymore. The main changes are
-  \begin{enumerate}
-    \item Use the percentile Rips diameters.
-    \item If the estimated GPD shape parameter $\hat{\xi} > 0$, then set it to zero $\hat{\xi} = 0$.
-  \end{enumerate}
+	\begin{enumerate}
+		\item Use the percentile Rips diameters.
+		\item If the estimated GPD shape parameter $\hat{\xi} > 0$, then set it to zero $\hat{\xi} = 0$.
+	\end{enumerate}
 }
 
 The lookout2 algorithm identifies anomalies by first transforming the data to a distribution with approximate normal marginals and zero pairwise correlations. Then it estimates the density of the transformed data using a multivariate kernel density estimator with a bandwidth matrix $\bm{H}$, where $\bm{H}$ is chosen to be a function of the Rips death diameters computed from the transformed data.

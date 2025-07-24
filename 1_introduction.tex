@@ -11,11 +11,11 @@ In this paper, we explore some of the theoretical properties of the lookout algo
 The \textit{lookout} algorithm of \cite{lookout} has four inputs: the dataset $\bm{X}$ containing $N$ data points in $\mathbb{R}^p$, a parameter $\beta \in (0,1)$ indicating the proportion of points to be used for fitting the Generalized Pareto Distribution (GPD), a parameter $\alpha \in (0,1)$ signifying the cut-off threshold for determining an anomaly, and a logical variable \textit{unitize} indicating whether to scale the data. We briefly outline the steps below.
 
 \begin{enumerate}
-  \item If \textit{unitize}, then $\bm{X}$ is scaled using min-max scaling so that the resulting data lies in the unit cube in $\mathbb{R}^p$.
-  \item The persistence homology barcode of the data cloud is constructed for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}. From the barcode, the ordered death diameters $\{d_i\}_{i = 1}^N$ are obtained for connected components, and their successive differences are given by $\Delta d_i = d_{i+1} - d_i$ for $i \in \{1, \dots , N\}$. The diameter corresponding to the maximum $\Delta d_i$ is denoted $d_{*} = d_{i_*}$, where $i_{*} = \text{arg\! max} \{ \Delta d_i \}_{i=1}^N$.
-  \item Using $\bm{H} = (d_*)^{2/p} \bm{I}$, kernel density estimates $\hat{f}(\bm{x}; \bm{H}) = \frac{1}{N} \sum_{j = 1}^N K_{\bm{H}}(\bm{x} - \bm{x}_j) $ are computed using the multivariate scaled Epanechnikov kernel $K(\bm{x}) = \frac{p+2}{ c_p}(1 - \lVert x \rVert^2/5)_+$ where $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$ and $u_+ = \max(0, u)$ \citep{chacon2018multivariate}. The kde values at the observations are given by $y_i = \hat{f}(\bm{x}_i; \bm{H})$, with the corresponding leave-one-out kde values given by $y_{-i} = \frac{1}{N-1} \big( N y_i - \bm{H}^{-1/2} K(\bm{0}) \big)$, $i=1,\dots,N$.
-  \item Using the Peak Over Threshold (POT) approach \citep{coles2001introduction}, a Generalized Pareto Distribution (GPD) is fitted to largest $1-\beta$ of $\{ - \log y_i \}_{i = 1}^N$, providing estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
-  \item The probability of each observation is calculated by applying the estimated GDP to the leave-one-out kde values: $P(- \log y_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi} )$. If $P(- \log y_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi} ) < \beta\alpha$, $\bm{x}_i$ is declared anomalous.
+	\item If \textit{unitize}, then $\bm{X}$ is scaled using min-max scaling so that the resulting data lies in the unit cube in $\mathbb{R}^p$.
+	\item The persistence homology barcode of the data cloud is constructed for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}. From the barcode, the ordered death diameters $\{d_i\}_{i = 1}^N$ are obtained for connected components, and their successive differences are given by $\Delta d_i = d_{i+1} - d_i$ for $i \in \{1, \dots , N\}$. The diameter corresponding to the maximum $\Delta d_i$ is denoted $d_{*} = d_{i_*}$, where $i_{*} = \text{arg\! max} \{ \Delta d_i \}_{i=1}^N$.
+	\item Using $\bm{H} = (d_*)^{2/p} \bm{I}$, kernel density estimates $\hat{f}(\bm{x}; \bm{H}) = \frac{1}{N} \sum_{j = 1}^N K_{\bm{H}}(\bm{x} - \bm{x}_j) $ are computed using the multivariate scaled Epanechnikov kernel $K(\bm{x}) = \frac{p+2}{ c_p}(1 - \lVert x \rVert^2/5)_+$ where $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$ and $u_+ = \max(0, u)$ \citep{chacon2018multivariate}. The kde values at the observations are given by $y_i = \hat{f}(\bm{x}_i; \bm{H})$, with the corresponding leave-one-out kde values given by $y_{-i} = \frac{1}{N-1} \big( N y_i - \bm{H}^{-1/2} K(\bm{0}) \big)$, $i=1,\dots,N$.
+	\item Using the Peak Over Threshold (POT) approach \citep{coles2001introduction}, a Generalized Pareto Distribution (GPD) is fitted to largest $1-\beta$ of $\{ - \log y_i \}_{i = 1}^N$, providing estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
+	\item The probability of each observation is calculated by applying the estimated GDP to the leave-one-out kde values: $P(- \log y_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi} )$. If $P(- \log y_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi} ) < \beta\alpha$, $\bm{x}_i$ is declared anomalous.
 \end{enumerate}
 Further details are provided in \cite{lookout}.
 
@@ -25,23 +25,23 @@ Suppose we have a sample of $n$ points in $\mathbb{R}^p$, and we want to estimat
 
 Let $d_1,\dots,d_N$ denote the (ordered) Rips death diameters computed from the sample $\bm{y}_1,\dots,\bm{y}_N$, and let
 $$
-d_* = d_{i_*}\qquad\text{where}\quad i_* = \text{arg max}\{d_{i+1} - d_i\}_{i=1}^{N-1}
+	d_* = d_{i_*}\qquad\text{where}\quad i_* = \text{arg max}\{d_{i+1} - d_i\}_{i=1}^{N-1}
 $$
 That is, $d_*$ is the Rips diameter corresponding to the lower point of the largest gap in the Rips diameters. Then the bandwidth matrix proposed by \cite{lookout} is given by
 \begin{equation}\label{eq:bandwidth}
-  \bm{H} = d_*^{2/p}\bm{I},
+	\bm{H} = d_*^{2/p}\bm{I},
 \end{equation}
 where $p$ is the dimension of the data. \citet{lookout} demonstrated the results of their algorithm on a variety of simulated and real datasets, but did not provide a theoretical justification for their choice of bandwidth. In this paper, we revisit the issue and establish some conditions under which this choice of bandwidth provides a consistent estimator of the density. As a result, we propose a modification of the bandwidth selection method, leading to a lookout algorithm that works under a much broader range of conditions.
 
 To obtain a consistent estimator, we need $\bm{H}$ to be positive definite and symmetric, and to satisfy the following conditions \citep[][p31--37]{chacon2018multivariate}:
 \begin{itemize}
-  \item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
-  \item $n^{-1}|\bm{H}|^{-1/2} \rightarrow 0$ as $n\rightarrow\infty$.
+	\item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
+	\item $n^{-1}|\bm{H}|^{-1/2} \rightarrow 0$ as $n\rightarrow\infty$.
 \end{itemize}
 Thus, for the approach of \cite{lookout} to work, we need to show that
 \begin{equation}\label{eq:conditions}
-  d_*^{2/p}\rightarrow 0 \quad\text{and}\quad (d_*n)^{-1}\rightarrow0\quad{as}\quad
-  n\rightarrow\infty
+	d_*^{2/p}\rightarrow 0 \quad\text{and}\quad (d_*n)^{-1}\rightarrow0\quad{as}\quad
+	n\rightarrow\infty
 \end{equation}
 
 \subsection{Crackle (KT)}
@@ -52,7 +52,7 @@ Describe crackle idea and why it matters here
 
 As a result of these theoretical considerations, we propose several modifications to the lookout algorithm.
 \begin{enumerate}
-  \item Rather than use the lower point of the largest gap in Rips death diameters, we propose to use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death.
-  \item Finally, we scale and rotate the data to ensure that the data have zero pairwise correlations. This better aligns the bandwidth matrix to the data.
+	\item Rather than use the lower point of the largest gap in Rips death diameters, we propose to use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death.
+	\item Finally, we scale and rotate the data to ensure that the data have zero pairwise correlations. This better aligns the bandwidth matrix to the data.
 \end{enumerate}
 Note that we do not need to estimate the density of the underlying distribution directly. Instead, we can estimate the density of a transformation of the data, and identify anomalies in the transformed space. Hence, there is no need to undo the scaling or rotation/
