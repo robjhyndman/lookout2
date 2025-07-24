@@ -1,5 +1,25 @@
 \section{Lookout algorithm v2 (RH)}\label{sec:modified}
 
+The modified lookout algorithm introduces three main changes to the original lookout algorithm:
+\begin{enumerate}
+\item Rather than use a max-min scaling of the data, we standardize the data using a robust covariance estimator. This ensures that the data have zero pairwise correlations, which leads to more efficient kernel density estimates. It also leads to each variable having approximately unit variance, which provides a more robust scaling than min-max scaling.
+\item Rather than using the lower point of the largest gap in Rips death diameters, we use a quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death.
+\item The estimated GPD shape parameter is constrained to be non-positive, which improves the stability of the GPD fitting. This is justified by noting that the kernel density estimates are  bounded, so the limiting distribution under the Fisher-Tippett-Gnedenko theorem is a Weibell distribution, which has a negative shape parameter \citep{coles2001introduction}.
+\end{enumerate}
+
+\subsection{Standardization}
+
+Let $\bm{Y}$ be the data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. Let $\hat{\bm{\Sigma}}$ denote the orthogonalized Gnanadesikan-Kettenring estimator of the covariance matrix of $\bm{Y}$ \citep{Maronna2002-qn}, and let its eigendecomposition be given by $\hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}$. Then, the data can be scaled by $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, so that the covariance matrix of the scaled data $\bm{Z}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
+
+
+\subsection{Bandwidth matrix selection}
+
+The Rips death diameters are computed from the scaled and rotated data $\bm{Z}$. Let $d_1,\dots,d_n$ denote the (ordered) Rips death diameters computed from the sample $\bm{z}_1,\dots,\bm{z}_n$, and let $d^*$ denote the 0.9 sample quantile \citep{HF96} computed from $\{d_1,\dots,d_n\}$.
+
+A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ using the bandwidth matrix
+$$\bm{H} = d^{*2/p}\bm{I},$$
+where $p$ is the dimension of the data.
+
 \subsection{Bounds for kernel density estimates}
 
 \begin{lemma}\label{lemma:boundsforkde}
@@ -16,28 +36,3 @@
 \end{proof}
 
 For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{p/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $M = \frac{1}{(2 \pi)^{p/2}}$.  If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{p+2}{2c_p} \left( 1 - \|\bm{u}\| \right)_{+}$, where $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$, and $u_+ = max(0, u)$, then $M = (p+2)/(2c_p)$.
-
-The lookout2 algorithm identifies anomalies by first transforming the data to a distribution with approximate normal marginals and zero pairwise correlations. Then it estimates the density of the transformed data using a multivariate kernel density estimator with a bandwidth matrix $\bm{H}$, where $\bm{H}$ is chosen to be a function of the Rips death diameters computed from the transformed data.
-
-
-\SK{To Rob: We don't do the normalization in the next subsection anymore. The main changes are
-	\begin{enumerate}
-		\item Use the percentile Rips diameters.
-		\item If the estimated GPD shape parameter $\hat{\xi} > 0$, then set it to zero $\hat{\xi} = 0$.
-	\end{enumerate}
-}
-
-
-\subsection{Standardization}
-
-Then we can rotate the data to ensure zero pairwise correlations. Let $\hat{\bm{\Sigma}}$ denote the orthogonalized Gnanadesikan-Kettenring estimator of the covariance matrix of $\bm{X}^{*}$ \citep{Maronna2002-qn}, and let its eigendecomposition be given by $\hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}$. Then, the data can be scaled by $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{X}^*$, so that the covariance matrix of the scaled data $\bm{Z}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
-
-\subsection{Rips diameters}
-
-The Rips death diameters are computed from the scaled and rotated data $\bm{Z}$. Let $d_1,\dots,d_N$ denote the (ordered) Rips death diameters computed from the sample $\bm{z}_1,\dots,\bm{z}_N$, and let $d^*$ denote the 0.9 sample quantile \citep{HF96} computed from $\{d_1,\dots,d_N\}$.
-
-\subsection{Bandwidth selection}
-
-A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_N\}$ using the bandwidth matrix
-$$\bm{H} = d^{*2/p}\bm{I},$$
-where $p$ is the dimension of the data.

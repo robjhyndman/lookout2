@@ -1,6 +1,6 @@
 \section{Consistency and crackle (KT)}\label{sec:theory}
 
-We will first prove a number of limit theorems about $d_{f(n)}$, that is the $f(n)$-th death time (when ordered increasingly by size). For consistency, we are interested in $d_{f(n)} \to 0$ and $nd_{f(n)}\to \infty$.
+We will first prove a number of limit theorems about $d_{f(n)}$, that is the $f(n)$-th death time (when ordered increasingly by size). For consistency of the kernel density estimator, we are interested in $d_{f(n)} \to 0$ and $nd_{f(n)}\to \infty$.
 
 \subsection{Limit of $nd_{f(n)}$}
 %Main mathematical results with proofs (possibly relegated to the Appendices).
@@ -77,7 +77,7 @@ We will first prove a number of limit theorems about $d_{f(n)}$, that is the $f(
 
 \subsection{Limit of $d_{n-1}$ for Gaussian Samples}
 
-In this section we will prove the complementary limit theorem needed for consistency results when we assume that the samples come from a Gaussian distribution.  The proof to showing that $d_{f(n)}\to 0$ as $n\to \infty$ is a straightforward modification of the proof for ??? in  \cite{Crackle}. The only real change is that we need to consider a sequence of decreasing radii for the balls whereas in \cite{Crackle} the radii remain constant (value $1$). We include the calculations for completeness. %For consistency in the case of Gaussian distributions over $\R^2$, we also need to show that the index function for the maximum gap in death values will go to infinity almost surely.
+In this section we will prove the complementary limit theorem needed for consistency results when we assume that the samples come from a Gaussian distribution.  The proof to showing that $d_{f(n)}\to 0$ as $n\to \infty$ is a straightforward modification of the proof for ??? in \cite{Crackle}. The only real change is that we need to consider a sequence of decreasing radii for the balls, whereas in \cite{Crackle} the radii remain constant (value $1$). We include the calculations for completeness. %For consistency in the case of Gaussian distributions over $\R^2$, we also need to show that the index function for the maximum gap in death values will go to infinity almost surely.
 
 Let $S_n$ denote a random sample of $n$ points from a multivariate Gaussian in $\R^d$.  The probability density function of this Gaussian is $c e^{-\frac{\|x\|^2}{2}}$ for some constant $c$. Note this pdf is spherically symmetric. Denote $f(R)=c e^{-\frac{R^2}{2}}$ for this density in terms of the radial coordinate.
 
@@ -139,18 +139,18 @@ Let $S_n$ denote a random sample of $n$ points from a multivariate Gaussian in $
 \end{proof}
 
 \begin{corollary}
-	For point clouds sampled from multivariate Gaussian distributions we have $d_* \to 0$ as $n\to \infty$.
+	For point clouds sampled from multivariate Gaussian distributions, we have $d_* \to 0$ as $n\to \infty$.
 \end{corollary}
 
 \begin{proof}
 	Note that $i_*< n-1$ and so $d_*=d_{i_*}<d_{n-1}$ which we know limits to $0$ almost surely from Theorem \ref{thm:d_n-1 Gaussian}.
 \end{proof}
 
-If we wished to prove that $d_*$ is a consistent estimator the only remaining task is to show $i(n) \to \infty$ at $n \to \infty$ almost surely. This seems intuitively clear but technically challenging. It is not the focus of the new version of lookout and thus we will leave this proof as an open problem.
+If we wished to prove that $d_*$ results in a consistent density estimator, the only remaining task is to show $i(n) \to \infty$ at $n \to \infty$ almost surely. This seems intuitively clear but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem.
 
 \subsection{Counterexample for distributions with fat tails}
 
-Within \cite{Crackle} the authors prove various limit theorems of lower bounds on the expected number of connected components of $\cup_{x}B(x,1)$ for $x$ sampled from exponential or power distributions over $\R^d$. This lower bound comes from bounding the number of isolated samples outside the ball $B(0,R_n)$ for well chosen $R_n$.  We can use these to show that $d_{g(n)}$ does not go to $0$ almost surely for large enough functions $g(n)$.
+\cite{Crackle} prove various limit theorems of lower bounds on the expected number of connected components of $\cup_{x}B(x,1)$ for $x$ sampled from exponential or power distributions over $\R^d$. This lower bound comes from bounding the number of isolated samples outside the ball $B(0,R_n)$ for well-chosen $R_n$.  We can use these to show that $d_{g(n)}$ does not go to $0$ almost surely for large enough functions $g(n)$.
 
 The ($\alpha$-) power law distribution over $\R^d$ has probability density function $f(x)=\frac{c(d,\alpha)}{1+\|x\|^\alpha}$ where $\alpha>d$ and $c(d,\alpha)$ is the appropriate constant.
 
@@ -164,7 +164,7 @@ Let $K_{(R,n)}$ be the number of isolated samples outside the ball $B(0,R)$. Not
 
 \subsection{Limit of $d_{\alpha (n-1)}$ (fixed percentiles of death times)}
 
-There are many choices of function $f(n)$ to decide which death time to use as a bandwidth. We wish for this choice to determine a consistent bandwidth parameter. This means we need $d_{f(n)} \to 0$ as $n \to \infty$.
+There are many choices of function $f(n)$ to decide which death time to use as a bandwidth. We wish for this choice to determine a consistent density estimator. This means we need $d_{f(n)} \to 0$ as $n \to \infty$.
 
 We will particularly focus on $d_{\alpha(n-1)}$ for some $\alpha\in [0,1]$. Recall that there are only $n-1$ finite death times so $d_{n-1}$ is the largest finite death value. Strictly speaking we will need an integer value, so you can interpret $\alpha(n-1)$ as either the floor or the ceiling, the same limits will hold in either case.
 
@@ -182,7 +182,7 @@ The following is a standard useful lemma but we include for completeness.
 Put in notation of offset $K^\delta$ for $K\subset \R^d$ and $\delta>0$. Let $L^\epsilon=\{y+v \mid y\in L, \|v\| \leq \epsilon\}$.
 
 \begin{lemma}
-	Let $f: \R^d\to [0,\infty)$ be a Lipschitz probability density function (constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$.  For all $\epsilon\in(0, c/2M]$ there there exists $\{x_1, \ldots x_l\}\subset L$ such that
+	Let $f: \R^d\to [0,\infty)$ be a Lipschitz probability density function (constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$.  For all $\epsilon\in(0, c/2M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that
 	$\{B(x_i, \epsilon)\}$ is a cover of $L$, $\P(X\in B(x_i, \epsilon))>\frac{c\omega_d}{2} \epsilon^d$  and $$l\leq \frac{2^{d+1}}{c\omega_d \epsilon ^d}.$$
 	%Furthermore, $\cup_i B(x_i, \epsilon)$ contains at most $$??$$ connected components.
 \end{lemma}
@@ -213,7 +213,7 @@ Put in notation of offset $K^\delta$ for $K\subset \R^d$ and $\delta>0$. Let $L^
 	If $Z_i$ is the event that at there are no samples in $B(y_i, \epsilon)$. By Lemma \ref{lem:samplescover}
 	$$\P(\cup Z_i) \leq  \frac{2^d n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^d}{\log n} .$$
 
-	This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon(n))$. All points with the same ball $B(y_i, \epsilon(n))$ will be connected in the Rips complex with radius $2\epsilon(n)$. This implies that the number of connected components when restricting to points inside of $L$ will be bounded above by $\frac{2^d n}{\log n}$ (almost surely).
+	This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon(n))$. All points with the same ball $B(y_i, \epsilon(n))$ will be connected in the Rips complex with radius $2\epsilon(n)$. This implies that the number of connected components when restricting to points inside $L$ will be bounded above by $\frac{2^d n}{\log n}$ (almost surely).
 
 	%Let $p=\P(X\notin L)$. Note that for all $x\in L$ we have $f(x)>c$. Since $f$ has only finitely many local maxima we have that the number of connected components in $L$ is finite.
 	%Denote these connected components by $L_1, L_2, \ldots  L_K$. %Consider also the sets $L_i^\epsilon=\{y\in \R^d| \text{ there exists }x\in L_i \text{ such that } \|x-y\|<\epsilon\}$

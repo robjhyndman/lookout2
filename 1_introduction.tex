@@ -38,7 +38,7 @@ Thus, for the approach of \cite{lookout} to work, we need
 \end{equation}
 In the following section, we will explore the conditions under which these hold, and the implications for the lookout algorithm. In particular, we will show that the conditions are not satisfied for distributions with heavy tails.
 
-A secondary consideration is that in using a diagonal matrix $\bm{H}$, we are ignoring the correlations between the variables. This is not a problem if the data are approximately uncorrelated, but can lead to suboptimal performance if the data have strong correlations. So in our modified lookout algorithm, we will use a rotation to ensure that the data have negligible pairwise correlations.
+A secondary consideration is that in using a diagonal matrix $\bm{H}$, we are ignoring the correlations between the variables. This is not a problem if the data are approximately uncorrelated, but can lead to suboptimal performance if the data have strong correlations. So in our modified lookout algorithm, we will use a rotation to ensure that the data have zero pairwise correlations.
 
 \subsection{Crackle (KT)}
 
@@ -49,7 +49,7 @@ Describe crackle idea and why it matters here
 As a result of these theoretical considerations, we propose several modifications to the lookout algorithm.
 \begin{enumerate}
 	\item Rather than use the lower point of the largest gap in Rips death diameters, we propose to use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death.
-	\item We scale and rotate the data to ensure that the data have zero pairwise correlations. This better aligns the bandwidth matrix to the data.
+	\item We scale and rotate the data to ensure that the covariance matrix of the transformed data is approximately the identity matrix.
 \end{enumerate}
 Note that we do not need to estimate the density of the underlying distribution directly. Instead, we can estimate the density of a transformation of the data, and identify anomalies in the transformed space. Hence, there is no need to undo the scaling or rotation/
 
