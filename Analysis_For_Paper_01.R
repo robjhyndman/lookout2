@@ -1,3 +1,6 @@
+# Need to install lookout from percentile branch
+# remotes::install_github("sevvandi/lookout@percentile")
+
 library(lookout)
 library(tidyverse)
 source(here::here("Exp_Gamma.R"))
