@@ -38,3 +38,8 @@ See section 5 in paper for details
 Data_Viz.R
 # -------------------------------------------
 Visualizations for everything other than real world examples
+
+# -------------------------------------------
+Analysis_For_Paper_01.R
+# -------------------------------------------
+For the results in the main paper. This relies on functions.R.
