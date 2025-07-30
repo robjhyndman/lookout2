@@ -10,35 +10,7 @@
 
 library(ggplot2)
 library(tidyverse)
-
-# Okabe-Ito colours
-options(
-  ggplot2.discrete.colour = c(
-    "#D55E00",
-    "#0072B2",
-    "#009E73",
-    "#CC79A7",
-    "#E69F00",
-    "#56B4E9",
-    "#F0E442"
-  ),
-  ggplot2.discrete.fill = c(
-    "#D55E00",
-    "#0072B2",
-    "#009E73",
-    "#CC79A7",
-    "#E69F00",
-    "#56B4E9",
-    "#F0E442"
-  )
-)
-# # Fira Sans font for graphics
-# ggplot2::theme_set(
-#   ggplot2::theme_get() +
-#     ggplot2::theme(text = ggplot2::element_text(family = "Fira Sans"))
-# )
-
-ggplot2::theme_set(theme_bw())
+source(here::here("R/functions.R"))
 
 # ------------------------------------------------------------------------------
 # TASK 01: EXP1 - GAMMA DISTRIBUTION TWO SEPARATE DISTRIBUTIONS
@@ -94,7 +66,6 @@ shape2 <- 2
 rate1 <- 2
 rate2 <- outrate
 
-set.seed(2025)
 i <- 2
 X <- matrix(rgamma(n = 2 * n1, shape = shape1, rate = rate1), ncol = 2)
 X2 <- matrix(rgamma(n = 2 * n2, shape = shape2, rate = rate2[i]), ncol = 2)
@@ -120,7 +91,12 @@ g3 <- ggplot(df, aes(X1, X2, color = Points)) +
   labs(color = "Points(rate = 0.9)")
 
 lay <- rbind(c(2, 1), c(3, 1))
-gridExtra::grid.arrange(g1, g2, g3, layout_matrix = lay)
+
+fig <- here::here(paste0("Figures/EXP1_Gamma_Rates.pdf"))
+cairo_pdf(file = fig, width = 8, height = 6)
+print(gridExtra::grid.arrange(g1, g2, g3, layout_matrix = lay))
+crop::dev.off.crop(fig)
+
 
 # ------------------------------------------------------------------------------
 # TASK 02: EXP2 - NORMAL DISTRIBUTION TWO SEPARATE DISTRIBUTIONS
@@ -187,7 +163,6 @@ colnames(df)[1:2] <- c("X1", "X2")
 g2 <- ggplot(df, aes(X1, X2, color = Points)) +
   geom_point() +
   labs(color = paste0("Points(mean = ", mm, ")"))
-g2
 
 i <- 6
 mm <- mm_seq[i]
@@ -206,10 +181,14 @@ colnames(df)[1:2] <- c("X1", "X2")
 g3 <- ggplot(df, aes(X1, X2, color = Points)) +
   geom_point() +
   labs(color = paste0("Points(mean = ", mm, ")"))
-g3
 
 lay <- rbind(c(2, 1), c(3, 1))
-gridExtra::grid.arrange(g1, g2, g3, layout_matrix = lay)
+
+fig <- here::here(paste0("Figures/EXP2_Normal_Rates.pdf"))
+cairo_pdf(file = fig, width = 8, height = 6)
+print(gridExtra::grid.arrange(g1, g2, g3, layout_matrix = lay))
+crop::dev.off.crop(fig)
+
 
 # ------------------------------------------------------------------------------
 # TASK 03: EXP3 - AS N INCREASES - NORMAL DISTRIBUTION
@@ -367,7 +346,6 @@ g4
 
 # plot data
 i <- 3
-set.seed(1)
 X <- bind_cols(
   x2 = rnorm(405),
   x3 = rnorm(405),
@@ -389,7 +367,6 @@ g1
 
 # plot data
 i <- 9
-set.seed(1)
 X <- bind_cols(
   x2 = rnorm(405),
   x3 = rnorm(405),
@@ -444,7 +421,6 @@ g4
 
 # plot data
 i <- 3
-set.seed(1)
 nn <- 805
 r1 <- runif(nn)
 r2 <- rnorm(nn, mean = 5)
@@ -469,7 +445,6 @@ g1
 
 # plot data
 i <- 9
-set.seed(1)
 nn <- 805
 r1 <- runif(nn)
 r2 <- rnorm(nn, mean = 5)
@@ -526,7 +501,6 @@ g4 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
 g4
 
 # plot data
-set.seed(1)
 i <- 5
 nn <- 500
 X <- matrix(runif(nn * (dd + 1)), ncol = dd + 1, nrow = nn)

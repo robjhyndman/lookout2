@@ -13,46 +13,8 @@ library(stray)
 library(lookout)
 library(DDoutlier)
 library(tidyverse)
+source(here::here("R/functions.R"))
 
-diff_metrics <- function(act, pred) {
-  # positives to be denoted by 1 and negatives with 0
-  stopifnot(length(act) == length(pred))
-  n <- length(act)
-  tp <- sum((act == 1) & (pred == 1))
-  tn <- sum((act == 0) & (pred == 0))
-  fp <- sum((act == 0) & (pred == 1))
-  fn <- sum((act == 1) & (pred == 0))
-  prec <- (tp + tn) / n
-  sn <- tp / (tp + fn)
-  sp <- tn / (tn + fp)
-  precision <- if_else(
-    (tp + fp) == 0,
-    0,
-    tp / (tp + fp)
-  )
-  recall <- tp / (tp + fn)
-  fmeasure <- if_else(
-    (precision == 0) & (recall == 0),
-    0,
-    2 * precision * recall / (precision + recall)
-  )
-  tibble(
-    N = n,
-    true_pos = tp,
-    true_neg = tn,
-    false_pos = fp,
-    false_neg = fn,
-    accuracy = prec,
-    sensitivity = sn,
-    specificity = sp,
-    gmean = sqrt(sn * sp),
-    precision = precision,
-    recall = recall,
-    fmeasure = fmeasure
-  )
-}
-
-set.seed(2025)
 values <- rep(0, 10)
 pp <- 10
 hdoutliers_gmean <- hdoutliers_fmeasure <- lookout1_fmeasure <-
@@ -319,7 +281,6 @@ write.csv(
 # TASK 02 : EXPERIMENT 6
 # ----------------------------------------------------------------------------------
 
-set.seed(2025)
 values <- rep(0, 10)
 pp <- 10
 hdoutliers_gmean <- hdoutliers_fmeasure <- lookout1_fmeasure <-
@@ -588,7 +549,6 @@ write.csv(
 # ----------------------------------------------------------------------------------
 # TASK 03 : EXPERIMENT 7
 # ----------------------------------------------------------------------------------
-set.seed(2025)
 values <- rep(0, 10)
 pp <- 10
 hdoutliers_gmean <- hdoutliers_fmeasure <- lookout1_fmeasure <-
@@ -826,7 +786,7 @@ g3 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   facet_wrap(~Metric) +
   scale_x_continuous(breaks = 2 * (1:10)) +
   theme_bw()
-g3
+#g3
 
 # TIME TAKEN
 dftime <- tibble(

@@ -9,6 +9,7 @@ library(ggplot2)
 library(gridExtra)
 library(stray)
 library(HDoutliers)
+source(here::here("R/functions.R"))
 
 # --------------------------------------------------------------------------
 # TASK 1: OLD FAITHFUL DATA

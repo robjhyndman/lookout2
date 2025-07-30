@@ -6,7 +6,8 @@
 library(tidyverse)
 library(lookout)
 library(gridExtra)
-set.seed(2025)
+source(here::here("R/functions.R"))
+
 X <- bind_rows(
   tibble(
     x = rnorm(1000),
@@ -25,7 +26,6 @@ lookobj1 <- lookout::lookout(
   gamma = 0.98,
   old_version = FALSE
 )
-lookobj1
 g1 <- autoplot(lookobj1) +
   ggtitle("New lookout")
 
@@ -37,13 +37,8 @@ lookobj2 <- lookout::lookout(
   gamma = 1,
   old_version = TRUE
 )
-lookobj2
 g2 <- autoplot(lookobj2) +
   ggtitle("Old Lookout")
-
-grid.arrange(g1, g2, ncol = 2)
-
-# Both versions are the same
 
 # ---------------------------------------------------------------------
 # TASK 2 - EXAMPLE 2
@@ -71,7 +66,6 @@ lookobj1 <- lookout::lookout(
   old_version = FALSE
 )
 
-lookobj1
 g3 <- autoplot(lookobj1)
 
 lookobj2 <- lookout::lookout(
@@ -81,9 +75,7 @@ lookobj2 <- lookout::lookout(
   gamma = 1,
   old_version = TRUE
 )
-lookobj2
 g4 <- autoplot(lookobj2)
-grid.arrange(g3, g4, ncol = 2)
 
 # ---------------------------------------------------------------------
 # TASK 3 - EXAMPLE 3
@@ -108,8 +100,8 @@ X <- bind_rows(
 )
 
 Xdf <- cbind.data.frame(X, label = c(rep("Normal", 700), rep("Anomaly", 3)))
-ggplot(Xdf, aes(x, y)) +
-  geom_point(aes(color = label))
+#ggplot(Xdf, aes(x, y)) +
+#  geom_point(aes(color = label))
 
 # Newer version
 lookobj1 <- lookout::lookout(
@@ -120,7 +112,6 @@ lookobj1 <- lookout::lookout(
   old_version = FALSE
 )
 
-lookobj1
 g5 <- autoplot(lookobj1)
 
 # Older version
@@ -131,10 +122,7 @@ lookobj2 <- lookout::lookout(
   gamma = 1,
   old_version = TRUE
 )
-lookobj2
 g6 <- autoplot(lookobj2)
-# same performance
-grid.arrange(g5, g6, ncol = 2)
 
 # ---------------------------------------------------------------------
 # TASK 4 - EXAMPLE 4
@@ -159,8 +147,8 @@ X <- bind_rows(
 )
 
 Xdf <- cbind.data.frame(X, label = c(rep("Normal", 700), rep("Anomaly", 3)))
-ggplot(Xdf, aes(x, y)) +
-  geom_point(aes(color = label))
+#ggplot(Xdf, aes(x, y)) +
+#  geom_point(aes(color = label))
 
 # Newer version
 lookobj1 <- lookout::lookout(
@@ -170,7 +158,6 @@ lookobj1 <- lookout::lookout(
   gamma = 0.98,
   old_version = FALSE
 )
-lookobj1
 g7 <- autoplot(lookobj1)
 
 # Older version
@@ -181,15 +168,10 @@ lookobj2 <- lookout::lookout(
   gamma = 1,
   old_version = TRUE
 )
-lookobj2
 g8 <- autoplot(lookobj2)
-# same performance
-
-grid.arrange(g7, g8, ncol = 2)
 
 # ---------------------------------------------------------------------
 # TASK 5 - EXAMPLE 5
-set.seed(2025)
 X <- bind_rows(
   tibble(x = rnorm(1000, sd = 0.2)) %>%
     mutate(y = x^2 + rnorm(1000, sd = 0.001)),
@@ -201,8 +183,8 @@ X <- bind_rows(
 # x = c(0, -0.2, 0.4),
 # y = c(0.3, 0.4, 0.5)
 Xdf <- cbind.data.frame(X, label = c(rep("Normal", 1000), rep("Anomaly", 3)))
-ggplot(Xdf, aes(x, y)) +
-  geom_point(aes(color = label))
+#ggplot(Xdf, aes(x, y)) +
+#  geom_point(aes(color = label))
 
 # Newer version
 lookobj1 <- lookout::lookout(
@@ -212,7 +194,6 @@ lookobj1 <- lookout::lookout(
   gamma = 0.98,
   old_version = FALSE
 )
-lookobj1
 g9 <- autoplot(lookobj1)
 
 # Older version
@@ -223,11 +204,12 @@ lookobj2 <- lookout::lookout(
   gamma = 1,
   old_version = TRUE
 )
-lookobj2
 g10 <- autoplot(lookobj2)
 
-grid.arrange(g9, g10, ncol = 2)
 # New one is actually better. Gets 2/3 anomalies with some false positives.
 # The old version doesn't get anomalies at all.
 
-grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, ncol = 2)
+fig <- here::here(paste0("Figures/Showcase_Examples.pdf"))
+cairo_pdf(file = fig, width = 12, height = 6)
+print(grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, ncol = 2))
+crop::dev.off.crop(fig)

@@ -12,3 +12,5 @@ main.pdf
 *.out
 *.synctex.gz
 .vscode/*
+*.Rout
+Rplots.pdf

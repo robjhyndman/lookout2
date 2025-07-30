@@ -4,34 +4,6 @@
 library(lookout)
 library(tidyverse)
 source(here::here("R/functions.R"))
-set.seed(2024)
-
-# Okabe-Ito colours
-options(
-  ggplot2.discrete.colour = c(
-    "#D55E00",
-    "#0072B2",
-    "#009E73",
-    "#CC79A7",
-    "#E69F00",
-    "#56B4E9",
-    "#F0E442"
-  ),
-  ggplot2.discrete.fill = c(
-    "#D55E00",
-    "#0072B2",
-    "#009E73",
-    "#CC79A7",
-    "#E69F00",
-    "#56B4E9",
-    "#F0E442"
-  )
-)
-# Fira Sans font for graphics
-ggplot2::theme_set(
-  ggplot2::theme_get() +
-    ggplot2::theme(text = ggplot2::element_text(family = "Fira Sans"))
-)
 
 # ------------------------------------------------------------------------------
 # TASK 01:  GAMMA DISTRIBUTION OLD LOOKOUT AND NEW LOOKOUT
@@ -63,8 +35,8 @@ gamma_out <- bind_rows(
   out_old |> mutate(method = "Old lookout"),
   out_new |> mutate(method = "New lookout")
 ) |>
-  relocate(method, ) |>
-  select(-c(specificity)) |>
+  relocate(method) |>
+  select(method:false_neg) |>
   rename(
     "True Positives" = true_pos,
     "False Positives" = false_pos,
@@ -102,15 +74,10 @@ write.csv(
 reps <- 20
 mm <- seq(2.5, 4, by = 0.25)
 dfout_new <- dfout_old <- tibble(
-  Algo = character(reps),
-  mm = numeric(reps),
-  N = numeric(reps),
-  true_pos = numeric(reps),
-  true_neg = numeric(reps),
-  false_pos = numeric(reps),
-  false_neg = numeric(reps),
-  specificity = numeric(reps)
-)
+  Algo = character(reps * length(mm)),
+  mm = numeric(reps * length(mm)),
+) |>
+  bind_cols(set_up_diff_metrics(reps * length(mm)))
 
 kk <- 1
 for (ii in seq_along(mm)) {
@@ -150,7 +117,7 @@ write.csv(
 )
 
 normal_out <- dfout |>
-  select(-c(specificity)) |>
+  select(Algo:false_neg) |>
   rename(
     "True Positives" = true_pos,
     "False Positives" = false_pos,
