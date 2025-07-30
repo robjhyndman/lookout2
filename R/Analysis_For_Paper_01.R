@@ -1,10 +1,9 @@
 # Need to install lookout from percentile branch
-# remotes::install_github("sevvandi/lookout@percentile")
+# remotes::install_github("sevvandi/lookout@lookout-para")
 
 library(lookout)
 library(tidyverse)
-source(here::here("Exp_Gamma.R"))
-source(here::here("Exp_Normal.R"))
+source(here::here("R/functions.R"))
 set.seed(2024)
 
 # Okabe-Ito colours
@@ -46,8 +45,7 @@ out_old <- gamma_outliers(
   rate1 = 2,
   rate2 = rep((1:4) / 10, 30),
   bw = 1,
-  shape_zero = FALSE,
-  normalize = FALSE
+  version = 1
 )
 
 out_new <- gamma_outliers(
@@ -58,8 +56,7 @@ out_new <- gamma_outliers(
   rate1 = 2,
   rate2 = rep((1:4) / 10, 30),
   bw = 0.95,
-  shape_zero = TRUE,
-  normalize = TRUE
+  version = 2
 )
 
 gamma_out <- bind_rows(
@@ -92,7 +89,11 @@ cairo_pdf(file = fig, width = 8, height = 6)
 print(p)
 crop::dev.off.crop(fig)
 
-write.csv(gamma_out, "Data_Output/Outliers_Gamma.csv", row.names = FALSE)
+write.csv(
+  gamma_out,
+  here::here("Data_Output/Outliers_Gamma.csv"),
+  row.names = FALSE
+)
 
 # ------------------------------------------------------------------------------
 # TASK 02:  NORMAL DISTRIBUTION OLD LOOKOUT AND NEW LOOKOUT
@@ -101,26 +102,25 @@ write.csv(gamma_out, "Data_Output/Outliers_Gamma.csv", row.names = FALSE)
 reps <- 20
 mm <- seq(2.5, 4, by = 0.25)
 dfout_new <- dfout_old <- tibble(
-  Algo = character(),
-  mm = numeric(),
-  N = numeric(),
-  true_pos = numeric(),
-  true_neg = numeric(),
-  false_pos = numeric(),
-  false_neg = numeric(),
-  specificity = numeric()
+  Algo = character(reps),
+  mm = numeric(reps),
+  N = numeric(reps),
+  true_pos = numeric(reps),
+  true_neg = numeric(reps),
+  false_pos = numeric(reps),
+  false_neg = numeric(reps),
+  specificity = numeric(reps)
 )
 
 kk <- 1
-for (ii in 1:length(mm)) {
-  for (jj in 1:reps) {
+for (ii in seq_along(mm)) {
+  for (jj in seq_len(reps)) {
     out <- exp_normal(
       n1 = 1000,
       n2 = 10,
       mm = mm[ii],
       bw = 0.98,
-      shape_zero = TRUE,
-      transform = TRUE
+      version = 2
     )
     dfout_new[kk, ] <- c("New lookout", mm[ii], out)
     kk <- kk + 1
@@ -128,15 +128,14 @@ for (ii in 1:length(mm)) {
 }
 
 kk <- 1
-for (ii in 1:length(mm)) {
-  for (jj in 1:reps) {
+for (ii in seq_along(mm)) {
+  for (jj in seq_len(reps)) {
     out <- exp_normal(
       n1 = 1000,
       n2 = 10,
       mm = mm[ii],
-      bw = 0.98,
-      shape_zero = FALSE,
-      transform = FALSE
+      bw = 1,
+      version = 1
     )
     dfout_old[kk, ] <- c("Old lookout", mm[ii], out)
     kk <- kk + 1
@@ -144,7 +143,11 @@ for (ii in 1:length(mm)) {
 }
 
 dfout <- bind_rows(dfout_new, dfout_old)
-write.csv(dfout, "Data_Output/Outliers_Normal.csv", row.names = FALSE)
+write.csv(
+  dfout,
+  here::here("Data_Output/Outliers_Normal.csv"),
+  row.names = FALSE
+)
 
 normal_out <- dfout |>
   select(-c(specificity)) |>

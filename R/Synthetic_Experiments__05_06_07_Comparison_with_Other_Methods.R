@@ -109,10 +109,8 @@ for (kk in seq(pp)) {
         X,
         alpha = 0.05,
         unitize = TRUE,
-        normalize = FALSE,
         bw_para = 0.98,
-        version = 2,
-        bw_power = NA
+        version = 2
       )
     )
     lookoutlabs1 <- rep(0, 405)
@@ -131,10 +129,8 @@ for (kk in seq(pp)) {
         X,
         alpha = 0.05,
         unitize = TRUE,
-        normalize = FALSE,
         bw_para = 1,
-        version = 1,
-        bw_power = NA
+        version = 1
       )
     )
     lookoutlabsold <- rep(0, 405)
@@ -284,7 +280,9 @@ dfl3 <- dfl3 |>
 dfl <- bind_rows(dfl1, dfl2, dfl3)
 write.csv(
   dfl,
-  "Data_Output/For_Paper/Experiment_5_Comparison_with_Other_Methods_Results.csv",
+  here::here(
+    "Data_Output/For_Paper/Experiment_5_Comparison_with_Other_Methods_Results.csv"
+  ),
   row.names = FALSE
 )
 
@@ -311,7 +309,9 @@ dftime <- tibble(
 
 write.csv(
   dftime,
-  "Data_Output/For_Paper/Time_Taken_For_Experiment_5_Comparison_with_Other_Methods_Results.csv",
+  here::here(
+    "Data_Output/For_Paper/Time_Taken_For_Experiment_5_Comparison_with_Other_Methods_Results.csv"
+  ),
   row.names = FALSE
 )
 
@@ -379,10 +379,8 @@ for (kk in seq(pp)) {
         X,
         alpha = 0.05,
         unitize = TRUE,
-        normalize = FALSE,
         bw_para = 0.98,
-        version = 2,
-        bw_power = NA
+        version = 2
       )
     )
     lookoutlabs1 <- rep(0, nn)
@@ -401,10 +399,8 @@ for (kk in seq(pp)) {
         X,
         alpha = 0.05,
         unitize = TRUE,
-        normalize = FALSE,
         bw_para = 1,
-        version = 1,
-        bw_power = NA
+        version = 1
       )
     )
     lookoutlabsold <- rep(0, nn)
@@ -554,7 +550,9 @@ dfl3 <- dfl3 |>
 dfl <- bind_rows(dfl1, dfl2, dfl3)
 write.csv(
   dfl,
-  "Data_Output/For_Paper/Experiment_6_Comparison_with_Other_Methods_Results.csv",
+  here::here(
+    "Data_Output/For_Paper/Experiment_6_Comparison_with_Other_Methods_Results.csv"
+  ),
   row.names = FALSE
 )
 
@@ -581,7 +579,9 @@ dftime <- tibble(
 
 write.csv(
   dftime,
-  "Data_Output/For_Paper/Time_Taken_For_Experiment_6_Comparison_with_Other_Methods_Results.csv",
+  here::here(
+    "Data_Output/For_Paper/Time_Taken_For_Experiment_6_Comparison_with_Other_Methods_Results.csv"
+  ),
   row.names = FALSE
 )
 
@@ -642,10 +642,8 @@ for (kk in seq(pp)) {
         X,
         alpha = 0.05,
         unitize = TRUE,
-        normalize = FALSE,
         bw_para = 0.98,
-        version = 2,
-        bw_power = NA
+        version = 2
       )
     )
     lookoutlabs1 <- rep(0, nn)
@@ -664,10 +662,8 @@ for (kk in seq(pp)) {
         X,
         alpha = 0.05,
         unitize = TRUE,
-        normalize = FALSE,
         bw_para = 1,
-        version = 1,
-        bw_power = NA
+        version = 1
       )
     )
     lookoutlabsold <- rep(0, nn)
@@ -817,7 +813,9 @@ dfl3 <- dfl3 |>
 dfl <- bind_rows(dfl1, dfl2, dfl3)
 write.csv(
   dfl,
-  "Data_Output/For_Paper/Experiment_7_Comparison_with_Other_Methods_Results.csv",
+  here::here(
+    "Data_Output/For_Paper/Experiment_7_Comparison_with_Other_Methods_Results.csv"
+  ),
   row.names = FALSE
 )
 
@@ -844,6 +842,8 @@ dftime <- tibble(
 
 write.csv(
   dftime,
-  "Data_Output/For_Paper/Time_Taken_For_Experiment_7_Comparison_with_Other_Methods_Results.csv",
+  here::here(
+    "Data_Output/For_Paper/Time_Taken_For_Experiment_7_Comparison_with_Other_Methods_Results.csv"
+  ),
   row.names = FALSE
 )

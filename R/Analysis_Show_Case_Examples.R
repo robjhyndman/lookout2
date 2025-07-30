@@ -22,10 +22,8 @@ lookobj1 <- lookout::lookout(
   X,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 0.98,
-  version = 2,
-  bw_power = NA
+  version = 2
 )
 lookobj1
 g1 <- autoplot(lookobj1) +
@@ -36,10 +34,8 @@ lookobj2 <- lookout::lookout(
   X,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 1,
-  version = 1,
-  bw_power = NA
+  version = 1
 )
 lookobj2
 g2 <- autoplot(lookobj2) +
@@ -71,10 +67,8 @@ lookobj1 <- lookout::lookout(
   X,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 0.98,
-  version = 2,
-  bw_power = NA
+  version = 2
 )
 
 lookobj1
@@ -84,10 +78,8 @@ lookobj2 <- lookout::lookout(
   X,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 1,
-  version = 1,
-  bw_power = NA
+  version = 1
 )
 lookobj2
 g4 <- autoplot(lookobj2)
@@ -123,10 +115,8 @@ lookobj1 <- lookout::lookout(
   X,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 0.98,
-  version = 2,
-  bw_power = NA
+  version = 2
 )
 
 lookobj1
@@ -137,10 +127,8 @@ lookobj2 <- lookout::lookout(
   X,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 1,
-  version = 1,
-  bw_power = NA
+  version = 1
 )
 lookobj2
 g6 <- autoplot(lookobj2)
@@ -177,10 +165,8 @@ lookobj1 <- lookout::lookout(
   X,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 0.98,
-  version = 2,
-  bw_power = NA
+  version = 2
 )
 lookobj1
 g7 <- autoplot(lookobj1)
@@ -190,10 +176,9 @@ lookobj2 <- lookout::lookout(
   X,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
+
   bw_para = 1,
-  version = 1,
-  bw_power = NA
+  version = 1
 )
 lookobj2
 g8 <- autoplot(lookobj2)
@@ -222,10 +207,8 @@ lookobj1 <- lookout::lookout(
   X,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 0.98,
-  version = 2,
-  bw_power = NA
+  version = 2
 )
 lookobj1
 g9 <- autoplot(lookobj1)
@@ -235,10 +218,8 @@ lookobj2 <- lookout::lookout(
   X,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 1,
-  version = 1,
-  bw_power = NA
+  version = 1
 )
 lookobj2
 g10 <- autoplot(lookobj2)

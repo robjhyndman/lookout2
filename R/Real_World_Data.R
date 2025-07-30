@@ -29,10 +29,8 @@ lookobjNew <- lookout::lookout(
   oldfaithful2[, 2:3],
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 0.98,
-  version = 2,
-  bw_power = NA
+  version = 2
 )
 lookobjNew
 g1 <- autoplot(lookobjNew) +
@@ -42,10 +40,8 @@ lookobjOld <- lookout::lookout(
   oldfaithful2[, 2:3],
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 1,
-  version = 1,
-  bw_power = NA
+  version = 1
 )
 
 lookobjOld
@@ -74,10 +70,8 @@ lookobjNew <- lookout::lookout(
   wine_reviews2,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 0.98,
-  version = 2,
-  bw_power = NA
+  version = 2
 )
 lookobjNew
 
@@ -88,10 +82,8 @@ lookobjOld <- lookout::lookout(
   wine_reviews2,
   alpha = 0.05,
   unitize = TRUE,
-  normalize = FALSE,
   bw_para = 1,
-  version = 1,
-  bw_power = NA
+  version = 1
 )
 
 lookobjOld

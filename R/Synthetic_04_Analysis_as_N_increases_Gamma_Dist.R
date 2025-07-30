@@ -93,10 +93,8 @@ for (ii in 1:length(nnvals)) {
     X,
     alpha = 0.05,
     unitize = TRUE,
-    normalize = FALSE,
     bw_para = 0.95,
-    version = 2,
-    bw_power = NA
+    version = 2
   )
 
   pred1 <- rep(0, NROW(X))
@@ -108,10 +106,8 @@ for (ii in 1:length(nnvals)) {
     X,
     alpha = 0.05,
     unitize = TRUE,
-    normalize = FALSE,
     bw_para = 1,
-    version = 1,
-    bw_power = NA
+    version = 1
   )
 
   pred3 <- rep(0, NROW(X))
@@ -135,7 +131,7 @@ df <- rbind(df1, df3)
 
 write.csv(
   df,
-  "Data_Output/For_Paper/Synthetic_Exp_04_Increasing_N_Gamma.csv",
+  here::here("Data_Output/For_Paper/Synthetic_Exp_04_Increasing_N_Gamma.csv"),
   row.names = FALSE
 )
 

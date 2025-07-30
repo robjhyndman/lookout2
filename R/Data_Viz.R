@@ -45,10 +45,10 @@ ggplot2::theme_set(theme_bw())
 # ------------------------------------------------------------------------------
 
 results_new <- read.csv(
-  "Data_Output/For_Paper/Synthetic_Exp_01_gamma_new_lookout.csv"
+  here::here("Data_Output/For_Paper/Synthetic_Exp_01_gamma_new_lookout.csv")
 )
 results_old <- read.csv(
-  "Data_Output/For_Paper/Synthetic_Exp_01_gamma_old_lookout.csv"
+  here::here("Data_Output/For_Paper/Synthetic_Exp_01_gamma_old_lookout.csv")
 )
 
 results_new <- results_new |>
@@ -126,10 +126,10 @@ gridExtra::grid.arrange(g1, g2, g3, layout_matrix = lay)
 # TASK 02: EXP2 - NORMAL DISTRIBUTION TWO SEPARATE DISTRIBUTIONS
 # ------------------------------------------------------------------------------
 results_new <- read.csv(
-  "Data_Output/For_Paper/Synthetic_Exp_02_normal_new_lookout.csv"
+  here::here("Data_Output/For_Paper/Synthetic_Exp_02_normal_new_lookout.csv")
 )
 results_old <- read.csv(
-  "Data_Output/For_Paper/Synthetic_Exp_02_normal_old_lookout.csv"
+  here::here("Data_Output/For_Paper/Synthetic_Exp_02_normal_old_lookout.csv")
 )
 
 results_new <- results_new |>
@@ -216,10 +216,14 @@ gridExtra::grid.arrange(g1, g2, g3, layout_matrix = lay)
 # ------------------------------------------------------------------------------
 
 results_new <- read.csv(
-  "Data_Output/For_Paper/Exp3_Increasing_N_Normal_Distribution_New_Lookout.csv"
+  here::here(
+    "Data_Output/For_Paper/Exp3_Increasing_N_Normal_Distribution_New_Lookout.csv"
+  )
 )
 results_old <- read.csv(
-  "Data_Output/For_Paper/Exp3_Increasing_N_Normal_Distribution_Old_Lookout.csv"
+  here::here(
+    "Data_Output/For_Paper/Exp3_Increasing_N_Normal_Distribution_Old_Lookout.csv"
+  )
 )
 
 results_new <- results_new |>
@@ -290,7 +294,9 @@ ggplot(df, aes(x, y, color = as.factor(labs))) +
 # TASK 04: EXP4 - AS N INCREASES - GAMMA DISTRIBUTION
 # ------------------------------------------------------------------------------
 
-df <- read.csv("Data_Output/For_Paper/Synthetic_Exp_04_Increasing_N_Gamma.csv")
+df <- read.csv(here::here(
+  "Data_Output/For_Paper/Synthetic_Exp_04_Increasing_N_Gamma.csv"
+))
 
 dfl <- df |>
   relocate(Algo) |>
@@ -343,7 +349,9 @@ ggplot(df, aes(x, y, color = as.factor(labs))) +
 # TASK 05: EXP5 - COMPARISON WITH OTHER METHODS
 # ------------------------------------------------------------------------------
 dfl <- read.csv(
-  "Data_Output/For_Paper/Experiment_5_Comparison_with_Other_Methods_Results.csv"
+  here::here(
+    "Data_Output/For_Paper/Experiment_5_Comparison_with_Other_Methods_Results.csv"
+  )
 )
 dfl[dfl$Algorithm == 'rdos', 'Algorithm'] <- 'RDOS'
 dfl[dfl$Algorithm == 'kdeos', 'Algorithm'] <- 'KDEOS'
@@ -417,7 +425,9 @@ gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = lay)
 # TASK 06: EXP6 - COMPARISON WITH OTHER METHODS
 # ------------------------------------------------------------------------------
 dfl <- read.csv(
-  "Data_Output/For_Paper/Experiment_6_Comparison_with_Other_Methods_Results.csv"
+  here::here(
+    "Data_Output/For_Paper/Experiment_6_Comparison_with_Other_Methods_Results.csv"
+  )
 )
 
 dfl[dfl$Algorithm == 'rdos', 'Algorithm'] <- 'RDOS'
@@ -499,7 +509,9 @@ gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = lay)
 # ------------------------------------------------------------------------------
 
 dfl <- read.csv(
-  "Data_Output/For_Paper/Experiment_7_Comparison_with_Other_Methods_Results.csv"
+  here::here(
+    "Data_Output/For_Paper/Experiment_7_Comparison_with_Other_Methods_Results.csv"
+  )
 )
 dfl[dfl$Algorithm == 'rdos', 'Algorithm'] <- 'RDOS'
 dfl[dfl$Algorithm == 'kdeos', 'Algorithm'] <- 'KDEOS'

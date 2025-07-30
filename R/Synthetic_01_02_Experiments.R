@@ -93,20 +93,16 @@ for (jj in 1:10) {
       X,
       alpha = 0.05,
       unitize = TRUE,
-      normalize = FALSE,
       bw_para = 0.98,
-      version = 2,
-      bw_power = NA
+      version = 2
     )
 
     lookobj_old <- lookout::lookout(
       X,
       alpha = 0.05,
       unitize = TRUE,
-      normalize = FALSE,
       bw_para = 1,
-      version = 1,
-      bw_power = NA
+      version = 1
     )
 
     act <- c(rep(0, n1), rep(1, n2))
@@ -120,12 +116,12 @@ for (jj in 1:10) {
 }
 write.csv(
   results_new,
-  "Data_Output/For_Paper/Synthetic_Exp_01_gamma_new_lookout.csv",
+  here::here("Data_Output/For_Paper/Synthetic_Exp_01_gamma_new_lookout.csv"),
   row.names = FALSE
 )
 write.csv(
   results_old,
-  "Data_Output/For_Paper/Synthetic_Exp_01_gamma_old_lookout.csv",
+  here::here("Data_Output/For_Paper/Synthetic_Exp_01_gamma_old_lookout.csv"),
   row.names = FALSE
 )
 
@@ -180,20 +176,16 @@ for (jj in 1:reps) {
       X,
       alpha = 0.05,
       unitize = TRUE,
-      normalize = FALSE,
       bw_para = 0.98,
-      version = 2,
-      bw_power = NA
+      version = 2
     )
 
     lookobj_old <- lookout::lookout(
       X,
       alpha = 0.05,
       unitize = TRUE,
-      normalize = FALSE,
       bw_para = 1,
-      version = 1,
-      bw_power = NA
+      version = 1
     )
 
     act <- c(rep(0, n1), rep(1, n2))
@@ -207,11 +199,11 @@ for (jj in 1:reps) {
 }
 write.csv(
   results_new,
-  "Data_Output/For_Paper/Synthetic_Exp_02_normal_new_lookout.csv",
+  here::here("Data_Output/For_Paper/Synthetic_Exp_02_normal_new_lookout.csv"),
   row.names = FALSE
 )
 write.csv(
   results_old,
-  "Data_Output/For_Paper/Synthetic_Exp_02_normal_old_lookout.csv",
+  here::here("Data_Output/For_Paper/Synthetic_Exp_02_normal_old_lookout.csv"),
   row.names = FALSE
 )
