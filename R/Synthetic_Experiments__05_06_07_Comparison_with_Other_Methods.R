@@ -93,7 +93,7 @@ for (kk in seq(pp)) {
       strayout <- stray::find_HDoutliers(
         X,
         knnsearchtype = "kd_tree",
-        alpha = 0.05
+        alpha = 0.01
       )
     )
     straylabs <- rep(0, 405)
@@ -107,10 +107,10 @@ for (kk in seq(pp)) {
     tt1 <- system.time(
       lookoutobj1 <- lookout::lookout(
         X,
-        alpha = 0.05,
-        unitize = TRUE,
-        bw_para = 0.98,
-        version = 2
+        alpha = 0.01,
+        scale = TRUE,
+        gamma = 0.98,
+        old_version = FALSE
       )
     )
     lookoutlabs1 <- rep(0, 405)
@@ -127,10 +127,10 @@ for (kk in seq(pp)) {
     tt3 <- system.time(
       lookoutobjold <- lookout::lookout(
         X,
-        alpha = 0.05,
-        unitize = TRUE,
-        bw_para = 1,
-        version = 1
+        alpha = 0.01,
+        scale = TRUE,
+        gamma = 1,
+        old_version = TRUE
       )
     )
     lookoutlabsold <- rep(0, 405)
@@ -144,7 +144,7 @@ for (kk in seq(pp)) {
     lookoutOld_time[ll, ] <- tt3
 
     # HDOUTLIERS
-    tt <- system.time(hdoutobj <- HDoutliers(X, alpha = 0.05))
+    tt <- system.time(hdoutobj <- HDoutliers(X, alpha = 0.01))
     hdoutlabs <- rep(0, dim(X)[1])
     hdoutlabs[hdoutobj] <- 1
     hdoutput <- diff_metrics(labs, hdoutlabs)
@@ -185,7 +185,7 @@ dfl1 <- tibble(
   HDoutliers = hdoutliers_mean
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Fmeasure') |>
+  mutate(Metric = "Fmeasure") |>
   rename(mean = value)
 
 dfl1se <- tibble(
@@ -196,7 +196,7 @@ dfl1se <- tibble(
   HDoutliers = hdoutliers_se
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Fmeasure') |>
+  mutate(Metric = "Fmeasure") |>
   rename(se = value)
 
 dfl1 <- dfl1 |>
@@ -222,7 +222,7 @@ dfl2 <- tibble(
   HDoutliers = hdoutliers_mean
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Gmean') |>
+  mutate(Metric = "Gmean") |>
   rename(mean = value)
 
 dfl2se <- tibble(
@@ -233,7 +233,7 @@ dfl2se <- tibble(
   HDoutliers = hdoutliers_se
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Gmean') |>
+  mutate(Metric = "Gmean") |>
   rename(se = value)
 
 dfl2 <- dfl2 |>
@@ -259,7 +259,7 @@ dfl3 <- tibble(
   rdos = rdos_mean
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'AUC') |>
+  mutate(Metric = "AUC") |>
   rename(mean = value)
 
 dfl3se <- tibble(
@@ -270,7 +270,7 @@ dfl3se <- tibble(
   rdos = rdos_se
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'AUC') |>
+  mutate(Metric = "AUC") |>
   rename(se = value)
 
 dfl3 <- dfl3 |>
@@ -363,7 +363,7 @@ for (kk in seq(pp)) {
       strayout <- stray::find_HDoutliers(
         X,
         knnsearchtype = "kd_tree",
-        alpha = 0.05
+        alpha = 0.01
       )
     )
     straylabs <- rep(0, nn)
@@ -377,10 +377,10 @@ for (kk in seq(pp)) {
     tt1 <- system.time(
       lookoutobj1 <- lookout::lookout(
         X,
-        alpha = 0.05,
-        unitize = TRUE,
-        bw_para = 0.98,
-        version = 2
+        alpha = 0.01,
+        scale = TRUE,
+        gamma = 0.98,
+        old_version = FALSE
       )
     )
     lookoutlabs1 <- rep(0, nn)
@@ -397,10 +397,10 @@ for (kk in seq(pp)) {
     tt3 <- system.time(
       lookoutobjold <- lookout::lookout(
         X,
-        alpha = 0.05,
-        unitize = TRUE,
-        bw_para = 1,
-        version = 1
+        alpha = 0.01,
+        scale = TRUE,
+        gamma = 1,
+        old_version = TRUE
       )
     )
     lookoutlabsold <- rep(0, nn)
@@ -414,7 +414,7 @@ for (kk in seq(pp)) {
     lookoutOld_time[ll, ] <- tt3
 
     # HDOUTLIERS
-    tt <- system.time(hdoutobj <- HDoutliers(X, alpha = 0.05))
+    tt <- system.time(hdoutobj <- HDoutliers(X, alpha = 0.01))
     hdoutlabs <- rep(0, dim(X)[1])
     hdoutlabs[hdoutobj] <- 1
     hdoutput <- diff_metrics(labs, hdoutlabs)
@@ -455,7 +455,7 @@ dfl1 <- tibble(
   HDoutliers = hdoutliers_mean
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Fmeasure') |>
+  mutate(Metric = "Fmeasure") |>
   rename(mean = value)
 
 dfl1se <- tibble(
@@ -466,7 +466,7 @@ dfl1se <- tibble(
   HDoutliers = hdoutliers_se
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Fmeasure') |>
+  mutate(Metric = "Fmeasure") |>
   rename(se = value)
 
 dfl1 <- dfl1 |>
@@ -492,7 +492,7 @@ dfl2 <- tibble(
   HDoutliers = hdoutliers_mean
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Gmean') |>
+  mutate(Metric = "Gmean") |>
   rename(mean = value)
 
 dfl2se <- tibble(
@@ -503,7 +503,7 @@ dfl2se <- tibble(
   HDoutliers = hdoutliers_se
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Gmean') |>
+  mutate(Metric = "Gmean") |>
   rename(se = value)
 
 dfl2 <- dfl2 |>
@@ -529,7 +529,7 @@ dfl3 <- tibble(
   rdos = rdos_mean
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'AUC') |>
+  mutate(Metric = "AUC") |>
   rename(mean = value)
 
 dfl3se <- tibble(
@@ -540,7 +540,7 @@ dfl3se <- tibble(
   rdos = rdos_se
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'AUC') |>
+  mutate(Metric = "AUC") |>
   rename(se = value)
 
 dfl3 <- dfl3 |>
@@ -626,7 +626,7 @@ for (kk in seq(pp)) {
       strayout <- stray::find_HDoutliers(
         X,
         knnsearchtype = "kd_tree",
-        alpha = 0.05
+        alpha = 0.01
       )
     )
     straylabs <- rep(0, nn)
@@ -640,10 +640,10 @@ for (kk in seq(pp)) {
     tt1 <- system.time(
       lookoutobj1 <- lookout::lookout(
         X,
-        alpha = 0.05,
-        unitize = TRUE,
-        bw_para = 0.98,
-        version = 2
+        alpha = 0.01,
+        scale = TRUE,
+        gamma = 0.98,
+        old_version = FALSE
       )
     )
     lookoutlabs1 <- rep(0, nn)
@@ -660,10 +660,10 @@ for (kk in seq(pp)) {
     tt3 <- system.time(
       lookoutobjold <- lookout::lookout(
         X,
-        alpha = 0.05,
-        unitize = TRUE,
-        bw_para = 1,
-        version = 1
+        alpha = 0.01,
+        scale = TRUE,
+        gamma = 1,
+        old_version = TRUE
       )
     )
     lookoutlabsold <- rep(0, nn)
@@ -677,7 +677,7 @@ for (kk in seq(pp)) {
     lookoutOld_time[ll, ] <- tt3
 
     # HDOUTLIERS
-    tt <- system.time(hdoutobj <- HDoutliers(X, alpha = 0.05))
+    tt <- system.time(hdoutobj <- HDoutliers(X, alpha = 0.01))
     hdoutlabs <- rep(0, dim(X)[1])
     hdoutlabs[hdoutobj] <- 1
     hdoutput <- diff_metrics(labs, hdoutlabs)
@@ -718,7 +718,7 @@ dfl1 <- tibble(
   HDoutliers = hdoutliers_mean
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Fmeasure') |>
+  mutate(Metric = "Fmeasure") |>
   rename(mean = value)
 
 dfl1se <- tibble(
@@ -729,7 +729,7 @@ dfl1se <- tibble(
   HDoutliers = hdoutliers_se
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Fmeasure') |>
+  mutate(Metric = "Fmeasure") |>
   rename(se = value)
 
 dfl1 <- dfl1 |>
@@ -755,7 +755,7 @@ dfl2 <- tibble(
   HDoutliers = hdoutliers_mean
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Gmean') |>
+  mutate(Metric = "Gmean") |>
   rename(mean = value)
 
 dfl2se <- tibble(
@@ -766,7 +766,7 @@ dfl2se <- tibble(
   HDoutliers = hdoutliers_se
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'Gmean') |>
+  mutate(Metric = "Gmean") |>
   rename(se = value)
 
 dfl2 <- dfl2 |>
@@ -792,7 +792,7 @@ dfl3 <- tibble(
   rdos = rdos_mean
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'AUC') |>
+  mutate(Metric = "AUC") |>
   rename(mean = value)
 
 dfl3se <- tibble(
@@ -803,7 +803,7 @@ dfl3se <- tibble(
   rdos = rdos_se
 ) %>%
   pivot_longer(-Iteration, names_to = "Algorithm") %>%
-  mutate(Metric = 'AUC') |>
+  mutate(Metric = "AUC") |>
   rename(se = value)
 
 dfl3 <- dfl3 |>

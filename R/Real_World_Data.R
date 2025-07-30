@@ -13,11 +13,6 @@ library(HDoutliers)
 # --------------------------------------------------------------------------
 # TASK 1: OLD FAITHFUL DATA
 # --------------------------------------------------------------------------
-data("oldfaithful")
-
-oldfaithful2 <- oldfaithful |>
-  filter(duration < 6000)
-
 oldfaithful2 <- oldfaithful |>
   filter(duration < 7200, waiting < 7200)
 
@@ -27,10 +22,10 @@ ggplot(oldfaithful2, aes(x = duration, y = waiting)) +
 
 lookobjNew <- lookout::lookout(
   oldfaithful2[, 2:3],
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 0.98,
-  version = 2
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 0.98,
+  old_version = FALSE
 )
 lookobjNew
 g1 <- autoplot(lookobjNew) +
@@ -38,17 +33,17 @@ g1 <- autoplot(lookobjNew) +
 
 lookobjOld <- lookout::lookout(
   oldfaithful2[, 2:3],
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 1,
-  version = 1
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 1,
+  old_version = TRUE
 )
 
 lookobjOld
 g2 <- autoplot(lookobjOld) +
   ggtitle("Old lookout")
 
-strayout <- strayout <- stray::find_HDoutliers(oldfaithful2[, 2:3]) #, knnsearchtype = "kd_tree", alpha=0.05)
+strayout <- strayout <- stray::find_HDoutliers(oldfaithful2[, 2:3]) # , knnsearchtype = "kd_tree", alpha=0.05)
 # Stray gives weird results  - 1022 anomalies
 grid.arrange(g1, g2, nrow = 1)
 
@@ -68,10 +63,10 @@ wine_reviews |>
 
 lookobjNew <- lookout::lookout(
   wine_reviews2,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 0.98,
-  version = 2
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 0.98,
+  old_version = FALSE
 )
 lookobjNew
 
@@ -80,15 +75,15 @@ g1 <- autoplot(lookobjNew) +
 
 lookobjOld <- lookout::lookout(
   wine_reviews2,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 1,
-  version = 1
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 1,
+  old_version = TRUE
 )
 
 lookobjOld
 
-strayout <- stray::find_HDoutliers(wine_reviews2) #, knnsearchtype = "kd_tree", alpha=0.05)
+strayout <- stray::find_HDoutliers(wine_reviews2) # , knnsearchtype = "kd_tree", alpha=0.05)
 # Stray gives weird results  - 1887 anomalies
 
 g2 <- autoplot(lookobjOld) +

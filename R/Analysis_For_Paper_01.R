@@ -1,5 +1,5 @@
-# Need to install lookout from percentile branch
-# remotes::install_github("sevvandi/lookout@lookout-para")
+# Need to install lookout from scaling branch
+# remotes::install_github("sevvandi/lookout@scaling")
 
 library(lookout)
 library(tidyverse)
@@ -45,7 +45,7 @@ out_old <- gamma_outliers(
   rate1 = 2,
   rate2 = rep((1:4) / 10, 30),
   bw = 1,
-  version = 1
+  old_version = TRUE
 )
 
 out_new <- gamma_outliers(
@@ -56,7 +56,7 @@ out_new <- gamma_outliers(
   rate1 = 2,
   rate2 = rep((1:4) / 10, 30),
   bw = 0.95,
-  version = 2
+  old_version = FALSE
 )
 
 gamma_out <- bind_rows(
@@ -120,7 +120,7 @@ for (ii in seq_along(mm)) {
       n2 = 10,
       mm = mm[ii],
       bw = 0.98,
-      version = 2
+      old_version = FALSE
     )
     dfout_new[kk, ] <- c("New lookout", mm[ii], out)
     kk <- kk + 1
@@ -135,7 +135,7 @@ for (ii in seq_along(mm)) {
       n2 = 10,
       mm = mm[ii],
       bw = 1,
-      version = 1
+      old_version = TRUE
     )
     dfout_old[kk, ] <- c("Old lookout", mm[ii], out)
     kk <- kk + 1

@@ -7,7 +7,7 @@ gamma_outliers <- function(
   rate1,
   rate2,
   bw,
-  version,
+  old_version,
   ...
 ) {
   results <- tibble(
@@ -31,9 +31,9 @@ gamma_outliers <- function(
 
     lookobj <- lookout::lookout(
       X,
-      unitize = FALSE,
-      bw_para = bw,
-      version = version
+      scale = FALSE,
+      gamma = bw,
+      old_version = old_version
     )
     act <- c(rep(0, n1), rep(1, n2))
     preds <- rep(0, n1 + n2)
@@ -49,7 +49,7 @@ exp_normal <- function(
   n2 = 5,
   mm = 10,
   bw = 0.95,
-  version = 2
+  old_version = FALSE
 ) {
   X <- rbind(
     data.frame(
@@ -61,7 +61,7 @@ exp_normal <- function(
       y = rnorm(n2, mean = mm, sd = 0.2)
     )
   )
-  lo <- lookout(X, bw_para = bw, version = version)
+  lo <- lookout(X, gamma = bw, old_version = old_version)
   act <- c(rep(0, n1), rep(1, n2))
   preds <- rep(0, n1 + n2)
   preds[lo$outliers[, 1]] <- 1

@@ -21,16 +21,16 @@ diff_metrics <- function(act, pred) {
   fnr <- fn / (fn + tp)
 
   if (tp == 0) {
-    tpr = 0
+    tpr <- 0
   }
   if (fn == 0) {
-    fnr = 0
+    fnr <- 0
   }
   if (tn == 0) {
-    tnr = 0
+    tnr <- 0
   }
   if (fp == 0) {
-    fpr = 0
+    fpr <- 0
   }
 
   out <- data.frame(
@@ -88,13 +88,13 @@ for (ii in 1:length(nnvals)) {
   # plot(meanx, meany)
   labs <- c(rep(0, nn), rep(1, num_outliers))
 
-  # New lookout - Normalize = FALSE, Unitize = TRUE
+  # New lookout - Normalize = FALSE, scale = TRUE
   lookobj1 <- lookout::lookout(
     X,
-    alpha = 0.05,
-    unitize = TRUE,
-    bw_para = 0.95,
-    version = 2
+    alpha = 0.01,
+    scale = TRUE,
+    gamma = 0.95,
+    old_version = FALSE
   )
 
   pred1 <- rep(0, NROW(X))
@@ -104,10 +104,10 @@ for (ii in 1:length(nnvals)) {
   # Old lookout
   lookobjOld <- lookout::lookout(
     X,
-    alpha = 0.05,
-    unitize = TRUE,
-    bw_para = 1,
-    version = 1
+    alpha = 0.01,
+    scale = TRUE,
+    gamma = 1,
+    old_version = TRUE
   )
 
   pred3 <- rep(0, NROW(X))

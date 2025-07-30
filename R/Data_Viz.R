@@ -52,9 +52,9 @@ results_old <- read.csv(
 )
 
 results_new <- results_new |>
-  mutate(method = 'New lookout')
+  mutate(method = "New lookout")
 results_old <- results_old |>
-  mutate(method = 'Old lookout')
+  mutate(method = "Old lookout")
 results <- rbind(results_new, results_old)
 
 results_lng <- results |>
@@ -87,12 +87,12 @@ g1 <- ggplot(results_lng, aes(x = outrate, y = value, color = method)) +
 # PLOTTING THE DATA
 # Generate random data
 outrate <- (1:10) / 10
-n1 = 500
-n2 = 10
-shape1 = 2
-shape2 = 2
-rate1 = 2
-rate2 = outrate
+n1 <- 500
+n2 <- 10
+shape1 <- 2
+shape2 <- 2
+rate1 <- 2
+rate2 <- outrate
 
 set.seed(2025)
 i <- 2
@@ -133,9 +133,9 @@ results_old <- read.csv(
 )
 
 results_new <- results_new |>
-  mutate(method = 'New lookout')
+  mutate(method = "New lookout")
 results_old <- results_old |>
-  mutate(method = 'Old lookout')
+  mutate(method = "Old lookout")
 results <- rbind(results_new, results_old)
 
 results_lng <- results |>
@@ -168,8 +168,8 @@ g1 <- ggplot(results_lng, aes(x = mean, y = value, color = method)) +
 # PLOTTING THE DATA
 # Generate random data
 mm_seq <- seq(2.5, 4, by = 0.25)
-n1 = 1000
-n2 = 10
+n1 <- 1000
+n2 <- 10
 i <- 1
 mm <- mm_seq[i]
 # Generate random data
@@ -353,8 +353,8 @@ dfl <- read.csv(
     "Data_Output/For_Paper/Experiment_5_Comparison_with_Other_Methods_Results.csv"
   )
 )
-dfl[dfl$Algorithm == 'rdos', 'Algorithm'] <- 'RDOS'
-dfl[dfl$Algorithm == 'kdeos', 'Algorithm'] <- 'KDEOS'
+dfl[dfl$Algorithm == "rdos", "Algorithm"] <- "RDOS"
+dfl[dfl$Algorithm == "kdeos", "Algorithm"] <- "KDEOS"
 
 g4 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.1) +
@@ -430,8 +430,8 @@ dfl <- read.csv(
   )
 )
 
-dfl[dfl$Algorithm == 'rdos', 'Algorithm'] <- 'RDOS'
-dfl[dfl$Algorithm == 'kdeos', 'Algorithm'] <- 'KDEOS'
+dfl[dfl$Algorithm == "rdos", "Algorithm"] <- "RDOS"
+dfl[dfl$Algorithm == "kdeos", "Algorithm"] <- "KDEOS"
 
 g4 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.1) +
@@ -513,8 +513,8 @@ dfl <- read.csv(
     "Data_Output/For_Paper/Experiment_7_Comparison_with_Other_Methods_Results.csv"
   )
 )
-dfl[dfl$Algorithm == 'rdos', 'Algorithm'] <- 'RDOS'
-dfl[dfl$Algorithm == 'kdeos', 'Algorithm'] <- 'KDEOS'
+dfl[dfl$Algorithm == "rdos", "Algorithm"] <- "RDOS"
+dfl[dfl$Algorithm == "kdeos", "Algorithm"] <- "KDEOS"
 
 g4 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.1) +

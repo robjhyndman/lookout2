@@ -20,10 +20,10 @@ X <- bind_rows(
 
 lookobj1 <- lookout::lookout(
   X,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 0.98,
-  version = 2
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 0.98,
+  old_version = FALSE
 )
 lookobj1
 g1 <- autoplot(lookobj1) +
@@ -32,10 +32,10 @@ g1 <- autoplot(lookobj1) +
 # Old lookout
 lookobj2 <- lookout::lookout(
   X,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 1,
-  version = 1
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 1,
+  old_version = TRUE
 )
 lookobj2
 g2 <- autoplot(lookobj2) +
@@ -65,10 +65,10 @@ X <- bind_rows(
 
 lookobj1 <- lookout::lookout(
   X,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 0.98,
-  version = 2
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 0.98,
+  old_version = FALSE
 )
 
 lookobj1
@@ -76,10 +76,10 @@ g3 <- autoplot(lookobj1)
 
 lookobj2 <- lookout::lookout(
   X,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 1,
-  version = 1
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 1,
+  old_version = TRUE
 )
 lookobj2
 g4 <- autoplot(lookobj2)
@@ -108,15 +108,16 @@ X <- bind_rows(
 )
 
 Xdf <- cbind.data.frame(X, label = c(rep("Normal", 700), rep("Anomaly", 3)))
-ggplot(Xdf, aes(x, y)) + geom_point(aes(color = label))
+ggplot(Xdf, aes(x, y)) +
+  geom_point(aes(color = label))
 
 # Newer version
 lookobj1 <- lookout::lookout(
   X,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 0.98,
-  version = 2
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 0.98,
+  old_version = FALSE
 )
 
 lookobj1
@@ -125,10 +126,10 @@ g5 <- autoplot(lookobj1)
 # Older version
 lookobj2 <- lookout::lookout(
   X,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 1,
-  version = 1
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 1,
+  old_version = TRUE
 )
 lookobj2
 g6 <- autoplot(lookobj2)
@@ -158,15 +159,16 @@ X <- bind_rows(
 )
 
 Xdf <- cbind.data.frame(X, label = c(rep("Normal", 700), rep("Anomaly", 3)))
-ggplot(Xdf, aes(x, y)) + geom_point(aes(color = label))
+ggplot(Xdf, aes(x, y)) +
+  geom_point(aes(color = label))
 
 # Newer version
 lookobj1 <- lookout::lookout(
   X,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 0.98,
-  version = 2
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 0.98,
+  old_version = FALSE
 )
 lookobj1
 g7 <- autoplot(lookobj1)
@@ -174,11 +176,10 @@ g7 <- autoplot(lookobj1)
 # Older version
 lookobj2 <- lookout::lookout(
   X,
-  alpha = 0.05,
-  unitize = TRUE,
-
-  bw_para = 1,
-  version = 1
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 1,
+  old_version = TRUE
 )
 lookobj2
 g8 <- autoplot(lookobj2)
@@ -200,15 +201,16 @@ X <- bind_rows(
 # x = c(0, -0.2, 0.4),
 # y = c(0.3, 0.4, 0.5)
 Xdf <- cbind.data.frame(X, label = c(rep("Normal", 1000), rep("Anomaly", 3)))
-ggplot(Xdf, aes(x, y)) + geom_point(aes(color = label))
+ggplot(Xdf, aes(x, y)) +
+  geom_point(aes(color = label))
 
 # Newer version
 lookobj1 <- lookout::lookout(
   X,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 0.98,
-  version = 2
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 0.98,
+  old_version = FALSE
 )
 lookobj1
 g9 <- autoplot(lookobj1)
@@ -216,10 +218,10 @@ g9 <- autoplot(lookobj1)
 # Older version
 lookobj2 <- lookout::lookout(
   X,
-  alpha = 0.05,
-  unitize = TRUE,
-  bw_para = 1,
-  version = 1
+  alpha = 0.01,
+  scale = TRUE,
+  gamma = 1,
+  old_version = TRUE
 )
 lookobj2
 g10 <- autoplot(lookobj2)

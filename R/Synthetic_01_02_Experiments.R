@@ -27,16 +27,16 @@ diff_metrics <- function(act, pred) {
   fnr <- fn / (fn + tp)
 
   if (tp == 0) {
-    tpr = 0
+    tpr <- 0
   }
   if (fn == 0) {
-    fnr = 0
+    fnr <- 0
   }
   if (tn == 0) {
-    tnr = 0
+    tnr <- 0
   }
   if (fp == 0) {
-    fpr = 0
+    fpr <- 0
   }
 
   out <- data.frame(
@@ -60,13 +60,13 @@ diff_metrics <- function(act, pred) {
 
 set.seed(2025)
 outrate <- (1:10) / 10
-n1 = 500
-n2 = 10
-shape1 = 2
-shape2 = 2
-rate1 = 2
-rate2 = outrate
-bw = 0.98
+n1 <- 500
+n2 <- 10
+shape1 <- 2
+shape2 <- 2
+rate1 <- 2
+rate2 <- outrate
+bw <- 0.98
 
 results_old <- results_new <- tibble(
   outrate = 0,
@@ -91,18 +91,18 @@ for (jj in 1:10) {
 
     lookobj_new <- lookout::lookout(
       X,
-      alpha = 0.05,
-      unitize = TRUE,
-      bw_para = 0.98,
-      version = 2
+      alpha = 0.01,
+      scale = TRUE,
+      gamma = 0.98,
+      old_version = FALSE
     )
 
     lookobj_old <- lookout::lookout(
       X,
-      alpha = 0.05,
-      unitize = TRUE,
-      bw_para = 1,
-      version = 1
+      alpha = 0.01,
+      scale = TRUE,
+      gamma = 1,
+      old_version = TRUE
     )
 
     act <- c(rep(0, n1), rep(1, n2))
@@ -142,9 +142,9 @@ dfout_new <- dfout_old <- tibble(
   false_neg = numeric(),
   specificity = numeric()
 )
-n1 = 1000
-n2 = 10
-bw = 0.98
+n1 <- 1000
+n2 <- 10
+bw <- 0.98
 
 results_old <- results_new <- tibble(
   mean = 0,
@@ -174,18 +174,18 @@ for (jj in 1:reps) {
 
     lookobj_new <- lookout::lookout(
       X,
-      alpha = 0.05,
-      unitize = TRUE,
-      bw_para = 0.98,
-      version = 2
+      alpha = 0.01,
+      scale = TRUE,
+      gamma = 0.98,
+      old_version = FALSE
     )
 
     lookobj_old <- lookout::lookout(
       X,
-      alpha = 0.05,
-      unitize = TRUE,
-      bw_para = 1,
-      version = 1
+      alpha = 0.01,
+      scale = TRUE,
+      gamma = 1,
+      old_version = TRUE
     )
 
     act <- c(rep(0, n1), rep(1, n2))
