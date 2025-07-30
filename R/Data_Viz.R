@@ -33,16 +33,16 @@ results_lng <- results |>
   select(
     method,
     outrate,
-    true_pos_rate,
-    true_neg_rate,
-    false_pos_rate,
-    false_neg_rate
+    true_positive_rate,
+    true_negative_rate,
+    false_positive_rate,
+    false_negative_rate
   ) |>
   rename(
-    "True Positive Rate" = true_pos_rate,
-    "False Positive Rate" = false_pos_rate,
-    "False Negative Rate" = false_neg_rate,
-    "True Negative Rate" = true_neg_rate
+    "True Positive Rate" = true_positive_rate,
+    "False Positive Rate" = false_positive_rate,
+    "False Negative Rate" = false_negative_rate,
+    "True Negative Rate" = true_negative_rate
   ) |>
   pivot_longer(cols = 3:6, names_to = "metric", values_to = "value")
 
@@ -118,16 +118,16 @@ results_lng <- results |>
   select(
     method,
     mean,
-    true_pos_rate,
-    true_neg_rate,
-    false_pos_rate,
-    false_neg_rate
+    true_positive_rate,
+    true_negative_rate,
+    false_positive_rate,
+    false_negative_rate
   ) |>
   rename(
-    "True Positive Rate" = true_pos_rate,
-    "False Positive Rate" = false_pos_rate,
-    "False Negative Rate" = false_neg_rate,
-    "True Negative Rate" = true_neg_rate
+    "True Positive Rate" = true_positive_rate,
+    "False Positive Rate" = false_positive_rate,
+    "False Negative Rate" = false_negative_rate,
+    "True Negative Rate" = true_negative_rate
   ) |>
   pivot_longer(cols = 3:6, names_to = "metric", values_to = "value")
 
@@ -194,49 +194,49 @@ crop::dev.off.crop(fig)
 # TASK 03: EXP3 - AS N INCREASES - NORMAL DISTRIBUTION
 # ------------------------------------------------------------------------------
 
-results_new <- read.csv(
-  here::here(
-    "Data_Output/For_Paper/Exp3_Increasing_N_Normal_Distribution_New_Lookout.csv"
-  )
-)
-results_old <- read.csv(
-  here::here(
-    "Data_Output/For_Paper/Exp3_Increasing_N_Normal_Distribution_Old_Lookout.csv"
-  )
-)
+# results_new <- read.csv(
+#   here::here(
+#     "Data_Output/For_Paper/Exp3_Increasing_N_Normal_Distribution_New_Lookout.csv"
+#   )
+# )
+# results_old <- read.csv(
+#   here::here(
+#     "Data_Output/For_Paper/Exp3_Increasing_N_Normal_Distribution_Old_Lookout.csv"
+#   )
+# )
 
-results_new <- results_new |>
-  mutate(Algo = "New_Lookout")
-results_old <- results_old |>
-  mutate(Algo = "Old_Lookout")
+# results_new <- results_new |>
+#   mutate(Algo = "New_Lookout")
+# results_old <- results_old |>
+#   mutate(Algo = "Old_Lookout")
 
-results <- rbind(results_new, results_old)
+# results <- rbind(results_new, results_old)
 
-results <- results |>
-  select(
-    Algo,
-    N,
-    true_positive_rate,
-    true_negative_rate,
-    false_positive_rate,
-    false_negative_rate
-  ) |>
-  rename(
-    "True Positive Rate" = true_positive_rate,
-    "False Positive Rate" = false_positive_rate,
-    "False Negative Rate" = false_negative_rate,
-    "True Negative Rate" = true_negative_rate
-  )
+# results <- results |>
+#   select(
+#     Algo,
+#     N,
+#     true_positive_rate,
+#     true_negative_rate,
+#     false_positive_rate,
+#     false_negative_rate
+#   ) |>
+#   rename(
+#     "True Positive Rate" = true_positive_rate,
+#     "False Positive Rate" = false_positive_rate,
+#     "False Negative Rate" = false_negative_rate,
+#     "True Negative Rate" = true_negative_rate
+#   )
 
-results_lng <- results |>
-  pivot_longer(cols = 3:6)
+# results_lng <- results |>
+#   pivot_longer(cols = 3:6)
 
-ggplot(results_lng, aes(x = N, y = value, color = Algo)) +
-  geom_point(size = 0.5) +
-  facet_grid(~name) +
-  xlab("Number of points") +
-  ylab("Value") +
-  geom_smooth()
+# ggplot(results_lng, aes(x = N, y = value, color = Algo)) +
+#   geom_point(size = 0.5) +
+#   facet_grid(~name) +
+#   xlab("Number of points") +
+#   ylab("Value") +
+#   geom_smooth()
 
 # -----------------------------------------------------------------------------
 # Generate Data to plot
@@ -262,10 +262,10 @@ labs <- c(rep(0, nn), rep(1, num_outliers))
 df <- cbind.data.frame(X, labs)
 colnames(df)[1:2] <- c("x", "y")
 
-ggplot(df, aes(x, y, color = as.factor(labs))) +
-  geom_point() +
-  scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
-  labs(color = "Points")
+# ggplot(df, aes(x, y, color = as.factor(labs))) +
+#   geom_point() +
+#   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
+#   labs(color = "Points")
 
 # Saved 6.82 x 5.57 inches in pdf
 
@@ -289,14 +289,14 @@ dfl <- df |>
   ) |>
   pivot_longer(cols = 3:6)
 
-ggplot(dfl, aes(x = N, y = value, color = Algo)) +
-  geom_point(size = 0.1) +
-  geom_jitter(size = 0.1, height = 0.02) +
-  facet_grid(~name) +
-  xlab("Number of points") +
-  ylab("Value") +
-  geom_smooth(se = FALSE) +
-  theme_bw()
+# ggplot(dfl, aes(x = N, y = value, color = Algo)) +
+#   geom_point(size = 0.1) +
+#   geom_jitter(size = 0.1, height = 0.02) +
+#   facet_grid(~name) +
+#   xlab("Number of points") +
+#   ylab("Value") +
+#   geom_smooth(se = FALSE) +
+#   theme_bw()
 
 # -----------------------------------------------------------------------------
 # Generate Data to plot
@@ -317,10 +317,10 @@ labs <- c(rep(0, nn), rep(1, num_outliers))
 df <- cbind.data.frame(X, labs)
 colnames(df)[1:2] <- c("x", "y")
 
-ggplot(df, aes(x, y, color = as.factor(labs))) +
-  geom_point() +
-  scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
-  labs(color = "Points")
+# ggplot(df, aes(x, y, color = as.factor(labs))) +
+#   geom_point() +
+#   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
+#   labs(color = "Points")
 
 # Saved 6.82 x 5.57 inches in pdf
 
@@ -342,7 +342,6 @@ g4 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   facet_wrap(~Metric) +
   scale_x_continuous(breaks = 2 * (1:5)) +
   theme_bw()
-g4
 
 # plot data
 i <- 3
@@ -363,7 +362,6 @@ g1 <- ggplot(X, aes(x1, x2)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
-g1
 
 # plot data
 i <- 9
@@ -384,16 +382,14 @@ g2 <- ggplot(X, aes(x1, x2)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
-g2
 
 g3 <- ggplot(X, aes(x3, x4)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
-g3
 
 lay <- rbind(c(1, 4), c(2, 4), c(3, 4))
-gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = lay)
+#gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = lay)
 
 # 8.91 x 3.97
 # EXP5_Data_and_Results
@@ -417,7 +413,6 @@ g4 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   facet_wrap(~Metric) +
   scale_x_continuous(breaks = 2 * (1:5)) +
   theme_bw()
-g4
 
 # plot data
 i <- 3
@@ -441,7 +436,6 @@ g1 <- ggplot(X, aes(x1, x2)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
-g1
 
 # plot data
 i <- 9
@@ -465,16 +459,14 @@ g2 <- ggplot(X, aes(x1, x2)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
-g2
 
 g3 <- ggplot(X, aes(x2, x3)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
-g3
 
 lay <- rbind(c(1, 4), c(2, 4), c(3, 4))
-gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = lay)
+#gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = lay)
 
 # 8.91 x 3.97
 # EXP6_Data_and_Results
@@ -498,13 +490,13 @@ g4 <- ggplot(dfl, aes(x = Iteration, y = mean, color = Algorithm)) +
   facet_wrap(~Metric) +
   scale_x_continuous(breaks = 2 * (1:10)) +
   theme_bw()
-g4
 
 # plot data
 i <- 5
 nn <- 500
+dd <- 19
 X <- matrix(runif(nn * (dd + 1)), ncol = dd + 1, nrow = nn)
-colnames(X) <- paste("x", 1:20, sep = "")
+colnames(X) <- paste("x", seq(dd + 1), sep = "")
 X[nn, 1:i] <- rep(0.9, i)
 # pca <- prcomp(X)
 # pcaX <- pca$x
@@ -518,12 +510,11 @@ X[nn, 1:i] <- rep(0.9, i)
 
 dobout <- dobin::dobin(X)
 dobX <- dobout$coords
-colnames(dobX) <- paste0("D", 1:20)
+colnames(dobX) <- paste0("D", seq(dd + 1))
 g1 <- ggplot(dobX, aes(D1, D2)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
-g1
 
 i <- 12
 nn <- 500
@@ -538,7 +529,6 @@ g2 <- ggplot(dobX, aes(D1, D2)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
-g2
 
 i <- 20
 nn <- 500
@@ -562,10 +552,9 @@ g3 <- ggplot(dobX, aes(D1, D2)) +
   geom_point(aes(color = as.factor(labels))) +
   scale_color_discrete(labels = c("Non-anomalous", "Anomalous")) +
   labs(color = "Points")
-g3
 
 lay <- rbind(c(1, 4), c(2, 4), c(3, 4))
-gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = lay)
+#gridExtra::grid.arrange(g1, g2, g3, g4, layout_matrix = lay)
 
 # 8.91 x 3.97
 # EXP7_Data_and_Results

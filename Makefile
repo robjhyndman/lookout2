@@ -60,7 +60,7 @@ $(VIZ_ROUT): $(VIZ_R) $(FUNCTIONS_R) $(SYNTHETIC_ROUTS)
 $(FUNCTIONS_R): ;
 
 # LaTeX compilation - depends on ALL R script outputs
-$(TEXFILE).pdf: $(TEXFILE).tex $(ALL_ROUTS) $(FIGURES)
+$(TEXFILE).pdf: $(TEXFILE).tex $(ALL_ROUTS) $(FIGURES) References.bib
 	@echo "Compiling LaTeX"
 	@latexmk -pdf -quiet $(TEXFILE)
 
