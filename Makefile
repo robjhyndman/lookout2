@@ -10,13 +10,13 @@ FUNCTIONS_R = $(RDIR)/functions.R
 SYNTHETIC_R = $(wildcard $(RDIR)/Synthetic*.R)
 SYNTHETIC_ROUTS = $(SYNTHETIC_R:.R=.Rout)
 
-# Analysis R scripts
-ANALYSIS_R = $(wildcard $(RDIR)/Analysis*.R)
-ANALYSIS_ROUTS = $(ANALYSIS_R:.R=.Rout)
-
 # Data Viz R script
 VIZ_R = $(RDIR)/Data_Viz.R
 VIZ_ROUT = $(VIZ_R:.R=.Rout)
+
+# Analysis R scripts - all R scripts except Synthetic*, data_viz.R, and functions.R
+ANALYSIS_R = $(filter-out $(SYNTHETIC_R) $(VIZ_R) $(FUNCTIONS_R), $(wildcard $(RDIR)/*.R))
+ANALYSIS_ROUTS = $(ANALYSIS_R:.R=.Rout)
 
 # All R scripts and outputs
 ALL_R_SCRIPTS = $(SYNTHETIC_R) $(ANALYSIS_R) $(VIZ_R)
@@ -41,19 +41,19 @@ R-viz: $(VIZ_ROUT)
 # Rule for Synthetic R scripts - depend only on functions.R
 $(RDIR)/Synthetic%.Rout: $(RDIR)/Synthetic%.R $(FUNCTIONS_R)
 	@echo "Running synthetic script: $<"
-	@R --slave --vanilla -f $< > $@ 2>&1 || (cat $@ && exit 1)
+	@R --vanilla -f $< > $@ 2>&1 || (cat $@ && exit 1)
 	@touch $@
 
-# Rule for Analysis R scripts - depend only on functions.R (independent of synthetic)
-$(RDIR)/Analysis%.Rout: $(RDIR)/Analysis%.R $(FUNCTIONS_R)
+# Rule for Analysis R scripts - depend on functions.R and synthetic outputs
+$(ANALYSIS_ROUTS): %.Rout: %.R $(FUNCTIONS_R) $(SYNTHETIC_ROUTS)
 	@echo "Running analysis script: $<"
-	@R --slave --vanilla -f $< > $@ 2>&1 || (cat $@ && exit 1)
+	@R --vanilla -f $< > $@ 2>&1 || (cat $@ && exit 1)
 	@touch $@
 
 # Rule for Data Viz R script - depends on functions.R AND synthetic outputs (but not analysis)
 $(VIZ_ROUT): $(VIZ_R) $(FUNCTIONS_R) $(SYNTHETIC_ROUTS)
 	@echo "Running data visualization script: $<"
-	@R --slave --vanilla -f $< > $@ 2>&1 || (cat $@ && exit 1)
+	@R --vanilla -f $< > $@ 2>&1 || (cat $@ && exit 1)
 	@touch $@
 
 # R/functions.R is a source file that doesn't need to be built
@@ -91,7 +91,7 @@ debug:
 	@echo ""
 	@echo "=== Dependency Chain ==="
 	@echo "1. Synthetic scripts (independent) → Synthetic .Rout files"
-	@echo "2. Analysis scripts (independent) → Analysis .Rout files"
+	@echo "2. Analysis scripts (depend on synthetic outputs) → Analysis .Rout files"
 	@echo "3. Data Viz script (depends on synthetic outputs) → Data Viz .Rout file"
 	@echo "4. LaTeX compilation (depends on all .Rout files)"
 	@echo ""
@@ -111,23 +111,4 @@ debug:
 	@echo "LaTeX file:"
 	@stat -c "%Y %n" $(TEXFILE).tex 2>/dev/null || echo "$(TEXFILE).tex not found"
 	@echo ""
-	@echo "PDF output:"
-	@stat -c "%Y %n" $(TEXFILE).pdf 2>/dev/null || echo "$(TEXFILE).pdf not found"
-
-# Help target
-help:
-	@echo "Available targets:"
-	@echo "  all         - Run all R scripts and compile LaTeX (default)"
-	@echo "  R           - Run all R scripts"
-	@echo "  R-synthetic - Run only synthetic experiment scripts"
-	@echo "  R-analysis  - Run only analysis scripts (independent of synthetic)"
-	@echo "  R-viz       - Run data visualization script (requires synthetic to be done first)"
-	@echo "  clean       - Remove generated .Rout and LaTeX auxiliary files"
-	@echo "  clean-all   - Remove all generated files including figures"
-	@echo "  debug       - Show dependency information and file status"
-	@echo "  help        - Show this help message"
-	@echo ""
-	@echo "Dependencies:"
-	@echo "  - Synthetic and Analysis scripts are independent of each other"
-	@echo "  - Data Viz depends on Synthetic outputs (but not Analysis)"
-	@echo "  - LaTeX depends on all script outputs"
+	@
