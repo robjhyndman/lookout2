@@ -1,0 +1,18 @@
+# lookout 2
+
+## Environment
+
+R with packages:
+
+* lookout
+* DDoutlier
+* dplyr
+* ggplot2
+* HDoutliers
+* patchwork
+* stray
+* weird
+
+## Makefile
+
+Running the Makefile will run all the R scripts in the correct order, and then compile the LaTeX document.

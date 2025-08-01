@@ -3,9 +3,9 @@
 # --------------------------------------------------------------
 # ---------------------------------------------------------------------
 # TASK 1 - EXAMPLE 1
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 library(lookout)
-library(gridExtra)
 source(here::here("R/functions.R"))
 
 X <- bind_rows(
@@ -19,26 +19,22 @@ X <- bind_rows(
   )
 )
 
-lookobj1 <- lookout::lookout(
+ex1_lookout_new <- lookout::lookout(
   X,
   alpha = 0.01,
   scale = TRUE,
   gamma = 0.98,
   old_version = FALSE
 )
-g1 <- autoplot(lookobj1) +
-  ggtitle("New lookout")
 
 # Old lookout
-lookobj2 <- lookout::lookout(
+ex1_lookout_old <- lookout::lookout(
   X,
   alpha = 0.01,
   scale = TRUE,
   gamma = 1,
   old_version = TRUE
 )
-g2 <- autoplot(lookobj2) +
-  ggtitle("Old Lookout")
 
 # ---------------------------------------------------------------------
 # TASK 2 - EXAMPLE 2
@@ -57,8 +53,7 @@ X <- bind_rows(
     y = rnorm(5, sd = 0.2)
   )
 )
-
-lookobj1 <- lookout::lookout(
+ex2_lookout_new <- lookout::lookout(
   X,
   alpha = 0.01,
   scale = TRUE,
@@ -66,16 +61,13 @@ lookobj1 <- lookout::lookout(
   old_version = FALSE
 )
 
-g3 <- autoplot(lookobj1)
-
-lookobj2 <- lookout::lookout(
+ex2_lookout_old <- lookout::lookout(
   X,
   alpha = 0.01,
   scale = TRUE,
   gamma = 1,
   old_version = TRUE
 )
-g4 <- autoplot(lookobj2)
 
 # ---------------------------------------------------------------------
 # TASK 3 - EXAMPLE 3
@@ -99,12 +91,7 @@ X <- bind_rows(
   )
 )
 
-Xdf <- cbind.data.frame(X, label = c(rep("Normal", 700), rep("Anomaly", 3)))
-#ggplot(Xdf, aes(x, y)) +
-#  geom_point(aes(color = label))
-
-# Newer version
-lookobj1 <- lookout::lookout(
+ex3_lookout_new <- lookout::lookout(
   X,
   alpha = 0.01,
   scale = TRUE,
@@ -112,17 +99,13 @@ lookobj1 <- lookout::lookout(
   old_version = FALSE
 )
 
-g5 <- autoplot(lookobj1)
-
-# Older version
-lookobj2 <- lookout::lookout(
+ex3_lookout_old <- lookout::lookout(
   X,
   alpha = 0.01,
   scale = TRUE,
   gamma = 1,
   old_version = TRUE
 )
-g6 <- autoplot(lookobj2)
 
 # ---------------------------------------------------------------------
 # TASK 4 - EXAMPLE 4
@@ -146,29 +129,20 @@ X <- bind_rows(
   )
 )
 
-Xdf <- cbind.data.frame(X, label = c(rep("Normal", 700), rep("Anomaly", 3)))
-#ggplot(Xdf, aes(x, y)) +
-#  geom_point(aes(color = label))
-
-# Newer version
-lookobj1 <- lookout::lookout(
+ex4_lookout_new <- lookout::lookout(
   X,
   alpha = 0.01,
   scale = TRUE,
   gamma = 0.98,
   old_version = FALSE
 )
-g7 <- autoplot(lookobj1)
-
-# Older version
-lookobj2 <- lookout::lookout(
+ex4_lookout_old <- lookout::lookout(
   X,
   alpha = 0.01,
   scale = TRUE,
   gamma = 1,
   old_version = TRUE
 )
-g8 <- autoplot(lookobj2)
 
 # ---------------------------------------------------------------------
 # TASK 5 - EXAMPLE 5
@@ -180,36 +154,60 @@ X <- bind_rows(
     y = c(0.15, 0.3, 0.3)
   )
 )
-# x = c(0, -0.2, 0.4),
-# y = c(0.3, 0.4, 0.5)
-Xdf <- cbind.data.frame(X, label = c(rep("Normal", 1000), rep("Anomaly", 3)))
-#ggplot(Xdf, aes(x, y)) +
-#  geom_point(aes(color = label))
-
-# Newer version
-lookobj1 <- lookout::lookout(
+ex5_lookout_new <- lookout::lookout(
   X,
   alpha = 0.01,
   scale = TRUE,
   gamma = 0.98,
   old_version = FALSE
 )
-g9 <- autoplot(lookobj1)
-
-# Older version
-lookobj2 <- lookout::lookout(
+ex5_lookout_old <- lookout::lookout(
   X,
   alpha = 0.01,
   scale = TRUE,
   gamma = 1,
   old_version = TRUE
 )
-g10 <- autoplot(lookobj2)
 
-# New one is actually better. Gets 2/3 anomalies with some false positives.
-# The old version doesn't get anomalies at all.
+df <- bind_rows(
+  as.data.frame(ex1_lookout_new) |>
+    mutate(Example = "Example 1", Version = "New lookout"),
+  as.data.frame(ex1_lookout_old) |>
+    mutate(Example = "Example 1", Version = "Old lookout"),
+  as.data.frame(ex2_lookout_new) |>
+    mutate(Example = "Example 2", Version = "New lookout"),
+  as.data.frame(ex2_lookout_old) |>
+    mutate(Example = "Example 2", Version = "Old lookout"),
+  as.data.frame(ex3_lookout_new) |>
+    mutate(Example = "Example 3", Version = "New lookout"),
+  as.data.frame(ex3_lookout_old) |>
+    mutate(Example = "Example 3", Version = "Old lookout"),
+  as.data.frame(ex4_lookout_new) |>
+    mutate(Example = "Example 4", Version = "New lookout"),
+  as.data.frame(ex4_lookout_old) |>
+    mutate(Example = "Example 4", Version = "Old lookout"),
+  as.data.frame(ex5_lookout_new) |>
+    mutate(Example = "Example 5", Version = "New lookout"),
+  as.data.frame(ex5_lookout_old) |>
+    mutate(Example = "Example 5", Version = "Old lookout")
+) |>
+  as_tibble() |>
+  group_by(Example) |>
+  mutate(x = (x - min(x)) / (max(x) - min(x))) |>
+  ungroup()
 
-fig <- here::here(paste0("Figures/Showcase_Examples.pdf"))
-cairo_pdf(file = fig, width = 12, height = 6)
-print(grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, ncol = 2))
+
+fig <- here::here("Figures/Showcase_Examples.pdf")
+cairo_pdf(file = fig, width = 6, height = 10)
+ggplot(df, aes(x = x, y = y, color = outliers)) +
+  geom_point() +
+  facet_grid(Example ~ Version, scales = "free") +
+  theme(
+    axis.title.x = element_blank(), # Hide x-axis title
+    axis.text.x = element_blank(), # Hide x-axis text labels
+    axis.ticks.x = element_blank(), # Hide x-axis tick marks
+    axis.title.y = element_blank(), # Hide y-axis title
+    axis.text.y = element_blank(), # Hide y-axis text labels
+    axis.ticks.y = element_blank() # Hide y-axis tick marks
+  )
 crop::dev.off.crop(fig)

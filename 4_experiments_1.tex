@@ -10,10 +10,10 @@ For experiment 1 we consider the  $\text{Gamma}(\alpha, \beta)$ distribution wit
 
 \begin{figure}[!ht]
 	\centering
-	% \includegraphics[width=0.8\textwidth]{Figures/EXP1_Gamma_Raw.pdf}
+	% \includegraphics[width=0.8\textwidth]{Figures/Exp1_Gamma_Raw.pdf}
 	% \caption{Results of the Gamma Experiment - Raw numbers.}
 	% \label{fig:exp1GammaRaw}
-	\includegraphics[width=1\textwidth]{Figures/EXP1_Gamma_Rates.pdf}
+	\includegraphics[width=1\textwidth]{Figures/Exp1_Gamma_Rates.pdf}
 	\caption{Experiment 1 data and results. Graphs on the left shows data for two iterations of the experiment with $r = 0.2$ and $r = 0.9$. Anomalies with lower values of $r$ are easier to identify. Graphs on the right show the performance of new and old lookout algorithms. }
 	\label{fig:exp1GammaRates}
 \end{figure}
@@ -26,10 +26,10 @@ For experiment 2 we consider the normal distribution $\mathcal{N}(\mu, \sigma)$ 
 
 \begin{figure}[!ht]
 	\centering
-	% \includegraphics[width=0.8\textwidth]{Figures/EXP2_Normal_Raw.pdf}
+	% \includegraphics[width=0.8\textwidth]{Figures/Exp2_Normal_Raw.pdf}
 	% \caption{Results of the Normal Dist. Exp. - Raw numbers.}
 	% \label{fig:exp2NormalRaw}
-	\includegraphics[width=1\textwidth]{Figures/EXP2_Normal_Rates.pdf}
+	\includegraphics[width=1\textwidth]{Figures/Exp2_Normal_Rates.pdf}
 	\caption{Experiment 2 data and results. Graphs on the left show data for two iterations of the experiment with anomalous $\mu = 2.5$ and $\mu = 3.75$. The graph on the right shows the performance of the two algorithms.}
 	\label{fig:exp2NormalRates}
 \end{figure}
@@ -45,10 +45,10 @@ For experiment 2 we consider the normal distribution $\mathcal{N}(\mu, \sigma)$ 
 
 % \begin{figure}[!p]
 %   \centering
-%   \includegraphics[width=0.8\textwidth]{Figures/EXP2_Normal_Raw.pdf}
+%   \includegraphics[width=0.8\textwidth]{Figures/Exp2_Normal_Raw.pdf}
 %   \caption{Results of the Normal Dist. Exp. - Raw numbers.}
 %   \label{fig:exp2NormalRaw}
-%   \includegraphics[width=0.8\textwidth]{Figures/EXP2_Normal_Rates.pdf}
+%   \includegraphics[width=0.8\textwidth]{Figures/Exp2_Normal_Rates.pdf}
 %   \caption{Results of the Normal Dist. Exp. - Rates.}
 %   \label{fig:exp2NormalRates}
 % \end{figure}
@@ -60,7 +60,7 @@ We consider $n$ non-anomalies for $n \in \{1000, 2000, \ldots, 10000\}$ and $0.0
 
 \begin{figure}[!ht]
 	\centering
-	\subfloat[Data]{\includegraphics[width=0.35\textwidth]{Figures/Exp_3_Data.pdf}}
+	\subfloat[Data]{\includegraphics[width=0.35\textwidth]{Figures/Exp3_Data.pdf}}
 	\subfloat[Results]{\includegraphics[width=0.65\textwidth]{Figures/Exp3_N_Increases_Normal.pdf}}
 	\caption{Experiment 3 data on the left and performance results on the right. }
 	\label{fig:exp3NormalIncreasingN}
@@ -74,8 +74,8 @@ We consider $n$ non-anomalies for $n \in \{1000, 2000, \ldots, 10000\}$ and $0.0
 
 \begin{figure}[!ht]
 	\centering
-	\subfloat[Data]{\includegraphics[width=0.35\textwidth]{Figures/Exp_4_Data.pdf}}
-	\subfloat[Results]{\includegraphics[width=0.65\textwidth]{EXP4_N_increases_Gamma.pdf}}
+	\subfloat[Data]{\includegraphics[width=0.35\textwidth]{Figures/Exp4_Data.pdf}}
+	\subfloat[Results]{\includegraphics[width=0.65\textwidth]{Exp4_N_increases_Gamma.pdf}}
 	\caption{Experiment 4 data and results using Gamma distributions}
 	\label{fig:exp4GammaIncreasingN}
 \end{figure}
@@ -91,14 +91,15 @@ This experiment is similar to experiment 3, but uses a Gamma distribution instea
 
 \subsection{Showcase examples}\label{sec:realworld}
 
-\cref{fig:showcaseExamples} shows some examples of new and old versions of lookout with identified anomalies in red. The purpose of this exercise is to check if the new version agrees with the old version on obvious anomalies. The graphs on the first row have anomalies at the top right hand corner. The second row depicts a bi-modal distribution with anomalies placed in the middle. Due to sparsity of points both versions of lookout identify some non-anomalous points as anomalies. The third row has 3 clusters of normally distributed points with anomalies placed around the point $(6, 6)$. The same setting is repeated in the fourth row with the anomalies spreaded out. The last row has non-anomalous points in a parabola and the anomalous points outside of it. This is a tricky example as the points are on a manifold and we are not considering their geometry. In this example the new version of lookout identifies 2 of the 3 anomalies, but also identifies the boundary points as anomalous. In contrast, the old version of lookout does not identify any of the 3 anomalies, but identifies 2 boundary points as anomalous. Apart from the last example, the overall performance of new and old versions of lookout is similar on these obvious cases.
-
 \begin{figure}[!p]
 	\centering
 	\includegraphics[width=0.84\linewidth]{Figures/Showcase_Examples.pdf}
 	\caption{Comparing new lookout with the older version on some showcase examples}
 	\label{fig:showcaseExamples}
 \end{figure}
+
+\cref{fig:showcaseExamples} shows some examples of new and old versions of lookout with identified anomalies in red. The purpose of this exercise is to check if the new version agrees with the old version on obvious anomalies. The graphs on the first row have anomalies at the top right hand corner. The second row depicts a bi-modal distribution with anomalies placed in the middle. Due to sparsity of points both versions of lookout identify some non-anomalous points as anomalies. The third row has 3 clusters of normally distributed points with anomalies placed around the point $(6, 6)$. The same setting is repeated in the fourth row with the anomalies spreaded out. The last row has non-anomalous points in a parabola and the anomalous points outside of it. This is a tricky example as the points are on a manifold and we are not considering their geometry. In this example the new version of lookout identifies 2 of the 3 anomalies, but also identifies the boundary points as anomalous. In contrast, the old version of lookout does not identify any of the 3 anomalies, but identifies 2 boundary points as anomalous. Apart from the last example, the overall performance of new and old versions of lookout is similar on these obvious cases.
+
 
 \subsection{Real-world Examples}
 

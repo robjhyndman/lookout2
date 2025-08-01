@@ -6,7 +6,6 @@
 library(lookout)
 library(weird)
 library(ggplot2)
-library(gridExtra)
 library(stray)
 library(HDoutliers)
 source(here::here("R/functions.R"))
@@ -17,10 +16,6 @@ source(here::here("R/functions.R"))
 oldfaithful2 <- oldfaithful |>
   filter(duration < 7200, waiting < 7200)
 
-#ggplot(oldfaithful2, aes(x = duration, y = waiting)) +
-#  geom_point(alpha = 0.5) +
-#  labs(y = "Waiting time to next eruption (seconds)", x = "Duration (seconds)")
-
 lookobjNew <- lookout::lookout(
   oldfaithful2[, 2:3],
   alpha = 0.01,
@@ -28,9 +23,6 @@ lookobjNew <- lookout::lookout(
   gamma = 0.98,
   old_version = FALSE
 )
-
-g1 <- autoplot(lookobjNew) +
-  ggtitle("New lookout")
 
 lookobjOld <- lookout::lookout(
   oldfaithful2[, 2:3],
@@ -40,12 +32,21 @@ lookobjOld <- lookout::lookout(
   old_version = TRUE
 )
 
-g2 <- autoplot(lookobjOld) +
-  ggtitle("Old lookout")
+df <- bind_rows(
+  as.data.frame(lookobjNew) |>
+    mutate(method = "New lookout"),
+  as.data.frame(lookobjOld) |>
+    mutate(method = "Old lookout")
+)
 
-strayout <- strayout <- stray::find_HDoutliers(oldfaithful2[, 2:3]) # , knnsearchtype = "kd_tree", alpha=0.05)
-# Stray gives weird results  - 1022 anomalies
-#grid.arrange(g1, g2, nrow = 1)
+fig <- here::here("Figures/old_faithful.pdf")
+cairo_pdf(file = fig, width = 8, height = 4)
+df |>
+  ggplot(aes(x = duration, y = waiting, color = !outliers)) +
+  geom_point() +
+  facet_wrap(~method, nrow = 1) +
+  guides(color = "none")
+crop::dev.off.crop(fig)
 
 # --------------------------------------------------------------------------
 # TASK 2: WINE QUALITY AND PRICE
@@ -54,12 +55,6 @@ wine_reviews <- fetch_wine_reviews()
 wine_reviews2 <- wine_reviews |>
   filter(variety %in% c("Shiraz", "Syrah")) |>
   select(points, price)
-# wine_reviews |>
-#   filter(variety %in% c("Shiraz", "Syrah")) |>
-#   select(points, price) |>
-#   ggplot(aes(y = price, x = points)) +
-#   geom_jitter(height = 0, width = 0.3, alpha = 0.5) +
-#   scale_y_log10()
 
 lookobjNew <- lookout::lookout(
   wine_reviews2,
@@ -69,9 +64,6 @@ lookobjNew <- lookout::lookout(
   old_version = FALSE
 )
 
-g1 <- autoplot(lookobjNew) +
-  ggtitle("New lookout")
-
 lookobjOld <- lookout::lookout(
   wine_reviews2,
   alpha = 0.01,
@@ -80,10 +72,19 @@ lookobjOld <- lookout::lookout(
   old_version = TRUE
 )
 
-strayout <- stray::find_HDoutliers(wine_reviews2) # , knnsearchtype = "kd_tree", alpha=0.05)
-# Stray gives weird results  - 1887 anomalies
 
-g2 <- autoplot(lookobjOld) +
-  ggtitle("Old lookout")
+df <- bind_rows(
+  as.data.frame(lookobjNew) |>
+    mutate(method = "New lookout"),
+  as.data.frame(lookobjOld) |>
+    mutate(method = "Old lookout")
+)
 
-#grid.arrange(g1, g2, nrow = 1)
+fig <- here::here("Figures/wine_reviews.pdf")
+cairo_pdf(file = fig, width = 8, height = 4)
+df |>
+  ggplot(aes(x = points, y = price, color = !outliers)) +
+  geom_point() +
+  facet_wrap(~method, nrow = 1) +
+  guides(color = "none")
+crop::dev.off.crop(fig)
