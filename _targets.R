@@ -27,7 +27,7 @@ tar_source()
 # List of targets
 list(
   # Should scaling be used in new lookout?
-  tar_target(scale, FALSE),
+  tar_target(scale, TRUE),
 
   # ------------------------------------------------------
   # Experiment 1: Gamma distribution
