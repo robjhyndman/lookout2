@@ -1,18 +1,21 @@
 # lookout 2
 
-## Environment
+This project uses the [`renv`](https://rstudio.github.io/renv/) package to manage R package versions, and the [`targets`](https://docs.ropensci.org/targets/) package to manage the R workflow.
 
-R with packages:
+To set up:
 
-* lookout
-* DDoutlier
-* dplyr
-* ggplot2
-* HDoutliers
-* patchwork
-* stray
-* weird
+```r
+renv::restore()
+```
 
-## Makefile
+To run the workflow from within R:
 
-Running the Makefile will run all the R scripts in the correct order, and then compile the LaTeX document.
+```r
+targets::tar_make()
+```
+
+To run the workflow from the command line, you can use the provided `Makefile`. This will execute the R scripts and compile the LaTeX document.
+
+```bash
+make
+```
