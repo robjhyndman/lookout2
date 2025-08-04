@@ -12,7 +12,7 @@ generate_exp1 <- function(n1, n2, rate) {
   as_tibble(out)
 }
 
-run_synthetic_exp1 <- function() {
+run_synthetic_exp1 <- function(scale = scale) {
   n1 <- 500
   n2 <- 10
   rate2 <- seq(10) / 10
@@ -31,14 +31,14 @@ run_synthetic_exp1 <- function() {
       lookobj_new <- lookout::lookout(
         X[, 1:2],
         alpha = 0.01,
-        scale = TRUE,
+        scale = scale,
         gamma = 0.98,
         old_version = FALSE
       )
       lookobj_old <- lookout::lookout(
         X[, 1:2],
         alpha = 0.01,
-        scale = TRUE,
+        scale = scale,
         gamma = 1,
         old_version = TRUE
       )
@@ -82,10 +82,9 @@ run_synthetic_exp1 <- function() {
   results_combined
 }
 
-
 create_figure_exp1 <- function(results) {
   set_ggplot_options()
-  g1 <- ggplot(results_combined, aes(x = outrate, y = value, color = method)) +
+  g1 <- ggplot(results, aes(x = outrate, y = value, color = method)) +
     geom_jitter(width = 0.05, height = 0, alpha = 0.4) +
     geom_smooth() +
     facet_grid(metric ~ method) +

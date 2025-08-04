@@ -13,7 +13,7 @@ generate_exp2 <- function(n1, n2, mm) {
   as_tibble(out)
 }
 
-run_synthetic_exp2 <- function() {
+run_synthetic_exp2 <- function(scale = scale) {
   reps <- 20
   mm_seq <- seq(2.5, 4, by = 0.25)
   n1 <- 1000
@@ -35,14 +35,14 @@ run_synthetic_exp2 <- function() {
       lookobj_new <- lookout::lookout(
         X[, 1:2],
         alpha = 0.01,
-        scale = TRUE,
+        scale = scale,
         gamma = 0.98,
         old_version = FALSE
       )
       lookobj_old <- lookout::lookout(
         X[, 1:2],
         alpha = 0.01,
-        scale = TRUE,
+        scale = scale,
         gamma = 1,
         old_version = TRUE
       )

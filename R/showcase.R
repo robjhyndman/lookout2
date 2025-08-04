@@ -1,4 +1,4 @@
-generate_showcase_examples <- function() {
+generate_showcase_examples <- function(scale = TRUE) {
   # Example 1
   X1 <- bind_rows(
     tibble(
@@ -14,7 +14,7 @@ generate_showcase_examples <- function() {
   ex1_lookout_new <- lookout::lookout(
     X1,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 0.98,
     old_version = FALSE
   )
@@ -22,7 +22,7 @@ generate_showcase_examples <- function() {
   ex1_lookout_old <- lookout::lookout(
     X1,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 1,
     old_version = TRUE
   )
@@ -45,7 +45,7 @@ generate_showcase_examples <- function() {
   ex2_lookout_new <- lookout::lookout(
     X2,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 0.98,
     old_version = FALSE
   )
@@ -53,7 +53,7 @@ generate_showcase_examples <- function() {
   ex2_lookout_old <- lookout::lookout(
     X2,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 1,
     old_version = TRUE
   )
@@ -81,7 +81,7 @@ generate_showcase_examples <- function() {
   ex3_lookout_new <- lookout::lookout(
     X3,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 0.98,
     old_version = FALSE
   )
@@ -89,7 +89,7 @@ generate_showcase_examples <- function() {
   ex3_lookout_old <- lookout::lookout(
     X3,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 1,
     old_version = TRUE
   )
@@ -117,14 +117,14 @@ generate_showcase_examples <- function() {
   ex4_lookout_new <- lookout::lookout(
     X4,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 0.98,
     old_version = FALSE
   )
   ex4_lookout_old <- lookout::lookout(
     X4,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 1,
     old_version = TRUE
   )
@@ -141,14 +141,14 @@ generate_showcase_examples <- function() {
   ex5_lookout_new <- lookout::lookout(
     X5,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 0.98,
     old_version = FALSE
   )
   ex5_lookout_old <- lookout::lookout(
     X5,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 1,
     old_version = TRUE
   )

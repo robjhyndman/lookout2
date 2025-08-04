@@ -10,7 +10,7 @@ generate_exp7 <- function(iterate) {
   X$Points <- c(rep("Non-anomaly", nn - 1), rep("Anomaly", 1))
   X
 }
-run_synthetic_exp7 <- function() {
+run_synthetic_exp7 <- function(scale = TRUE) {
   pp <- 10
   hdoutliers_gmean <- hdoutliers_fmeasure <- lookout1_fmeasure <-
     lookoutOld_fmeasure <- lookout1_gmean <- lookoutOld_gmean <- stray_gmean <-
@@ -53,7 +53,7 @@ run_synthetic_exp7 <- function() {
         lookoutobj1 <- lookout::lookout(
           X,
           alpha = 0.01,
-          scale = TRUE,
+          scale = scale,
           gamma = 0.98,
           old_version = FALSE
         )
@@ -77,7 +77,7 @@ run_synthetic_exp7 <- function() {
         lookoutobjold <- lookout::lookout(
           X,
           alpha = 0.01,
-          scale = TRUE,
+          scale = scale,
           gamma = 1,
           old_version = TRUE
         )

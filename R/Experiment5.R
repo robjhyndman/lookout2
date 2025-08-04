@@ -15,7 +15,7 @@ generate_exp5 <- function(iterate) {
   as_tibble(X)
 }
 
-run_synthetic_exp5 <- function() {
+run_synthetic_exp5 <- function(scale) {
   pp <- 10
   hdoutliers_gmean <- hdoutliers_fmeasure <- lookout1_fmeasure <-
     lookoutOld_fmeasure <- lookout1_gmean <- lookoutOld_gmean <- stray_gmean <-
@@ -60,7 +60,7 @@ run_synthetic_exp5 <- function() {
         lookoutobj1 <- lookout::lookout(
           X,
           alpha = 0.01,
-          scale = TRUE,
+          scale = scale,
           gamma = 0.98,
           old_version = FALSE
         )
@@ -84,7 +84,7 @@ run_synthetic_exp5 <- function() {
         lookoutobjold <- lookout::lookout(
           X,
           alpha = 0.01,
-          scale = TRUE,
+          scale = scale,
           gamma = 1,
           old_version = TRUE
         )
@@ -268,7 +268,6 @@ run_synthetic_exp5 <- function() {
 
   dfl
 }
-
 
 create_figure_exp5 <- function(results) {
   set_ggplot_options()

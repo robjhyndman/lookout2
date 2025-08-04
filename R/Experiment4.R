@@ -18,7 +18,7 @@ generate_exp4 <- function(nn) {
   as_tibble(out)
 }
 
-run_synthetic_exp4 <- function() {
+run_synthetic_exp4 <- function(scale = scale) {
   nnvals <- rep((1:10) * 1000, each = 10)
   df3 <- df1 <- df2 <- set_up_diff_metrics(length(nnvals))
 
@@ -27,14 +27,14 @@ run_synthetic_exp4 <- function() {
     lookobj_new <- lookout::lookout(
       X[, 1:2],
       alpha = 0.01,
-      scale = TRUE,
+      scale = scale,
       gamma = 0.95,
       old_version = FALSE
     )
     lookobj_old <- lookout::lookout(
       X[, 1:2],
       alpha = 0.01,
-      scale = TRUE,
+      scale = scale,
       gamma = 1,
       old_version = TRUE
     )
@@ -59,7 +59,6 @@ run_synthetic_exp4 <- function() {
     pivot_longer(cols = 3:6)
 }
 
-
 create_figure_exp4 <- function(results) {
   set_ggplot_options()
 
@@ -67,7 +66,7 @@ create_figure_exp4 <- function(results) {
   fig1 <- here::here("Figures/Exp4_N_Increases_Gamma.pdf")
   cairo_pdf(file = fig1, width = 6.6, height = 3.5)
   print(
-    ggplot(df, aes(x = N, y = value, color = Algo)) +
+    ggplot(results, aes(x = N, y = value, color = Algo)) +
       geom_point(size = 0.1) +
       geom_jitter(size = 0.1, height = 0.02) +
       facet_grid(~name) +

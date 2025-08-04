@@ -26,13 +26,16 @@ tar_source()
 
 # List of targets
 list(
+  # Should scaling be used in new lookout?
+  tar_target(scale, FALSE),
+
   # ------------------------------------------------------
   # Experiment 1: Gamma distribution
   # ------------------------------------------------------
 
   tar_target(
     exp1_results,
-    run_synthetic_exp1()
+    run_synthetic_exp1(scale)
   ),
   tar_target(
     fig_exp1,
@@ -45,7 +48,7 @@ list(
 
   tar_target(
     exp2_results,
-    run_synthetic_exp2()
+    run_synthetic_exp2(scale)
   ),
   tar_target(
     fig_exp2,
@@ -58,7 +61,7 @@ list(
 
   tar_target(
     exp3_results,
-    run_synthetic_exp3()
+    run_synthetic_exp3(scale)
   ),
   tar_target(
     fig_exp3,
@@ -71,7 +74,7 @@ list(
 
   tar_target(
     exp4_results,
-    run_synthetic_exp4()
+    run_synthetic_exp4(scale)
   ),
   tar_target(
     fig_exp4,
@@ -83,7 +86,7 @@ list(
 
   tar_target(
     exp5_results,
-    run_synthetic_exp5()
+    run_synthetic_exp5(scale)
   ),
   tar_target(
     fig_exp5,
@@ -96,7 +99,7 @@ list(
 
   tar_target(
     exp6_results,
-    run_synthetic_exp6()
+    run_synthetic_exp6(scale)
   ),
   tar_target(
     fig_exp6,
@@ -108,7 +111,7 @@ list(
 
   tar_target(
     exp7_results,
-    run_synthetic_exp7()
+    run_synthetic_exp7(scale)
   ),
   tar_target(
     fig_exp7,
@@ -121,7 +124,7 @@ list(
 
   tar_target(
     old_faithful_results,
-    analyze_old_faithful()
+    analyze_old_faithful(scale)
   ),
   tar_target(
     fig_old_faithful,
@@ -129,7 +132,7 @@ list(
   ),
   tar_target(
     wine_results,
-    analyze_wine_data()
+    analyze_wine_data(scale)
   ),
   tar_target(
     fig_wine,
@@ -142,7 +145,7 @@ list(
 
   tar_target(
     showcase_results,
-    generate_showcase_examples()
+    generate_showcase_examples(scale)
   ),
   tar_target(
     fig_showcase,

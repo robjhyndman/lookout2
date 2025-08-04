@@ -1,4 +1,4 @@
-analyze_wine_data <- function() {
+analyze_wine_data <- function(scale = scale) {
   wine_reviews <- weird::fetch_wine_reviews()
   wine_reviews2 <- wine_reviews |>
     filter(variety %in% c("Shiraz", "Syrah")) |>
@@ -7,7 +7,7 @@ analyze_wine_data <- function() {
   lookobjNew <- lookout::lookout(
     wine_reviews2,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 0.98,
     old_version = FALSE
   )
@@ -15,7 +15,7 @@ analyze_wine_data <- function() {
   lookobjOld <- lookout::lookout(
     wine_reviews2,
     alpha = 0.01,
-    scale = TRUE,
+    scale = scale,
     gamma = 1,
     old_version = TRUE
   )
@@ -34,7 +34,7 @@ create_wine_figure <- function(results) {
   fig <- here::here("Figures/wine_reviews.pdf")
   cairo_pdf(file = fig, width = 8, height = 4)
   print(
-    df |>
+    results |>
       ggplot(aes(x = points, y = price, color = !outliers)) +
       geom_point() +
       facet_wrap(~method, nrow = 1) +

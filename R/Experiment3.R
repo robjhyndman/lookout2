@@ -22,7 +22,7 @@ generate_exp3 <- function(nn) {
   as_tibble(out)
 }
 
-run_synthetic_exp3 <- function() {
+run_synthetic_exp3 <- function(scale = scale) {
   nnvals <- seq(10) * 1000
   nnvals <- rep(nnvals, each = 10)
   df3 <- df1 <- set_up_diff_metrics(length(nnvals))
@@ -32,14 +32,14 @@ run_synthetic_exp3 <- function() {
     lookobj_new <- lookout::lookout(
       X[, 1:2],
       alpha = 0.01,
-      scale = TRUE,
+      scale = scale,
       gamma = 0.95,
       old_version = FALSE
     )
     lookobj_old <- lookout::lookout(
       X[, 1:2],
       alpha = 0.01,
-      scale = TRUE,
+      scale = scale,
       gamma = 1,
       old_version = TRUE
     )
@@ -72,7 +72,7 @@ run_synthetic_exp3 <- function() {
 create_figure_exp3 <- function(results) {
   set_ggplot_options()
 
-  g1 <- ggplot(results_data, aes(x = N, y = value, color = Algo)) +
+  g1 <- ggplot(results, aes(x = N, y = value, color = Algo)) +
     geom_point(size = 0.5) +
     facet_grid(~name) +
     xlab("Number of points") +
