@@ -8,7 +8,7 @@ generate_exp1 <- function(n1, n2, rate) {
   ) |>
     as.data.frame()
   colnames(out) <- c("X1", "X2")
-  out$Points = c(rep("Non-anomaly", n1), rep("Anomaly", n2))
+  out$Points <- c(rep("Non-anomaly", n1), rep("Anomaly", n2))
   as_tibble(out)
 }
 

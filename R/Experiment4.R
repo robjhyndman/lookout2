@@ -11,7 +11,7 @@ generate_exp4 <- function(nn) {
   inds2 <- sample(inds, num_outliers)
   out <- as.data.frame(rbind(X1, X2[inds2, ]))
   colnames(out) <- c("X1", "X2")
-  out$Points = c(
+  out$Points <- c(
     rep("Non-anomaly", NROW(X1)),
     rep("Anomaly", length(inds2))
   )

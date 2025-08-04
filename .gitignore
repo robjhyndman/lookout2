@@ -14,3 +14,5 @@ main.pdf
 .vscode/*
 *.Rout
 Rplots.pdf
+OldR/*
+figures

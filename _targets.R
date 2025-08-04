@@ -3,20 +3,20 @@ library(targets)
 # Set target options
 tar_option_set(
   packages = c(
-    "ggplot2",
-    "dplyr",
-    "tidyr",
-    "readr",
-    "patchwork",
-    "here",
-    "lookout",
-    "weird",
-    "stray",
-    "HDoutliers",
-    "pROC",
+    "crop",
     "DDoutlier",
     "dobin",
-    "crop"
+    "dplyr",
+    "ggplot2",
+    "HDoutliers",
+    "here",
+    "lookout",
+    "patchwork",
+    "pROC",
+    "readr",
+    "stray",
+    "tidyr",
+    "weird"
   ),
   seed = 2025
 )
@@ -84,10 +84,9 @@ list(
   # Experiment 5: Comparison with other methods
   # ------------------------------------------------------
 
-  tar_target(pp, 10),
   tar_target(
     exp5_results,
-    run_synthetic_exp5(reps = 10, pp, scale)
+    run_synthetic_exp5(reps = 10, pp = 10, scale)
   ),
   tar_target(
     fig_exp5,
@@ -100,7 +99,7 @@ list(
 
   tar_target(
     exp6_results,
-    run_synthetic_exp6(reps = 10, pp, scale)
+    run_synthetic_exp6(reps = 10, pp = 10, scale)
   ),
   tar_target(
     fig_exp6,
@@ -113,7 +112,7 @@ list(
 
   tar_target(
     exp7_results,
-    run_synthetic_exp7(reps = 20, pp, scale)
+    run_synthetic_exp7(reps = 20, pp = 10, scale)
   ),
   tar_target(
     fig_exp7,

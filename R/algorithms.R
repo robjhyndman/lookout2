@@ -149,7 +149,7 @@ compare_algorithms <- function(
   process_results(results)
 }
 
-process = function(result, X, labs) {
+process <- function(result, X, labs) {
   labels <- rep(0, NROW(X))
   if (!is.list(result)) {
     result <- list(outliers = result)
@@ -165,7 +165,7 @@ process_roc <- function(result, X, labs) {
   list(auc = roc_obj$auc, scores = result)
 }
 
-process_lookout = function(result, X, labs) {
+process_lookout <- function(result, X, labs) {
   metrics <- process(result, X, labs)
   roc_obj <- process_roc(result$outlier_scores, X, labs)
   c(metrics, list(auc = roc_obj$auc, scores = result$scores))
