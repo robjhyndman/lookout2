@@ -84,9 +84,10 @@ list(
   # Experiment 5: Comparison with other methods
   # ------------------------------------------------------
 
+  tar_target(pp, 10),
   tar_target(
     exp5_results,
-    run_synthetic_exp5(scale)
+    run_synthetic_exp5(reps = 10, pp, scale)
   ),
   tar_target(
     fig_exp5,
@@ -99,19 +100,20 @@ list(
 
   tar_target(
     exp6_results,
-    run_synthetic_exp6(scale)
+    run_synthetic_exp6(reps = 10, pp, scale)
   ),
   tar_target(
     fig_exp6,
     create_figure_exp6(exp6_results)
   ),
+
   # ------------------------------------------------------
   # Experiment 7: High-dimensional comparison
   # ------------------------------------------------------
 
   tar_target(
     exp7_results,
-    run_synthetic_exp7(scale)
+    run_synthetic_exp7(reps = 20, pp, scale)
   ),
   tar_target(
     fig_exp7,
