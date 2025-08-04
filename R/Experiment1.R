@@ -58,10 +58,8 @@ run_synthetic_exp1 <- function(scale = scale) {
   }
   # Process the results data directly
   results_combined <- bind_rows(
-    results_new |>
-      mutate(method = "New lookout"),
-    results_old |>
-      mutate(method = "Old lookout")
+    results_new |> mutate(method = "New Lookout"),
+    results_old |> mutate(method = "Old Lookout")
   ) |>
     select(
       method,
@@ -85,7 +83,7 @@ run_synthetic_exp1 <- function(scale = scale) {
 create_figure_exp1 <- function(results) {
   set_ggplot_options()
   g1 <- ggplot(results, aes(x = outrate, y = value, color = method)) +
-    geom_jitter(width = 0.05, height = 0, alpha = 0.4) +
+    geom_jitter(width = 0.1 / 4, height = 0, alpha = 0.4, size = 0.75) +
     geom_smooth() +
     facet_grid(metric ~ method) +
     labs(x = "Anomaly Rate", y = "Count") +
@@ -103,13 +101,18 @@ create_figure_exp1 <- function(results) {
   ) |>
     mutate(
       rate = paste("rate =", rep(rate2, each = n1 + n2)),
+      alpha = 0.4 + 0.6 * (Points == "Anomaly")
     )
 
   g2 <- ggplot(df, aes(X1, X2, color = Points)) +
-    geom_point() +
+    geom_point(alpha = df$alpha, size = 0.75) +
     facet_wrap(~rate, strip.position = "top", nrow = 2) +
     theme(legend.position = "left") +
-    coord_fixed()
+    coord_fixed() +
+    scale_color_manual(
+      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
+      name = "Points"
+    )
 
   # Create figure
   dir.create("Figures", showWarnings = FALSE)

@@ -21,16 +21,31 @@ run_synthetic_exp5 <- function(reps, pp, scale) {
 
 create_figure_exp5 <- function(results) {
   # Plot data
-  g1 <- generate_exp5(3) |>
+  X <- generate_exp5(3) |>
+    mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
+  g1 <- X |>
     ggplot(aes(x1, x2)) +
-    geom_point(aes(color = Points))
-  X <- generate_exp5(9)
+    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
+    scale_color_manual(
+      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
+      name = "Points"
+    )
+  X <- generate_exp5(9) |>
+    mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
   g2 <- X |>
     ggplot(aes(x1, x2)) +
-    geom_point(aes(color = Points))
+    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
+    scale_color_manual(
+      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
+      name = "Points"
+    )
   g3 <- X |>
     ggplot(aes(x3, x4)) +
-    geom_point(aes(color = Points))
+    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
+    scale_color_manual(
+      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
+      name = "Points"
+    )
 
   p <- patchwork::wrap_plots(g1, g2, patchwork::guide_area(), g3) +
     patchwork::plot_layout(guides = "collect")

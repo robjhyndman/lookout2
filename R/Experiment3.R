@@ -49,11 +49,11 @@ run_synthetic_exp3 <- function(scale = scale) {
   }
 
   bind_rows(
-    df1 |> mutate(Algo = "New_Lookout", N = nnvals),
-    df3 |> mutate(Algo = "Old_Lookout", N = nnvals)
+    df1 |> mutate(Algorithm = "New Lookout", N = nnvals),
+    df3 |> mutate(Algorithm = "Old Lookout", N = nnvals)
   ) |>
     select(
-      Algo,
+      Algorithm,
       N,
       true_positive_rate,
       true_negative_rate,
@@ -72,8 +72,8 @@ run_synthetic_exp3 <- function(scale = scale) {
 create_figure_exp3 <- function(results) {
   set_ggplot_options()
 
-  g1 <- ggplot(results, aes(x = N, y = value, color = Algo)) +
-    geom_point(size = 0.5) +
+  g1 <- ggplot(results, aes(x = N, y = value, color = Algorithm)) +
+    geom_jitter(width = 1000 / 4, height = 0, alpha = 0.4, size = 0.75) +
     facet_grid(~name) +
     xlab("Number of points") +
     ylab("Rate") +
@@ -82,12 +82,17 @@ create_figure_exp3 <- function(results) {
 
   # Generate Data to plot
   nn <- 10000
-  df <- generate_exp3(nn)
+  df <- generate_exp3(nn) |>
+    mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
   g2 <- ggplot(df, aes(X1, X2, color = Points)) +
-    geom_point() +
+    geom_point(alpha = df$alpha, size = 1) +
     theme(legend.position = "bottom") +
     coord_fixed() +
-    labs(x = "x", y = "y")
+    labs(x = "x", y = "y") +
+    scale_color_manual(
+      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
+      name = "Points"
+    )
 
   # Create figures
   dir.create("Figures", showWarnings = FALSE)

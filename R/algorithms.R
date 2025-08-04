@@ -194,14 +194,24 @@ create_figure_exp567 <- function(experiment, p, results) {
   scale <- scale[scale == round(scale) & scale > 0]
   g4 <- results |>
     mutate(
-      Algorithm = recode(
+      Algorithm = factor(
         Algorithm,
-        "lookout_new" = "Lookout (new)",
-        "lookout_old" = "Lookout (old)",
-        "kdeos" = "KDEOS",
-        "rdos" = "RDOS",
-        "hdoutliers" = "HDoutliers",
-        "stray" = "Stray"
+        levels = c(
+          "lookout_new",
+          "lookout_old",
+          "hdoutliers",
+          "stray",
+          "kdeos",
+          "rdos"
+        ),
+        labels = c(
+          "New Lookout",
+          "Old Lookout",
+          "HDoutliers",
+          "Stray",
+          "KDEOS",
+          "RDOS"
+        )
       ),
       Metric = recode(
         Metric,
@@ -210,9 +220,12 @@ create_figure_exp567 <- function(experiment, p, results) {
         "auc" = "AUC"
       )
     ) |>
-    ggplot(aes(x = Iteration, y = mean, color = Algorithm)) +
-    geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.1) +
-    geom_line(aes(color = Algorithm), linewidth = 1) +
+    ggplot(aes(x = Iteration)) +
+    geom_ribbon(
+      aes(ymin = mean - 2 * se, ymax = mean + 2 * se, fill = Algorithm),
+      alpha = 0.4
+    ) +
+    geom_line(aes(y = mean, color = Algorithm), linewidth = 1) +
     ylab("Performance") +
     facet_wrap(~Metric) +
     theme(legend.position = "bottom") +

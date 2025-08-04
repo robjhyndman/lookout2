@@ -155,25 +155,25 @@ generate_showcase_examples <- function(scale = TRUE) {
 
   bind_rows(
     as.data.frame(ex1_lookout_new) |>
-      mutate(Example = "Example 1", Version = "New lookout"),
+      mutate(Example = "Example 1", Version = "New Lookout"),
     as.data.frame(ex1_lookout_old) |>
-      mutate(Example = "Example 1", Version = "Old lookout"),
+      mutate(Example = "Example 1", Version = "Old Lookout"),
     as.data.frame(ex2_lookout_new) |>
-      mutate(Example = "Example 2", Version = "New lookout"),
+      mutate(Example = "Example 2", Version = "New Lookout"),
     as.data.frame(ex2_lookout_old) |>
-      mutate(Example = "Example 2", Version = "Old lookout"),
+      mutate(Example = "Example 2", Version = "Old Lookout"),
     as.data.frame(ex3_lookout_new) |>
-      mutate(Example = "Example 3", Version = "New lookout"),
+      mutate(Example = "Example 3", Version = "New Lookout"),
     as.data.frame(ex3_lookout_old) |>
-      mutate(Example = "Example 3", Version = "Old lookout"),
+      mutate(Example = "Example 3", Version = "Old Lookout"),
     as.data.frame(ex4_lookout_new) |>
-      mutate(Example = "Example 4", Version = "New lookout"),
+      mutate(Example = "Example 4", Version = "New Lookout"),
     as.data.frame(ex4_lookout_old) |>
-      mutate(Example = "Example 4", Version = "Old lookout"),
+      mutate(Example = "Example 4", Version = "Old Lookout"),
     as.data.frame(ex5_lookout_new) |>
-      mutate(Example = "Example 5", Version = "New lookout"),
+      mutate(Example = "Example 5", Version = "New Lookout"),
     as.data.frame(ex5_lookout_old) |>
-      mutate(Example = "Example 5", Version = "Old lookout")
+      mutate(Example = "Example 5", Version = "Old Lookout")
   ) |>
     as_tibble() |>
     group_by(Example) |>
@@ -183,14 +183,16 @@ generate_showcase_examples <- function(scale = TRUE) {
 
 create_showcase_figure <- function(results) {
   set_ggplot_options()
-
+  df <- results |>
+    mutate(alpha = 0.4 + 0.6 * outliers)
   # Create figure
   dir.create("Figures", showWarnings = FALSE)
   fig <- here::here("Figures/Showcase_Examples.pdf")
   cairo_pdf(file = fig, width = 6, height = 10)
   print(
-    ggplot(results, aes(x = x, y = y, color = outliers)) +
-      geom_point() +
+    df |>
+      ggplot(aes(x = x, y = y, color = outliers)) +
+      geom_point(alpha = df$alpha) +
       facet_grid(Example ~ Version, scales = "free") +
       theme(
         axis.title.x = element_blank(), # Hide x-axis title
@@ -199,7 +201,9 @@ create_showcase_figure <- function(results) {
         axis.title.y = element_blank(), # Hide y-axis title
         axis.text.y = element_blank(), # Hide y-axis text labels
         axis.ticks.y = element_blank() # Hide y-axis tick marks
-      )
+      ) +
+      scale_color_manual(values = c(`FALSE` = "#999999", `TRUE` = "red")) +
+      guides(color = "none") # Hide legend
   )
   crop::dev.off.crop(fig)
 

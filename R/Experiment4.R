@@ -44,48 +44,57 @@ run_synthetic_exp4 <- function(scale = scale) {
   }
 
   bind_rows(
-    df1 |> mutate(Algo = "New_Lookout", N = nnvals),
-    df3 |> mutate(Algo = "Old_Lookout", N = nnvals)
+    df1 |> mutate(Algorithm = "New Lookout", N = nnvals),
+    df3 |> mutate(Algorithm = "Old Lookout", N = nnvals)
   ) |>
-    relocate(Algo) |>
+    relocate(Algorithm) |>
     select(
-      Algo,
+      Algorithm,
       N,
       true_positive_rate,
       true_negative_rate,
       false_positive_rate,
       false_negative_rate
     ) |>
+    rename(
+      "True Positive Rate" = true_positive_rate,
+      "False Positive Rate" = false_positive_rate,
+      "False Negative Rate" = false_negative_rate,
+      "True Negative Rate" = true_negative_rate
+    ) |>
     pivot_longer(cols = 3:6)
 }
 
 create_figure_exp4 <- function(results) {
   set_ggplot_options()
-
   dir.create("Figures", showWarnings = FALSE)
   fig1 <- here::here("Figures/Exp4_N_Increases_Gamma.pdf")
   cairo_pdf(file = fig1, width = 6.6, height = 3.5)
   print(
-    ggplot(results, aes(x = N, y = value, color = Algo)) +
-      geom_point(size = 0.1) +
-      geom_jitter(size = 0.1, height = 0.02) +
+    ggplot(results, aes(x = N, y = value, color = Algorithm)) +
+      geom_jitter(size = 0.75, width = 1000 / 4, height = 0.0, alpha = 0.4) +
       facet_grid(~name) +
       xlab("Number of points") +
       ylab("Rate") +
-      geom_smooth(se = FALSE) +
+      geom_smooth() +
       theme(legend.position = "bottom")
   )
   crop::dev.off.crop(fig1)
 
   # Generate Data to plot
   nn <- 10000
-  df_data <- generate_exp4(nn)
+  df_data <- generate_exp4(nn) |>
+    mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
 
   g2 <- ggplot(df_data, aes(X1, X2, color = Points)) +
-    geom_point() +
+    geom_point(alpha = df_data$alpha, size = 1) +
     theme(legend.position = "bottom") +
     coord_fixed() +
-    labs(x = "x", y = "y")
+    labs(x = "x", y = "y") +
+    scale_color_manual(
+      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
+      name = "Points"
+    )
 
   fig2 <- here::here("Figures/Exp4_Data.pdf")
   cairo_pdf(file = fig2, width = 3.5, height = 3.5)

@@ -22,22 +22,27 @@ analyze_wine_data <- function(scale = scale) {
 
   bind_rows(
     as.data.frame(lookobjNew) |>
-      mutate(method = "New lookout"),
+      mutate(method = "New Lookout"),
     as.data.frame(lookobjOld) |>
-      mutate(method = "Old lookout")
+      mutate(method = "Old Lookout")
   )
 }
 
 create_wine_figure <- function(results) {
   set_ggplot_options()
+  df <- results |>
+    mutate(alpha = 0.4 + 0.6 * as.numeric(outliers))
   dir.create("Figures", showWarnings = FALSE)
   fig <- here::here("Figures/wine_reviews.pdf")
   cairo_pdf(file = fig, width = 8, height = 4)
   print(
-    results |>
-      ggplot(aes(x = points, y = price, color = !outliers)) +
-      geom_point() +
+    df |>
+      ggplot(aes(x = points, y = price, color = outliers)) +
+      geom_point(alpha = df$alpha) +
       facet_wrap(~method, nrow = 1) +
+      scale_color_manual(
+        values = c(`FALSE` = "#999999", `TRUE` = "red"),
+      ) +
       guides(color = "none")
   )
   crop::dev.off.crop(fig)
