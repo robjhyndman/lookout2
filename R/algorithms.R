@@ -202,6 +202,12 @@ create_figure_exp567 <- function(experiment, p, results) {
         "rdos" = "RDOS",
         "hdoutliers" = "HDoutliers",
         "stray" = "Stray"
+      ),
+      Metric = recode(
+        Metric,
+        "fmeasure" = "F-measure",
+        "gmean" = "G-mean",
+        "auc" = "AUC"
       )
     ) |>
     ggplot(aes(x = Iteration, y = mean, color = Algorithm)) +
