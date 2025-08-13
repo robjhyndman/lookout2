@@ -83,9 +83,30 @@ run_synthetic_exp2 <- function(scale = scale) {
 }
 
 create_figure_exp2 <- function(results) {
-  g1 <- ggplot(results, aes(x = mean, y = value, color = method)) +
-    geom_jitter(width = 0.25 / 4, height = 0, alpha = 0.4, size = 0.75) +
-    geom_smooth() +
+  smooth <- results |>
+    group_by(method, metric) |>
+    reframe(fit = truncated_smooth(mean, value)) |>
+    tidyr::unnest(fit)
+
+  g1 <- ggplot(results, aes(x = mean)) +
+    geom_jitter(
+      aes(y = value, color = method),
+      width = 0.25 / 4,
+      height = 0,
+      alpha = 0.4,
+      size = 0.75
+    ) +
+    geom_ribbon(
+      data = smooth,
+      aes(x = x, ymin = lower, ymax = upper, group = method),
+      alpha = 0.2,
+      fill = "#555555"
+    ) +
+    geom_line(
+      data = smooth,
+      aes(x = x, y = fit, color = method, group = method),
+      linewidth = 1,
+    ) +
     facet_wrap(metric ~ .) +
     labs(x = "Mean (µ)", y = "Anomaly rate") +
     guides(color = guide_legend(title = "Algorithm")) +

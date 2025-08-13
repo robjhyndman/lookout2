@@ -156,3 +156,25 @@ experiment_plot <- function(g1, g2, filename, height = 5, width = 8, ...) {
   crop::dev.off.crop(fig)
   return(fig)
 }
+
+# Function to fit smooth loess curve and get predictions with results truncated to (0,1)
+truncated_smooth <- function(x, y) {
+  fit <- loess(y ~ x, span = 0.75, data = data.frame(x = x, y = y))
+
+  x_range <- range(x, na.rm = TRUE)
+  pred_data <- data.frame(x = seq(x_range[1], x_range[2], length.out = 100))
+  pred <- predict(fit, pred_data, se = TRUE)
+
+  # Calculate confidence intervals
+  pred_data$fit <- pred$fit
+  pred_data$se <- pred$se.fit
+  pred_data$lower <- pred$fit - 1.96 * pred$se.fit
+  pred_data$upper <- pred$fit + 1.96 * pred$se.fit
+
+  # Truncate fits and confidence intervals to (0,1)
+  pred_data$fit <- pmax(pmin(pred$fit, 1), 0)
+  pred_data$lower <- pmax(0, pred_data$lower)
+  pred_data$upper <- pmin(1, pred_data$upper)
+
+  return(pred_data)
+}
