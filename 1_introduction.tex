@@ -11,19 +11,19 @@ In this paper, we explore some of the theoretical properties of the lookout algo
 The \textit{lookout} algorithm of \cite{lookout} has four inputs: the dataset $\{\bm{y}_1,\dots,\bm{y}_n\}$, where each $\bm{y}_i \in \mathbb{R}^p$; a parameter $\beta \in (0,1)$ indicating the proportion of points to be used for fitting the Generalized Pareto Distribution (GPD); a parameter $\alpha \in (0,1)$ signifying the cut-off threshold for determining an anomaly; and a logical variable \textit{unitize} indicating whether to scale the data. We briefly outline the steps below.
 
 \begin{algorithm}
-\caption{Lookout algorithm}\label{alg:lookout}
-\begin{algorithmic}[1]
-\Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta \in (0,1)$, threshold $\alpha \in (0,1)$, \emph{unitize} $\in \{\text{True}, \text{False}\}$.
-\State If \textit{unitize}, scale the data to lie in the unit cube in $\mathbb{R}^p$.
-\State Compute the persistence homology barcode of the data cloud for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}.
-\State From the barcode, obtain the ordered death diameters $\{d_i\}_{i = 1}^n$ for connected components, and their successive differences $\Delta d_i = d_{i+1} - d_i$.
-\State Let $d_* = d_{i_*}$ where $i_* = \text{arg\! max} \{ \Delta d_i \}_{i=1}^n$; that is, $d_*$ is the diameter corresponding to the lower point of the maximum $\Delta d_i$.
-\State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i; \bm{H})$, $i=1,\dots,n$, where $\hat{f} (\bm{y}; \bm{H}) = \frac{1}{n} \sum_{j = 1}^n K_{\bm{H}}(\bm{y} - \bm{y}_j)$, $\bm{H} = (d_*)^{2/p} \bm{I}_p$, $K_{\bm{H}}(\bm{u}) = |\bm{H}|^{-1/2} K(\bm{H}^{-1/2} \bm{u})$, and $K$ is a multivariate kernel function \citep{chacon2018multivariate}.
-\State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - \bm{H}^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
-\State Using the Peak Over Threshold (POT) approach \citep{coles2001introduction}, fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log f_i\}_{i=1}^n$, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
-\State Calculate the probability of each observation by applying the estimated GDP to the leave-one-out kde values: $p_i = P(- \log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
-\State If $p_i < \beta\alpha$, declare $\bm{y}_i$ anomalous.
-\end{algorithmic}
+  \caption{Lookout algorithm}\label{alg:lookout}
+  \begin{algorithmic}[1]
+    \Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta \in (0,1)$, threshold $\alpha \in (0,1)$, \emph{unitize} $\in \{\text{True}, \text{False}\}$.
+    \State If \textit{unitize}, scale the data to lie in the unit cube in $\mathbb{R}^p$.
+    \State Compute the persistence homology barcode of the (possibly scaled) data cloud for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}.
+    \State From the barcode, obtain the ordered death diameters $\{d_i\}_{i = 1}^n$ for connected components, and their successive differences $\Delta d_i = d_{i+1} - d_i$.
+    \State Let $d_* = d_{i_*}$ where $i_* = \text{arg\! max} \{ \Delta d_i \}_{i=1}^n$; that is, $d_*$ is the diameter corresponding to the lower point of the maximum $\Delta d_i$.
+    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i; \bm{H})$, $i=1,\dots,n$, where $\hat{f} (\bm{y}; \bm{H}) = \frac{1}{n} \sum_{j = 1}^n K_{\bm{H}}(\bm{y} - \bm{y}_j)$, $K_{\bm{H}}(\bm{u}) = |\bm{H}|^{-1/2} K(\bm{H}^{-1/2} \bm{u})$, $\bm{H} = (d_*)^{2/p} \bm{I}_p$, and $K$ is a multivariate kernel function \citep{chacon2018multivariate}.
+    \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - \bm{H}^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
+    \State Using the Peak Over Threshold (POT) approach \citep{coles2001introduction}, fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log f_i\}_{i=1}^n$, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
+    \State Calculate the probability of each observation by applying the estimated GDP to the leave-one-out kde values: $p_i = P(- \log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
+    \State If $p_i < \beta\alpha$, declare $\bm{y}_i$ anomalous.
+  \end{algorithmic}
 \end{algorithm}
 
 The lookout algorithm provides density-based anomaly detection, where anomalies are identified as points with low density in the space of the data. A key feature of the algorithm is the use of minus log density values at the observations, known as ``surprisals'' in information theory \citep{Stone2022}, and as ``log scores'' in statistics \citep{Good1952-zw}.
@@ -34,14 +34,14 @@ While \citet{lookout} demonstrated excellent results in applying their algorithm
 
 To obtain a consistent estimator of the underlying density, we need $\bm{H}$ to be positive definite and symmetric, and to satisfy the following conditions \citep[][p31--37]{chacon2018multivariate}:
 \begin{itemize}
-	\item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
-	\item $n^{-1}|\bm{H}|^{-1/2} \rightarrow 0$ as $n\rightarrow\infty$.
+  \item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
+  \item $n^{-1}|\bm{H}|^{-1/2} \rightarrow 0$ as $n\rightarrow\infty$.
 \end{itemize}
 Thus, when $\bm{H} = [d(n)]^{2/p} \bm{I}_p$ where $d(n)\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$, we need
 \begin{equation}\label{eq:conditions}
-	[d(n)]^{2/p}\rightarrow 0 \quad\text{and}\quad [nd(n)]^{-1}\rightarrow0\quad\text{as $n\rightarrow\infty$}.
+  [d(n)]^{2/p}\rightarrow 0 \quad\text{and}\quad [nd(n)]^{-1}\rightarrow0\quad\text{as $n\rightarrow\infty$}.
 \end{equation}
-In the following section, we will explore the conditions under which these hold for $d(n)=d_*$, and the implications for the lookout algorithm. In particular, we will show that the conditions are not satisfied for distributions with heavy tails such as a Gamma distribution, although it seems likely that they are satisfied for lighter-tailed distributions such as the Gaussian distribution. We will also show that an alternative choice for $d(n)$, based on an upper quantile of the Rips death diameters, satisfies these conditions for a wide range of distributions.
+In the following section, we will explore the conditions under which these hold for $d(n)=d_*$, and the implications for the lookout algorithm. In particular, we will show that the conditions are not satisfied for distributions with heavy tails such as a Gamma distribution, although it seems likely that they are satisfied for lighter-tailed distributions such as the Gaussian distribution. We will also show that an alternative definition for $d(n)$, based on an upper quantile of the Rips death diameters, satisfies these conditions for a wide range of distributions.
 
 \subsection{Crackle (KT)}
 
@@ -52,9 +52,9 @@ Describe crackle idea and why it matters here
 As a result of these theoretical considerations, we propose three modifications to the lookout algorithm, described in \cref{sec:modified}.
 
 \begin{enumerate}
-\item Rather than use a max-min scaling of the data, we standardize the data using a robust covariance estimator. That is, we scale and rotate the data to ensure that the covariance matrix of the transformed data is approximately the identity matrix. This ensures that the data have zero pairwise correlations, which leads to more efficient kernel density estimates. It also leads to each variable having approximately unit variance, which provides a more robust scaling than min-max scaling.
-\item Rather than using the lower point of the largest gap in Rips death diameters, we use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death. It also ensures the consistency of the kernel density estimates under relatively weak conditions.
-\item The estimated GPD shape parameter is constrained to be non-positive, which improves the stability of the GPD fitting. This is justified by noting that the kernel density estimates are  bounded, so the limiting distribution under the Fisher-Tippett-Gnedenko theorem is a Weibell distribution, which has a negative shape parameter \citep{coles2001introduction}.
+  \item Rather than use a max-min scaling of the data, we standardize the data using a robust covariance estimator. That is, we scale and rotate the data to ensure that the covariance matrix of the transformed data is approximately the identity matrix. This ensures that the data have zero pairwise correlations, which leads to more efficient kernel density estimates. It also leads to each variable having approximately unit variance, which provides a more robust scaling than min-max scaling.
+  \item Rather than using the lower point of the largest gap in Rips death diameters, we use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death. It also ensures the consistency of the kernel density estimates under relatively weak conditions.
+  \item The estimated GPD shape parameter is constrained to be non-positive, which improves the stability of the GPD fitting. This is justified by noting that the kernel density estimates are  bounded, so the limiting distribution under the Fisher-Tippett-Gnedenko theorem is a Weibell distribution, which has a negative shape parameter \citep{coles2001introduction}.
 \end{enumerate}
 
 Note that we do not need to estimate the density of the underlying distribution directly. Instead, we can estimate the density of a transformation of the data, and identify anomalies in the transformed space. Hence, there is no need to undo the scaling or rotation.
