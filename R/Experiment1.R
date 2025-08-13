@@ -81,13 +81,12 @@ run_synthetic_exp1 <- function(scale = scale) {
 }
 
 create_figure_exp1 <- function(results) {
-  set_ggplot_options()
   g1 <- ggplot(results, aes(x = outrate, y = value, color = method)) +
     geom_jitter(width = 0.1 / 4, height = 0, alpha = 0.4, size = 0.75) +
     geom_smooth() +
-    facet_grid(metric ~ method) +
-    labs(x = "Anomaly Rate", y = "Count") +
-    theme(legend.position = "none") +
+    facet_wrap(metric ~ .) +
+    labs(x = "r", y = "Anomaly rate") +
+    guides(color = guide_legend(title = "Algorithm")) +
     scale_y_continuous(breaks = seq(0, 1, by = 0.2))
 
   # Generate random data for plotting
@@ -100,26 +99,18 @@ create_figure_exp1 <- function(results) {
     generate_exp1(n1, n2, rate2[2])
   ) |>
     mutate(
-      rate = paste("rate =", rep(rate2, each = n1 + n2)),
+      rate = paste("r =", rep(rate2, each = n1 + n2)),
       alpha = 0.4 + 0.6 * (Points == "Anomaly")
     )
 
   g2 <- ggplot(df, aes(X1, X2, color = Points)) +
     geom_point(alpha = df$alpha, size = 0.75) +
-    facet_wrap(~rate, strip.position = "top", nrow = 2) +
-    theme(legend.position = "left") +
+    facet_wrap(~rate, strip.position = "top", nrow = 1) +
     coord_fixed() +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
       name = "Points"
     )
 
-  # Create figure
-  dir.create("Figures", showWarnings = FALSE)
-  fig <- here::here("Figures/Exp1_Gamma_Rates.pdf")
-  cairo_pdf(file = fig, width = 8, height = 6)
-  print(patchwork::wrap_plots(g2, g1, nrow = 1))
-  crop::dev.off.crop(fig)
-
-  fig
+  experiment_plot(g2, g1, "Exp1_Gamma_Rates.pdf")
 }

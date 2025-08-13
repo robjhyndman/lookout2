@@ -26,7 +26,7 @@ tar_source()
 
 # List of targets
 list(
-  # Should scaling be used in new lookout?
+  # Should scaling be used?
   tar_target(scale, TRUE),
 
   # ------------------------------------------------------

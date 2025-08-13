@@ -83,13 +83,12 @@ run_synthetic_exp2 <- function(scale = scale) {
 }
 
 create_figure_exp2 <- function(results) {
-  set_ggplot_options()
   g1 <- ggplot(results, aes(x = mean, y = value, color = method)) +
     geom_jitter(width = 0.25 / 4, height = 0, alpha = 0.4, size = 0.75) +
     geom_smooth() +
-    facet_grid(metric ~ method) +
-    labs(x = "Mean", y = "Rate") +
-    theme(legend.position = "none") +
+    facet_wrap(metric ~ .) +
+    labs(x = "Mean (µ)", y = "Anomaly rate") +
+    guides(color = guide_legend(title = "Algorithm")) +
     scale_y_continuous(breaks = seq(0, 1, by = 0.2))
 
   # Generate random data for plotting
@@ -102,7 +101,7 @@ create_figure_exp2 <- function(results) {
     generate_exp2(n1, n2, mm[2])
   ) |>
     mutate(
-      Mean = paste("Mean =", sprintf("%.2f", rep(mm, each = n1 + n2))),
+      Mean = paste("µ =", sprintf("%.2f", rep(mm, each = n1 + n2))),
       alpha = 0.4 + 0.6 * (Points == "Anomaly")
     )
 
@@ -110,20 +109,12 @@ create_figure_exp2 <- function(results) {
     ggplot() +
     aes(X1, X2, color = Points) +
     geom_point(alpha = df$alpha, size = 0.75) +
-    facet_wrap(~Mean, strip.position = "top", nrow = 2) +
-    theme(legend.position = "left") +
+    facet_wrap(Mean ~ ., strip.position = "top", nrow = 1) +
     coord_fixed() +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
       name = "Points"
     )
 
-  # Create figure
-  dir.create("Figures", showWarnings = FALSE)
-  fig <- here::here("Figures/Exp2_Normal_Rates.pdf")
-  cairo_pdf(file = fig, width = 8, height = 6)
-  print(patchwork::wrap_plots(g2, g1, nrow = 1))
-  crop::dev.off.crop(fig)
-
-  fig
+  experiment_plot(g2, g1, "Exp2_Normal_Rates.pdf")
 }

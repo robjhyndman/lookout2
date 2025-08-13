@@ -124,3 +124,35 @@ as_dobin <- function(object) {
   as_tibble(dobX) |>
     mutate(labels = labels)
 }
+
+get_legend <- function(plot) {
+  tmp <- ggplot_gtable(ggplot_build(plot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  if (length(leg) > 0) {
+    legend <- tmp$grobs[[leg]]
+    return(wrap_elements(panel = legend))
+  } else {
+    return(plot_spacer())
+  }
+}
+
+
+# Function to plot data on left, anomaly rates on right with legend in bottom left quadrant
+experiment_plot <- function(g1, g2, filename, height = 5, width = 8, ...) {
+  set_ggplot_options()
+  legend1 <- get_legend(g1)
+  legend2 <- get_legend(g2)
+  combined_legends <- wrap_plots(legend1, legend2, ncol = 2)
+
+  left <- ((g1 + theme(legend.position = "none")) / combined_legends) +
+    plot_layout(heights = c(3, 1))
+  right <- g2 + theme(legend.position = "none")
+
+  # Create figure
+  dir.create("Figures", showWarnings = FALSE)
+  fig <- here::here("Figures", filename)
+  cairo_pdf(file = fig, height = height, width = width, ...)
+  print(patchwork::wrap_plots(left, right, ncol = 2, widths = c(1, 1)))
+  crop::dev.off.crop(fig)
+  return(fig)
+}

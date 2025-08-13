@@ -7,13 +7,12 @@ generate_exp4 <- function(nn) {
   x1dist <- apply(X1, 1, function(x) sqrt(x[1]^2 + x[2]^2))
   qq <- quantile(x1dist, probs = 0.99)
   x2dist <- apply(X2, 1, function(x) sqrt(x[1]^2 + x[2]^2))
-  inds <- which(x2dist > qq)
-  inds2 <- sample(inds, num_outliers)
-  out <- as.data.frame(rbind(X1, X2[inds2, ]))
+  inds <- sample(which(x2dist > qq), num_outliers)
+  out <- as.data.frame(rbind(X1, X2[inds, ]))
   colnames(out) <- c("X1", "X2")
   out$Points <- c(
     rep("Non-anomaly", NROW(X1)),
-    rep("Anomaly", length(inds2))
+    rep("Anomaly", length(inds))
   )
   as_tibble(out)
 }
@@ -66,20 +65,12 @@ run_synthetic_exp4 <- function(scale = scale) {
 }
 
 create_figure_exp4 <- function(results) {
-  set_ggplot_options()
-  dir.create("Figures", showWarnings = FALSE)
-  fig1 <- here::here("Figures/Exp4_N_Increases_Gamma.pdf")
-  cairo_pdf(file = fig1, width = 6.6, height = 3.5)
-  print(
-    ggplot(results, aes(x = N, y = value, color = Algorithm)) +
-      geom_jitter(size = 0.75, width = 1000 / 4, height = 0.0, alpha = 0.4) +
-      facet_grid(~name) +
-      xlab("Number of points") +
-      ylab("Rate") +
-      geom_smooth() +
-      theme(legend.position = "bottom")
-  )
-  crop::dev.off.crop(fig1)
+  g1 <- results |>
+    ggplot(aes(x = N, y = value, color = Algorithm)) +
+    geom_jitter(size = 0.75, width = 1000 / 4, height = 0.0, alpha = 0.4) +
+    facet_wrap(name ~ .) +
+    labs(x = "Number of points (n)", y = "Anomaly rate") +
+    geom_smooth()
 
   # Generate Data to plot
   nn <- 10000
@@ -88,18 +79,11 @@ create_figure_exp4 <- function(results) {
 
   g2 <- ggplot(df_data, aes(X1, X2, color = Points)) +
     geom_point(alpha = df_data$alpha, size = 1) +
-    theme(legend.position = "bottom") +
     coord_fixed() +
-    labs(x = "x", y = "y") +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
       name = "Points"
     )
 
-  fig2 <- here::here("Figures/Exp4_Data.pdf")
-  cairo_pdf(file = fig2, width = 3.5, height = 3.5)
-  print(g2)
-  crop::dev.off.crop(fig2)
-
-  c(fig1, fig2)
+  experiment_plot(g2, g1, "Exp4.pdf")
 }

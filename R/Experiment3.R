@@ -70,15 +70,11 @@ run_synthetic_exp3 <- function(scale = scale) {
 }
 
 create_figure_exp3 <- function(results) {
-  set_ggplot_options()
-
   g1 <- ggplot(results, aes(x = N, y = value, color = Algorithm)) +
     geom_jitter(width = 1000 / 4, height = 0, alpha = 0.4, size = 0.75) +
-    facet_grid(~name) +
-    xlab("Number of points") +
-    ylab("Rate") +
-    geom_smooth() +
-    theme(legend.position = "bottom")
+    facet_wrap(name ~ .) +
+    labs(x = "Number of points (n)", y = "Anomaly rate") +
+    geom_smooth()
 
   # Generate Data to plot
   nn <- 10000
@@ -86,25 +82,10 @@ create_figure_exp3 <- function(results) {
     mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
   g2 <- ggplot(df, aes(X1, X2, color = Points)) +
     geom_point(alpha = df$alpha, size = 1) +
-    theme(legend.position = "bottom") +
     coord_fixed() +
-    labs(x = "x", y = "y") +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
       name = "Points"
     )
-
-  # Create figures
-  dir.create("Figures", showWarnings = FALSE)
-  fig1 <- here::here("Figures/Exp3_N_Increases_Normal.pdf")
-  cairo_pdf(file = fig1, width = 6.6, height = 3.5)
-  print(g1)
-  crop::dev.off.crop(fig1)
-
-  fig2 <- here::here("Figures/Exp3_Data.pdf")
-  cairo_pdf(file = fig2, width = 3.5, height = 3.5)
-  print(g2)
-  crop::dev.off.crop(fig2)
-
-  c(fig1, fig2)
+  experiment_plot(g2, g1, "Exp3.pdf")
 }
