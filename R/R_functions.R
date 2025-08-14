@@ -16,10 +16,6 @@ set_ggplot_options <- function() {
     ggplot2.discrete.colour = colours,
     ggplot2.discrete.fill = colours
   )
-  ggplot2::theme_set(
-    ggplot2::theme_get() +
-      ggplot2::theme(text = ggplot2::element_text(family = "Fira Sans"))
-  )
 }
 
 # Function to calculate difference metrics

@@ -237,7 +237,7 @@ create_figure_exp567 <- function(experiment, p, results) {
   # Create figure
   dir.create("Figures", showWarnings = FALSE)
   fig <- here::here(paste0("Figures/Exp", experiment, "_Data_and_Results.pdf"))
-  cairo_pdf(file = fig, width = 8, height = 5)
+  cairo_pdf(file = fig, width = 8, height = 4)
   print(p | g4)
   crop::dev.off.crop(fig)
 

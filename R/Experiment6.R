@@ -8,9 +8,9 @@ generate_exp6 <- function(iterate) {
   R2 <- 2
   dist <- r2 + R2
   X <- tibble(
-    x1 = dist * cos(theta),
-    x2 = dist * sin(theta),
-    x3 = runif(nn)
+    X1 = dist * cos(theta),
+    X2 = dist * sin(theta),
+    X3 = runif(nn)
   )
   X[nn - 5 + seq(5), 1] <- rnorm(5, 5 - (iterate - 1) * 0.5, sd = 0.1)
   X[nn - 5 + seq(5), 2] <- rnorm(5, 0, sd = 0.1)
@@ -27,7 +27,7 @@ create_figure_exp6 <- function(results) {
   X <- generate_exp6(3) |>
     mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
   g1 <- X |>
-    ggplot(aes(x1, x2)) +
+    ggplot(aes(X1, X2)) +
     geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
@@ -36,14 +36,14 @@ create_figure_exp6 <- function(results) {
   X <- generate_exp6(9) |>
     mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
   g2 <- X |>
-    ggplot(aes(x1, x2)) +
+    ggplot(aes(X1, X2)) +
     geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
       name = "Points"
     )
   g3 <- X |>
-    ggplot(aes(x2, x3)) +
+    ggplot(aes(X2, X3)) +
     geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
