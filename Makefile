@@ -11,7 +11,7 @@ all: $(TEXFILE).pdf
 # Generate figures using R targets package
 figures: $(R_SCRIPTS) _targets.R
 	Rscript -e "targets::tar_make()"
-	@touch figures  # Create timestamp file
+	@touch figures # Create timestamp file
 
 # Main PDF compilation using latexmk
 $(TEXFILE).pdf: $(TEX_FILES) $(BIB_FILES) figures
