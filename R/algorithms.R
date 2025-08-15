@@ -215,8 +215,8 @@ create_figure_exp567 <- function(experiment, p, results) {
       ),
       Metric = recode(
         Metric,
-        "fmeasure" = "F-measure",
-        "gmean" = "G-mean",
+        "fmeasure" = "Fmeasure",
+        "gmean" = "Gmean",
         "auc" = "AUC"
       )
     ) |>
