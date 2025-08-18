@@ -93,7 +93,7 @@ We are now in a position to describe the modified lookout algorithm.
   \caption{Modified lookout algorithm}\label{alg:modifiedlookout}
   \begin{algorithmic}[1]
     \Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta
-    \in (0,1)$, threshold $\alpha \in (0,1)$
+    \in (0,1)$, threshold $\alpha \in (0,1)$, and quantile level $\gamma \in (0,1)$.
     \State Let $\bm{Y}$ be the $p\times n$ data matrix with rows
     $\bm{y}_1, \dots, \bm{y}_n$. Compute $\hat{\bm{\Sigma}}$, the
     Gnanadesikan-Kettenring estimator of the covariance matrix of
@@ -107,7 +107,7 @@ We are now in a position to describe the modified lookout algorithm.
     $\bm{Z}$ for dimension zero using the Vietoris-Rips diameter
     \citep{ghrist2008barcodes}, and obtain the ordered death
     diameters $\{d_i\}_{i = 1}^n$ for connected components.
-    \State Let $d^* =$ the $0.9(n-1)$ sample quantile computed from
+    \State Let $d^* =$ the $\gamma$ sample quantile computed from
     $\{ d_i \}_{i=1}^n$, and define $\bm{H} = (d^*)^{2/p} \bm{I}_p$.
     \State Compute the kernel density estimates at the observations:
     $f_i = \hat{f}(\bm{z}_i; \bm{H})$, $i=1,\dots,n$, where $\hat{f}
@@ -127,9 +127,11 @@ We are now in a position to describe the modified lookout algorithm.
     \State Calculate the probability of each observation by applying
     the estimated GDP to the leave-one-out kde values: $p_i = P(-
     \log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
-    \State If $p_i < \beta\alpha$, declare $\bm{y}_i$ anomalous.
+    \State If $p_i < (1-\beta)\alpha$, declare $\bm{y}_i$ anomalous.
   \end{algorithmic}
 \end{algorithm}
 
 As with the original lookout algorithm, the values of $p_i$ can also
 act as anomaly scores, with lower values indicating more anomalous points.
+
+The default values for the parameters are $\alpha = 0.01$, $\beta = 0.90$ and $\gamma = 0.98$. Under these values, the false positive rate of anomalies is $(1-\beta)\alpha = 0.001$.

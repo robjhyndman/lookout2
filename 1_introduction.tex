@@ -63,7 +63,7 @@ outline the steps below.
     \State Calculate the probability of each observation by applying
     the estimated GDP to the leave-one-out kde values: $p_i = P(-
     \log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
-    \State If $p_i < \beta\alpha$, declare $\bm{y}_i$ anomalous.
+    \State If $p_i < (1-\beta)\alpha$, declare $\bm{y}_i$ anomalous.
   \end{algorithmic}
 \end{algorithm}
 
@@ -72,7 +72,7 @@ anomalies are identified as points with low density in the space of
 the data. A key feature of the algorithm is the use of minus log
 density values at the observations, known as ``surprisals'' in
 information theory \citep{Stone2022}, and as ``log scores'' in
-statistics \citep{Good1952-zw}.
+statistics \citep{Good1952-zw}. If there are no anomalies in the data, the algorithm should identify $(1-\beta)\alpha$ of the data as false positives "anomalies".
 
 While \citet{lookout} demonstrated excellent results in applying
 their algorithm to a variety of simulated and real datasets, we see
