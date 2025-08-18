@@ -1,9 +1,6 @@
 \section{Consistency and crackle (KT)}\label{sec:theory}
 
-We will first prove a number of limit theorems about $d_{f(n)}$, that
-is the $f(n)$-th death time (when ordered increasingly by size). For
-consistency of the kernel density estimator, we are interested in
-$d_{f(n)} \to 0$ and $nd_{f(n)}\to \infty$.
+We will first prove a number of limit theorems about $d_{f(n)}$, that is the $f(n)$-th death time (when ordered increasingly by size). For consistency of the kernel density estimator, we are interested in $d_{f(n)} \to 0$ and $nd_{f(n)}\to \infty$.
 
 \subsection{Limit of $nd_{f(n)}$}
 %Main mathematical results with proofs (possibly relegated to the Appendices).
@@ -15,75 +12,49 @@ $d_{f(n)} \to 0$ and $nd_{f(n)}\to \infty$.
 % upper bound on the pdf and the dimension of the space to be at least $2$.
 
 \begin{theorem}\label{thm:nd_f(n) in plane}
-  Let $d_k$ denote the $k$th smallest death time of the $0$-homology
-  for the Rips filtrations of a set of $n$ points sampled from
-  probability distribution $X$ over $\R^2$ such that the probability
-  density function exists and is bounded above. Note that there are
-  $n-1$ finite death times.
+  Let $d_k$ denote the $k$th smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution $X$ over $\R^2$ such that the probability density function exists and is bounded above. Note that there are $n-1$ finite death times.
 
-  Choose any sequence of integers $\{\omega(n)\}$ such that
-  $0<\omega(n) <n$ for all $n$ and $\lim_{n\to \infty} \omega_n
-  =\infty$. Then $nd_{\omega(n)}\to \infty$ as $n\to \infty$ with
-  probability $1$.
+  Choose any sequence of integers $\{\omega(n)\}$ such that $0<\omega(n) <n$ for all $n$ and $\lim_{n\to \infty} \omega_n =\infty$. Then $nd_{\omega(n)}\to \infty$ as $n\to \infty$ with probability $1$.
 \end{theorem}
 \begin{proof}
-  It is sufficient for there to exist a function $r(n)$ such that
-  $\mathbb{P}(d_{\omega(n)}\geq n^{-1}r(n)) \to 1$ as $n\to \infty$
-  and $r(n)\to \infty$ as $n\to \infty$.
-  Let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$.
+  It is sufficient for there to exist a function $r(n)$ such that $\mathbb{P}(d_{\omega(n)}\geq n^{-1}r(n)) \to 1$ as $n\to \infty$ and $r(n)\to \infty$ as $n\to \infty$. Let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$.
 
-  Each death time corresponds to the reduction by one of the number
-  of connected components. This implies that $d_{\omega(n)} >
-  n^{-1}r(n)$ occurs when $C(n, n^{-1}r(n))> n - \omega(n)$.
+  Each death time corresponds to the reduction by one of the number of connected components. This implies that $d_{\omega(n)} > n^{-1}r(n)$ occurs when $C(n, n^{-1}r(n))> n - \omega(n)$.
 
   Since the number of components can only be an integer between $1$ and $n$,
   $$
-  \mathbb{P}\left(C\big(n, n^{-1}r(n)\big)> n-\omega(n)\right) \geq
-  \frac{\mathbb{E}[C(n, n^{-1}r(n))]-(n-\omega(n))}{n-(n-\omega(n))}=
-  \frac{\mathbb{E}[C(n, n^{-1}r(n))]-n+\omega(n)}{\omega(n)}.
+  \mathbb{P}\left(C\big(n, n^{-1}r(n)\big)> n-\omega(n)\right) \geq \frac{\mathbb{E}[C(n, n^{-1}r(n))]-(n-\omega(n))}{n-(n-\omega(n))} = \frac{\mathbb{E}[C(n, n^{-1}r(n))]-n+\omega(n)}{\omega(n)}.
   $$
-  Thus it is sufficient to show that there exists a suitable $r(n)$
-  such that $r(n)\to \infty$ as $n\to \infty$, and
+  Thus it is sufficient to show that there exists a suitable $r(n)$ such that $r(n)\to \infty$ as $n\to \infty$, and
   $$
-  \lim_{n\to \infty}\frac{\mathbb{E}[C(n,
-  n^{-1}r(n))]-n+\omega(n)}{\omega(n)} = 1.
+  \lim_{n\to \infty}\frac{\mathbb{E}[C(n, n^{-1}r(n))]-n+\omega(n)}{\omega(n)} = 1.
   $$
-  For small radii $r$, a useful lower bound on the number of connected
-  components is $n-E(n,r)$, where $E(n,r)$ is the number of edges in
-  the graph connecting any two points are less that $2r$ apart, that is
-  $\mathbb{E}[C(n, n^{-1}r(n))]\geq n-\mathbb{E}[E(n,n^{-1}r(n))]$. The
-  expected number of edges is much easier to calculate than the
-  expected number of components.
+  For small radii $r$, a useful lower bound on the number of connected components is $n-E(n,r)$, where $E(n,r)$ is the number of edges in the graph connecting any two points are less that $2r$ apart, that is $\mathbb{E}[C(n, n^{-1}r(n))]\geq n-\mathbb{E}[E(n,n^{-1}r(n))]$. The expected number of edges is much easier to calculate than the expected number of components.
   \begin{align*}
     \mathbb{E}[E(n,n^{-1}r(n))]
     & =\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r\mid x,y \sim X) \\
     & \leq \frac{n(n-1)}{2} K\pi (n^{-1}r(n))^2             \\
     & \leq \frac{K \pi}{2}r(n)^2
   \end{align*}
-  where $K$ is the global upper bound on the probability density
-  function of $X$.
+  where $K$ is the global upper bound on the probability density function of $X$.
 
-  Set $r(n)=\sqrt{2\log (\omega (n))}$. We automatically get
-  $\lim_{n\to \infty} r(n)= \infty$ as $\lim_{n\to \infty} \omega(n)=\infty$.
+  Set $r(n)=\sqrt{2\log (\omega (n))}$. We automatically get $\lim_{n\to \infty} r(n)= \infty$ as $\lim_{n\to \infty} \omega(n)=\infty$.
 
   $\mathbb{E}[C(n, n^{-1}r(n))]\geq n- K \pi\log(\omega(n))$ and thus
   $$
-  \lim_{n\to \infty} \frac{\mathbb{E}[C(n,
-  n^{-1}r(n))]-n+\omega(n)}{\omega(n)} \geq
-  \lim_{n\to \infty} \frac{\omega(n)-K \pi\log(\omega(n))}{\omega(n)}= 1.
+  \lim_{n\to \infty} \frac{\mathbb{E}[C(n, n^{-1}r(n))]-n+\omega(n)}{\omega(n)} \geq
+  \lim_{n\to \infty} \frac{\omega(n)-K \pi\log(\omega(n))}{\omega(n)} =
+  1.
   $$
 \end{proof}
 
 \begin{theorem}\label{thm:nd_f(n) in higher dimensions}
-  Let $d_1$ denote the smallest death time of the $0$-homology for the
-  Rips filtrations of a set of $n$ points sampled from probability
-  distribution over $\R^d$, $d\geq 3$, such that the density is bounded above.
+  Let $d_1$ denote the smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution over $\R^d$, $d\geq 3$, such that the density is bounded above.
 
   Then $nd_{1}\to \infty$ as $n\to \infty$ with probability $1$.
 \end{theorem}
 \begin{proof}
-  The argument here is an easier version of the above theorem. We wish
-  to find a function $r(n)$ such that $\lim_{n\to \infty}r(n)=\infty$ and
+  The argument here is an easier version of the above theorem. We wish to find a function $r(n)$ such that $\lim_{n\to \infty}r(n)=\infty$ and
   $$
   \lim_{n\to \infty}\mathbb{P}(C(n, n^{-1}r(n))=n)=1.
   $$
@@ -94,67 +65,43 @@ $d_{f(n)} \to 0$ and $nd_{f(n)}\to \infty$.
     & \leq \frac{n(n-1)}{2} K\pi s_d(\frac{2\log(n)}{n})^d     \\
     & \leq 2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}
   \end{align*}
-  where $K$ is the global upper bound on the pdf of $X$ and $s_d$ is
-  the volume of the unit ball in $\R^d$.
+  where $K$ is the global upper bound on the pdf of $X$ and $s_d$ is the volume of the unit ball in $\R^d$.
 
   $\mathbb{E}[C(n, n^{-1}r(n))]\geq n- 2^{d-1}Ks_d\frac{(\log(n))^d}{n^{d-1}}$.
 
-  Since the number of connected components must be an integer between
-  $1$ and $n$ we deduce
+  Since the number of connected components must be an integer between $1$ and $n$ we deduce
   \begin{align*}
     \mathbb{P}(C(n, n^{-1}r(n))=n)
-    & \geq \mathbb{E}[C(n, n^{-1}r(n))]+1-n \geq n-2^{d-1}Ks_d
-    \frac{(\log(n))^d}{n^{d-1}}+1-n \\
-    & =1-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}
-    \\
+    & \geq \mathbb{E}[C(n, n^{-1}r(n))]+1-n \geq n-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}+1-n \\
+    & =1-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}} \\
   \end{align*}
   and thus $\lim_{n\to \infty}\mathbb{P}(C(n, n^{-1}r(n))=n)=1.$
 \end{proof}
 
 \subsection{Limit of $d_{n-1}$ for Gaussian Samples}
 
-In this section we will prove the complementary limit theorem needed
-for consistency results when we assume that the samples come from a
-Gaussian distribution. The proof to showing that $d_{f(n)}\to 0$ as
-$n\to \infty$ is a straightforward modification of the proof for
-???\todo{TBC} in \cite{Crackle}. The only real change is that we need
-to consider a sequence of decreasing radii for the balls, whereas in
-\cite{Crackle} the radii remain constant (value $1$). We include the
-calculations for completeness. %For consistency in the case of
+In this section we will prove the complementary limit theorem needed for consistency results when we assume that the samples come from a Gaussian distribution. The proof to showing that $d_{f(n)}\to 0$ as $n\to \infty$ is a straightforward modification of the proof for ???\todo{TBC} in \cite{Crackle}. The only real change is that we need to consider a sequence of decreasing radii for the balls, whereas in \cite{Crackle} the radii remain constant (value $1$). We include the calculations for completeness.
+%For consistency in the case of
 % Gaussian distributions over $\R^2$, we also need to show that the
 % index function for the maximum gap in death values will go to
 % infinity almost surely.
 
 \begin{theorem}\label{thm:d_n-1 Gaussian}
-  Let $S_n$ denote a random sample of $n$ points from a fixed
-  multivariate Gaussian in $\R^d$. Then for the Rips filtration over
-  $S_n$ we have $d_{n-1} \to 0$ as $n\to \infty$.
+  Let $S_n$ denote a random sample of $n$ points from a fixed multivariate Gaussian in $\R^d$. Then for the Rips filtration over $S_n$ we have $d_{n-1} \to 0$ as $n\to \infty$.
 \end{theorem}
 \begin{proof}
-  We will first prove the result in the case of a standard Gaussian,
-  where the probability density function, $c \exp\{-\|x\|^2/2\}$ for
-  some constant $c$, is spherically symmetric. Denote $f(R)=c
-  \exp\{-R^2/2\}$ for this density in terms of the radial coordinate.
+  We will first prove the result in the case of a standard Gaussian, where the probability density function, $c \exp\{-\|x\|^2/2\}$ for some constant $c$, is spherically symmetric. Denote $f(R) = c\exp\{-R^2/2\}$ for this density in terms of the radial coordinate.
 
-  Let $X(n,r)$ be the event that $\cup_{x\in S_n} B(x, r)$ is
-  connected. We want to show that there is a function $s(n)$ such that
-  $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and
-  $\mathbb{P}(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This
-  implies that $d_*\leq r(n)$ must also limit to $0$.
+  Let $X(n,r)$ be the event that $\cup_{x\in S_n} B(x, r)$ is connected. We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and $\mathbb{P}(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
 
-  Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction
-  $r(n)\rightarrow 0$ as $n \rightarrow \infty$. We will use $r(n)$ to
-  show that the core is covered by balls around the samples with radius $r(n)$.
+  Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction $r(n)\rightarrow 0$ as $n \rightarrow \infty$. We will use $r(n)$ to show that the core is covered by balls around the samples with radius $r(n)$.
 
-  Cover $B(0, R)$ with a grid with side lengths $g$. Let
-  $\tilde{C}_n^c$ be the event that at least one of the boxes in this
-  grid is empty. Equation 3.1 in the crackle paper states:
+  Cover $B(0, R)$ with a grid with side lengths $g$. Let $\tilde{C}_n^c$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in the crackle paper states:
   $$
   \mathbb{P}(\tilde{C}(n,R,g)) \leq (2g^{-1})^d R^d\exp\{-ng^d f(R)\}.
   $$
 
-  Set $R_n^c=\sqrt{2(\log n -\log \log n)}$, which will represent the
-  core of the point cloud. Note that
+  Set $R_n^c=\sqrt{2(\log n -\log \log n)}$, which will represent the core of the point cloud. Note that
   $$
   f(R_n^c)= c \exp\{-\log n+\log\log n\}=c\frac{\log n}{n}.
   $$
@@ -162,95 +109,57 @@ calculations for completeness. %For consistency in the case of
   Set $g=\frac{r(n)}{2\sqrt{d}}$ so $g^d=\frac{1}{c \log \log n 2^d d^{d/2}}$.
   \begin{align*}
     \mathbb{P}(\tilde{C}(n,R_n^c,r(n)))
-    & \leq 2^{2d}d^{d/2}c \log \log n (2(\log n -\log \log
-    n))^{d/2}\exp\{-ng^dc\frac{\log n}{n}\} \\
-    & \leq K\frac{(\log n)^{d/2}\log\log n }{\exp(\frac{\log n}{2^d
-    d^{d/2} \log \log n})}
+    & \leq 2^{2d}d^{d/2}c \log \log n (2(\log n -\log \log n))^{d/2}\exp\{-ng^dc\frac{\log n}{n}\} \\
+    & \leq K\frac{(\log n)^{d/2}\log\log n }{\exp(\frac{\log n}{2^d d^{d/2} \log \log n})}
   \end{align*}
   where $K$ is a constant independent of $n$.
 
   For large $n$, $\log n>(d\log\log n) 2^d d^{d/2} \log \log n$ and thus
   $$
-  \exp\left(\frac{\log n}{2^d d^{d/2} \log \log
-  n}\right)>\exp(d\log\log n)=(\log n)^d.
+  \exp\left(\frac{\log n}{2^d d^{d/2} \log \log n}\right)>\exp(d\log\log n)=(\log n)^d.
   $$
   Thus for large $n$
   $$
-  \mathbb{P}(\tilde{C}(n,R_n^c,r(n)))\leq K \frac{(\log
-  n)^{d/2}\log\log n }{(\log n)^d}
+  \mathbb{P}(\tilde{C}(n,R_n^c,r(n)))\leq K \frac{(\log n)^{d/2}\log\log n }{(\log n)^d}
   $$
   which goes to $0$ as $n \to \infty$.
 
   Set $R_n^2:=\sqrt{2(\log n+d\log \log n)}$.
 
-  Also directly from the crackle paper we have that the probability of
-  there being a point more that $R_n^2:=\sqrt{2(\log n +d\log\log n)}$
-  goes to zero as $n\to \infty$. This implies that we can assume all
-  points are within $B(0,R_n^2)$ and that every point in $B(0, R_n^c)$
-  is within $\frac{1}{ c \log \log n}$ of a sample point.
+  Also directly from the crackle paper we have that the probability of there being a point more that $R_n^2:=\sqrt{2(\log n +d\log\log n)}$ goes to zero as $n\to \infty$. This implies that we can assume all points are within $B(0,R_n^2)$ and that every point in $B(0, R_n^c)$ is within $\frac{1}{ c \log \log n}$ of a sample point.
   \begin{align*}
     R_n^2-R_n^c
     & = \sqrt{2(\log n +d\log\log n)}-\sqrt{2(\log n -\log \log n)}   \\
-    & =\sqrt{2(\log n)}(\sqrt{1+\frac{d\log\log n}{2\log n}}-\sqrt{1-
-    \frac{\log\log n}{2\log n}}) \\
-    & \sim\sqrt{2(\log n)}(1+\frac{d\log\log n}{4\log
-    n})-(1-\frac{\log\log n}{4\log n})          \\
+    & =\sqrt{2(\log n)}(\sqrt{1+\frac{d\log\log n}{2\log n}}-\sqrt{1-\frac{\log\log n}{2\log n}}) \\
+    & \sim\sqrt{2(\log n)}(1+\frac{d\log\log n}{4\log n})-(1-\frac{\log\log n}{4\log n})          \\
     & =\sqrt{2}\sqrt{\log n}\frac{(d+1)\log\log n}{4\log n}   \\
-    & =\frac{\sqrt{2}(d+1)}{4}\frac{\log\log n}{\sqrt{\log n}}   \\
+    & =\frac{\sqrt{2}(d+1)}{4}\frac{\log\log n}{\sqrt{\log n}}
   \end{align*}
-  Let $s(n)=\max\{r(n), (d+1)\frac{\log\log n}{\sqrt{\log n}}\}$. Then
-  by the above arguments $\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow
-  \infty$. This implies that $0<d_{n-1}<s(n)$. We also have $s(n)\to 0$
-  as $n\to \infty$. Together, they squeeze $d_{n-1}$ to satisfy
-  $d_{n-1}\to 0$ as $n\to \infty$.
+  Let $s(n)=\max\{r(n), (d+1)\frac{\log\log n}{\sqrt{\log n}}\}$. Then by the above arguments $\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $0<d_{n-1}<s(n)$. We also have $s(n)\to 0$ as $n\to \infty$. Together, they squeeze $d_{n-1}$ to satisfy $d_{n-1}\to 0$ as $n\to \infty$.
 
-  To then extend the result to general multivariate Gaussian, observe
-  that our sample of points $\hat{S}_n$ is the linear transformation
-  $T$ of a set of points $S_n$ of the standard Gaussian. If $\cup_{x\in
-  S_n} B(x, r)$ is connected, then we can infer that $\cup_{x\in S_n}
-  B(T(x), \|T\|r)$ is also connected. This implies that
-  $d_{n-1}(\hat{S}_n)\leq \|T\|d_{n-1}(S_n)$ and thus
-  $d_{n-1}(\hat{S}_n) \to 0$ as $n\to \infty$.
+  To then extend the result to general multivariate Gaussian, observe that our sample of points $\hat{S}_n$ is the linear transformation $T$ of a set of points $S_n$ of the standard Gaussian. If $\cup_{x\in S_n} B(x, r)$ is connected, then we can infer that $\cup_{x\in S_n} B(T(x), \|T\|r)$ is also connected. This implies that $d_{n-1}(\hat{S}_n)\leq \|T\|d_{n-1}(S_n)$ and thus $d_{n-1}(\hat{S}_n) \to 0$ as $n\to \infty$.
 \end{proof}
 
 \begin{corollary}
-  For point clouds sampled from multivariate Gaussian distributions, we
-  have $d_* \to 0$ as $n\to \infty$.
+  For point clouds sampled from multivariate Gaussian distributions, we have $d_* \to 0$ as $n\to \infty$.
 \end{corollary}
 
 \begin{proof}
-  Note that $i_*< n-1$ and so $d_*=d_{i_*}<d_{n-1}$ which we know
-  limits to $0$ almost surely from \cref{thm:d_n-1 Gaussian}.
+  Note that $i_*< n-1$ and so $d_*=d_{i_*}<d_{n-1}$ which we know limits to $0$ almost surely from \cref{thm:d_n-1 Gaussian}.
 \end{proof}
 
-If we wished to prove that setting $\bm{H} = (d_*)^{2/p}\bm{I}_p$
-results in a consistent density estimator, the only remaining task is
-to show $i(n) \to \infty$ as $n \to \infty$ almost surely. This seems
-intuitively clear but technically challenging. It is not the focus of
-the new version of lookout, and thus we will leave this proof as an
-open problem.
+If we wished to prove that setting $\bm{H} = (d_*)^{2/p}\bm{I}_p$ results in a consistent density estimator, the only remaining task is to show $i(n) \to \infty$ as $n \to \infty$ almost surely. This seems intuitively clear but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem.
 
 \subsection{Counterexample for distributions with fat tails}
 
-\cite{Crackle} prove various limit theorems of lower bounds on the
-expected number of connected components of $\cup_{x}B(x,1)$ for $x$
-sampled from exponential or power distributions over $\R^d$. This
-lower bound comes from bounding the number of isolated samples
-outside the ball $B(0,R_n)$ for well-chosen $R_n$. We can use these
-to show that $d_{g(n)}$ does not go to $0$ almost surely for large
-enough functions $g(n)$.
+\cite{Crackle} prove various limit theorems of lower bounds on the expected number of connected components of $\cup_{x}B(x,1)$ for $x$ sampled from exponential or power distributions over $\R^d$. This lower bound comes from bounding the number of isolated samples outside the ball $B(0,R_n)$ for well-chosen $R_n$. We can use these to show that $d_{g(n)}$ does not go to $0$ almost surely for large enough functions $g(n)$.
 
-The ($\alpha$-) power law distribution over $\R^d$ has probability
-density function $f(x)=\frac{c(d,\alpha)}{1+\|x\|^\alpha}$ where
-$\alpha>d$ and $c(d,\alpha)$ is the appropriate constant.
+The ($\alpha$-) power law distribution over $\R^d$ has probability density function $f(x)=\frac{c(d,\alpha)}{1+\|x\|^\alpha}$ where $\alpha>d$ and $c(d,\alpha)$ is the appropriate constant.
 
-Let $K_{(R,n)}$ be the number of isolated samples outside the ball
-$B(0,R)$. Note that this, alongside other choices, does deviate from
-the notation in \cite{Crackle}.
+Let $K_{(R,n)}$ be the number of isolated samples outside the ball $B(0,R)$. Note that this, alongside other choices, does deviate from the notation in \cite{Crackle}.
 
 \begin{lemma}[Lemma 3 in \cite{Crackle}]
-  If $R_n$ satisfies $\lim nR^{-\alpha} \to 0$ then $\lim_{n\to
-  \infty}\frac{\E[K_{(R,n)}]}{nR^{d-\alpha}}=C$ for some constant $C$.
+  If $R_n$ satisfies $\lim nR^{-\alpha} \to 0$ then $\lim_{n\to \infty}\frac{\E[K_{(R,n)}]}{nR^{d-\alpha}}=C$ for some constant $C$.
 \end{lemma}
 
 %We only need to show that almost surely the number of connected
@@ -259,62 +168,43 @@ the notation in \cite{Crackle}.
 
 \subsection{Limit of $d_{\alpha (n-1)}$ (fixed quantiles of death times)}
 
-There are many choices of function $f(n)$ to decide which death time
-to use in constructing the bandwidth matrix. We wish for this choice
-to determine a consistent density estimator. This means we need
-$d_{f(n)} \to 0$ as $n \to \infty$.
+There are many choices of function $f(n)$ to decide which death time to use in constructing the bandwidth matrix. We wish for this choice to determine a consistent density estimator. This means we need $d_{f(n)} \to 0$ as $n \to \infty$.
 
-We will particularly focus on $d_{\alpha(n-1)}$ for some $\alpha\in
-[0,1]$. Recall that there are only $n-1$ finite death times so
-$d_{n-1}$ is the largest finite death value. Strictly speaking we
-will need an integer value, so you can interpret $\alpha(n-1)$ as
-either the floor or the ceiling, the same limits will hold in either case.
+We will particularly focus on $d_{\alpha(n-1)}$ for some $\alpha\in [0,1]$. Recall that there are only $n-1$ finite death times so $d_{n-1}$ is the largest finite death value. Strictly speaking we will need an integer value, so you can interpret $\alpha(n-1)$ as either the floor or the ceiling, the same limits will hold in either case.
 
 The following is a standard useful lemma, but we include for completeness.
 
 \begin{lemma}\label{lem:samplescover}
-  Let $U_1, \ldots, U_l\subset \R^d$ and $X$ a random sample such that
-  $\P(X\in U_i)>\delta $ for all $i$. Let $\{x_1, \ldots x_n\}$ be
-  i.i.d. draws of $X$. If $Z_i$ is the event that at no samples $x_j$
-  lie in $U_i$ then
-  $$\P(\cup Z_i) \leq l e^{-n\delta}.$$
+  Let $U_1, \ldots, U_l\subset \R^d$ and $X$ a random sample such that $\P(X\in U_i)>\delta $ for all $i$. Let $\{x_1, \ldots x_n\}$ be i.i.d. draws of $X$. If $Z_i$ is the event that at no samples $x_j$ lie in $U_i$ then
+  $$
+  \P(\cup Z_i) \leq l e^{-n\delta}.
+  $$
 \end{lemma}
 \begin{proof}
-  For a single draw $x_j$ we have $\P(x_j\notin Z_i)\leq 1-\delta\leq
-  e^{-\delta}$ and thus for $n$ draws $\P(Z_i)\leq e^{-n\delta}$.
-  Combining over all the $Z_i$ we gain the upper bound $$\P(\cup
-  Z_i)\leq \sum_i \P(Z_i)\leq le^{-n\delta}.$$
+  For a single draw $x_j$ we have $\P(x_j\notin Z_i)\leq 1-\delta\leq e^{-\delta}$ and thus for $n$ draws $\P(Z_i)\leq e^{-n\delta}$. Combining over all the $Z_i$ we gain the upper bound
+  $$
+  \P(\cup Z_i)\leq \sum_i \P(Z_i)\leq le^{-n\delta}.
+  $$
 \end{proof}
 
-Put in notation of offset $K^\delta$ for $K\subset \R^d$ and
-$\delta>0$. Let $L^\epsilon=\{y+v \mid y\in L, \|v\| \leq \epsilon\}$.
+Put in notation of offset $K^\delta$ for $K\subset \R^d$ and $\delta>0$. Let $L^\epsilon=\{y+v \mid y\in L, \|v\| \leq \epsilon\}$.
 
 \begin{lemma}\label{lem:covernumber}
-  Let $f: \R^d\to [0,\infty)$ be a Lipschitz probability density
-  function (constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty
-  superlevel set of $f$ for some $c>0$. For all $\epsilon\in(0, c/2M]$
-  there exists $\{x_1, \ldots x_l\}\subset L$ such that
-  $\{B(x_i, \epsilon)\}$ is a cover of $L$, $\P(X\in B(x_i,
-  \epsilon))>\frac{c\omega_d}{2} \epsilon^d$ and $$l\leq
-  \frac{2^{d+1}}{c\omega_d \epsilon ^d}.$$
+  Let $f: \R^d\to [0,\infty)$ be a Lipschitz probability density function (constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$. For all $\epsilon\in(0, c/2M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that $\{B(x_i, \epsilon)\}$ is a cover of $L$, $\P(X\in B(x_i, \epsilon))>\frac{c\omega_d}{2} \epsilon^d$ and
+  $$
+  l\leq\frac{2^{d+1}}{c\omega_d \epsilon ^d}.
+  $$
   %Furthermore, $\cup_i B(x_i, \epsilon)$ contains at most $$??$$
   % connected components.
 \end{lemma}
 \begin{proof}
-  Take a maximal $(\varepsilon/2)$-separated subset $S = \{x_1, x_2,
-  \ldots, x_l\} \subseteq L$. This means that $|x_i-x_j|\geq \epsilon$
-  for all $i\neq j$ and that no additional point in $L$ can be added to
-  $S$ without breaking this condition.
+  Take a maximal $(\varepsilon/2)$-separated subset $S = \{x_1, x_2, \ldots, x_l\} \subseteq L$. This means that $|x_i-x_j|\geq \epsilon$ for all $i\neq j$ and that no additional point in $L$ can be added to $S$ without breaking this condition.
 
-  As each $B(x_i, \epsilon/2)\subset L^{\epsilon/2}$ and $f$ is
-  Lipschitz with Lipschitz constant $M$, we have
-  $$L^{\epsilon/2} \subseteq f^{-1}[c-M\epsilon/2, \infty)$$ and thus
-  for $\epsilon<c/2M$ we have $\P(X\in B(x_i, \epsilon/2))\geq
-  \frac{c\omega_d \epsilon^d}{2^{d+1}}$ and $\P(X\in B(x_i,
-  \epsilon))\geq \frac{c\omega_d \epsilon^d}{2}$
-  Each of the $B(x_i, \epsilon/2)$ are disjoint so $l\frac{c\omega_d
-  \epsilon^d}{2^{d+1}} \leq \P(X\in \cup_i B(x_i, \epsilon/2))\leq 1$.
-  We thus get $l\leq \frac{2^{d+1}} {c\omega_d \epsilon^d}$.
+  As each $B(x_i, \epsilon/2)\subset L^{\epsilon/2}$ and $f$ is Lipschitz with Lipschitz constant $M$, we have
+  $$
+  L^{\epsilon/2} \subseteq f^{-1}[c-M\epsilon/2, \infty)
+  $$
+  and thus for $\epsilon<c/2M$ we have $\P(X\in B(x_i, \epsilon/2))\geq \frac{c\omega_d \epsilon^d}{2^{d+1}}$ and $\P(X\in B(x_i, \epsilon))\geq \frac{c\omega_d \epsilon^d}{2}$ Each of the $B(x_i, \epsilon/2)$ are disjoint so $l\frac{c\omega_d \epsilon^d}{2^{d+1}} \leq \P(X\in \cup_i B(x_i, \epsilon/2))\leq 1$. We thus get $l\leq \frac{2^{d+1}} {c\omega_d \epsilon^d}$.
 
   %We thus have $L\subseteq \cup_i B(x_i \epsilon)$ (as any $x\in L
   % \cup_i B(x_i \epsilon)$ would contradict the maximality of $S$).
@@ -324,37 +214,27 @@ $\delta>0$. Let $L^\epsilon=\{y+v \mid y\in L, \|v\| \leq \epsilon\}$.
 \end{proof}
 
 \begin{theorem}\label{thm:d_alphan to 0}
-  Let $f:\R^d \to \R$ be a Lipschitz probability density function for
-  $X$. We want to show that $d_{\alpha (n-1)} \to 0$ where $d_{\alpha
-  (n-1)}$ is the $\alpha$ quantile of finite death times.
+  Let $f:\R^d \to \R$ be a Lipschitz probability density function for $X$. We want to show that $d_{\alpha (n-1)} \to 0$ where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times.
 \end{theorem}
 
 \begin{proof}
-  Fix $\alpha\in [0,1)$ and fix $c>0$ such that for $L=\{x|f(x)>c\}$
-  we have $\P(X\notin L)<(1-\alpha)/2$.
-  Choose $\epsilon(n)$ so that $$\frac{c\omega_d \epsilon^d}{2}
-  =\frac{\log n}{n}.$$
-  Note that for large enough $n$ this will lie in $(0,c/2M)$. By
-  \cref{lem:covernumber} there exists a cover of $L$ by $l$ balls
-  $\{B(y_i, \epsilon(n))\}$, with
+  Fix $\alpha\in [0,1)$ and fix $c>0$ such that for $L=\{x|f(x)>c\}$ we have $\P(X\notin L)<(1-\alpha)/2$. Choose $\epsilon(n)$ so that
+  $$
+  \frac{c\omega_d \epsilon^d}{2} =\frac{\log n}{n}.
+  $$
+  Note that for large enough $n$ this will lie in $(0,c/2M)$. By \cref{lem:covernumber} there exists a cover of $L$ by $l$ balls $\{B(y_i, \epsilon(n))\}$, with
   $$
   l\leq \frac{2^{d+1}}{c\omega_d \epsilon(n)^d}=\frac{2^d n}{\log n}
   $$
   and
-  $\P(X\in B(y_i, \epsilon(n)))>\frac{c\omega_d \epsilon(n)^d}{2} =
-  \frac{\log n}{n}$.
+  $\P(X\in B(y_i, \epsilon(n)))>\frac{c\omega_d \epsilon(n)^d}{2} = \frac{\log n}{n}$.
 
-  If $Z_i$ is the event that at there are no samples in $B(y_i,
-  \epsilon)$. By \cref{lem:samplescover}
-  $$\P(\cup Z_i) \leq \frac{2^d n}{\log n} e^{-n \frac{\log n}{n}}=
-  \frac{2^d}{\log n} .$$
+  If $Z_i$ is the event that at there are no samples in $B(y_i, \epsilon)$. By \cref{lem:samplescover}
+  $$
+  \P(\cup Z_i) \leq \frac{2^d n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^d}{\log n} .
+  $$
 
-  This implies that as $n\to \infty$ we have at least one sample in
-  each of the $B(y_i, \epsilon(n))$. All points with the same ball
-  $B(y_i, \epsilon(n))$ will be connected in the Rips complex with
-  radius $2\epsilon(n)$. This implies that the number of connected
-  components when restricting to points inside $L$ will be bounded
-  above by $\frac{2^d n}{\log n}$ (almost surely).
+  This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon(n))$. All points with the same ball $B(y_i, \epsilon(n))$ will be connected in the Rips complex with radius $2\epsilon(n)$. This implies that the number of connected components when restricting to points inside $L$ will be bounded above by $\frac{2^d n}{\log n}$ (almost surely).
 
   %Let $p=\P(X\notin L)$. Note that for all $x\in L$ we have
   % $f(x)>c$. Since $f$ has only finitely many local maxima we have
@@ -402,19 +282,12 @@ $\delta>0$. Let $L^\epsilon=\{y+v \mid y\in L, \|v\| \leq \epsilon\}$.
 \end{proof}
 
 \begin{corollary}\label{cor:consistency}
-  Let $f:\R^d \to \R$ be a Lipschitz probability density function
-  for $X$ such that ?????\todo{TBC}. Fix $\alpha\in (0,1)$. Then $d_{\alpha
-  (n-1)} \to 0$ (where $d_{\alpha (n-1)}$ is the $\alpha$ quantile
-  of finite death times) is a consistent....\todo{TBC}
+  Let $f:\R^d \to \R$ be a Lipschitz probability density function for $X$ such that ?????\todo{TBC}. Fix $\alpha\in (0,1)$. Then $d_{\alpha (n-1)} \to 0$ (where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times) is a consistent....\todo{TBC}
 \end{corollary}
 \begin{proof}
-  By \cref{thm:d_alphan to 0} we have $\lim_{n\to \infty}
-  d_{\alpha(n-1)} =0$.
+  By \cref{thm:d_alphan to 0} we have $\lim_{n\to \infty} d_{\alpha(n-1)} =0$.
 
-  As $f$ is a Lipschitz probability function it must be bounded. If
-  $d=2$ then by \cref{thm:nd_f(n) in plane}, or if $d>2$ then by
-  \cref{thm:nd_f(n) in higher dimensions}, we know that $\lim_{n\to
-  \infty} nd_{\alpha(n-1)}=\infty$.
+  As $f$ is a Lipschitz probability function it must be bounded. If $d=2$ then by \cref{thm:nd_f(n) in plane}, or if $d>2$ then by \cref{thm:nd_f(n) in higher dimensions}, we know that $\lim_{n\to \infty} nd_{\alpha(n-1)}=\infty$.
 \end{proof}
 
 % \subsection{Bounds for kernel density estimates}

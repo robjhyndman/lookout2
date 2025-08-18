@@ -1,19 +1,10 @@
 % ---------------------------------------------------------------------------
-\section{Evaluating lookout with other anomaly detection
-methods}\label{sec:compareWithOtherMethods}
+\section{Evaluating lookout with other anomaly detection methods}\label{sec:compareWithOtherMethods}
 % ---------------------------------------------------------------------------
 
 In this section we compare the new and old versions of lookout with two Extreme Value Theory (EVT) based methods and two KDE-based methods. The EVT-based methods are HDoutliers \citep{wilkinson2017visualizing} and \textit{stray} \citep{talagala2019anomaly}, both with their $\alpha$ parameter set to zero (which is the default for stray). The KDE-based methods are KDEOS \citep{Schubert2014} and RDOS \citep{Tang2017}, both run with their default settings. The same anomaly detection methods were used for comparison in the original version of lookout \citep{lookout}. The lookout algorithms are applied without scaling in these experiments.
 
-Both HDoutliers and stray identify anomalies, i.e., they give a
-binary label 1 to anomalies and 0 to non-anomalies. Therefore, to
-compare lookout with stray and HDoutliers we have used the metrics
-\textit{Fmeasure} and \textit{Gmean}. Suppose
-TP denotes the true positives (actual = 1, predicted = 1),
-FP denotes the false positives (actual = 0, predicted = 1),
-TN denotes the true negatives (actual = 0, predicted = 0) and
-FN denotes the false negatives (actual = 1, predicted = 0). Then these metrics are defined
-as follows:
+Both HDoutliers and stray identify anomalies, i.e., they give a binary label 1 to anomalies and 0 to non-anomalies. Therefore, to compare lookout with stray and HDoutliers we have used the metrics \textit{Fmeasure} and \textit{Gmean}. Suppose TP denotes the true positives (actual = 1, predicted = 1), FP denotes the false positives (actual = 0, predicted = 1), TN denotes the true negatives (actual = 0, predicted = 0) and FN denotes the false negatives (actual = 1, predicted = 0). Then these metrics are defined as follows:
 \[
   \text{Fmeasure} = \frac{2(\text{Precision}\times\text{Recall})}{\text{Precision} + \text{Recall}}
   \quad \text{where} \quad
@@ -26,33 +17,13 @@ as follows:
   \quad \text{where} \quad \text{Sensitivity} = \frac{\text{TP}}{\text{TP} + \text{FN}}
   \quad \text{and} \quad \text{Specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}} \, .
 \]
-Note that recall and sensitivity define the same quantity.
-Sensitivity is commonly used in epidemiological settings while recall
-is used in computer science.
+Note that recall and sensitivity define the same quantity. Sensitivity is commonly used in epidemiological settings while recall is used in computer science.
 
-The KDE-based methods KDEOS and RDOS give anomaly scores instead of
-identifying points as anomalous or not. A standard way to compare
-anomaly scores is by using the area under the Receiver Operator Curve
-(ROC). For a given set of anomaly scores the ROC plots 1 -
-Specificity on the $x$-axis for different cut-off points and
-Sensitivity on the $y$-axis. A method $A$ is better than method $B$
-if the area under the ROC is greater for method $A$ compared to $B$.
-As lookout gives anomaly scores as well as binary labels, we compare
-lookout with KDEOS and RDOS using the area under the ROC, which we
-denote by AUC.
+The KDE-based methods KDEOS and RDOS give anomaly scores instead of identifying points as anomalous or not. A standard way to compare anomaly scores is by using the area under the Receiver Operator Curve (ROC). For a given set of anomaly scores the ROC plots 1 - Specificity on the $x$-axis for different cut-off points and Sensitivity on the $y$-axis. A method $A$ is better than method $B$ if the area under the ROC is greater for method $A$ compared to $B$. As lookout gives anomaly scores as well as binary labels, we compare lookout with KDEOS and RDOS using the area under the ROC, which we denote by AUC.
 
 \subsection{Experiment 5: Normal distributions moving out in each iteration}
-In this experiment we consider 405 points in $\mathbb{R}^6$, of which
-5 points are anomalies. The experiment is run for 10 iterations with
-anomalies becoming more obvious in each iteration. The non-anomalies
-are distributed as $\mathcal{N}(0,1)$ in all dimensions. The
-anomalies differ the non-anomalies only in the first dimension. The
-anomalies are distributed as $\mathcal{N}\left(2 + (i-1)\times0.5, \,
-0.2 \right)$ for iterations $i \in \{1, \ldots, 10\}$ in the first
-dimension. In the other dimensions the anomalies are distributed as
-$\mathcal{N}(0,1)$. We run the experiment for 10 iterations and in
-each iteration the anomalies move further away from the non-anomalous
-points. Each iteration is repeated 10 times to account for randomness.
+
+In this experiment we consider 405 points in $\mathbb{R}^6$, of which 5 points are anomalies. The experiment is run for 10 iterations with anomalies becoming more obvious in each iteration. The non-anomalies are distributed as $\mathcal{N}(0,1)$ in all dimensions. The anomalies differ the non-anomalies only in the first dimension. The anomalies are distributed as $\mathcal{N}\left(2 + (i-1)\times0.5, \, 0.2 \right)$ for iterations $i \in \{1, \ldots, 10\}$ in the first dimension. In the other dimensions the anomalies are distributed as $\mathcal{N}(0,1)$. We run the experiment for 10 iterations and in each iteration the anomalies move further away from the non-anomalous points. Each iteration is repeated 10 times to account for randomness.
 
 \cref{fig:comparisonExp5} shows the data and the results of this experiment, with anomalies shown in red. The top left plot shows the data on the $X_1X_2$ plane for the 3rd iteration and the middle two plots show the data for the 9th iteration. We see that the anomalies have separated from the other points in the $X_1$ direction, but mixed with the non-anomalies on the $X_3X_4$ plane.
 
@@ -63,23 +34,11 @@ points. Each iteration is repeated 10 times to account for randomness.
   \label{fig:comparisonExp5}
 \end{figure}
 
-The plot on the right gives the AUC when comparing lookout with KDEOS
-and RDOS and Fmeasure and Gmean for comparison with HDoutliers and stray.
-As discussed the reason for different metrics is because KDEOS and
-RDOS give anomaly scores, while stray and HDoutiers identify
-anomalies. We see that new lookout performs better than the old
-lookout in terms of Gmean and Fmeasure for higher iterations. In
-terms of AUC both versions of lookout give the same performance.
+The plot on the right gives the AUC when comparing lookout with KDEOS and RDOS and Fmeasure and Gmean for comparison with HDoutliers and stray. As discussed the reason for different metrics is because KDEOS and RDOS give anomaly scores, while stray and HDoutiers identify anomalies. We see that new lookout performs better than the old lookout in terms of Gmean and Fmeasure for higher iterations. In terms of AUC both versions of lookout give the same performance.
 
-\subsection[Experiment 6: Annulus in R4]{Experiment 6: Annulus in
-$\mathbb{R}^4$}
-For this experiment we consider 805 points in $\mathbb{R}^3$ of which
-5 points are anomalies. \cref{fig:comparisonExp6} shows the
-data lying in an annulus on the $X_1X_2$ plane with $X_3 \sim
-\mathcal{U}(0,1)$. As before, the experiment is run for 10 iterations
-with anomalies moving towards the centre of the hole in each iteration. Plots from
-iteration 3 and 9 are shown on the left in \cref{fig:comparisonExp6}.
-The results of the different methods are shown on the right.
+\subsection[Experiment 6: Annulus in R4]{Experiment 6: Annulus in $\mathbb{R}^4$}
+
+For this experiment we consider 805 points in $\mathbb{R}^3$ of which 5 points are anomalies. \cref{fig:comparisonExp6} shows the data lying in an annulus on the $X_1X_2$ plane with $X_3 \sim \mathcal{U}(0,1)$. As before, the experiment is run for 10 iterations with anomalies moving towards the centre of the hole in each iteration. Plots from iteration 3 and 9 are shown on the left in \cref{fig:comparisonExp6}. The results of the different methods are shown on the right.
 
 \begin{figure}[!ht]
   \centering
@@ -88,30 +47,11 @@ The results of the different methods are shown on the right.
   \label{fig:comparisonExp6}
 \end{figure}
 
-\subsection[Experiment 7: Unit cube in R20]{Experiment 7: Unit cube
-in $\mathbb{R}^{20}$}
-This experiment considers 500 points in $\mathbb{R}^{20}$ of which
-one is an anomaly. At the start of the experiment all 500 points are
-uniformly distributed with ${x}_i \sim \mathcal{U}(0,1)$ in each
-dimension. For this experiment we consider 20 iterations and in each
-iteration the 500th data point becomes more anomalous. In
-the first iteration the 500th point is updated with the first
-coordinate $X_1 = 0.9$. In the second iteration it is further updated
-with $X_2 = 0.9$, resulting in $(0.9, 0.9, X_3, \dots, X_{20})$. In the $i$th iteration the 500th point is updated with $X_i = 0.9$.
-Each iteration is repeated 10 times to account for randomness.
+\subsection[Experiment 7: Unit cube in R20]{Experiment 7: Unit cube in $\mathbb{R}^{20}$}
 
-The anomalous point is not anomalous in any single dimension or on
-any $X_iX_j$ plane. In fact even in the space of the first two principal components,
-the anomaly is not distinguishable. We use \textit{dobin}
-\citep{dobinPaper}, a dimension reduction method especially developed
-for anomalies to visualize this space. \cref{fig:comparisonExp7}
-shows the data and the results of this experiment. The plots on the
-left show the data on the $D_1D_2$ plane for iterations 5, 12 and 20,
-where $D_1$ and $D_2$ are the first two axes of dobin projection. We
-see that in the 20th iteration the anomaly can be easily identified
-on the $D_1D_2$ plane. The plot on the right shows the results of applying the various algorithms to this problem.
+This experiment considers 500 points in $\mathbb{R}^{20}$ of which one is an anomaly. At the start of the experiment all 500 points are uniformly distributed with ${x}_i \sim \mathcal{U}(0,1)$ in each dimension. For this experiment we consider 20 iterations and in each iteration the 500th data point becomes more anomalous. In the first iteration the 500th point is updated with the first coordinate $X_1 = 0.9$. In the second iteration it is further updated with $X_2 = 0.9$, resulting in $(0.9, 0.9, X_3, \dots, X_{20})$. In the $i$th iteration the 500th point is updated with $X_i = 0.9$. Each iteration is repeated 10 times to account for randomness.
 
-\SK{To Rob: For experiment 7, can we not use GK scaling because we know the data comes from the unit cube? I think we need to have an option to switch off scaling if required and this is one such example.  }
+The anomalous point is not anomalous in any single dimension or on any $X_iX_j$ plane. In fact even in the space of the first two principal components, the anomaly is not distinguishable. We use \textit{dobin} \citep{dobinPaper}, a dimension reduction method especially developed for anomalies to visualize this space. \cref{fig:comparisonExp7} shows the data and the results of this experiment. The plots on the left show the data on the $D_1D_2$ plane for iterations 5, 12 and 20, where $D_1$ and $D_2$ are the first two axes of dobin projection. We see that in the 20th iteration the anomaly can be easily identified on the $D_1D_2$ plane. The plot on the right shows the results of applying the various algorithms to this problem.
 
 \begin{figure}[!ht]
   \centering
