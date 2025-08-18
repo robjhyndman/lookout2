@@ -135,8 +135,10 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
 
   # Example 5
   X5 <- bind_rows(
-    tibble(x = rnorm(1000, sd = 0.2)) |>
-      mutate(y = x^2 + rnorm(1000, sd = 0.001)),
+    tibble(
+      x = rnorm(1000, sd = 0.2),
+      y = x^2 + rnorm(1000, sd = 0.001)
+    ),
     tibble(
       x = c(0, -0.4, 0.4),
       y = c(0.15, 0.3, 0.3)

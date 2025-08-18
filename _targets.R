@@ -138,8 +138,12 @@ list(
     create_old_faithful_figure(old_faithful_results)
   ),
   tar_target(
+    wine_reviews,
+    weird::fetch_wine_reviews()
+  ),
+  tar_target(
     wine_results,
-    analyze_wine_data(scale, alpha, beta, gamma)
+    analyze_wine_data(wine_reviews, scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_wine,

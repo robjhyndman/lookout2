@@ -1,5 +1,4 @@
-analyze_wine_data <- function(scale, alpha, beta, gamma) {
-  wine_reviews <- weird::fetch_wine_reviews()
+analyze_wine_data <- function(wine_reviews, scale, alpha, beta, gamma) {
   wine_reviews2 <- wine_reviews |>
     filter(variety %in% c("Shiraz", "Syrah")) |>
     select(points, price)
