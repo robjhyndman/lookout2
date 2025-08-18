@@ -18,8 +18,8 @@ generate_exp6 <- function(iterate) {
   X
 }
 
-run_synthetic_exp6 <- function(reps, pp, scale) {
-  compare_algorithms(6, generate_exp6, reps, pp, scale)
+run_synthetic_exp6 <- function(reps, pp, scale, alpha, beta, gamma) {
+  compare_algorithms(6, generate_exp6, reps, pp, scale, alpha, beta, gamma)
 }
 
 create_figure_exp6 <- function(results) {

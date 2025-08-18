@@ -5,53 +5,57 @@
 algorithm_configs <- function() {
   list(
     stray = list(
-      func = function(X, scale) {
+      func = function(X, scale, alpha, beta, gamma) {
         stray::find_HDoutliers(X, knnsearchtype = "kd_tree", alpha = 0.01)
       },
       process = process
     ),
     lookout_new = list(
-      func = function(X, scale) {
+      func = function(X, scale, alpha, beta, gamma) {
         lookout::lookout(
           X,
-          alpha = 0.01,
           scale = scale,
-          gamma = 0.98,
+          alpha = alpha,
+          beta = beta,
+          gamma = gamma,
           old_version = FALSE
         )
       },
       process = process_lookout
     ),
     lookout_old = list(
-      func = function(X, scale) {
+      func = function(X, scale, alpha, beta, gamma) {
         lookout::lookout(
           X,
-          alpha = 0.01,
           scale = scale,
-          gamma = 1,
+          alpha = alpha,
+          beta = beta,
+          gamma = gamma,
           old_version = TRUE
         )
       },
       process = process_lookout
     ),
     hdoutliers = list(
-      func = function(X, scale) HDoutliers::HDoutliers(X, alpha = 0.01),
+      func = function(X, scale, alpha, beta, gamma) {
+        HDoutliers::HDoutliers(X, alpha = 0.01)
+      },
       process = process
     ),
     kdeos = list(
-      func = function(X, scale) DDoutlier::KDEOS(X),
+      func = function(X, scale, alpha, beta, gamma) DDoutlier::KDEOS(X),
       process = process_roc
     ),
     rdos = list(
-      func = function(X, scale) DDoutlier::RDOS(X),
+      func = function(X, scale, alpha, beta, gamma) DDoutlier::RDOS(X),
       process = process_roc
     )
   )
 }
 
 # Generic function to run any algorithm
-run_algorithm <- function(X, labs, algorithm, scale) {
-  tt <- system.time(result <- algorithm$func(X, scale))
+run_algorithm <- function(X, labs, algorithm, scale, alpha, beta, gamma) {
+  tt <- system.time(result <- algorithm$func(X, scale, alpha, beta, gamma))
   processed <- algorithm$process(result, X, labs)
   c(processed, list(time = tt))
 }
@@ -95,7 +99,10 @@ compare_algorithms <- function(
   generate_function,
   reps,
   pp,
-  scale = TRUE
+  scale,
+  alpha,
+  beta,
+  gamma
 ) {
   # Set up the structure to store results
   configs <- algorithm_configs()
@@ -130,7 +137,15 @@ compare_algorithms <- function(
 
       # Run all algorithms
       for (alg in algorithms) {
-        alg_result <- run_algorithm(X, labs, configs[[alg]], scale)
+        alg_result <- run_algorithm(
+          X,
+          labs,
+          configs[[alg]],
+          scale,
+          alpha,
+          beta,
+          gamma
+        )
         if (!is.null(alg_result$gmean)) {
           results[[paste0(alg, "_gmean")]][kk, i] <- alg_result$gmean
         }

@@ -12,11 +12,10 @@ generate_exp1 <- function(n1, n2, rate) {
   as_tibble(out)
 }
 
-run_synthetic_exp1 <- function(scale = scale) {
+run_synthetic_exp1 <- function(scale, alpha, beta, gamma) {
   n1 <- 500
   n2 <- 10
   rate2 <- seq(10) / 10
-  bw <- 0.98
 
   results_old <- results_new <- tibble(
     outrate = numeric(10 * length(rate2)),
@@ -30,16 +29,17 @@ run_synthetic_exp1 <- function(scale = scale) {
       X <- generate_exp1(n1, n2, rate2[i])
       lookobj_new <- lookout::lookout(
         X[, 1:2],
-        alpha = 0.01,
         scale = scale,
-        gamma = 0.98,
+        alpha = alpha,
+        beta = beta,
+        gamma = beta,
         old_version = FALSE
       )
       lookobj_old <- lookout::lookout(
         X[, 1:2],
-        alpha = 0.01,
+        alpha = alpha,
+        beta = beta,
         scale = scale,
-        gamma = 1,
         old_version = TRUE
       )
       act <- X$Points == "Anomaly"

@@ -13,12 +13,11 @@ generate_exp2 <- function(n1, n2, mm) {
   as_tibble(out)
 }
 
-run_synthetic_exp2 <- function(scale = scale) {
+run_synthetic_exp2 <- function(scale, alpha, beta, gamma) {
   reps <- 20
   mm_seq <- seq(2.5, 4, by = 0.25)
   n1 <- 1000
   n2 <- 10
-  bw <- 0.98
 
   results_old <- results_new <- tibble(
     mean = numeric(reps * length(mm_seq)),
@@ -34,16 +33,17 @@ run_synthetic_exp2 <- function(scale = scale) {
       X <- generate_exp2(n1, n2, mm)
       lookobj_new <- lookout::lookout(
         X[, 1:2],
-        alpha = 0.01,
         scale = scale,
-        gamma = 0.98,
+        alpha = alpha,
+        beta = beta,
+        gamma = gamma,
         old_version = FALSE
       )
       lookobj_old <- lookout::lookout(
         X[, 1:2],
-        alpha = 0.01,
+        alpha = alpha,
+        beta = beta,
         scale = scale,
-        gamma = 1,
         old_version = TRUE
       )
       act <- X$Points == "Anomaly"

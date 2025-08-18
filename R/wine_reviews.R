@@ -1,4 +1,4 @@
-analyze_wine_data <- function(scale = scale) {
+analyze_wine_data <- function(scale, alpha, beta, gamma) {
   wine_reviews <- weird::fetch_wine_reviews()
   wine_reviews2 <- wine_reviews |>
     filter(variety %in% c("Shiraz", "Syrah")) |>
@@ -6,17 +6,18 @@ analyze_wine_data <- function(scale = scale) {
 
   lookobjNew <- lookout::lookout(
     wine_reviews2,
-    alpha = 0.01,
     scale = scale,
-    gamma = 0.98,
+    alpha = alpha,
+    beta = beta,
+    gamma = gamma,
     old_version = FALSE
   )
 
   lookobjOld <- lookout::lookout(
     wine_reviews2,
-    alpha = 0.01,
     scale = scale,
-    gamma = 1,
+    alpha = alpha,
+    beta = beta,
     old_version = TRUE
   )
 

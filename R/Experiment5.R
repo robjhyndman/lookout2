@@ -15,8 +15,8 @@ generate_exp5 <- function(iterate) {
   as_tibble(X)
 }
 
-run_synthetic_exp5 <- function(reps, pp, scale) {
-  compare_algorithms(5, generate_exp5, reps, pp, scale)
+run_synthetic_exp5 <- function(reps, pp, scale, alpha, beta, gamma) {
+  compare_algorithms(5, generate_exp5, reps, pp, scale, alpha, beta, gamma)
 }
 
 create_figure_exp5 <- function(results) {

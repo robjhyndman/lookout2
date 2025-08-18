@@ -28,6 +28,12 @@ tar_source()
 list(
   # Should scaling be used?
   tar_target(scale, TRUE),
+  # Value of alpha
+  tar_target(alpha, 0.01),
+  # Value of gamma
+  tar_target(beta, 0.90),
+  # Value of gamma
+  tar_target(gamma, 0.95),
 
   # ------------------------------------------------------
   # Experiment 1: Gamma distribution
@@ -35,7 +41,7 @@ list(
 
   tar_target(
     exp1_results,
-    run_synthetic_exp1(scale)
+    run_synthetic_exp1(scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp1,
@@ -48,7 +54,7 @@ list(
 
   tar_target(
     exp2_results,
-    run_synthetic_exp2(scale)
+    run_synthetic_exp2(scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp2,
@@ -61,7 +67,7 @@ list(
 
   tar_target(
     exp3_results,
-    run_synthetic_exp3(scale)
+    run_synthetic_exp3(scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp3,
@@ -74,7 +80,7 @@ list(
 
   tar_target(
     exp4_results,
-    run_synthetic_exp4(scale)
+    run_synthetic_exp4(scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp4,
@@ -86,7 +92,7 @@ list(
 
   tar_target(
     exp5_results,
-    run_synthetic_exp5(reps = 10, pp = 10, scale)
+    run_synthetic_exp5(reps = 10, pp = 10, scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp5,
@@ -99,7 +105,7 @@ list(
 
   tar_target(
     exp6_results,
-    run_synthetic_exp6(reps = 10, pp = 10, scale)
+    run_synthetic_exp6(reps = 10, pp = 10, scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp6,
@@ -112,7 +118,7 @@ list(
 
   tar_target(
     exp7_results,
-    run_synthetic_exp7(reps = 20, pp = 10, scale)
+    run_synthetic_exp7(reps = 20, pp = 10, scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp7,
@@ -125,7 +131,7 @@ list(
 
   tar_target(
     old_faithful_results,
-    analyze_old_faithful(scale)
+    analyze_old_faithful(scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_old_faithful,
@@ -133,7 +139,7 @@ list(
   ),
   tar_target(
     wine_results,
-    analyze_wine_data(scale)
+    analyze_wine_data(scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_wine,
@@ -146,7 +152,7 @@ list(
 
   tar_target(
     showcase_results,
-    generate_showcase_examples(scale)
+    generate_showcase_examples(scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_showcase,

@@ -17,7 +17,7 @@ generate_exp4 <- function(nn) {
   as_tibble(out)
 }
 
-run_synthetic_exp4 <- function(scale = scale) {
+run_synthetic_exp4 <- function(scale, alpha, beta, gamma) {
   nnvals <- rep((1:10) * 1000, each = 10)
   df3 <- df1 <- df2 <- set_up_diff_metrics(length(nnvals))
 
@@ -25,16 +25,17 @@ run_synthetic_exp4 <- function(scale = scale) {
     X <- generate_exp4(nnvals[[ii]])
     lookobj_new <- lookout::lookout(
       X[, 1:2],
-      alpha = 0.01,
       scale = scale,
-      gamma = 0.95,
+      alpha = alpha,
+      beta = beta,
+      gamma = gamma,
       old_version = FALSE
     )
     lookobj_old <- lookout::lookout(
       X[, 1:2],
-      alpha = 0.01,
+      alpha = alpha,
+      beta = beta,
       scale = scale,
-      gamma = 1,
       old_version = TRUE
     )
     act <- X$Points == "Anomaly"

@@ -1,20 +1,21 @@
-analyze_old_faithful <- function(scale = scale) {
+analyze_old_faithful <- function(scale, alpha, beta, gamma) {
   oldfaithful2 <- weird::oldfaithful |>
     filter(duration < 7200, waiting < 7200)
 
   lookobjNew <- lookout::lookout(
     oldfaithful2[, 2:3],
-    alpha = 0.01,
     scale = scale,
-    gamma = 0.98,
+    alpha = alpha,
+    beta = beta,
+    gamma = gamma,
     old_version = FALSE
   )
 
   lookobjOld <- lookout::lookout(
     oldfaithful2[, 2:3],
-    alpha = 0.01,
+    alpha = alpha,
+    beta = beta,
     scale = scale,
-    gamma = 1,
     old_version = TRUE
   )
 

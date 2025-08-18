@@ -11,8 +11,8 @@ generate_exp7 <- function(iterate) {
   X
 }
 
-run_synthetic_exp7 <- function(reps, pp, scale) {
-  compare_algorithms(7, generate_exp7, reps, pp, scale)
+run_synthetic_exp7 <- function(reps, pp, scale, alpha, beta, gamma) {
+  compare_algorithms(7, generate_exp7, reps, pp, scale, alpha, beta, gamma)
 }
 
 create_figure_exp7 <- function(results) {
