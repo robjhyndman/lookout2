@@ -33,7 +33,7 @@ list(
   # Value of gamma
   tar_target(beta, 0.90),
   # Value of gamma
-  tar_target(gamma, 0.95),
+  tar_target(gamma, 0.97),
 
   # ------------------------------------------------------
   # Experiment 1: Gamma distribution
@@ -92,7 +92,7 @@ list(
 
   tar_target(
     exp5_results,
-    run_synthetic_exp5(reps = 10, pp = 10, scale = FALSE, alpha, beta, gamma)
+    run_synthetic_exp5(reps = 10, pp = 10, scale = scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp5,
@@ -105,7 +105,7 @@ list(
 
   tar_target(
     exp6_results,
-    run_synthetic_exp6(reps = 10, pp = 10, scale = FALSE, alpha, beta, gamma)
+    run_synthetic_exp6(reps = 10, pp = 10, scale = scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp6,
