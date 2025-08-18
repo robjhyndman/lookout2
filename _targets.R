@@ -92,7 +92,7 @@ list(
 
   tar_target(
     exp5_results,
-    run_synthetic_exp5(reps = 10, pp = 10, scale, alpha, beta, gamma)
+    run_synthetic_exp5(reps = 10, pp = 10, scale = FALSE, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp5,
@@ -105,7 +105,7 @@ list(
 
   tar_target(
     exp6_results,
-    run_synthetic_exp6(reps = 10, pp = 10, scale, alpha, beta, gamma)
+    run_synthetic_exp6(reps = 10, pp = 10, scale = FALSE, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp6,
@@ -118,7 +118,7 @@ list(
 
   tar_target(
     exp7_results,
-    run_synthetic_exp7(reps = 20, pp = 10, scale, alpha, beta, gamma)
+    run_synthetic_exp7(reps = 20, pp = 10, scale = FALSE, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp7,

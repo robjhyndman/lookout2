@@ -98,13 +98,12 @@ We are now in a position to describe the modified lookout algorithm.
     $\bm{y}_1, \dots, \bm{y}_n$. Compute $\hat{\bm{\Sigma}}$, the
     Gnanadesikan-Kettenring estimator of the covariance matrix of
     $\bm{Y}$ \citep{Maronna2002-qn}.
-    \State Calculate the eigendecomposition $\hat{\bm{\Sigma}}^{-1} =
-    \bm{U}' \bm{\Lambda} \bm{U}$.
-    \State Rotate and scale the data using $\bm{U}$, giving $\bm{Z} =
+    \State Optional scaling: Calculate the eigendecomposition $\hat{\bm{\Sigma}}^{-1} =
+    \bm{U}' \bm{\Lambda} \bm{U}$. Then rotate and scale the data using $\bm{U}$, giving $\bm{Z} =
     \bm{U}\bm{Y}$, with scaled observations $\bm{z}_1, \dots,
     \bm{z}_n$ comprising the rows of $\bm{Z}$.
     \State Compute the persistence homology barcode of the data cloud
-    $\bm{Z}$ for dimension zero using the Vietoris-Rips diameter
+    $\bm{Z}$ (set $\bm{Z} = \bm{Y}$ if no scaling is applied) for dimension zero using the Vietoris-Rips diameter
     \citep{ghrist2008barcodes}, and obtain the ordered death
     diameters $\{d_i\}_{i = 1}^n$ for connected components.
     \State Let $d^* =$ the $\gamma$ sample quantile computed from

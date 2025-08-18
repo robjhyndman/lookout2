@@ -14,7 +14,7 @@ anomalies as they become more obvious. Experiments 3 and 4 focus on
 having anomalies on the boundary of the non-anomalous region. For
 these two experiments we increase the number of data points and
 explore the performance of the two algorithm versions for different
-sample sizes.
+sample sizes. Although scaling is not needed for any of these examples, we apply it to test its effect on the performance of the algorithms.
 
 % - Show anomaly detection examples using normal distribution and
 % gamma distribution, with lookout 2 vs lookout 1
@@ -161,7 +161,7 @@ better in terms of true positive and false negative rates.
 \cref{fig:showcaseExamples} shows some examples of new and old
 versions of lookout with identified anomalies in red. The purpose of
 this exercise is to check if the new version agrees with the old
-version on obvious anomalies. The graphs on the first row have
+version on obvious anomalies. Scaling is applied in both algorithms. The graphs on the first row have
 anomalies at the top right-hand corner, which are identified by both
 algorithms, but the old algorithm also finds some false positives in
 the lower cloud of points. The second row depicts a bi-modal
@@ -221,14 +221,14 @@ small number of variables, we can visualize the output. The datasets are
 %\subsubsection{Old-faithful dataset}
 \cref{fig:oldfaithful} shows the output of new and old versions of
 lookout when applied to the \textit{Old Faithful} dataset, with the
-identified anomalies depicted in red. New lookout identifies fewer
+identified anomalies depicted in red. Scaling is applied in both algorithms. New lookout identifies fewer
 "anomalous" points, especially in the region between the two clouds
 of points, while identifying some additional "anomalies" on the edge
 of the largest cloud of points. It is not clear which version is to
 be preferred in this case.
 
 \cref{fig:winereviews} shows the output of lookout on the
-\textit{Wine Reviews} dataset. For this dataset we see that the new
+\textit{Wine Reviews} dataset.  Scaling is applied in both algorithms. For this dataset we see that the new
 version identifies far fewer anomalies compared the old version,
 especially at the extremes of the points score, and around the main
 cloud of points. It seems clear that in this example the new lookout
