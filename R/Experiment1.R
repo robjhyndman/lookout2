@@ -32,7 +32,7 @@ run_synthetic_exp1 <- function(scale, alpha, beta, gamma) {
         scale = scale,
         alpha = alpha,
         beta = beta,
-        gamma = beta,
+        gamma = gamma,
         old_version = FALSE
       )
       lookobj_old <- lookout::lookout(

@@ -47,7 +47,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     X2,
     scale = scale,
     alpha = alpha,
-    gamma = beta,
+    beta = beta,
     gamma = gamma,
     old_version = FALSE
   )

@@ -19,7 +19,7 @@ generate_exp4 <- function(nn) {
 
 run_synthetic_exp4 <- function(scale, alpha, beta, gamma) {
   nnvals <- rep((1:10) * 1000, each = 10)
-  df3 <- df1 <- df2 <- set_up_diff_metrics(length(nnvals))
+  df3 <- df1 <- set_up_diff_metrics(length(nnvals))
 
   for (ii in 1:length(nnvals)) {
     X <- generate_exp4(nnvals[[ii]])
