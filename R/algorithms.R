@@ -233,11 +233,13 @@ create_figure_exp567 <- function(experiment, p, results) {
         "fmeasure" = "Fmeasure",
         "gmean" = "Gmean",
         "auc" = "AUC"
-      )
+      ),
+      lower = pmax(0, mean - 2 * se),
+      upper = pmin(1, mean + 2 * se)
     ) |>
     ggplot(aes(x = Iteration)) +
     geom_ribbon(
-      aes(ymin = mean - 2 * se, ymax = mean + 2 * se, fill = Algorithm),
+      aes(ymin = lower, ymax = upper, fill = Algorithm),
       alpha = 0.4
     ) +
     geom_line(aes(y = mean, color = Algorithm), linewidth = 1) +
