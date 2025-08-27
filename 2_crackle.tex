@@ -16,37 +16,46 @@ We will first prove a number of limit theorems about $d_{f(n)}$, that is the $f(
 
   Choose any sequence of integers $\{\omega(n)\}$ such that $0<\omega(n) <n$ for all $n$ and $\lim_{n\to \infty} \omega_n =\infty$. Then $nd_{\omega(n)}\to \infty$ as $n\to \infty$ with probability $1$.
 \end{theorem}
+
 \begin{proof}
-  It is sufficient for there to exist a function $r(n)$ such that $\mathbb{P}(d_{\omega(n)}\geq n^{-1}r(n)) \to 1$ as $n\to \infty$ and $r(n)\to \infty$ as $n\to \infty$. Let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$.
+  %It is sufficient for there to exist a function $r(n)$ (with and $r(n)\to \infty$ as $n\to \infty$) such that $\mathbb{P}(d_{\omega(n)}\geq \frac{r(n)}{n}) \to 1$ as $n\to \infty$. 
+  For any function $r:\mathbb{N} \to (0,\infty)$, let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$. Each death time corresponds to the reduction by one of the number of connected components. This implies that $nd_{\omega(n)} > r(n)$ occurs when $C(n, \frac{r(n)}{n})> n - \omega(n)$.
 
-  Each death time corresponds to the reduction by one of the number of connected components. This implies that $d_{\omega(n)} > n^{-1}r(n)$ occurs when $C(n, n^{-1}r(n))> n - \omega(n)$.
-
+For any bounded random variable $X$ with range contained in $[0,N]$ we have
+$$\E[X] \leq N(1-\mathbb{P}(X \leq (N-\lambda)))+ (N-\lambda)(\mathbb{P}(X < (N- \lambda)))= N - \lambda \mathbb{P}(X\leq N-\lambda)$$
+  and hence $$\mathbb{P}(X \leq  N-\lambda)\leq \frac{\E[X]-N}{\lambda}.$$ 
+% \begin{align*}
+ %     \E[X] &\leq N\mathbb{P}(X\geq (N-\lambda)) + (N-\lambda)(1-\mathbb{P}(X\geq (N- \lambda)))= N-\lambda + \lambda \mathbb{P}(X\geq N-\lambda)
+  %\end{align*}
+  %and hence $$\mathbb{P}(X\geq N-\lambda)\geq \frac{\E[X]-N +\lambda}{\lambda}.$$ 
   Since the number of components can only be an integer between $1$ and $n$,
+  %\begin{align*}
+   %   \Mathbb{E}\left[C\left(n, \frac{r(n)}{n}\right)> n-\omega(n)\right]&\leq n\mathbb{P}\left(C\left(n, \frac{r(n)}{n}\right)> n-\omega(n)\right) + (1-\mathbb{P}\left(C\left(n, \frac{r(n)}{n}\right)> n-\omega(n)\right) (n-\omega(n))\\
+ %     &=(n-\omega(n))+ \mathbb{P}\left(C\left(n, \frac{r(n)}{n}\right)> n-\omega(n)\right)\omega(n)
+  %\end{align*}
+  %and thus 
   $$
-  \mathbb{P}\left(C\big(n, n^{-1}r(n)\big)> n-\omega(n)\right) \geq \frac{\mathbb{E}[C(n, n^{-1}r(n))]-(n-\omega(n))}{n-(n-\omega(n))} = \frac{\mathbb{E}[C(n, n^{-1}r(n))]-n+\omega(n)}{\omega(n)}.
+  \mathbb{P}\left(C\left(n, \frac{r(n)}{n}\right)\leq n-\omega(n)\right) \leq \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n}{\omega(n)}.
   $$
-  Thus it is sufficient to show that there exists a suitable $r(n)$ such that $r(n)\to \infty$ as $n\to \infty$, and
+  It is thus sufficient to show that there exists a suitable $r(n)$ such that $r(n)\to \infty$ as $n\to \infty$, and
   $$
-  \lim_{n\to \infty}\frac{\mathbb{E}[C(n, n^{-1}r(n))]-n+\omega(n)}{\omega(n)} = 1.
+  \lim_{n\to \infty}\frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n}{\omega(n)} = 0.
   $$
-  For small radii $r$, a useful lower bound on the number of connected components is $n-E(n,r)$, where $E(n,r)$ is the number of edges in the graph connecting any two points are less that $2r$ apart, that is $\mathbb{E}[C(n, n^{-1}r(n))]\geq n-\mathbb{E}[E(n,n^{-1}r(n))]$. The expected number of edges is much easier to calculate than the expected number of components.
+  For small radii $r$, a useful lower bound on the number of connected components is $n-E(n,r)$, where $E(n,r)$ is the number of edges in the graph connecting any two points are less that $2r$ apart, that is $$\left|\mathbb{E}[C(n, \frac{r(n)}{n})]- n\right|\leq \mathbb{E}\left[E\left(n,\frac{r(n)}{n}\right)\right].$$ The expected number of edges is much easier to calculate than the expected number of components.
   \begin{align*}
-    \mathbb{E}[E(n,n^{-1}r(n))]
-    & =\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r\mid x,y \sim X) \\
-    & \leq \frac{n(n-1)}{2} K\pi (n^{-1}r(n))^2             \\
-    & \leq \frac{K \pi}{2}r(n)^2
+    \mathbb{E}\left[E\left(n,\frac{r(n)}{n}\right)\right]
+    & =\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r\mid x,y \sim X) 
+    \leq \frac{n(n-1)}{2} K\pi (\frac{r(n)}{n})^2             \leq \frac{K \pi}{2}r(n)^2
   \end{align*}
-  where $K$ is the global upper bound on the probability density function of $X$.
-
-  Set $r(n)=\sqrt{2\log (\omega (n))}$. We automatically get $\lim_{n\to \infty} r(n)= \infty$ as $\lim_{n\to \infty} \omega(n)=\infty$.
-
-  $\mathbb{E}[C(n, n^{-1}r(n))]\geq n- K \pi\log(\omega(n))$ and thus
+  where $K$ is the global upper bound on the probability density function of $X$. If we set $r(n)=\sqrt{2\log (\omega (n))}$ (noting $\lim_{n\to \infty} r(n)= \infty$ as $\lim_{n\to \infty} \omega(n)=\infty$) we get
+ % $\mathbb{E}\left[C\left(n, \frac{r(n)}{n}\right)\right]\geq n- K \pi\log(\omega(n))$ and thus
   $$
-  \lim_{n\to \infty} \frac{\mathbb{E}[C(n, n^{-1}r(n))]-n+\omega(n)}{\omega(n)} \geq
-  \lim_{n\to \infty} \frac{\omega(n)-K \pi\log(\omega(n))}{\omega(n)} =
-  1.
+  \lim_{n\to \infty} \frac{\left|\mathbb{E}\left[C\left(n, \frac{r(n)}{n}\right)\right]-n\right|}{\omega(n)} \leq
+  \lim_{n\to \infty} \frac{K \pi\log(\omega(n))}{\omega(n)} =
+  0.
   $$
 \end{proof}
+
 
 \begin{theorem}\label{thm:nd_f(n) in higher dimensions}
   Let $d_1$ denote the smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution over $\R^d$, $d\geq 3$, such that the density is bounded above.
@@ -54,28 +63,18 @@ We will first prove a number of limit theorems about $d_{f(n)}$, that is the $f(
   Then $nd_{1}\to \infty$ as $n\to \infty$ with probability $1$.
 \end{theorem}
 \begin{proof}
-  The argument here is an easier version of the above theorem. We wish to find a function $r(n)$ such that $\lim_{n\to \infty}r(n)=\infty$ and
-  $$
-  \lim_{n\to \infty}\mathbb{P}(C(n, n^{-1}r(n))=n)=1.
-  $$
-  Set $r(n)=\log(n)$.
+%Let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$ and 
+Let $E(n,r)$ denote the number of edges in the graph which connects any two points that are less that $2r$ apart.
+%Note that $n-C(n, r)\leq E(n,r)$. 
+If we set $r=\log(n)/n$ then
   \begin{align*}
-    \mathbb{E}[E(n,n^{-1}r(n))]
-    & =\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r(n)\mid x,y \sim X) \\
-    & \leq \frac{n(n-1)}{2} K\pi s_d(\frac{2\log(n)}{n})^d     \\
-    & \leq 2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}
+    \mathbb{E}\left[E(n,r)\right]
+    &=\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2\log(n)/n\mid x,y \sim X)  \leq \frac{n(n-1)}{2} K s_d\left(\frac{2\log(n)}{n}\right)^d    
+  %  & \leq 2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}
   \end{align*}
   where $K$ is the global upper bound on the pdf of $X$ and $s_d$ is the volume of the unit ball in $\R^d$.
-
-  $\mathbb{E}[C(n, n^{-1}r(n))]\geq n- 2^{d-1}Ks_d\frac{(\log(n))^d}{n^{d-1}}$.
-
-  Since the number of connected components must be an integer between $1$ and $n$ we deduce
-  \begin{align*}
-    \mathbb{P}(C(n, n^{-1}r(n))=n)
-    & \geq \mathbb{E}[C(n, n^{-1}r(n))]+1-n \geq n-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}+1-n \\
-    & =1-2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}} \\
-  \end{align*}
-  and thus $\lim_{n\to \infty}\mathbb{P}(C(n, n^{-1}r(n))=n)=1.$
+As the number of edges is a non-negative integer we have $\P\left(E(n, \log(n)/n)\neq 0\right)\leq \E\left[E(n, \log(n)/n)\right] \to 0$ as $n\to \infty$. This implies that with high probability no edge appears until at least $\log(n)/n$.
+  As $d_1$ is the first time an edge appears we have $nd_1>\log(n) \to \infty$ as $n \to \infty$ with probability $1$. 
 \end{proof}
 
 \subsection{Limit of $d_{n-1}$ for Gaussian Samples}
@@ -90,7 +89,7 @@ In this section we will prove the complementary limit theorem needed for consist
   Let $S_n$ denote a random sample of $n$ points from a fixed multivariate Gaussian in $\R^d$. Then for the Rips filtration over $S_n$ we have $d_{n-1} \to 0$ as $n\to \infty$.
 \end{theorem}
 \begin{proof}
-  We will first prove the result in the case of a standard Gaussian, where the probability density function, $c \exp\{-\|x\|^2/2\}$ for some constant $c$, is spherically symmetric. Denote $f(R) = c\exp\{-R^2/2\}$ for this density in terms of the radial coordinate.
+  We will first prove the result in the case of a standard Gaussian, where the probability density function is spherically symmetric and is $c \exp\{-\|x\|^2/2\}$ for some constant $c$. Denote $f(R) = c\exp\{-R^2/2\}$ for this density in terms of the radial coordinate.
 
   Let $X(n,r)$ be the event that $\cup_{x\in S_n} B(x, r)$ is connected. We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and $\mathbb{P}(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
 

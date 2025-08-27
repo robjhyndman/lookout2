@@ -1,3 +1,5 @@
 % ---------------------------------------------------------------------------
-\section{Discussion and conclusions (SK)}\label{sec:conclusion}
+\section{Discussion and conclusions }\label{sec:conclusion}
 % ---------------------------------------------------------------------------
+We have proposed an improved version of the \textit{lookout} algorithm based on theoretical underpinnings in persistent homology. The previous version of \textit{lookout} used the Rips diameter that resulted in the maximum successive difference to produce the bandwidth for kernel density estimation. However, this bandwidth estimator lacks consistency.  The newer version uses an upper percentile of the Rips diameter, such as 97\%, instead of the one yielding the maximum difference, and  we prove that it is a consistent estimator. Another modification is the scaling of the input data. The previous version used min-max scaling, which does not take correlations into account. The updated \textit{lookout} uses a robust multivariate scaling using the orthogonalized Gnanadesikan-Kettenring estimator. We show that updated \textit{lookout} performs better on many examples. 
+
