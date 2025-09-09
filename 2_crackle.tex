@@ -1,8 +1,8 @@
-\section{Consistency and crackle (KT)}\label{sec:theory}
+\section{Consistency and crackle}\label{sec:theory}
 
-We will first prove a number of limit theorems about $d_{f(n)}$, that is the $f(n)$-th death time (when ordered increasingly by size). For consistency of the kernel density estimator, we are interested in $d_{f(n)} \to 0$ and $nd_{f(n)}\to \infty$.
+We will first prove a number of limit theorems about $d_{\omega(n)}$, that is the $\omega(n)$-th death time (when ordered increasingly by size). For consistency of the kernel density estimator, we are interested in $d_{\omega(n)} \to 0$ and $nd_{\omega(n)}\to \infty$.
 
-\subsection{Limit of $nd_{f(n)}$}
+\subsection{Limit of $nd_{\omega(n)}$}
 %Main mathematical results with proofs (possibly relegated to the Appendices).
 
 %A consequence of the below theorems is that $nd_{\alpha(n-1)}\to
@@ -45,7 +45,7 @@ $$\E[X] \leq N(1-\mathbb{P}(X \leq (N-\lambda)))+ (N-\lambda)(\mathbb{P}(X < (N-
   \begin{align*}
     \mathbb{E}\left[E\left(n,\frac{r(n)}{n}\right)\right]
     & =\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r\mid x,y \sim X) 
-    \leq \frac{n(n-1)}{2} K\pi (\frac{r(n)}{n})^2             \leq \frac{K \pi}{2}r(n)^2
+    \leq \frac{n(n-1)}{2} K\pi \left(\frac{r(n)}{n}\right)^2             \leq \frac{K \pi}{2}r(n)^2
   \end{align*}
   where $K$ is the global upper bound on the probability density function of $X$. If we set $r(n)=\sqrt{2\log (\omega (n))}$ (noting $\lim_{n\to \infty} r(n)= \infty$ as $\lim_{n\to \infty} \omega(n)=\infty$) we get
  % $\mathbb{E}\left[C\left(n, \frac{r(n)}{n}\right)\right]\geq n- K \pi\log(\omega(n))$ and thus
@@ -79,35 +79,41 @@ As the number of edges is a non-negative integer we have $\P\left(E(n, \log(n)/n
 
 \subsection{Limit of $d_{n-1}$ for Gaussian Samples}
 
-In this section we will prove the complementary limit theorem needed for consistency results when we assume that the samples come from a Gaussian distribution. The proof to showing that $d_{f(n)}\to 0$ as $n\to \infty$ is a straightforward modification of the proof for ???\todo{TBC} in \cite{Crackle}. The only real change is that we need to consider a sequence of decreasing radii for the balls, whereas in \cite{Crackle} the radii remain constant (value $1$). We include the calculations for completeness.
+In this section we will prove the complementary limit theorem needed for consistency results when we assume that the samples come from a Gaussian distribution. The proof to showing that $d_{n-1}\to 0$ as $n\to \infty$ is a straightforward modification of the proof for Theorem 2.1 in \cite{Crackle}. The only real change is that we need to consider a sequence of decreasing radii for the balls, whereas in \cite{Crackle} the radii remain constant (value $1$). We just need to ensure that the radii decrease slowly enough so that have the union of balls remains connected. Due to this variation in the proof, we include the calculations for completeness.
 %For consistency in the case of
 % Gaussian distributions over $\R^2$, we also need to show that the
 % index function for the maximum gap in death values will go to
 % infinity almost surely.
 
 \begin{theorem}\label{thm:d_n-1 Gaussian}
-  Let $S_n$ denote a random sample of $n$ points from a fixed multivariate Gaussian in $\R^d$. Then for the Rips filtration over $S_n$ we have $d_{n-1} \to 0$ as $n\to \infty$.
+  Let $S_n$ denote a random sample of $n$ iid points from a fixed multivariate Gaussian in $\R^d$. Then for the Rips filtration over $S_n$ we have $d_{n-1} \to 0$ as $n\to \infty$.
 \end{theorem}
 \begin{proof}
   We will first prove the result in the case of a standard Gaussian, where the probability density function is spherically symmetric and is $c \exp\{-\|x\|^2/2\}$ for some constant $c$. Denote $f(R) = c\exp\{-R^2/2\}$ for this density in terms of the radial coordinate.
 
-  Let $X(n,r)$ be the event that $\cup_{x\in S_n} B(x, r)$ is connected. We want to show that there is a function $s(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and $\mathbb{P}(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $d_*\leq r(n)$ must also limit to $0$.
+Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction $r(n)\rightarrow 0$ as $n \rightarrow \infty$.
+  Let $X(n,r(n))$ be the event that $\cup_{x\in S_n} B(x, r(n))$ is connected. 
+  We want to show that %there is a function $r(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and 
+  $\mathbb{P}(X(n,r(n)))\rightarrow 1$ as $n\rightarrow \infty$.
+  This implies that $d_{n-1}\leq r(n)$ must also limit to $0$.
 
-  Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction $r(n)\rightarrow 0$ as $n \rightarrow \infty$. We will use $r(n)$ to show that the core is covered by balls around the samples with radius $r(n)$.
+%  Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction $r(n)\rightarrow 0$ as $n \rightarrow \infty$. We will use $r(n)$ to show that the core is covered by balls around the samples with radius $r(n)$.
+ Set $R_n^2:=\sqrt{2(\log n+d\log \log n)}$ and  $R_n^c=\sqrt{2(\log n -\log \log n)}$. 
+ $R_n$ will be the radius outside which we will expect no samples to occur and $R_n^c$ will represent the core of the point cloud - which we expect to be densely covered.
+ 
+  Cover $B(0, R_n^c)$ by a grid with side lengths $g$. Let $Y(n, R_n^c, g)$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in \cite{Crackle} states:
+  $$
+  \mathbb{P}(\tilde{C}(n,R_n^c,g)) \leq (2g^{-1})^d (R_n^c)^d\exp\{-ng^d f(R_n^c)\}.
+  $$
 
-  Cover $B(0, R)$ with a grid with side lengths $g$. Let $\tilde{C}_n^c$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in the crackle paper states:
-  $$
-  \mathbb{P}(\tilde{C}(n,R,g)) \leq (2g^{-1})^d R^d\exp\{-ng^d f(R)\}.
-  $$
+  %Set $R_n^c=\sqrt{2(\log n -\log \log n)}$, which will represent the core of the point cloud. 
 
-  Set $R_n^c=\sqrt{2(\log n -\log \log n)}$, which will represent the core of the point cloud. Note that
-  $$
+  Set $g=\frac{r(n)}{2\sqrt{d}}$ so $g^d=\frac{1}{c \log \log n 2^d d^{d/2}}$. Further note that
+  $
   f(R_n^c)= c \exp\{-\log n+\log\log n\}=c\frac{\log n}{n}.
-  $$
-
-  Set $g=\frac{r(n)}{2\sqrt{d}}$ so $g^d=\frac{1}{c \log \log n 2^d d^{d/2}}$.
+  $ Combined we get
   \begin{align*}
-    \mathbb{P}(\tilde{C}(n,R_n^c,r(n)))
+    \mathbb{P}(Y(n,R_n^c,r(n)))
     & \leq 2^{2d}d^{d/2}c \log \log n (2(\log n -\log \log n))^{d/2}\exp\{-ng^dc\frac{\log n}{n}\} \\
     & \leq K\frac{(\log n)^{d/2}\log\log n }{\exp(\frac{\log n}{2^d d^{d/2} \log \log n})}
   \end{align*}
@@ -117,13 +123,13 @@ In this section we will prove the complementary limit theorem needed for consist
   $$
   \exp\left(\frac{\log n}{2^d d^{d/2} \log \log n}\right)>\exp(d\log\log n)=(\log n)^d.
   $$
-  Thus for large $n$
+  Thus for large $n$ we can bound
   $$
-  \mathbb{P}(\tilde{C}(n,R_n^c,r(n)))\leq K \frac{(\log n)^{d/2}\log\log n }{(\log n)^d}
+  \mathbb{P}\left(Y\left(n,R_n^c,\frac{r(n)}{2\sqrt{d}}\right)\right)\leq K \frac{(\log n)^{d/2}\log\log n }{(\log n)^d}
   $$
   which goes to $0$ as $n \to \infty$.
 
-  Set $R_n^2:=\sqrt{2(\log n+d\log \log n)}$.
+  %Set $R_n^2:=\sqrt{2(\log n+d\log \log n)}$.
 
   Also directly from the crackle paper we have that the probability of there being a point more that $R_n^2:=\sqrt{2(\log n +d\log\log n)}$ goes to zero as $n\to \infty$. This implies that we can assume all points are within $B(0,R_n^2)$ and that every point in $B(0, R_n^c)$ is within $\frac{1}{ c \log \log n}$ of a sample point.
   \begin{align*}
@@ -167,11 +173,11 @@ Let $K_{(R,n)}$ be the number of isolated samples outside the ball $B(0,R)$. Not
 
 \subsection{Limit of $d_{\alpha (n-1)}$ (fixed quantiles of death times)}
 
-There are many choices of function $f(n)$ to decide which death time to use in constructing the bandwidth matrix. We wish for this choice to determine a consistent density estimator. This means we need $d_{f(n)} \to 0$ as $n \to \infty$.
+There are many potential indexing functions $\omega(n)$ that we can choose to decide which death time to use to compute the bandwidth matrix. We wish for this choice to determine a consistent density estimator. This means that we need $d_{\omega(n)} \to 0$ as $n \to \infty$.
 
-We will particularly focus on $d_{\alpha(n-1)}$ for some $\alpha\in [0,1]$. Recall that there are only $n-1$ finite death times so $d_{n-1}$ is the largest finite death value. Strictly speaking we will need an integer value, so you can interpret $\alpha(n-1)$ as either the floor or the ceiling, the same limits will hold in either case.
+We will particularly focus on $d_{\alpha(n-1)}$ for some $\alpha\in [0,1]$. Recall that there are only $n-1$ finite death times, so $d_{n-1}$ is the largest finite death value. Strictly speaking, we will need an integer value, so you can interpret $\alpha(n-1)$ as either the floor or the ceiling; the same limits will hold in either case.
 
-The following is a standard useful lemma, but we include for completeness.
+The following is a standard useful lemma, but we include it for completeness.
 
 \begin{lemma}\label{lem:samplescover}
   Let $U_1, \ldots, U_l\subset \R^d$ and $X$ a random sample such that $\P(X\in U_i)>\delta $ for all $i$. Let $\{x_1, \ldots x_n\}$ be i.i.d. draws of $X$. If $Z_i$ is the event that at no samples $x_j$ lie in $U_i$ then
