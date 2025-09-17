@@ -26,7 +26,7 @@ The \textit{lookout} algorithm of \cite{lookout} has four inputs: the dataset $\
   \end{algorithmic}
 \end{algorithm}
 
-The lookout algorithm provides density-based anomaly detection, where anomalies are identified as points with low density in the space of the data. A key feature of the algorithm is the use of minus log density values at the observations, known as ``surprisals'' in information theory \citep{Stone2022}, and as ``log scores'' in statistics \citep{Good1952-zw}. If there are no anomalies in the data, the algorithm should identify $(1-\beta)\alpha$ of the data as false positives ``anomalies''.
+The lookout algorithm provides density-based anomaly detection, where anomalies are identified as points with low density in the space of the data. A key feature of the algorithm is the use of minus log density values at the observations, known as ``surprisals'' in information theory \citep{Stone2022}, and as ``log scores'' in statistics \citep{Good1952-zw}. If there are no anomalies in the data, the algorithm should identify $(1-\beta)\alpha$ of the data as false positive ``anomalies''.
 
 While \citet{lookout} demonstrated excellent results in applying their algorithm to a variety of simulated and real datasets, we see several potential areas for improvement that we aim to address in this paper. First, elements of the algorithm are not robust to outliers, including the min-max scaling, and the use of the largest gap in Rips death diameters. Second, the diagonal bandwidth matrix $\bm{H}$ does not account for correlations between variables, which can lead to suboptimal performance if the data have strong correlations. Third, it is not obvious that this bandwidth matrix choice will lead to a consistent kernel density estimator, particularly for distributions with heavy tails. Finally, the GPD estimation made minimal assumptions about the distribution of the surprisal values, but we know that these are bounded above and below, and that fact can be used to improve the estimated GPD.
 
@@ -48,7 +48,7 @@ In the following section, we will explore the conditions under which these hold 
 
 The main mathematical approach for proving consistency results uses the notion of crackle, introduced in \cite{Crackle}, which describes the persistent homology of noise. They proved asymptotic results for the persistent homology of the union of unit balls centered on iid samples of various distributions. There are qualitative differences between sets of samples taken from the Gaussian distribution (which do not ``crackle'') compared to those from heavy-tailed distributions. We will adapt the methods to this setting where we wish to shrink the radius to $0$, albeit slowing.
 
-%This paper proved asymptotic results about the 
+%This paper proved asymptotic results about the
 
 
 \subsection{The modified lookout algorithm}
@@ -58,7 +58,7 @@ As a result of these theoretical considerations, we propose three modifications 
 \begin{enumerate}
   \item Rather than use a max-min scaling of the data, we standardize the data using a robust covariance estimator. That is, we scale and rotate the data to ensure that the covariance matrix of the transformed data is approximately the identity matrix. This ensures that the data have zero pairwise correlations, which leads to more efficient kernel density estimates. It also leads to each variable having approximately unit variance, which provides a more robust scaling than min-max scaling.
   \item Rather than using the lower point of the largest gap in Rips death diameters, we use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death. It also ensures the consistency of the kernel density estimates under relatively weak conditions.
-  \item The estimated GPD shape parameter is constrained to be non-positive, which improves the stability of the GPD fitting. This is justified by noting that the kernel density estimates are bounded, so the limiting distribution under the Fisher-Tippett-Gnedenko theorem is a Weibell distribution, which has a negative shape parameter \citep{coles2001introduction}.
+  \item The estimated GPD shape parameter is constrained to be non-positive, which improves the stability of the GPD fitting. This is justified by noting that the kernel density estimates are bounded, so the limiting distribution under the Fisher-Tippett-Gnedenko theorem is a Weibull distribution, which has a negative shape parameter \citep{coles2001introduction}.
 \end{enumerate}
 
 Note that we do not need to estimate the density of the underlying distribution directly. Instead, we can estimate the density of a transformation of the data, and identify anomalies in the transformed space. Hence, there is no need to undo the scaling or rotation.
