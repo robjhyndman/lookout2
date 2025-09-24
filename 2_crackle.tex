@@ -175,32 +175,68 @@ As both $Y(n, C_n, g_n)$ and $X(n, R_n)$ occur with probability $1$ as $n$ grows
 Combining previous results implies that $\bm{H} = (d_*)^{2/p}\bm{I}_p$ results in a consistent density estimator of Gaussian samples in $\R^d$ for $d\geq 3$.  From Corollary \ref{cor:d_*} we have $d_*\leq d_{n-1} \to 0$ and from Theorem \ref{thm:nd_f(n) in higher dimensions} we have $nd_*\geq nd_1 \to \infty$.
 If $d=2$, then to show that $\bm{H} = (d_*)^{2/p}\bm{I}_p$ results in a consistent density estimator, the only remaining task is to show $i(n) \to \infty$ as $n \to \infty$ almost surely. This seems intuitively clear, but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem.
 
-\subsection{Examples where $d_{\omega(n)}$ does not lead to consistent estimators}
+\subsection{A counterexample of a $d_{\omega(n)}$ which is not a consistent estimator}
 %Consequences of crackle for distributions with fat tails}
-
-If our samples are Gaussian then we know that $d_{\omega(n)}$ leads to a consistent kernel density estimator whenever $\lim_{n\to \infty} \omega(n)=\infty$. However, when samples come from a fat-tailed distribution, we can construct examples where $d_{\omega(n)}$ does not converge to $0$ almost surely, which implies $d_{\omega(n)}$ does not give a consistent kernel density estimator.
-
-Consider the ($\alpha$-) power law distribution over $\R^d$ has probability density function $f(x)=\frac{c(d,\alpha)}{1+\|x\|^\alpha}$ where $\alpha>d$ and $c(d,\alpha)$ is the appropriate constant. We say a sample is isolated if no other sample lies within distance $1$ of it. Let $K_{(R,n)}$ be the number of isolated samples that lie outside the ball $B(0,R)$.
-
-%Note that this notation, alongside other choices, does deviate from that in \cite{Crackle}. In our notation we can rewrite their result as follows.
-\begin{lemma}[Lemma 3 in \cite{Crackle}]
-  If $R_n$ satisfies $\lim nR_n^{-\alpha} \to 0$ then $\lim_{n\to \infty}\frac{\E[K_{(R_n,n)}]}{nR_n^{d-\alpha}}=C$ for some constant $C$.
-\end{lemma}
-
-%To this end, we use limit theorems proved in \cite{Crackle}.
-
-%the authors proved various limit theorems of lower bounds on the expected number of connected components of $\cup_{x}B(x,1)$ for $x$ sampled from exponential or power distributions over $\R^d$. This lower bound comes from bounding the number of isolated samples outside the ball $B(0,R_n)$ for well-chosen $R_n$. We can use these to show that we do \emph{not} have the limit $d_{g(n)}\to 0$ (almost surely) for large enough functions $g(n)$. This implies that the bandwidth $d_{g(n)}$ would not be consistent.
-
-
-%We only need to show that almost surely the number of connected
-% components with radius $k\in \R$ is bounded below by some
-% appropriate function of $n$
-
-\subsection{Limit of $d_{\alpha (n-1)}$ (fixed quantiles of death times)}
 
 There are many potential indexing functions $\omega(n)$ that we can choose to decide which death time to use to compute the bandwidth matrix. We wish for this choice to determine a consistent density estimator. This means that we need $d_{\omega(n)} \to 0$ as $n \to \infty$.
 
-We will particularly focus on $d_{\alpha(n-1)}$ for some $\alpha\in [0,1]$. Recall that there are only $n-1$ finite death times, so $d_{n-1}$ is the largest finite death value. Strictly speaking, we will need an integer value, so you can interpret $\alpha(n-1)$ as either the floor or the ceiling; the same limits will hold in either case.
+If our samples are Gaussian, then we know that $d_{\omega(n)}$ leads to a consistent kernel density estimator whenever $\lim_{n\to \infty} \omega(n)=\infty$. However, when samples come from a fat-tailed distribution, we can construct examples where $d_{\omega(n)}$ does not converge to $0$ almost surely, which implies that $d_{\omega(n)}$ does not give a consistent kernel density estimator.
+
+Consider the distribution on $\R^d$ with the density function $f(x)=\frac{c_d}{1+\|x\|^{d+1}}$ where $c_d$ is the appropriate constant. For each radius $R$ the probability a sample has modulus at least $R$ (that is it lies outside $B(0, R)$) is $$p_{R}=\int_{R}^\infty \frac{c_d s_{d-1}r^{d-1}}{1+r^{d+1}}\,dr$$
+%For $R_n=\frac{n^{2/d}}{2}$ then 
+where $s_{d-1}$ is the area of the $(d-1)$-sphere. 
+We have $p_{R}\in (\frac{c_d s_{d-1}}{2R}, \frac{c_d s_{d-1}}{R})$ for large enough $R$.
+
+%number of samples with modulus at least $R$ is a binomial distribution with probability $$p_R=\int_{R}^\infty \frac{c_d s_{d-1}r^{d-1}}{1+r^{d+1}}\,dr$$
+%where $s_{d-1}$ is the area of the $(d-1)$-sphere. We have $p_R\in (\frac{c_d s_{d-1}}{2R}, \frac{c_d s_{d-1}}{R})$ for large enough $R$.
+
+
+Set $R_n=\frac{2n^{2/d}}{c_d s_{d-1}}$. Let $S_n$ be the number of samples that lie outside $B(0, R_n)$.
+ We have $S_n \sim \mathcal{B}(n, p_{R_n})$ and with $p_{[R_n, \infty)}\in (n^{-2/d}, 2n^{-2/d})$. That implies that there is a $\delta_1>0$ independent of $n$ such that 
+ $$\mathbb{P}(S_n\in (n^{1-2/d},2n^{1-2/d}))>\delta_1.$$
+
+
+ 
+Given a sample lies in $B(0,R)$, the probability that a sample has modulus in $[R-1, R)$ (that is it lies in  $B(0, R_n)\backslash B(0, R_n-1)$) is 
+\begin{align*}
+p_{[R-1,R)}&=\frac{\int_{R-1}^R \frac{c_d s_{d-1}r^{d-1}}{1+r^{d+1}}\,dr }{1-p_{R}}< \frac{\frac{c_d s_{d-1}}{R}-\frac{c_d s_{d-1}}{R-1}}{1-\frac{c_d s_{d-1}}{R}}<\frac{2c_d s_{d-1}}{R^2}
+\end{align*}
+for sufficiently large $R$. For $R_n=\frac{2n^{2/d}}{c_d s_{d-1}}$ we have $p_{[R-1,R)}\leq n^{-2/d}$ for large $n$.
+
+
+Let $\hat{S}_n$ the number of samples in $B(0, R_n)\backslash B(0, R_n-1)$ conditioned on there being $S_n$ samples outside $B(0,R_n)$. We have $\hat{S}_n \sim \mathcal{B}(n-S_n, p_{[R_n, R_n-1)})$. We can couple $\mathcal{B}(n-S_n, p_{[R_n, R_n-1)})$ to $\mathcal{B}(n, p_{[R_n, R_n-1)})$ to imply that $\mathbb{P}(\hat{S}_n\leq n^{1-2/d})\geq \frac{1}{2}$.
+
+ 
+
+Consider the Rips complex at radius $1$. We want to lower bound the probability that all the points outside $B(0,R)$ are isolated. A sufficient condition for this is that there are no edges between points outside $B(0, R-1)$.
+
+\begin{align*}
+\mathbb{P}(d(x,y)\leq 1|\mid \|x\|, \|y\|\geq R-1)&= 
+\frac{1}{\mathbb{P}(\|x\|,\|y\|\geq R-1)}\int_{R-1}^\infty \frac{c_d s_{d-1}r^{d-1}}{1+r^{d+1}} \mathbb{P}(y\in B(x,1)\mid |x|=r) \,dr
+\end{align*}
+
+If $|x|=r$ ($r$ sufficiently large), then the probability that another sample $y$ lies in $B(x,1)$ is bounded above by $C/r^d$ for some constant $C$ independent of $r$. This implies that there exists a constant $C_1$ independent of $R$ such that 
+\begin{align*}
+\mathbb{P}(d(x,y)\leq 1|\mid \|x\|, \|y\|>R-1)& < (R-1)^2 C_1\int_{R-1}^\infty \frac{1}{r^{d+2}}\,dr \leq \frac{C_2}{R^{d-1}}.
+\end{align*}
+for some constant $C_2$ independent of $R$ (for sufficiently large $R$).
+
+Let $Y_n$ be the number of edges in the Rips complex at radius $1$ between points outside $B(0,R_n-1)$.
+\begin{align*}
+    \E[Y_n|S_n\leq 2n^{1-2/d} \text{ and } \hat{S}_n\leq n^{1-2/d}]&\leq \frac{(3n^{1-2/d})^2}{2}C_2 (n^{2/d})^{-d+1}
+    =\frac{3C_2}{2n^{2/d}}
+\end{align*}
+For any $\delta_2\in (0,1)$ we have $\E[Y_n|S_n<2n^{1-2/d}  \text{ and } \hat{S}_n\leq n^{1-2/d}]<1-\delta_2$ for sufficiently large $n$. When $\E[Y_n|S_n<2n^{1-2/d}]<1-\delta_2$ we have $\mathbb{P}(Y_n=0\mid S_n<2n^{1-2/d} \text{ and } \hat{S}_n\leq n^{1-2/d})>\delta_2$. 
+
+Combined we have
+$$\P(S_n \in (n^{1-2/d},2n^{1-2/d}) \text{ and } \hat{S}_n\leq n^{1-2/d}\text{ and } Y_n=0)>\frac{1}{2}\delta_1\delta_2$$ for sufficiently large $n$. When $S_n \in (n^{1-2/d},2n^{1-2/d})$ and $\hat{S}_n\leq n^{1-2/d}$ and $Y_n=0$ we are guaranteed that at least $n^{1-2/d}$ points are isolated in the Rips complex at radius $1$. This implies that there are at least $n^{1-2/d}$ connected components and $d_{n-n^{1-2/d}}\geq 1$.
+
+If we set $\omega(n)=n-n^{1-2/d}$, then we do \emph{not} have the limit $d_{\omega(n)}\to 0$ as $n\to \infty$ with probability $1$ which means that $d_{\omega(n)}$ does not give a consistent estimator.
+
+\subsection{Percentiles $d_{\alpha(n-1)}$ a consistent estimator}
+
+Despite the counterexample in the previous subsection, we can find consistent estimators using sequences of death times under very mild assumptions of the distribution (even with fat tails!). 
+An approach that generally works is to a percentile of the death times. That is $d_{\alpha(n-1)}$ for some $\alpha\in [0,1]$. Recall that there are only $n-1$ finite death times, so $d_{n-1}$ is the largest finite death value. Strictly speaking, we will need an integer value, so you can interpret $\alpha(n-1)$ as either the floor or the ceiling; the same limits will hold in either case.
 
 The following is a standard useful lemma, but we include it for completeness.
 
@@ -212,59 +248,50 @@ The following is a standard useful lemma, but we include it for completeness.
 \end{lemma}
 \begin{proof}
   For a single draw $x_j$ we have $\P(x_j\notin Z_i)\leq 1-\delta\leq e^{-\delta}$ and thus for $n$ draws $\P(Z_i)\leq e^{-n\delta}$. Combining over all the $Z_i$ we gain the upper bound
-  $$
-  \P(\cup Z_i)\leq \sum_i \P(Z_i)\leq le^{-n\delta}.
-  $$
-\end{proof}
+  $\P(\cup Z_i)\leq \sum_i \P(Z_i)\leq le^{-n\delta}$.
+  \end{proof}
 
-Put in notation of offset $K^\delta$ for $K\subset \R^d$ and $\delta>0$. Let $L^\epsilon=\{y+v \mid y\in L, \|v\| \leq \epsilon\}$.
+It is useful to have notation for offsets of Euclidean subsets. For any subset $L\subset \R^d$ and any $\delta>0$, let $L^\delta$ denote the set $\{y+v \mid y\in L, \|v\| \leq \delta\}$.
 
 \begin{lemma}\label{lem:covernumber}
-  Let $f: \R^d\to [0,\infty)$ be a Lipschitz probability density function (constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$. For all $\epsilon\in(0, c/2M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that $\{B(x_i, \epsilon)\}$ is a cover of $L$, $\P(X\in B(x_i, \epsilon))>\frac{c\omega_d}{2} \epsilon^d$ and
-  $$
-  l\leq\frac{2^{d+1}}{c\omega_d \epsilon ^d}.
-  $$
+  Let $f: \R^d\to [0,\infty)$ be a Lipschitz probability density function (with Lipschitz constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$. For all $\epsilon\in(0, c/2M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that $\{B(x_i, \epsilon)\}$ is a cover of $L$, $l\leq\frac{2^{d+2}}{3 c b_d \epsilon ^d}$, and $\P(X\in B(x_i, \epsilon))>\frac{c b_d}{2} \epsilon^d$ for all $i$. Here $b_d$ is the volume of the unit ball in $\R^d$.
   %Furthermore, $\cup_i B(x_i, \epsilon)$ contains at most $$??$$
   % connected components.
 \end{lemma}
 \begin{proof}
-  Take a maximal $(\varepsilon/2)$-separated subset $S = \{x_1, x_2, \ldots, x_l\} \subseteq L$. This means that $|x_i-x_j|\geq \epsilon$ for all $i\neq j$ and that no additional point in $L$ can be added to $S$ without breaking this condition.
+  Take a maximal $(\varepsilon/2)$-separated subset $S = \{x_1, x_2, \ldots, x_l\} \subseteq L$. This means that $|x_i-x_j|\geq \epsilon$ for all $i\neq j$ and that no additional point in $L$ can be added to $S$ without breaking this condition. By construction this implies that $L\subset \cup_{i} B(x_i, \epsilon)$ as otherwise any missed location in $L$ could be added as an additional point and the set remain $(\epsilon/2)$-separated.
 
   As each $B(x_i, \epsilon/2)\subset L^{\epsilon/2}$ and $f$ is Lipschitz with Lipschitz constant $M$, we have
-  $$
-  L^{\epsilon/2} \subseteq f^{-1}[c-M\epsilon/2, \infty)
-  $$
-  and thus for $\epsilon<c/2M$ we have $\P(X\in B(x_i, \epsilon/2))\geq \frac{c\omega_d \epsilon^d}{2^{d+1}}$ and $\P(X\in B(x_i, \epsilon))\geq \frac{c\omega_d \epsilon^d}{2}$ Each of the $B(x_i, \epsilon/2)$ are disjoint so $l\frac{c\omega_d \epsilon^d}{2^{d+1}} \leq \P(X\in \cup_i B(x_i, \epsilon/2))\leq 1$. We thus get $l\leq \frac{2^{d+1}} {c\omega_d \epsilon^d}$.
+  $L^{\epsilon/2} \subseteq f^{-1}[c-M\epsilon/2, \infty)$.
+For $\epsilon<c/2M$ we have $B(x_i, \epsilon/2)\subset f^{-1}[3c/4, \infty)$ so $\P(X\in B(x_i, \epsilon/2))\geq \frac{3c b_d \epsilon^d}{2^{d+2}}$. Each of the $B(x_i, \epsilon/2)$ are disjoint so $l\frac{3 c b_d \epsilon^d}{2^{d+2}} \leq \P(X\in \cup_i B(x_i, \epsilon/2))\leq 1$. We thus get $l\leq \frac{2^{d+2}} {3 c b_d \epsilon^d}$.
 
-  %We thus have $L\subseteq \cup_i B(x_i \epsilon)$ (as any $x\in L
-  % \cup_i B(x_i \epsilon)$ would contradict the maximality of $S$).
-
-  %As $S\subset L$ we also have $ \cup_i B(x_i \epsilon)\subset L^\epsilon$.
-
+As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \infty]$ we have $\P(X\in B(x_i, \epsilon))\geq \frac{c b_d \epsilon^d}{2}$.
 \end{proof}
 
 \begin{theorem}\label{thm:d_alphan to 0}
-  Let $f:\R^d \to \R$ be a Lipschitz probability density function for $X$. We want to show that $d_{\alpha (n-1)} \to 0$ where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times.
+  Let $f:\R^d \to \R$ be a Lipschitz probability density function (with Lipschitz constant $M$) for $X$. For any $\alpha\in (0,1)$, the limit $d_{\alpha (n-1)} \to 0$ converges almost surely, where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times.
 \end{theorem}
 
 \begin{proof}
-  Fix $\alpha\in [0,1)$ and fix $c>0$ such that for $L=\{x|f(x)>c\}$ we have $\P(X\notin L)<(1-\alpha)/2$. Choose $\epsilon(n)$ so that
+  Fix $\alpha\in [0,1)$. Recall that $d_{\alpha(n-1)}<r$ if $\cup_i B(x_i, r)$ has no more than $(1-\alpha)n$ connected components.
+  
+  Fix $c>0$ such that for $L=\{x|f(x)\geq c\}$ we have $\P(X\notin L)<(1-\alpha)/2$. Choose a sequence $\epsilon_n$ so that
   $$
-  \frac{c\omega_d \epsilon^d}{2} =\frac{\log n}{n}.
+  \frac{c b_d \epsilon_n^d}{2} =\frac{\log n}{n}.
   $$
-  Note that for large enough $n$ this will lie in $(0,c/2M)$. By \cref{lem:covernumber} there exists a cover of $L$ by $l$ balls $\{B(y_i, \epsilon(n))\}$, with
+  (where $b_d$ is the volume of the unit ball in $\R^d$).
+  Note that for large enough $n$ this will lie in $(0,c/2M)$. By \cref{lem:covernumber} there exists a cover of $L$ by $l_n$ balls $\{B(y_i, \epsilon_n)\}$, with
   $$
-  l\leq \frac{2^{d+1}}{c\omega_d \epsilon(n)^d}=\frac{2^d n}{\log n}
+  l_n\leq \frac{2^{d+1}}{c b_d \epsilon_n^d}=\frac{2^d n}{\log n}
   $$
   and
-  $\P(X\in B(y_i, \epsilon(n)))>\frac{c\omega_d \epsilon(n)^d}{2} = \frac{\log n}{n}$.
+  $\P(X\in B(y_i, \epsilon_n))>\frac{c b_d \epsilon_n^d}{2} = \frac{\log n}{n}$.
 
   If $Z_i$ is the event that at there are no samples in $B(y_i, \epsilon)$. By \cref{lem:samplescover}
   $$
   \P(\cup Z_i) \leq \frac{2^d n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^d}{\log n} .
   $$
-
-  This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon(n))$. All points with the same ball $B(y_i, \epsilon(n))$ will be connected in the Rips complex with radius $2\epsilon(n)$. This implies that the number of connected components when restricting to points inside $L$ will be bounded above by $\frac{2^d n}{\log n}$ (almost surely).
+ This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon_n)$. All points with the same ball $B(y_i, \epsilon_n)$ will be connected in the Rips complex with radius $2\epsilon_n$. This implies that the number of connected components when restricting to points inside $L$ will be bounded above by $l_n \leq \frac{2^d n}{\log n}$ (almost surely).
 
   %Let $p=\P(X\notin L)$. Note that for all $x\in L$ we have
   % $f(x)>c$. Since $f$ has only finitely many local maxima we have
@@ -274,13 +301,13 @@ Put in notation of offset $K^\delta$ for $K\subset \R^d$ and $\delta>0$. Let $L^
   % exists }x\in L_i \text{ such that } \|x-y\|<\epsilon\}$
   %We also know that the volumes of the $L_i$ are all bounded.
 
-  Let $Y(L,n)$ denote the random variable for the number of our $n$ samples that are not in $L$. We want $Y(L,n)+\frac{2^d n}{\log n}<n(1-\alpha)$ for large $n$. As $\frac{2^d n}{\log n}<n(1-\alpha)/6$ for sufficiently large $n$, it is sufficient to show $Y(L,n)<5n(1-\alpha)/6$ for large $n$.
+  Let $Y(L,n)$ denote the random variable for the number of our $n$ sample points that are not in $L$. We want $$Y(L,n)+\frac{2^d n}{\log n}<n(1-\alpha)$$ for large $n$. As $\frac{2^d n}{\log n}<n(1-\alpha)/6$ for sufficiently large $n$, it is sufficient to show $Y(L,n)<5n(1-\alpha)/6$ for large $n$.
 
   $Y(L,n)$ is a binomial distribution with mean $np$ and variance $np(1-p)$, with $p<(1-\alpha)/2$. We can use Chebyshev's inequality to bound $\P(Y(L,n)>5n(1-\alpha)/6)$.
   \begin{align*}
     \P(Y(L,n)>5n(1-\alpha)/6) & \leq
     \P(|Y(L,n)-np|>5n(1-\alpha)/6-n(1-\alpha)/2) \\
-    & = \P(|Y(L,n)-np|) >n(1-\alpha)/3                    \\
+    & = \P(|Y(L,n)-np| >n(1-\alpha)/3)                    \\
     & \leq \frac{Var(Y)}{(n(1-\alpha)/3)^2}             \\
     & \leq \frac{9np(1-p)}{n^2(1-\alpha)^2}             \\
     %&\leq \frac{9(1-\alpha)(1-p)/2}{n(1-\alpha)^2}\\
@@ -288,7 +315,9 @@ Put in notation of offset $K^\delta$ for $K\subset \R^d$ and $\delta>0$. Let $L^
   \end{align*}
   This clearly goes to zero as $n$ goes to infinity.
 
-  %Let $r_n =\frac{k\log(n)}{n}$ (for $k$ constant) which is a
+If there are less that $\alpha(n-1)$ connected components in $\cup_j B(x_j, \epsilon_n)$ then $d_{alpha(n-1)}< \epsilon_n$. Thus we have proved $\mathbb{P}(d_{\alpha(n-1)} > \epsilon_n)\to 0$ as $n\to infty$.
+As $\epsilon_n \to 0$ as $n\to infty$ we have $d_{\alpha(n-1)} \to 0$ almost surely.
+%Let $r_n =\frac{k\log(n)}{n}$ (for $k$ constant) which is a
   % function that tends to $0$ as $n$ goes to infinity. Let
   % $L_i^\epsilon=\{y+v\mid y\in L_i, \|v\|\leq \epsilon\}$. For
   % $n$ large, and $\epsilon<c/3$ we can use the Lipshitz condition
