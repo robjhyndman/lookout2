@@ -175,7 +175,7 @@ As both $Y(n, C_n, g_n)$ and $X(n, R_n)$ occur with probability $1$ as $n$ grows
 Combining previous results implies that $\bm{H} = (d_*)^{2/p}\bm{I}_p$ results in a consistent density estimator of Gaussian samples in $\R^d$ for $d\geq 3$.  From Corollary \ref{cor:d_*} we have $d_*\leq d_{n-1} \to 0$ and from Theorem \ref{thm:nd_f(n) in higher dimensions} we have $nd_*\geq nd_1 \to \infty$.
 If $d=2$, then to show that $\bm{H} = (d_*)^{2/p}\bm{I}_p$ results in a consistent density estimator, the only remaining task is to show $i(n) \to \infty$ as $n \to \infty$ almost surely. This seems intuitively clear, but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem.
 
-\subsection{A counterexample of a $d_{\omega(n)}$ which is not a consistent estimator}
+\subsection{A counterexample of a $d_{\omega(n)}$ which is not an admissible bandwidth}
 %Consequences of crackle for distributions with fat tails}
 
 There are many potential indexing functions $\omega(n)$ that we can choose to decide which death time to use to compute the bandwidth matrix. We wish for this choice to determine a consistent density estimator. This means that we need $d_{\omega(n)} \to 0$ as $n \to \infty$.
@@ -233,7 +233,7 @@ $$\P(S_n \in (n^{1-2/d},2n^{1-2/d}) \text{ and } \hat{S}_n\leq n^{1-2/d}\text{ a
 
 If we set $\omega(n)=n-n^{1-2/d}$, then we do \emph{not} have the limit $d_{\omega(n)}\to 0$ as $n\to \infty$ with probability $1$ which means that $d_{\omega(n)}$ does not give a consistent estimator.
 
-\subsection{Percentiles $d_{\alpha(n-1)}$ a consistent estimator}
+\subsection{Quantile death times $d_{\alpha(n-1)}$ are an admissible bandwidth}
 
 Despite the counterexample in the previous subsection, we can find consistent estimators using sequences of death times under very mild assumptions of the distribution (even with fat tails!). 
 An approach that generally works is to a percentile of the death times. That is $d_{\alpha(n-1)}$ for some $\alpha\in [0,1]$. Recall that there are only $n-1$ finite death times, so $d_{n-1}$ is the largest finite death value. Strictly speaking, we will need an integer value, so you can interpret $\alpha(n-1)$ as either the floor or the ceiling; the same limits will hold in either case.
@@ -269,20 +269,22 @@ As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \inf
 \end{proof}
 
 \begin{theorem}\label{thm:d_alphan to 0}
-  Let $f:\R^d \to \R$ be a Lipschitz probability density function (with Lipschitz constant $M$) for $X$. For any $\alpha\in (0,1)$, the limit $d_{\alpha (n-1)} \to 0$ converges almost surely, where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times.
+  Let $f:\R^p \to \R$ be a Lipschitz probability density function (with Lipschitz constant $M$) for $X$. For any $\alpha\in (0,1)$, the limit $d_{\alpha (n-1)} \to 0$ converges almost surely, where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times.
 \end{theorem}
 
 \begin{proof}
-  Fix $\alpha\in [0,1)$. Recall that $d_{\alpha(n-1)}<r$ if $\cup_i B(x_i, r)$ has no more than $(1-\alpha)n$ connected components.
+  Fix $\alpha\in [0,1)$. We have $d_{\alpha(n-1)}<r_n$ whenever $\cup_i B(x_i, r_n)$ has less than $n(1-\alpha)$ connected components.
   
-  Fix $c>0$ such that for $L=\{x|f(x)\geq c\}$ we have $\P(X\notin L)<(1-\alpha)/2$. Choose a sequence $\epsilon_n$ so that
+  Fix $c_\alpha>0$ such that for $L=\{x|f(x)\geq c_\alpha\}$ we have $\P(X\notin L_\alpha)<(1-\alpha)/2$. Choose a sequence $\epsilon_n:= \left(\frac{2\log n}{c_\alpha b_d n}\right)^{1/d}$ so that
   $$
-  \frac{c b_d \epsilon_n^d}{2} =\frac{\log n}{n}.
+  \frac{c_\alpha b_d \epsilon_n^d}{2} =\frac{\log n}{n}.
   $$
   (where $b_d$ is the volume of the unit ball in $\R^d$).
-  Note that for large enough $n$ this will lie in $(0,c/2M)$. By \cref{lem:covernumber} there exists a cover of $L$ by $l_n$ balls $\{B(y_i, \epsilon_n)\}$, with
+  Note that for $\epsilon_n \in (0, c/2M)$ for large enough $n$.
+  
+  By \cref{lem:covernumber} there exists a cover of $L$ by $l_n$ balls $\{B(y_i, \epsilon_n)\}$, with
   $$
-  l_n\leq \frac{2^{d+1}}{c b_d \epsilon_n^d}=\frac{2^d n}{\log n}
+  l_n\leq \frac{2^{d+1}}{c_\alpha b_d \epsilon_n^d}=\frac{2^d n}{\log n}
   $$
   and
   $\P(X\in B(y_i, \epsilon_n))>\frac{c b_d \epsilon_n^d}{2} = \frac{\log n}{n}$.
@@ -291,7 +293,7 @@ As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \inf
   $$
   \P(\cup Z_i) \leq \frac{2^d n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^d}{\log n} .
   $$
- This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon_n)$. All points with the same ball $B(y_i, \epsilon_n)$ will be connected in the Rips complex with radius $2\epsilon_n$. This implies that the number of connected components when restricting to points inside $L$ will be bounded above by $l_n \leq \frac{2^d n}{\log n}$ (almost surely).
+ This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon_n)$ almost surely. All points with the same ball $B(y_i, \epsilon_n)$ will be connected in the Rips complex with radius $2\epsilon_n$. This implies that the number of connected components when restricting to points inside $L_alpha$ will be bounded above by $l_n \leq \frac{2^d n}{\log n}$ (almost surely).
 
   %Let $p=\P(X\notin L)$. Note that for all $x\in L$ we have
   % $f(x)>c$. Since $f$ has only finitely many local maxima we have
@@ -301,13 +303,13 @@ As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \inf
   % exists }x\in L_i \text{ such that } \|x-y\|<\epsilon\}$
   %We also know that the volumes of the $L_i$ are all bounded.
 
-  Let $Y(L,n)$ denote the random variable for the number of our $n$ sample points that are not in $L$. We want $$Y(L,n)+\frac{2^d n}{\log n}<n(1-\alpha)$$ for large $n$. As $\frac{2^d n}{\log n}<n(1-\alpha)/6$ for sufficiently large $n$, it is sufficient to show $Y(L,n)<5n(1-\alpha)/6$ for large $n$.
+  Let $Y(L_\alpha,n)$ denote the random variable for the number of our $n$ sample points that are not in $L_\alpha$. We want $$Y(L_\alpha,n)+\frac{2^d n}{\log n}<n(1-\alpha)$$ for large $n$. As $\frac{2^d n}{\log n}<\frac{n(1-\alpha)}{6}$ for sufficiently large $n$, it is sufficient to show $Y(L_\alpha,n)<5n(1-\alpha)/6$ for large $n$.
 
-  $Y(L,n)$ is a binomial distribution with mean $np$ and variance $np(1-p)$, with $p<(1-\alpha)/2$. We can use Chebyshev's inequality to bound $\P(Y(L,n)>5n(1-\alpha)/6)$.
+  From the construction of $L_\alpha$ we have $Y(L_\alpha,n)$ is a binomial distribution with mean $np$ and variance $np(1-p)$, with $p<(1-\alpha)/2$. We can use Chebyshev's inequality to bound $\P(Y(L_\alpha,n)>5n(1-\alpha)/6)$.
   \begin{align*}
-    \P(Y(L,n)>5n(1-\alpha)/6) & \leq
-    \P(|Y(L,n)-np|>5n(1-\alpha)/6-n(1-\alpha)/2) \\
-    & = \P(|Y(L,n)-np| >n(1-\alpha)/3)                    \\
+    \P(Y(L_\alpha,n)>5n(1-\alpha)/6) & \leq
+    \P(|Y(L_\alpha,n)-np|>5n(1-\alpha)/6-n(1-\alpha)/2) \\
+    & = \P(|Y(L_\alpha,n)-np| >n(1-\alpha)/3)                    \\
     & \leq \frac{Var(Y)}{(n(1-\alpha)/3)^2}             \\
     & \leq \frac{9np(1-p)}{n^2(1-\alpha)^2}             \\
     %&\leq \frac{9(1-\alpha)(1-p)/2}{n(1-\alpha)^2}\\
@@ -315,39 +317,21 @@ As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \inf
   \end{align*}
   This clearly goes to zero as $n$ goes to infinity.
 
-If there are less that $\alpha(n-1)$ connected components in $\cup_j B(x_j, \epsilon_n)$ then $d_{alpha(n-1)}< \epsilon_n$. Thus we have proved $\mathbb{P}(d_{\alpha(n-1)} > \epsilon_n)\to 0$ as $n\to infty$.
+If there are less that $n(1-\alpha)$ connected components in $\cup_j B(x_j, \epsilon_n)$ then $d_{alpha(n-1)}< \epsilon_n$. Thus we have proved $\mathbb{P}(d_{\alpha(n-1)} > \epsilon_n)\to 0$ as $n\to infty$.
 As $\epsilon_n \to 0$ as $n\to infty$ we have $d_{\alpha(n-1)} \to 0$ almost surely.
-%Let $r_n =\frac{k\log(n)}{n}$ (for $k$ constant) which is a
-  % function that tends to $0$ as $n$ goes to infinity. Let
-  % $L_i^\epsilon=\{y+v\mid y\in L_i, \|v\|\leq \epsilon\}$. For
-  % $n$ large, and $\epsilon<c/3$ we can use the Lipshitz condition
-  % on $f$ to say that for any $x\in L_i^\epsilon$, the value of
-  % $f$ over $B(x,r_n)$ is everywhere at least $c/2>0$.
-
-  %For $S \subseteq \R^d$ and $\epsilon > 0$, the \textbf{external
-  % \( \epsilon \)-covering number} \( N_{\text{ext}}(S,\epsilon)
-  % \) is defined as:
-
-  %\[
-  %N_{\text{ext}}(S, \epsilon) = \min \left\{ k \in \mathbb{N} \mid
-  % S \subseteq \bigcup_{i=1}^{k} B(x_i, \epsilon) \text{ for some
-  % } x_1, \dots, x_k \in \R^d \right\},
-  %\]
-
-  %Let $Z_i(L,r_n,n)$ be the event that $\cap_{x_i\in L_i^\epsilon}
-  % B(x_i, r_n) \cap L_i$ is connected. We want to prove that as
-  % $n$ increases we have $\P(Z(L,r_n, n)=1) \to 1$.
-
 \end{proof}
+
+We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n) in plane} (for distributions over $\R^2$) or Theorem \ref{thm:nd_f(n) in higher dimensions} (for distributions over $\R^d$ with $d>2$) to show $d_{\alpha(n-1)}$ is an admissible bandwidth as a corollary.
 
 \begin{corollary}\label{cor:consistency}
-  Let $f:\R^d \to \R$ be a Lipschitz probability density function for $X$ such that ?????\todo{TBC}. Fix $\alpha\in (0,1)$. Then $d_{\alpha (n-1)} \to 0$ (where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times) is a consistent....\todo{TBC}
+  Let $f:\R^d \to \R$ be a Lipschitz probability density function for $X$. Fix $\alpha\in (0,1)$. Then $d_{\alpha (n-1)} \to 0$ (where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times) is an admissible bandwidth.
 \end{corollary}
-\begin{proof}
-  By \cref{thm:d_alphan to 0} we have $\lim_{n\to \infty} d_{\alpha(n-1)} =0$.
 
-  As $f$ is a Lipschitz probability function it must be bounded. If $d=2$ then by \cref{thm:nd_f(n) in plane}, or if $d>2$ then by \cref{thm:nd_f(n) in higher dimensions}, we know that $\lim_{n\to \infty} nd_{\alpha(n-1)}=\infty$.
-\end{proof}
+%\begin{proof}
+%  By \cref{thm:d_alphan to 0} we have $\lim_{n\to \infty} d_{\alpha(n-1)} =0$.
+
+%  As $f$ is a Lipschitz probability function it must be bounded. If $d=2$ then by \cref{thm:nd_f(n) in plane}, or if $d>2$ then by \cref{thm:nd_f(n) in higher dimensions}, we know that $\lim_{n\to \infty} nd_{\alpha(n-1)}=\infty$.
+%\end{proof}
 
 % \subsection{Bounds for kernel density estimates}
 % \begin{lemma}\label{lemma:boundsforkde}

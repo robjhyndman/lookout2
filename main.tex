@@ -13,6 +13,8 @@
 \usepackage{algorithm}%
 \usepackage{algorithmicx}%
 \usepackage{algpseudocode}%
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
 
 \usepackage[capitalize,nameinlink]{cleveref}
 \usepackage{subfig,bm,todonotes}
@@ -29,6 +31,8 @@
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[theorem]
 
 \renewcommand{\sectionautorefname}{Section}
 \renewcommand{\subsectionautorefname}{Section}
@@ -70,7 +74,8 @@
 
 \maketitle
 
-\input{1_introduction}
+\input{0_introduction}
+\input{1_preliminaries}
 \input{2_crackle}
 \input{3_newlookout}
 \input{4_experiments_1}

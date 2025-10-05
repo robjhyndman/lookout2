@@ -37,16 +37,19 @@ To obtain a consistent estimator of the underlying density, we need $\bm{H}$ to 
   \item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
   \item $n^{-1}|\bm{H}|^{-1/2} \rightarrow 0$ as $n\rightarrow\infty$.
 \end{itemize}
-Thus, when $\bm{H} = [d(n)]^{2/p} \bm{I}_p$ where $d(n)\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$, we need
-\begin{equation}\label{eq:conditions}
-  [d(n)]^{2/p}\rightarrow 0 \quad\text{and}\quad
-  [nd(n)]^{-1}\rightarrow0\quad\text{as $n\rightarrow\infty$}.
-\end{equation}
-In the following section, we will explore the conditions under which these hold for $d(n)=d_*$, and the implications for the lookout algorithm. In particular, we will show that the conditions are not satisfied for distributions with heavy tails such as a Gamma distribution, although it seems likely that they are satisfied for lighter-tailed distributions such as the Gaussian distribution. We will also show that an alternative definition for $d(n)$, based on an upper quantile of the Rips death diameters, satisfies these conditions for a wide range of distributions.
+
+\begin{defn}
+We say that $h_n$ is an \emph{admissible bandwidth} if $(h_n)^{2/p}\rightarrow 0$ and $nh_n\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
+\end{defn}
+Thus, when $\bm{H} = [h_n]^{2/p} \bm{I}_p$ where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$ which is an admissible bandwidth then
+$\bm{H} = [h_n]^{2/p} \bm{I}_p$ is a consistent kernel density estimator.
+
+
+In the following section, we will explore the conditions under which these hold for $h_n=d_*$, and the implications for the lookout algorithm. In particular, we will show that the conditions are not satisfied for distributions with heavy tails such as a power distribution, although it seems likely that they are satisfied for lighter-tailed distributions such as the Gaussian distribution. We will also show that an alternative choice of bandwidth, based on an upper quantile of the Rips death diameters, satisfies these conditions for a wide range of distributions.
 
 %\subsection{Crackle}
 
-The main mathematical approach for proving consistency results uses the notion of crackle, introduced in \cite{Crackle}, which describes the persistent homology of noise. They proved asymptotic results for the persistent homology of the union of unit balls centered on iid samples of various distributions. There are qualitative differences between sets of samples taken from the Gaussian distribution (which do not ``crackle'') compared to those from heavy-tailed distributions. We will adapt the methods to this setting where we wish to shrink the radius to $0$, albeit slowing.
+The main mathematical approach for proving when a bandwidth is admissible uses the notion of crackle, introduced in \cite{Crackle}, which describes the persistent homology of noise. They proved asymptotic results for the persistent homology of the union of unit balls centered on iid samples of various distributions. There are qualitative differences between sets of samples taken from the Gaussian distribution (which do not ``crackle'') compared to those from heavy-tailed distributions. We will adapt the methods to this setting where we wish to shrink the radius to $0$, albeit slowing.
 
 %This paper proved asymptotic results about the
 
