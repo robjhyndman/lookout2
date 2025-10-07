@@ -5,5 +5,90 @@ While everyone knows what an anomaly is, there is no broadly accepted definition
     \mathbb{P}(\bm{x}_{i}|\bm{x}_{1}, \ldots, \bm{x}_{i-1}, \bm{x}_{i+1}, \ldots, \bm{x}_{N}) \leq \epsilon \, . 
 \end{equation}
 
+\subsection{Extreme Value Theory (EVT)}
+Consider $n$ independent and identically distributed random variables $X_1, \, \ldots, \,  X_n$ having a distribution function $F$ and their maximum $  M_n = \max \{X_1, \, \ldots, \, X_n\} $. Extreme Value Theory (EVT) analyses the behavior of $M_n$ and categorizes its behavior into three distinct distributions provided certain conditions are met. The Fisher-Tippet-Gnedenko Theorem, also known as the extreme value theorem specifies this categorization. 
 
+% \begin{equation}\label{eq:evt1}
+%     M_n = \max \{X_1, \, \ldots, \, X_n\} \, . 
+% \end{equation}
+% If $F$ is known, the distribution of $M_n$ can be derived for any value of $n$ as
+% \begin{align}\label{eq:evt2}
+%     P\{M_n \leq z \} & = P\{X_1 \leq z, \, \ldots, \, X_n \leq z \} \, ,  \\
+%     & = P\{X_1 \leq z\} \times \ldots \times P\{X_n \leq z\}\, , \\
+%     & =  \left(F(z)\right)^n \, .
+% \end{align}
+% However, $F$ is not known in practice. This gap is filled by Extreme Value Theory, which studies approximate families of models for $F^n$ so that extremes can be modeled and uncertainty quantified. Similar to the Central Limit Theorem for means, the Fisher-Tippet-Gnedenko Theorem, also known as the the extreme value theorem or the extremal types theorem states that under certain conditions, a scaled maximum $\frac{M_n - a_n}{b_n}$, if $a_n$ and $b_n$ exist, have certain limit distributions. 
 
+\begin{theorem}[Fisher-Tippett-Gnedenko] \label{thm:FisherTippett}
+If there exist sequences such that 
+$$ P\left\{ \frac{(M_n - a_n)}{b_n} \leq z \right\} \rightarrow G(z) \quad \text{as} \quad n \to \infty,
+$$
+where $G$ is a non-degenerate distribution function, then $G$ belongs to one of the following families:
+\begin{align}\label{eq:EVT3}
+    \text{I}&: G(z) = \exp\left( -\exp \left[ - \left( \frac{z-b}{a}\right) \right] \right), \, \quad -\infty < z < \infty\, ,  \\
+    \text{II}&: G(z) =  \begin{cases}
+                                   0\, ,    &  z \leq b \, ,  \\
+                                   \exp \left( - \left( \frac{z-b}{a}\right)^{-\alpha} \right)\, ,   & z > b \, , 
+                    \end{cases} \\
+     \text{III}&: G(z) =  \begin{cases}
+                            \exp \left( - \left(- \left[\frac{z-b}{a}\right]\right)^{\alpha} \right)\, ,   & z < b \, , \\
+                             1\, ,    &  z \geq b  \, , 
+                    \end{cases}                     
+\end{align}
+ for parameters $a, b$ and $\alpha$ where $a, \alpha >0$.
+\end{theorem}
+The distribution types I, II and III are known as Gumbel, Fr\'echet and Weibull families respectively. The Generalized Extreme Value (GEV) distribution combines these three distributions into one given by
+% These three families of distributions can be further combined into a single family by using the following distribution function known as the Generalized Extreme Value (GEV) distribution,
+\begin{equation}\label{eq:EVT4}
+    G(z) = \exp\left\{ -\left[ 1 + \xi\left(\frac{z - \mu}{\sigma} \right)\right]^{-1/\xi} \right\}\, , 
+\end{equation}
+where the domain of the function is $\{z: 1 + \xi (z - \mu)/\sigma >0 \}$ and the parameters $\mu, \xi \in \mathbb{R}$ and $\sigma > 0$.  The parameters $\mu$, $\sigma$ and $\xi$ are called the location, scale and shape parameters respectively. The shape parameter $\xi$ determines the behavior of the tails and differentiates between the Gumbel, Fr\'echet and Weibull distributions.
+%The parameter $\mu$ is called the location parameter and $\sigma$ is called the scale parameter. The parameter $\xi$ is called the shape parameter and it  determines the behavior of the tails and differentiates between the Gumbel, Fr\'echet and Weibull distributions. %When $\xi = 0$ we obtain a Gumbel distribution with exponentially decaying tails. When $\xi <0 $ we get a Weibull distribution with a finite upper end and when $\xi > 0$ we get a Fr\'echet family of distributions with   polynomially decaying tails. 
+
+% \subsubsection{Block maxima approach}
+% The GEV distributions are used to study extremes using the block maxima method. That is, observations are divided into blocks of equal length and the set of block maxima are modeled by fitting a GEV distribution. For example, one might consider yearly blocks to model the maximum daily temperature. However, this is considered a wasteful approach with respect to the data, because many data points including extremes maybe discarded by only considering the block maximum. For example, a given year may  have multiple days of extreme temperatures that are higher than the maximum temperature of another year. But the block maxima approach would discard these other extremal temperatures and only consider the maximum temperature of each year.
+
+% This problem is remedied by regarding the observations that exceed a high threshold as extremes. This approach is known as the Peaks Over Threshold (POT) approach and uses the Generalized Pareto Distribution (GPD).  
+
+% \subsubsection{The Generalized Pareto Distribution and the POT approach} \label{sec:potapproach}
+
+To infer these distributions using this formulation, the maxima of multiple samples need to be observed. This is called the  \textit{block maxima} approach. A limitation of the block maxima approach is that a lot of data is wasted because only the maximum of each sample is used for inference. A different approach called \textit{Peak Over Threshold} (POT) uses observations above a certain threshold, called \textit{exceedances}, which are regarded as extremes. The Generalized Pareto Distribution (GPD) is used for the POT approach. 
+
+Consider $n$ independent and identically distributed random variables $X_1, \, \ldots, \, X_n$ with a distribution function $F$.  For a high threshold value $u$,  $X_i > u$ are regarded as extremes and the conditional probability of extreme events is given by  
+\begin{equation}\label{eq:POT1}
+    P\left \{X > u + y | X > u \right \} = \frac{1 - F(u+y)}{1 - F(u)}\, , \quad y >0 \, , 
+\end{equation}
+giving us
+\begin{equation}\label{eq:POT2}
+    P\left \{X \leq u + y | X > u \right \} = \frac{ F(u+y) - F(u)}{1 - F(u)}\, , \quad y >0 \, . 
+\end{equation}
+The distribution function
+\begin{equation}\label{eq:POT3}
+    F_u(y) = P\left \{X \leq u + y | X > u \right \}\, , 
+\end{equation}
+describes the exceedances above the threshold $u$. %As $F$ is not known in practice we use approximations based on the Generalized Pareto Distribution \citep{Pickands1975}. 
+Approximations based on the Generalized Pareto Distribution \citep{Pickands1975} are used as $F$ is not known in practice. 
+\begin{theorem}[Pickands] Let $X_1, \, X_2, \ldots, \, X_n$  be a sequence of independent random variables with a common distribution function $F$, and let
+$$ M_n = \max \{X_1, \ldots, X_n \} \, .
+$$
+Suppose $F$ satisfies Theorem~\ref{thm:FisherTippett} so that for large $n$
+$$ P\{ M_n \leq z \} \approx G(z)\, , 
+$$
+where 
+$$  G(z) = \exp\left\{ -\left[ 1 + \xi\left(\frac{z - \mu}{\sigma} \right)\right]^{-1/\xi} \right\}\, , 
+$$
+for some $\mu, \xi \in \mathbb{R}$ and $\sigma >0$. Then for large enough $u$, the distribution function of $(X-u)$ conditional on $X > u$, is approximately
+\begin{equation}\label{eq:POT4}
+    H(y) = 1 - \left( 1 + \frac{\xi y}{\sigma_u} \right)^{-1/\xi}\, , 
+\end{equation}
+where the domain of $H$ is $\{y: y >0\, \,    \text{and} \, \,  (1 + \xi y)/\sigma_u >0  \}$\, , where $\sigma_u = \sigma + \xi(u- \mu)$. 
+\end{theorem}
+The family of distributions defined by equation~\eqref{eq:POT4} is called the \textbf{Generalized Pareto Distribution} (GPD). 
+\SK{The equation number doesn't come up. Have tried things including toggling showonlyrefs.}
+The shape parameter $\xi$ is the same in both GPD and GEV distributions. Furthermore, the GEV parameters can be recovered from the GPD formulation. We use the GPD-based POT approach in our anomaly detection method. 
+% We note that the GPD parameters are determined from the associated GEV parameters. In particular, the shape parameter $\xi$ is the same in both distributions. 
+
+% For a chosen threshold $u$, the parameters of the GPD can be estimated by standard maximum likelihood techniques. As an analytical solution that maximizes the likelihood does not exist, numerical techniques are used to arrive at an approximate solution. We use the R package \texttt{evd} to fit a GPD using the POT approach.  
+
+\subsection{Kernel Density Estimation}
+\SK{For Rob to add.}
