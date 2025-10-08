@@ -2,7 +2,7 @@
 TEXFILE = main
 RDIR = R
 TEX_FILES = $(wildcard *.tex)
-BIB_FILES = References.bib
+BIB_FILES = $(wildcard *.bib)
 R_SCRIPTS = $(wildcard $(RDIR)/*.R)
 
 # Default target
