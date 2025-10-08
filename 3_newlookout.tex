@@ -4,7 +4,11 @@ In light of the preceding theoretical considerations, we propose three modificat
 
 \subsection{Standardization}
 
-Let $\bm{Y}$ be the $p\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. Let $\hat{\bm{\Sigma}}$ denote the orthogonalized Gnanadesikan-Kettenring estimator of the covariance matrix of $\bm{Y}$ \citep{Maronna2002-qn}, and let its eigendecomposition be given by $\hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}$. Then, the data can be scaled by $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, so that the covariance matrix of the scaled data $\bm{Z}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
+Let $\bm{Y}$ be the $m\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. Then the \emph{orthogonalized Gnanadesikan-Kettenring estimator} of the covariance matrix of $\bm{Y}$ is given by\citep{Maronna2002-qn}
+$$
+\hat{\bm{\Sigma}} = ???
+$$
+Let $\hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}$ denote an eigendecomposition. Then, the data can be scaled by $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, so that the covariance matrix of the scaled data $\bm{Z}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
 
 We prefer this to the min-max scaling used in the original lookout algorithm, as it is robust to outliers and removes the correlations between variables, leading to more efficient kernel density estimates.
 
@@ -12,32 +16,32 @@ We prefer this to the min-max scaling used in the original lookout algorithm, as
 
 The Rips death diameters are computed from the scaled and rotated data $\bm{Z}$. Let $d_1,\dots,d_n$ denote the (ordered) Rips death diameters computed from the sample $\bm{z}_1,\dots,\bm{z}_n$, and let $d^* = d_{0.9(n-1)}$ denote the 0.9 sample quantile computed from $\{d_1,\dots,d_n\}$ \citep{HF96}.
 
-A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ using the bandwidth matrix $\bm{H} = (d^*)^{2/p}\bm{I}$, where $p$ is the dimension of the data. Under this estimator, up to 10\% of the data may be anomalous without affecting the bandwidth matrix selection, and the density estimator is consistent under Corollary \ref{cor:consistency}.
+A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ using the bandwidth matrix $\bm{H} = (d^*)^{2/m}\bm{I}$, where $m$ is the dimension of the data. Under this estimator, up to 10\% of the data may be anomalous without affecting the bandwidth matrix selection, and the density estimator is consistent under Corollary \ref{cor:consistency}.
 
 Further, the kernels are now aligned with the data, as both have covariance matrices that are scalar multiples of the identity matrix. While alignment is not necessary for consistency, it does improve the efficiency of the kernel density estimates \citep{chacon2018multivariate}.
 
 \subsection{Bounds for kernel density estimates}
 
-In the following lemma we show that the kernel density estimates at the observations, and their negative logarithms, are bounded by constants that depend only on the dimension $p$ and the sample size $n$.
+In the following lemma we show that the kernel density estimates at the observations, and their negative logarithms, are bounded by constants that depend only on the dimension $m$ and the sample size $n$.
 
 \begin{lemma}\label{lemma:boundsforkde}
-  Let $\{\bm{y}_1, \dots, \bm{y}_n\}$ be $n$ data points in   $\mathbb{R}^p$, with kernel density estimate given by
+  Let $\{\bm{y}_1, \dots, \bm{y}_n\}$ be $n$ data points in   $\mathbb{R}^m$, with kernel density estimate given by
   $$
   \hat{f}(\bm{y}) = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{y} - \bm{y}_i)\right),
   $$
-  where $K(\bm{u})$ is a multivariate kernel function that is bounded below by 0 and above by $K(\bm{0}) = M$, and $\bm{H}$ is a $p\times p$ symmetric positive-definite bandwidth matrix. Then for all $j \in \{1, \dots, n\}$, the kernel density estimates at the observations, $\hat{f}(\bm{y}_j)$, and their negative logarithms, $-\log \hat{f}(\bm{y}_j)$, are bounded by constants that depend only on $p$ and $n$.
+  where $K(\bm{u})$ is a multivariate kernel function that is bounded below by 0 and above by $K(\bm{0}) = M$, and $\bm{H}$ is an $m\times m$ symmetric positive-definite bandwidth matrix. Then for all $j \in \{1, \dots, n\}$, the kernel density estimates at the observations, $\hat{f}(\bm{y}_j)$, and their negative logarithms, $-\log \hat{f}(\bm{y}_j)$, are bounded by constants that depend only on $m$ and $n$.
 \end{lemma}
 \begin{proof}
   $$
   \frac{M|\bm{H}|^{-1/2}}{n} \leq\hat{f}(\bm{y}_j) =
   \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{y}_j - \bm{y}_i)\right) \leq M|\bm{H}|^{-1/2}\, .
   $$
-  The constant $M$ may depend on $p$.
+  The constant $M$ may depend on $m$.
 \end{proof}
 
-For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{p/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $M = \frac{1}{(2 \pi)^{p/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{p+2}{2c_p} \left( 1 - \|\bm{u}\| \right)_{+}$, where $c_p$ is the volume of the unit sphere in $\mathbb{R}^p$, and $u_+ = max(0, u)$, then $M = (p+2)/(2c_p)$.
+For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{m/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $M = \frac{1}{(2 \pi)^{m/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2c_m} \left( 1 - \|\bm{u}\| \right)_{+}$, where $c_m$ is the volume of the unit sphere in $\mathbb{R}^m$, and $u_+ = max(0, u)$, then $M = (m+2)/(2c_m)$.
 
-Under the Fisher-Tippett-Gnedenko theorem \citep{coles2001introduction}, the limiting distribution of the extremes of $-\log\hat{f}(\bm{x}_j)$ is a Weibull distribution, corresponding to a Generalized Extreme Value distribution with negative shape parameter. Thus, when we fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{x}_j)\}_{j=1}^n$, we can constrain the shape parameter to be non-positive, which improves the stability of the GPD fitting.
+Under Theorem \ref{thm:FisherTippett}, the limiting distribution of the extremes of $-\log\hat{f}(\bm{x}_j)$ is a Weibull distribution, corresponding to a Generalized Extreme Value distribution with $\xi<0$. Thus, when we fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{x}_j)\}_{j=1}^n$, we can constrain the shape parameter to be non-positive, which improves the stability of the GPD fitting.
 
 \subsection{Modified lookout algorithm}
 
@@ -47,18 +51,18 @@ We are now in a position to describe the modified lookout algorithm.
   \caption{Modified lookout algorithm}\label{alg:modifiedlookout}
   \begin{algorithmic}[1]
     \Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta \in (0,1)$, threshold $\alpha \in (0,1)$, and quantile level $\gamma \in (0,1)$.
-    \State Let $\bm{Y}$ be the $p\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. Compute $\hat{\bm{\Sigma}}$, the Gnanadesikan-Kettenring estimator of the covariance matrix of $\bm{Y}$ \citep{Maronna2002-qn}.
+    \State Let $\bm{Y}$ be the $m\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. Compute $\hat{\bm{\Sigma}}$, the Gnanadesikan-Kettenring estimator of the covariance matrix of $\bm{Y}$ \citep{Maronna2002-qn}.
     \State Optional scaling: Calculate the eigendecomposition $\hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}$. Then rotate and scale the data using $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, with scaled observations $\bm{z}_1, \dots, \bm{z}_n$ comprising the rows of $\bm{Z}$.
     \State Compute the persistence homology barcode of the data cloud $\bm{Z}$ (set $\bm{Z} = \bm{Y}$ if no scaling is applied) for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}, and obtain the ordered death diameters $\{d_i\}_{i = 1}^n$ for connected components.
-    \State Let $d^* =$ the $\gamma$ sample quantile computed from $\{ d_i \}_{i=1}^n$, and define $\bm{H} = (d^*)^{2/p} \bm{I}_p$.
+    \State Let $d^* =$ the $\gamma$ sample quantile computed from $\{ d_i \}_{i=1}^n$, and define $\bm{H} = (d^*)^{2/m} \bm{I}_m$.
     \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{z}_i; \bm{H})$, $i=1,\dots,n$, where $\hat{f}(\bm{z}; \bm{H}) = \frac{1}{n} \sum_{j = 1}^n K_{\bm{H}}(\bm{z} - \bm{z}_j)$, $K_{\bm{H}}(\bm{u}) = |\bm{H}|^{-1/2} K(\bm{H}^{-1/2}\bm{u})$, and $K$ is a multivariate kernel function \citep{chacon2018multivariate}.
     \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - \bm{H}^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
-    \State Using the Peak Over Threshold (POT) approach \citep{coles2001introduction}, fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log f_i\}_{i=1}^n$, constraining the shape parameter to be non-positive, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
-    \State Calculate the probability of each observation by applying the estimated GDP to the leave-one-out kde values: $p_i = P(-\log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
-    \State If $p_i < (1-\beta)\alpha$, declare $\bm{y}_i$ anomalous.
+    \State Fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log f_i\}_{i=1}^n$, constraining the shape parameter to be non-positive, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
+    \State Calculate the probability of each observation by applying the estimated GDP to the leave-one-out kde values: $p_i = (1-\beta)P(-\log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
+    \State If $p_i < \alpha$, declare $\bm{y}_i$ anomalous.
   \end{algorithmic}
 \end{algorithm}
 
 As with the original lookout algorithm, the values of $p_i$ can also act as anomaly scores, with lower values indicating more anomalous points.
 
-The default values for the parameters are $\alpha = 0.01$, $\beta = 0.90$ and $\gamma = 0.97$. Under these values, the false positive rate of anomalies is $(1-\beta)\alpha = 0.001$. The default values are used in all experiments reported here, unless explicitly stated otherwise. Scaling is also applied by default, unless otherwise stated.
+The default values for the parameters are $\alpha = 0.001$, $\beta = 0.90$ and $\gamma = 0.97$. The default values are used in all experiments reported here, unless explicitly stated otherwise. Scaling is also applied by default, unless otherwise stated.
