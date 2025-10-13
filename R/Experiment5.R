@@ -1,18 +1,18 @@
 # Experiment 5: Comparison with other methods
 
 generate_exp5 <- function(iterate) {
-  X <- data.frame(
-    X2 = rnorm(405),
-    X3 = rnorm(405),
-    X4 = rnorm(405),
-    X5 = rnorm(405),
-    X6 = rnorm(405)
+  Y <- data.frame(
+    Y2 = rnorm(405),
+    Y3 = rnorm(405),
+    Y4 = rnorm(405),
+    Y5 = rnorm(405),
+    Y6 = rnorm(405)
   )
-  X1_1 <- rnorm(400)
-  X1_2 <- rnorm(5, mean = 2 + (iterate - 1) * 0.5, sd = 0.2)
-  X$X1 <- c(X1_1, X1_2)
-  X$Points <- c(rep("Non-anomaly", 400), rep("Anomaly", 5))
-  as_tibble(X)
+  Y1_1 <- rnorm(400)
+  Y1_2 <- rnorm(5, mean = 2 + (iterate - 1) * 0.5, sd = 0.2)
+  Y$Y1 <- c(Y1_1, Y1_2)
+  Y$Points <- c(rep("Non-anomaly", 400), rep("Anomaly", 5))
+  as_tibble(Y)
 }
 
 run_synthetic_exp5 <- function(reps, pp, scale, alpha, beta, gamma) {
@@ -24,7 +24,7 @@ create_figure_exp5 <- function(results) {
   X <- generate_exp5(3) |>
     mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
   g1 <- X |>
-    ggplot(aes(X1, X2)) +
+    ggplot(aes(Y1, Y2)) +
     geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
@@ -33,14 +33,14 @@ create_figure_exp5 <- function(results) {
   X <- generate_exp5(9) |>
     mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
   g2 <- X |>
-    ggplot(aes(X1, X2)) +
+    ggplot(aes(Y1, Y2)) +
     geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
       name = "Points"
     )
   g3 <- X |>
-    ggplot(aes(X3, X4)) +
+    ggplot(aes(Y3, Y4)) +
     geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),

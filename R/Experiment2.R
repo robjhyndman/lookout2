@@ -8,7 +8,7 @@ generate_exp2 <- function(n1, n2, mm) {
       y = rnorm(n2, mean = mm, sd = 0.2)
     )
   )
-  colnames(out) <- c("X1", "X2")
+  colnames(out) <- c("Y1", "Y2")
   out$Points <- c(rep("Non-anomaly", n1), rep("Anomaly", n2))
   as_tibble(out)
 }
@@ -128,7 +128,7 @@ create_figure_exp2 <- function(results) {
 
   g2 <- df |>
     ggplot() +
-    aes(X1, X2, color = Points) +
+    aes(Y1, Y2, color = Points) +
     geom_point(alpha = df$alpha, size = 0.75) +
     facet_wrap(Mean ~ ., strip.position = "top", nrow = 1) +
     coord_fixed() +

@@ -22,7 +22,7 @@ There is no broadly accepted definition for an anomaly. \citet{hawkins1980identi
 
 \subsection{Extreme Value Theory}
 
-Consider $n$ independent and identically distributed random variables $Y_1, \dots, Y_n$ having a distribution function $F$, with their maximum $M_n = \max \{Y_1, \dots, Y_n\} $. Extreme Value Theory (EVT) analyses and characterizes the behavior of $M_n$. One of the fundamental results of EVT is the Fisher-Tippet-Gnedenko Theorem. We restate a version of it from \citet[][Theorem 3.1.1]{coles2001introduction}.
+Consider $n$ independent and identically distributed random variables $X_1, \dots, X_n$ having a distribution function $F$, with their maximum $M_n = \max \{X_1, \dots, X_n\} $. Extreme Value Theory (EVT) analyses and characterizes the behavior of $M_n$. One of the fundamental results of EVT is the Fisher-Tippet-Gnedenko Theorem. We restate a version of it from \citet[][Theorem 3.1.1]{coles2001introduction}.
 
 % \begin{equation}\label{eq:evt1}
 %     M_n = \max \{X_1, \, \ldots, \, X_n\} \, .
@@ -49,17 +49,17 @@ The parameters $\mu$, $\sigma$ and $\xi$ are called the location, scale and shap
 
 A second result from EVT that we will use is Pickands theorem \citep{Pickands1975}, here restated from \citep[][Theorem 4.1]{coles2001introduction}.
 
-\begin{theorem}[Pickands] Let $Y_1, \dots, Y_n$  be a sequence of independent random variables with a common distribution function $F$, and let
-  $M_n = \max \{Y_1, \ldots, Y_n \}$. Suppose $F$ satisfies Theorem~\ref{thm:FisherTippett}, so that for large $n$, $P\{ M_n \leq z \} \approx G(z)$,
+\begin{theorem}[Pickands] Let $X_1, \dots, X_n$  be a sequence of independent random variables with a common distribution function $F$, and let
+  $M_n = \max \{X_1, \ldots, X_n \}$. Suppose $F$ satisfies Theorem~\ref{thm:FisherTippett}, so that for large $n$, $P\{ M_n \leq z \} \approx G(z)$,
   where
   $$
   G(z) = \exp\left\{ -\left[ 1 + \xi\left(\frac{z - \mu}{\sigma} \right)\right]^{-1/\xi} \right\}\, ,
   $$
   for some $\mu, \xi \in \mathbb{R}$ and $\sigma >0$. Then for large enough $u$,
   \begin{equation}\label{eq:POT4}
-    H(y) = \text{Pr}(Y \le u+y \mid Y > u) = 1 - \left( 1 + \frac{\xi y}{\sigma_u} \right)^{-1/\xi}\, ,
+    H(x) = \text{Pr}(X \le u+x \mid X > u) = 1 - \left( 1 + \frac{\xi x}{\sigma_u} \right)^{-1/\xi}\, ,
   \end{equation}
-  where the domain of $H$ is $\{y: y > 0 \text{~and~} (1 + \xi y)/\sigma_u >0\}$, where $\sigma_u = \sigma + \xi(u- \mu)$.
+  where the domain of $H$ is $\{x: x > 0 \text{~and~} (1 + \xi x)/\sigma_u >0\}$, where $\sigma_u = \sigma + \xi(u- \mu)$.
 \end{theorem}
 The family of distributions defined by equation~\eqref{eq:POT4} is called the \textbf{Generalized Pareto Distribution} (GPD). The shape parameter $\xi$ is the same in both GPD and GEV distributions. Furthermore, the GEV parameters can be recovered from the GPD formulation by estimating a GPD on all observations above some threshold.
 

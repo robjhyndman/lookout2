@@ -7,7 +7,7 @@ generate_exp1 <- function(n1, n2, rate) {
     matrix(rgamma(n = 2 * n2, shape = 2, rate = rate), ncol = 2)
   ) |>
     as.data.frame()
-  colnames(out) <- c("X1", "X2")
+  colnames(out) <- c("Y1", "Y2")
   out$Points <- c(rep("Non-anomaly", n1), rep("Anomaly", n2))
   as_tibble(out)
 }
@@ -103,7 +103,7 @@ create_figure_exp1 <- function(results) {
       alpha = 0.4 + 0.6 * (Points == "Anomaly")
     )
 
-  g2 <- ggplot(df, aes(X1, X2, color = Points)) +
+  g2 <- ggplot(df, aes(Y1, Y2, color = Points)) +
     geom_point(alpha = df$alpha, size = 0.75) +
     facet_wrap(~rate, strip.position = "top", nrow = 1) +
     coord_fixed() +

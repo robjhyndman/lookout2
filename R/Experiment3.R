@@ -17,7 +17,7 @@ generate_exp3 <- function(nn) {
       y = rnorm(num_outliers, mean = meany, sd = 0.1) # meany
     )
   )
-  colnames(out) <- c("X1", "X2")
+  colnames(out) <- c("Y1", "Y2")
   out$Points <- c(rep("Non-anomaly", nn), rep("Anomaly", num_outliers))
   as_tibble(out)
 }
@@ -81,7 +81,7 @@ create_figure_exp3 <- function(results) {
   nn <- 10000
   df <- generate_exp3(nn) |>
     mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
-  g2 <- ggplot(df, aes(X1, X2, color = Points)) +
+  g2 <- ggplot(df, aes(Y1, Y2, color = Points)) +
     geom_point(alpha = df$alpha, size = 1) +
     coord_fixed() +
     scale_color_manual(

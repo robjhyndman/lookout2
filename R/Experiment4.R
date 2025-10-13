@@ -2,16 +2,16 @@
 
 generate_exp4 <- function(nn) {
   num_outliers <- ceiling(5 / 1000 * nn)
-  X1 <- matrix(rgamma(n = 2 * nn, shape = 2, rate = 2), ncol = 2)
-  X2 <- matrix(rgamma(n = 2 * nn, shape = 2.2, rate = 2), ncol = 2)
-  x1dist <- apply(X1, 1, function(x) sqrt(x[1]^2 + x[2]^2))
+  Y1 <- matrix(rgamma(n = 2 * nn, shape = 2, rate = 2), ncol = 2)
+  Y2 <- matrix(rgamma(n = 2 * nn, shape = 2.2, rate = 2), ncol = 2)
+  x1dist <- apply(Y1, 1, function(x) sqrt(x[1]^2 + x[2]^2))
   qq <- quantile(x1dist, probs = 0.99)
-  x2dist <- apply(X2, 1, function(x) sqrt(x[1]^2 + x[2]^2))
+  x2dist <- apply(Y2, 1, function(x) sqrt(x[1]^2 + x[2]^2))
   inds <- sample(which(x2dist > qq), num_outliers)
-  out <- as.data.frame(rbind(X1, X2[inds, ]))
-  colnames(out) <- c("X1", "X2")
+  out <- as.data.frame(rbind(Y1, Y2[inds, ]))
+  colnames(out) <- c("Y1", "Y2")
   out$Points <- c(
-    rep("Non-anomaly", NROW(X1)),
+    rep("Non-anomaly", NROW(Y1)),
     rep("Anomaly", length(inds))
   )
   as_tibble(out)
@@ -78,7 +78,7 @@ create_figure_exp4 <- function(results) {
   df_data <- generate_exp4(nn) |>
     mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
 
-  g2 <- ggplot(df_data, aes(X1, X2, color = Points)) +
+  g2 <- ggplot(df_data, aes(Y1, Y2, color = Points)) +
     geom_point(alpha = df_data$alpha, size = 1) +
     coord_fixed() +
     scale_color_manual(
