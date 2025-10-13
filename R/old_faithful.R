@@ -3,7 +3,7 @@ analyze_old_faithful <- function(scale, alpha, beta, gamma) {
     filter(duration < 7200, waiting < 7200)
 
   lookobjNew <- lookout::lookout(
-    oldfaithful2[, 2:3],
+    oldfaithful2[, c("duration", "waiting")],
     scale = scale,
     alpha = alpha,
     beta = beta,
@@ -12,7 +12,7 @@ analyze_old_faithful <- function(scale, alpha, beta, gamma) {
   )
 
   lookobjOld <- lookout::lookout(
-    oldfaithful2[, 2:3],
+    oldfaithful2[, c("duration", "waiting")],
     alpha = alpha,
     beta = beta,
     scale = scale,
