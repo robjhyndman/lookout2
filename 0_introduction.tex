@@ -15,9 +15,9 @@ There is no broadly accepted definition for an anomaly. \citet{hawkins1980identi
 \begin{defn}[Anomalies]
   Given a set of observations $\bm{y}_{i} \in \mathbb{R}^m$ for $i \in \{1, \dots, n\}$, and a probability density function $f$, we define observation $\bm{y}_i$ as anomalous if
   \begin{equation}
-    \int \mathbbm{1}(f(\bm{u}) < f(\bm{y}_{i})) d\bm{u} < \alpha,
+    \text{Pr}(f(Y) < f(\bm{y}_{i})) < \alpha,
   \end{equation}
-  for some small value of $\alpha > 0$, where $\mathbbm{1}$ is the indicator function.
+  where $Y$ is a random variable with density $f$, and $\alpha>0$ is a chosen threshold.
 \end{defn}
 
 \begin{defn}[Surprisals]
