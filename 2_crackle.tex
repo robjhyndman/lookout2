@@ -17,6 +17,7 @@ We will first prove a number of limit theorems about $d_{\omega(n)}$, that is th
   Choose any sequence of integers $\{\omega(n)\}$ such that $0<\omega(n) <n$ for all $n$ and $\lim_{n\to \infty} \omega_n =\infty$. Then $nd_{\omega(n)}\to \infty$ as $n\to \infty$ with probability $1$.
 \end{theorem}
 
+
 \begin{proof}
   %It is sufficient for there to exist a function $r(n)$ (with and $r(n)\to \infty$ as $n\to \infty$) such that $\mathbb{P}(d_{\omega(n)}\geq \frac{r(n)}{n}) \to 1$ as $n\to \infty$.
   For any function $r:\mathbb{N} \to (0,\infty)$, let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$. Each death time corresponds to the reduction by one of the number of connected components. This implies that $nd_{\omega(n)} > r(n)$ occurs when $C(n, \frac{r(n)}{n})> n - \omega(n)$.
@@ -41,7 +42,7 @@ $$\E[X] \leq N(1-\mathbb{P}(X \leq (N-\lambda)))+ (N-\lambda)(\mathbb{P}(X \leq 
   $$
   \lim_{n\to \infty}\frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n}{\omega(n)} = 0.
   $$
-  For small radii $r$, a useful lower bound on the number of connected components is $n-E(n,r)$, where $E(n,r)$ is the number of edges in the graph connecting any two points are less that $2r$ apart, that is $$\left|\mathbb{E}[C(n, \frac{r(n)}{n})]- n\right|\leq \mathbb{E}\left[E\left(n,\frac{r(n)}{n}\right)\right].$$ The expected number of edges is much easier to calculate than the expected number of components.
+  For small radii $r$, a useful lower bound on the number of connected components is $n-E(n,r)$, where $E(n,r)$ is the number of edges in the graph connecting any two points are less than $2r$ apart, that is $$\left|\mathbb{E}[C(n, \frac{r(n)}{n})]- n\right|\leq \mathbb{E}\left[E\left(n,\frac{r(n)}{n}\right)\right].$$ The expected number of edges is much easier to calculate than the expected number of components.
   \begin{align*}
     \mathbb{E}\left[E\left(n,\frac{r(n)}{n}\right)\right]
     & =\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r\mid x,y \sim X)
@@ -293,7 +294,7 @@ As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \inf
   $$
   \P(\cup Z_i) \leq \frac{2^d n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^d}{\log n} .
   $$
- This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon_n)$ almost surely. All points with the same ball $B(y_i, \epsilon_n)$ will be connected in the Rips complex with radius $2\epsilon_n$. This implies that the number of connected components when restricting to points inside $L_alpha$ will be bounded above by $l_n \leq \frac{2^d n}{\log n}$ (almost surely).
+ This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon_n)$ almost surely. All points with the same ball $B(y_i, \epsilon_n)$ will be connected in the Rips complex with radius $2\epsilon_n$. This implies that the number of connected components when restricting to points inside $L_{\alpha}$ will be bounded above by $l_n \leq \frac{2^d n}{\log n}$ (almost surely).
 
   %Let $p=\P(X\notin L)$. Note that for all $x\in L$ we have
   % $f(x)>c$. Since $f$ has only finitely many local maxima we have
@@ -317,8 +318,8 @@ As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \inf
   \end{align*}
   This clearly goes to zero as $n$ goes to infinity.
 
-If there are less that $n(1-\alpha)$ connected components in $\cup_j B(x_j, \epsilon_n)$ then $d_{alpha(n-1)}< \epsilon_n$. Thus we have proved $\mathbb{P}(d_{\alpha(n-1)} > \epsilon_n)\to 0$ as $n\to infty$.
-As $\epsilon_n \to 0$ as $n\to infty$ we have $d_{\alpha(n-1)} \to 0$ almost surely.
+If there are less than $n(1-\alpha)$ connected components in $\cup_j B(x_j, \epsilon_n)$ then $d_{\alpha(n-1)}< \epsilon_n$. Thus we have proved $\mathbb{P}(d_{\alpha(n-1)} > \epsilon_n)\to 0$ as $n\to \infty$.
+As $\epsilon_n \to 0$ as $n\to \infty$ we have $d_{\alpha(n-1)} \to 0$ almost surely.
 \end{proof}
 
 We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n) in plane} (for distributions over $\R^2$) or Theorem \ref{thm:nd_f(n) in higher dimensions} (for distributions over $\R^d$ with $d>2$) to show $d_{\alpha(n-1)}$ is an admissible bandwidth as a corollary.

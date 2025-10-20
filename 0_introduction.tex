@@ -26,7 +26,7 @@ There is no broadly accepted definition for an anomaly. \citet{hawkins1980identi
 These are better known as  ``log scores'' in statistics \citep{Good1952-zw}, but we prefer the term ``surprisals'' from information theory \citep{Stone2022}, as it provides a measure of how surprising an observation is, given the probability density function $f$. Specifically, it takes large values for observations that are unlikely under $f$. 
 
 Let $S = -\log f(\bm{Y})$ be the random variable representing the surprisal of a random vector $\bm{Y}$ drawn from $f$, and let $G(s) = \text{Pr}(S\le s)$ be its distribution function. Then the surprisal probability of observation $\bm{y}_i$ is given by
-$$p_i = 1 - G(-\log f \bm{y}_i)$$
+$$p_i = 1 - G(-\log f (\bm{y}_i))$$
 and an observation is an anomaly iff $p_i < \alpha$.
 
 \subsection{Extreme Value Theory}
