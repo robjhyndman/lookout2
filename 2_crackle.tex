@@ -1,6 +1,6 @@
 \section{Consistency and crackle}\label{sec:theory}
 
-We will first prove a number of limit theorems about $d_{\omega(n)}$, that is the $\omega(n)$-th death time (when ordered increasingly by size). For consistency of the kernel density estimator, we are interested in $d_{\omega(n)} \to 0$ and $nd_{\omega(n)}\to \infty$.
+We will first prove a number of limit theorems about $d_{\omega(n)}$, that is the $\omega(n)$-th death time (when ordered increasingly by size). For consistency of the kernel density estimator, we want to show $d_{\omega(n)} \to 0$ and $nd_{\omega(n)}\to \infty$.
 
 \subsection{Limit of $nd_{\omega(n)}$}
 %Main mathematical results with proofs (possibly relegated to the Appendices).
@@ -20,7 +20,7 @@ We will first prove a number of limit theorems about $d_{\omega(n)}$, that is th
 
 \begin{proof}
   %It is sufficient for there to exist a function $r(n)$ (with and $r(n)\to \infty$ as $n\to \infty$) such that $\mathbb{P}(d_{\omega(n)}\geq \frac{r(n)}{n}) \to 1$ as $n\to \infty$.
-  For any function $r:\mathbb{N} \to (0,\infty)$, let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$. Each death time corresponds to the reduction by one of the number of connected components. This implies that $nd_{\omega(n)} > r(n)$ occurs when $C(n, \frac{r(n)}{n})> n - \omega(n)$.
+  For any function $r:\mathbb{N} \to (0,\infty)$, let $C(n, r)$ denote the number of components of $\cup_x B(x, r)$ (where $B(x,r)$ denotes the ball of radius $r$ centered at $x$). Each death time corresponds to the reduction by one of the number of connected components. This implies that $nd_{\omega(n)} > r(n)$ occurs when $C(n, \frac{r(n)}{n})> n - \omega(n)$.
 
 For any bounded random variable $X$ with range contained in $[0,N]$ we have
 $$\E[X] \leq N(1-\mathbb{P}(X \leq (N-\lambda)))+ (N-\lambda)(\mathbb{P}(X \leq (N- \lambda)))= N - \lambda \mathbb{P}(X\leq N-\lambda)$$
@@ -42,11 +42,11 @@ $$\E[X] \leq N(1-\mathbb{P}(X \leq (N-\lambda)))+ (N-\lambda)(\mathbb{P}(X \leq 
   $$
   \lim_{n\to \infty}\frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n}{\omega(n)} = 0.
   $$
-  For small radii $r$, a useful lower bound on the number of connected components is $n-E(n,r)$, where $E(n,r)$ is the number of edges in the graph connecting any two points are less than $2r$ apart, that is $$\left|\mathbb{E}[C(n, \frac{r(n)}{n})]- n\right|\leq \mathbb{E}\left[E\left(n,\frac{r(n)}{n}\right)\right].$$ The expected number of edges is much easier to calculate than the expected number of components.
+  For small radii $r$, a useful lower bound on the number of connected components is $n-E(n,r)$, where $E(n,r)$ is the number of edges in the graph connecting any two points are less than $2r$ apart. We can use the bound $\left|\mathbb{E}[C(n, r)]- n\right|\leq \mathbb{E}\left[E\left(n,r\right)\right]$. The expected number of edges is much easier to calculate than the expected number of components, with
   \begin{align*}
-    \mathbb{E}\left[E\left(n,\frac{r(n)}{n}\right)\right]
+    \mathbb{E}\left[E\left(n,r\right)\right]
     & =\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2r\mid x,y \sim X)
-    \leq \frac{n(n-1)}{2} K\pi \left(\frac{r(n)}{n}\right)^2             \leq \frac{K \pi}{2}r(n)^2
+    \leq \frac{n(n-1)}{2} K\pi r^2 %             \leq \frac{K \pi}{2}r(n)^2
   \end{align*}
   where $K$ is the global upper bound on the probability density function of $X$. If we set $r(n)=\sqrt{2\log (\omega (n))}$ (noting $\lim_{n\to \infty} r(n)= \infty$ as $\lim_{n\to \infty} \omega(n)=\infty$) we get
  % $\mathbb{E}\left[C\left(n, \frac{r(n)}{n}\right)\right]\geq n- K \pi\log(\omega(n))$ and thus
@@ -59,7 +59,7 @@ $$\E[X] \leq N(1-\mathbb{P}(X \leq (N-\lambda)))+ (N-\lambda)(\mathbb{P}(X \leq 
 
 
 \begin{theorem}\label{thm:nd_f(n) in higher dimensions}
-  Let $d_1$ denote the smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution over $\R^d$, $d\geq 3$, such that the density is bounded above.
+  Let $d_1$ denote the smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution over $\R^m$, $m\geq 3$, such that the density is bounded above.
 
   Then $nd_{1}\to \infty$ as $n\to \infty$ with probability $1$.
 \end{theorem}
@@ -70,25 +70,25 @@ Let $E(n,r)$ denote the number of edges in the graph which connects any two poin
 If we set $r=\log(n)/n$ then
   \begin{align*}
     \mathbb{E}\left[E(n,r)\right]
-    &=\frac{n(n-1)}{2}\mathbb{P}(d(x,y)<2\log(n)/n\mid x,y \sim X)  \leq \frac{n(n-1)}{2} K s_d\left(\frac{2\log(n)}{n}\right)^d
-  %  & \leq 2^{d-1}Ks_d \frac{(\log(n))^d}{n^{d-1}}
+    &=\frac{n(n-1)}{2}\mathbb{P}(\|x-y\|<2\log(n)/n\mid x,y \sim X)  \leq \frac{n(n-1)}{2} K s_m\left(\frac{2\log(n)}{n}\right)^d
+  %  & \leq 2^{d-1}Ks_m \frac{(\log(n))^d}{n^{d-1}}
   \end{align*}
-  where $K$ is the global upper bound on the pdf of $X$ and $s_d$ is the volume of the unit ball in $\R^d$.
-As the number of edges is a non-negative integer, we have $\P\left(E(n, \log(n)/n)\neq 0\right)\leq \E\left[E(n, \log(n)/n)\right] \to 0$ as $n\to \infty$.
+  where $K$ is the global upper bound on the pdf of $X$ and $s_m$ is the volume of the unit ball in $\R^m$.
+As the number of edges is a nonnegative integer, we have $\P\left(E(n, \log(n)/n)\neq 0\right)\leq \E\left[E(n, \log(n)/n)\right] \to 0$ as $n\to \infty$.
 
 This implies that with high probability no edge appears in the Rips complex at radius $\log (n)/n$. As $d_1$ is the first time an edge appears, we have $\P(nd_1>\log(n))\to 1$ as $n\to \infty$.
 \end{proof}
 
 \subsection{Limit of $d_{n-1}$ for Gaussian Samples}
 
-In this section we will prove the complementary limit theorem needed for consistency results when we assume that the samples come from a Gaussian distribution. The proof showing that $d_{n-1}\to 0$ as $n\to \infty$ is a straightforward modification of the proof for Theorem 2.1 in \cite{Crackle}. The only real change is that we need to consider a sequence of decreasing radii for the balls, whereas in \cite{Crackle} the radii remain constant (value $1$). We just need to ensure that the radii decrease slowly enough so that the union of balls remains connected. Due to this variation in the proof, we include the calculations for completeness.
+In this section we will prove the complementary limit theorem needed for $d_{\omega(n)}$ to be an admissible bandwidth when we assume that the samples come from a Gaussian distribution. Since $d_{\omega(n)}\leq d_{n-1}$ it is sufficient to show $d_{n-1} \to \infty$ as $n\to \infty$. The proof is a straightforward modification of the proof for Theorem 2.1 in \cite{Crackle}. The only real change is that we need to consider a sequence of decreasing radii for the balls, whereas in \cite{Crackle} the radii remain constant (value $1$). We just need to ensure that the radii decrease slowly enough so that the union of balls remains connected. Due to this variation in the proof, we include the calculations for completeness.
 %For consistency in the case of
 % Gaussian distributions over $\R^2$, we also need to show that the
 % index function for the maximum gap in death values will go to
 % infinity almost surely.
 
 \begin{theorem}\label{thm:d_n-1 Gaussian}
-  Let $S_n$ denote a random sample of $n$ iid points from a fixed multivariate Gaussian in $\R^d$. Then for the Rips filtration over $S_n$ we have $d_{n-1} \to 0$ as $n\to \infty$ almost surely.
+  Let $S_n$ denote a random sample of $n$ iid points from a fixed multivariate Gaussian in $\R^m$. Then for the Rips filtration over $S_n$ we have $d_{n-1} \to 0$ as $n\to \infty$ almost surely.
 \end{theorem}
 \begin{proof}
   We will first prove the result in the case of a standard Gaussian, where the probability density function is spherically symmetric and is $c \exp\{-\|x\|^2/2\}$ for some constant $c$. Denote $f(r) = c\exp\{-r^2/2\}$ for this density in terms of the radial coordinate.
@@ -96,16 +96,16 @@ In this section we will prove the complementary limit theorem needed for consist
 
 %  Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction $r(n)\rightarrow 0$ as $n \rightarrow \infty$. We will use $r(n)$ to show that the core is covered by balls around the samples with radius $r(n)$.
  Set $R_n:=\sqrt{2(\log n+d\log \log n)}$ and  $C_n=\sqrt{2(\log n -\log \log n)}$.
- $R_n$ will be the radius outside which we will expect no samples to occur and $C_n$ will represent the core of the point cloud - which we expect to be densely covered.
+ $R_n$ will be the radius outside which we will expect no samples to occur and $C_n$ will represent the radius of the core of the point cloud - which we expect to be densely covered.
 
- Cover $B(0, C_n)$ by a grid with side lengths $g$. Let $Y(n, C_n, g_n)$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in \cite{Crackle} states:
+ Cover $B(0, C_n)$ by a grid with side lengths $g_n$. Let $Y(n, C_n, g_n)$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in \cite{Crackle} states:
   $$
   \mathbb{P}(Y(n,C_n,g_n)) \leq (2g_n^{-1})^d (C_n)^d\exp\{-ng_n^d f(C_n)\}.
   $$
   %Set $R_n^c=\sqrt{2(\log n -\log \log n)}$, which will represent the core of the point cloud.
-  Set $g+n$
+  Set $g_n$
   %=\frac{r(n)}{2\sqrt{d}}$
-  so $g_n^d=\frac{1}{c \log \log n}$. Further note that
+  so that $g_n^d=\frac{1}{c \log \log n}$. Further note that
   $
   f(C_n)= c \exp\{-\log n+\log\log n\}=c\frac{\log n}{n}.
   $ Combined we get
@@ -128,21 +128,21 @@ In this section we will prove the complementary limit theorem needed for consist
 
 
 Let $X(n, R_n)$ be the event that all the samples lie inside $B(0, R_n)$.
-From Theorem 4 in \cite{Crackle} we have $\lim_{n\to \infty} \E[|S_n \cap B(0,R_n)|]=0$. As $|S_n \cap B(0,R_n)|$ must be an integer between $0$ and $n$ this implies that $\lim_{n\to \infty} \mathbb{P}(X(n,R_n))=1$.
+From Theorem 4 in \cite{Crackle} we have $\lim_{n\to \infty} \E[|S_n \cap B(0,R_n)^c|]=0$. As $|S_n \cap B(0,R_n)^c|$ must be an integer between $0$ and $n$ this implies that $\lim_{n\to \infty} \mathbb{P}(X(n,R_n))=1$.
 
 
 
 %that the probability of there being a point outside the ball centered at the origin with radius $R_n:=\sqrt{2(\log n +d\log\log n)}$ goes to zero as $n\to \infty$. This implies that we can assume all points are within $B(0,R_n)$ and, from our grid size, that every point in $B(0, C_n)$ is within $\frac{2\sqrt{d}}{ c \log \log n}$ of a sample point.
 
- We want to bound the distance from any point in $B(0, R_n)$ to $B(0, C_n)$ which is the same as bounding $R_n-C_n$.
-We have $R_n+C_n> \sqrt{2(\log n +d\log\log n)}+\sqrt{2(\log n -\log \log n)} > 2\sqrt{\log n}$ so \begin{align*}
+ We want to bound the distance from any point in $B(0, R_n)$ to its closest point in $B(0, C_n)$ which is the same as bounding $R_n-C_n$.
+We have $R_n+C_n= \sqrt{2(\log n +d\log\log n)}+\sqrt{2(\log n -\log \log n)} > 2\sqrt{\log n}$ so \begin{align*}
     R_n-C_n &=\frac{R_n^2-C_n^2}{R_n+C_n}\\
     &<\frac{2(\log n +d\log\log n)-2(\log n -\log \log n)}{2\sqrt{\log n}}\\
     &=\frac{(d+1)\log\log n}{\sqrt{\log n}}
   \end{align*}
 
-Suppose that both $Y(n, C_n, g_n)$ and $X(n, R_n)$ both hold. That is every sample lies in $B(0,R_n)$ and there is a sample in every box in the grid over $C_n$. Set $$r(n):= \frac{2\sqrt{d}}{(c\log \log n)^{1/d}} + \frac{(d+1)\log\log n}{\sqrt{\log n}}$$ which was chosen so $r(n)>(R_n-C_n) + 2\sqrt{d}g_n$.
-By construction we have $\cup_{x\in S_n}B(x, r(n))$ must be connected. In this case $d_{n-1}\leq r(n)$ as $d_{n-1}$ is the supremum of radii $r$ where $\cup_{x\in S_n}B(x, r)$ is disconnected.
+Suppose that both $Y(n, C_n, g_n)$ does not hold and $X(n, R_n)$ does hold. That is every sample lies in $B(0,R_n)$ and there is a sample in every box in the grid over $C_n$. Set $$r(n):= \frac{2\sqrt{d}}{(c\log \log n)^{1/d}} + \frac{(d+1)\log\log n}{\sqrt{\log n}}$$ which was chosen so $r(n)>(R_n-C_n) + 2\sqrt{d}g_n$.
+By construction we have $\cup_{x\in S_n}B(x, r(n))$ must be connected. This is because every sample is within $(R_n-C_n)$ of a grid point and every grid point is within $2\sqrt{d}g_n$ of a sample point. This implies that $d_{n-1}\leq r(n)$ as $d_{n-1}$ is the supremum of radii $r$ where $\cup_{x\in S_n}B(x, r)$ is disconnected.
 
 
 
@@ -163,14 +163,14 @@ As both $Y(n, C_n, g_n)$ and $X(n, R_n)$ occur with probability $1$ as $n$ grows
 %  %Let $s(n)=r(n) + (d+1)\frac{\log\log n}{\sqrt{\log n}}$.
 %  Then by the above arguments $\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $0<d_{n-1}<s(n)$. We also have $s(n)\to 0$ as $n\to \infty$. Together, they squeeze $d_{n-1}$ to satisfy $d_{n-1}\to 0$ as $n\to \infty$.
 
-  To then extend the result to general multivariate Gaussian, observe that our sample of points $\hat{S}_n$ is the linear transformation $T$ of a set of points $S_n$ of the standard Gaussian. If $\cup_{x\in S_n} B(x, r)$ is connected, then we can infer that $\cup_{x\in S_n} B(T(x), \|T\|r)$ is also connected. This implies that $d_{n-1}(\hat{S}_n)\leq \|T\|d_{n-1}(S_n)$ and thus $d_{n-1}(\hat{S}_n) \to 0$ as $n\to \infty$.
+  To then extend the result to general multivariate Gaussian distributions, observe that our sample of points $\hat{S}_n$ is the linear transformation $T$ of a sample of points $S_n$ of the standard Gaussian. If $\cup_{x\in S_n} B(x, r)$ is connected, then we can infer that $\cup_{x\in S_n} B(T(x), \|T\|r)$ is also connected. This implies that $d_{n-1}(\hat{S}_n)\leq \|T\|d_{n-1}(S_n)$ and thus $d_{n-1}(\hat{S}_n) \to 0$ as $n\to \infty$.
 \end{proof}
 
 \begin{corollary}\label{cor:d_*}
   For point clouds sampled from multivariate Gaussian distributions, we have $d_* \to 0$ as $n\to \infty$.
 \end{corollary}
 \begin{proof}
-  Note that $i_*< n-1$ and so $d_*=d_{i_*}<d_{n-1}$ which we know limits to $0$ almost surely from \cref{thm:d_n-1 Gaussian}.
+  Note that $i_*< n-1$ and so $d_*=d_{i_*}\leq d_{n-1}$ which we know limits to $0$ almost surely from \cref{thm:d_n-1 Gaussian}.
 \end{proof}
 
 Combining previous results implies that $\bm{H} = (d_*)^{2/m}\bm{I}_m$ results in a consistent density estimator of Gaussian samples in $\R^m$ for $m\geq 3$.  From Corollary \ref{cor:d_*} we have $d_*\leq d_{n-1} \to 0$ and from Theorem \ref{thm:nd_f(n) in higher dimensions} we have $nd_*\geq nd_1 \to \infty$.
@@ -179,30 +179,30 @@ If $m=2$, then to show that $\bm{H} = (d_*)^{2/m}\bm{I}_m$ results in a consiste
 \subsection{A counterexample of a $d_{\omega(n)}$ which is not an admissible bandwidth}
 %Consequences of crackle for distributions with fat tails}
 
-There are many potential indexing functions $\omega(n)$ that we can choose to decide which death time to use to compute the bandwidth matrix. We wish for this choice to determine a consistent density estimator. This means that we need $d_{\omega(n)} \to 0$ as $n \to \infty$.
+There are many potential indexing functions $\omega(n)$ that we can choose to decide which death time to use to compute the bandwidth matrix. We wish for this choice $d_{\omega(n)}$ to be an admissible bandwidth we need $d_{\omega(n)} \to 0$ as $n \to \infty$.
 
-If our samples are Gaussian, then we know that $d_{\omega(n)}$ leads to a consistent kernel density estimator whenever $\lim_{n\to \infty} \omega(n)=\infty$. However, when samples come from a fat-tailed distribution, we can construct examples where $d_{\omega(n)}$ does not converge to $0$ almost surely, which implies that $d_{\omega(n)}$ does not give a consistent kernel density estimator.
+If our samples are Gaussian, then we know that $d_{\omega(n)}$ leads is an admissible bandwidth whenever $\lim_{n\to \infty} \omega(n)=\infty$. However, when samples come from a fat-tailed distribution, we can construct examples where $d_{\omega(n)}$ does not converge to $0$ almost surely, which implies that $d_{\omega(n)}$ is not an admissible bandwidth.
 
-Consider the distribution on $\R^d$ with the density function $f(x)=\frac{c_d}{1+\|x\|^{d+1}}$ where $c_d$ is the appropriate constant. For each radius $R$ the probability a sample has modulus at least $R$ (that is it lies outside $B(0, R)$) is $$p_{R}=\int_{R}^\infty \frac{c_d s_{d-1}r^{d-1}}{1+r^{d+1}}\,dr$$
+Consider the distribution on $\R^m$ with the density function $f(x)=\frac{c_m}{1+\|x\|^{m+1}}$ where $c_m$ is the appropriate constant. For each radius $R$ the probability a sample point has modulus at least $R$ (that is, it lies outside $B(0, R)$) is $$p_{R}=\int_{R}^\infty \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}}\,dr$$
 %For $R_n=\frac{n^{2/d}}{2}$ then 
-where $s_{d-1}$ is the area of the $(d-1)$-sphere. 
-We have $p_{R}\in (\frac{c_d s_{d-1}}{2R}, \frac{c_d s_{d-1}}{R})$ for large enough $R$.
+where $s_{m-1}$ is the area of the $(m-1)$-sphere. 
+We have $p_{R}\in (\frac{c_m s_{m-1}}{2R}, \frac{c_m s_{m-1}}{R})$ for large enough $R$.
 
-%number of samples with modulus at least $R$ is a binomial distribution with probability $$p_R=\int_{R}^\infty \frac{c_d s_{d-1}r^{d-1}}{1+r^{d+1}}\,dr$$
-%where $s_{d-1}$ is the area of the $(d-1)$-sphere. We have $p_R\in (\frac{c_d s_{d-1}}{2R}, \frac{c_d s_{d-1}}{R})$ for large enough $R$.
+%number of samples with modulus at least $R$ is a binomial distribution with probability $$p_R=\int_{R}^\infty \frac{c_m s_{m-1}r^m-1}}{1+r^{m+1}}\,dr$$
+%where $s_{m-1}$ is the area of the $(d-1)$-sphere. We have $p_R\in (\frac{c_m s_{m-1}}{2R}, \frac{c_m s_{m-1}}{R})$ for large enough $R$.
 
 
-Set $R_n=\frac{2n^{2/d}}{c_d s_{d-1}}$. Let $S_n$ be the number of samples that lie outside $B(0, R_n)$.
- We have $S_n \sim \mathcal{B}(n, p_{R_n})$ and with $p_{[R_n, \infty)}\in (n^{-2/d}, 2n^{-2/d})$. That implies that there is a $\delta_1>0$ independent of $n$ such that 
- $$\mathbb{P}(S_n\in (n^{1-2/d},2n^{1-2/d}))>\delta_1.$$
+Set $R_n=\frac{2n^{2/d}}{c_m s_{m-1}}$. Let $S_n$ be the number of samples that lie outside $B(0, R_n)$.
+ We have $S_n \sim \mathcal{B}(n, p_{R_n})$ with $p_{[R_n, \infty)}\in (n^{-2/d}, 2n^{-2/d})$. This implies that there is a $\delta_1>0$ independent of $n$ such that 
+ $\mathbb{P}(S_n\in (n^{1-2/d},2n^{1-2/d}))>\delta_1$.
 
 
  
-Given a sample lies in $B(0,R)$, the probability that a sample has modulus in $[R-1, R)$ (that is it lies in  $B(0, R_n)\backslash B(0, R_n-1)$) is 
+Given that a sample point $x$ lies in $B(0,R)$, the probability that $x$ has its modulus in $[R-1, R)$ (that is, $x\in B(0, R)\backslash B(0, R-1)$) is 
 \begin{align*}
-p_{[R-1,R)}&=\frac{\int_{R-1}^R \frac{c_d s_{d-1}r^{d-1}}{1+r^{d+1}}\,dr }{1-p_{R}}< \frac{\frac{c_d s_{d-1}}{R}-\frac{c_d s_{d-1}}{R-1}}{1-\frac{c_d s_{d-1}}{R}}<\frac{2c_d s_{d-1}}{R^2}
+p_{[R-1,R)}&=\frac{\int_{R-1}^R \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}}\,dr }{1-p_{R}}< \frac{\frac{c_m s_{m-1}}{R}-\frac{c_m s_{m-1}}{R-1}}{1-\frac{c_m s_{m-1}}{R}}<\frac{2c_m s_{m-1}}{R^2}
 \end{align*}
-for sufficiently large $R$. For $R_n=\frac{2n^{2/d}}{c_d s_{d-1}}$ we have $p_{[R-1,R)}\leq n^{-2/d}$ for large $n$.
+for sufficiently large $R$. For $R_n=\frac{2n^{2/d}}{c_m s_{m-1}}$ we have $p_{[R-1,R)}\leq n^{-2/d}$ for large $n$.
 
 
 Let $\hat{S}_n$ the number of samples in $B(0, R_n)\backslash B(0, R_n-1)$ conditioned on there being $S_n$ samples outside $B(0,R_n)$. We have $\hat{S}_n \sim \mathcal{B}(n-S_n, p_{[R_n, R_n-1)})$. We can couple $\mathcal{B}(n-S_n, p_{[R_n, R_n-1)})$ to $\mathcal{B}(n, p_{[R_n, R_n-1)})$ to imply that $\mathbb{P}(\hat{S}_n\leq n^{1-2/d})\geq \frac{1}{2}$.
@@ -212,17 +212,17 @@ Let $\hat{S}_n$ the number of samples in $B(0, R_n)\backslash B(0, R_n-1)$ condi
 Consider the Rips complex at radius $1$. We want to lower bound the probability that all the points outside $B(0,R)$ are isolated. A sufficient condition for this is that there are no edges between points outside $B(0, R-1)$.
 
 \begin{align*}
-\mathbb{P}(d(x,y)\leq 1|\mid \|x\|, \|y\|\geq R-1)&= 
-\frac{1}{\mathbb{P}(\|x\|,\|y\|\geq R-1)}\int_{R-1}^\infty \frac{c_d s_{d-1}r^{d-1}}{1+r^{d+1}} \mathbb{P}(y\in B(x,1)\mid |x|=r) \,dr
+\mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\|\geq R-1)&= 
+\frac{1}{\mathbb{P}(\|x\|,\|y\|\geq R-1)}\int_{R-1}^\infty \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}} \mathbb{P}(y\in B(x,1)\mid |x|=r) \,dr
 \end{align*}
 
 If $|x|=r$ ($r$ sufficiently large), then the probability that another sample $y$ lies in $B(x,1)$ is bounded above by $C/r^d$ for some constant $C$ independent of $r$. This implies that there exists a constant $C_1$ independent of $R$ such that 
 \begin{align*}
-\mathbb{P}(d(x,y)\leq 1|\mid \|x\|, \|y\|>R-1)& < (R-1)^2 C_1\int_{R-1}^\infty \frac{1}{r^{d+2}}\,dr \leq \frac{C_2}{R^{d-1}}.
+\mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\|>R-1)& < (R-1)^2 C_1\int_{R-1}^\infty \frac{1}{r^{m+2}}\,dr.
 \end{align*}
-for some constant $C_2$ independent of $R$ (for sufficiently large $R$).
+Thus there is some constant $C_2$ independent of $R$ (for sufficiently large $R$) such that $$\mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\|>R-1)\leq \frac{C_2}{R^{m-1}}.$$
 
-Let $Y_n$ be the number of edges in the Rips complex at radius $1$ between points outside $B(0,R_n-1)$.
+Let $Y_n$ be the number of edges in the Rips complex at radius $1$ between points outside $B(0,R_n-1)$. We have 
 \begin{align*}
     \E[Y_n|S_n\leq 2n^{1-2/d} \text{ and } \hat{S}_n\leq n^{1-2/d}]&\leq \frac{(3n^{1-2/d})^2}{2}C_2 (n^{2/d})^{-d+1}
     =\frac{3C_2}{2n^{2/d}}
@@ -232,7 +232,7 @@ For any $\delta_2\in (0,1)$ we have $\E[Y_n|S_n<2n^{1-2/d}  \text{ and } \hat{S}
 Combined we have
 $$\P(S_n \in (n^{1-2/d},2n^{1-2/d}) \text{ and } \hat{S}_n\leq n^{1-2/d}\text{ and } Y_n=0)>\frac{1}{2}\delta_1\delta_2$$ for sufficiently large $n$. When $S_n \in (n^{1-2/d},2n^{1-2/d})$ and $\hat{S}_n\leq n^{1-2/d}$ and $Y_n=0$ we are guaranteed that at least $n^{1-2/d}$ points are isolated in the Rips complex at radius $1$. This implies that there are at least $n^{1-2/d}$ connected components and $d_{n-n^{1-2/d}}\geq 1$.
 
-If we set $\omega(n)=n-n^{1-2/d}$, then we do \emph{not} have the limit $d_{\omega(n)}\to 0$ as $n\to \infty$ with probability $1$ which means that $d_{\omega(n)}$ does not give a consistent estimator.
+If we set $\omega(n)=n-n^{1-2/d}$, then we do \emph{not} have the limit $d_{\omega(n)}\to 0$ as $n\to \infty$ with probability $1$ which means that $d_{\omega(n)}$ is not an admissible bandwidth.
 
 \subsection{Quantile death times $d_{\alpha(n-1)}$ are an admissible bandwidth}
 
@@ -242,7 +242,7 @@ An approach that generally works is to a percentile of the death times. That is 
 The following is a standard useful lemma, but we include it for completeness.
 
 \begin{lemma}\label{lem:samplescover}
-  Let $U_1, \ldots, U_l\subset \R^d$ and $X$ a random sample such that $\P(X\in U_i)>\delta $ for all $i$. Let $\{x_1, \ldots x_n\}$ be i.i.d. draws of $X$. If $Z_i$ is the event that at no samples $x_j$ lie in $U_i$ then
+  Let $U_1, \ldots, U_l\subset \R^m$ and $X$ a random sample such that $\P(X\in U_i)>\delta $ for all $i$. Let $\{x_1, \ldots x_n\}$ be i.i.d. draws of $X$. If $Z_i$ is the event that at no samples $x_j$ lie in $U_i$ then
   $$
   \P(\cup Z_i) \leq l e^{-n\delta}.
   $$
@@ -252,10 +252,10 @@ The following is a standard useful lemma, but we include it for completeness.
   $\P(\cup Z_i)\leq \sum_i \P(Z_i)\leq le^{-n\delta}$.
   \end{proof}
 
-It is useful to have notation for offsets of Euclidean subsets. For any subset $L\subset \R^d$ and any $\delta>0$, let $L^\delta$ denote the set $\{y+v \mid y\in L, \|v\| \leq \delta\}$.
+It is useful to have notation for offsets of Euclidean subsets. For any subset $L\subset \R^m$ and any $\delta>0$, let $L^\delta$ denote the set $\{y+v \mid y\in L, \|v\| \leq \delta\}$.
 
 \begin{lemma}\label{lem:covernumber}
-  Let $f: \R^d\to [0,\infty)$ be a Lipschitz probability density function (with Lipschitz constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$. For all $\epsilon\in(0, c/2M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that $\{B(x_i, \epsilon)\}$ is a cover of $L$, $l\leq\frac{2^{d+2}}{3 c b_d \epsilon ^d}$, and $\P(X\in B(x_i, \epsilon))>\frac{c b_d}{2} \epsilon^d$ for all $i$. Here $b_d$ is the volume of the unit ball in $\R^d$.
+  Let $f: \R^m\to [0,\infty)$ be a Lipschitz probability density function (with Lipschitz constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$. For all $\epsilon\in(0, c/2M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that $\{B(x_i, \epsilon)\}$ is a cover of $L$, $l\leq\frac{2^{d+2}}{3 c b_d \epsilon ^d}$, and $\P(X\in B(x_i, \epsilon))>\frac{c b_d}{2} \epsilon^d$ for all $i$. Here $b_d$ is the volume of the unit ball in $\R^m$.
   %Furthermore, $\cup_i B(x_i, \epsilon)$ contains at most $$??$$
   % connected components.
 \end{lemma}
@@ -280,7 +280,7 @@ As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \inf
   $$
   \frac{c_\alpha b_d \epsilon_n^d}{2} =\frac{\log n}{n}.
   $$
-  (where $b_d$ is the volume of the unit ball in $\R^d$).
+  (where $b_d$ is the volume of the unit ball in $\R^m$).
   Note that for $\epsilon_n \in (0, c/2M)$ for large enough $n$.
   
   By \cref{lem:covernumber} there exists a cover of $L$ by $l_n$ balls $\{B(y_i, \epsilon_n)\}$, with
@@ -300,7 +300,7 @@ As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \inf
   % $f(x)>c$. Since $f$ has only finitely many local maxima we have
   % that the number of connected components in $L$ is finite.
   %Denote these connected components by $L_1, L_2, \ldots L_K$.
-  % %Consider also the sets $L_i^\epsilon=\{y\in \R^d| \text{ there
+  % %Consider also the sets $L_i^\epsilon=\{y\in \R^m| \text{ there
   % exists }x\in L_i \text{ such that } \|x-y\|<\epsilon\}$
   %We also know that the volumes of the $L_i$ are all bounded.
 
@@ -322,10 +322,10 @@ If there are less than $n(1-\alpha)$ connected components in $\cup_j B(x_j, \eps
 As $\epsilon_n \to 0$ as $n\to \infty$ we have $d_{\alpha(n-1)} \to 0$ almost surely.
 \end{proof}
 
-We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n) in plane} (for distributions over $\R^2$) or Theorem \ref{thm:nd_f(n) in higher dimensions} (for distributions over $\R^d$ with $d>2$) to show $d_{\alpha(n-1)}$ is an admissible bandwidth as a corollary.
+We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n) in plane} (for distributions over $\R^2$) or Theorem \ref{thm:nd_f(n) in higher dimensions} (for distributions over $\R^m$ with $d>2$) to show $d_{\alpha(n-1)}$ is an admissible bandwidth as a corollary.
 
 \begin{corollary}\label{cor:consistency}
-  Let $f:\R^d \to \R$ be a Lipschitz probability density function for $X$. Fix $\alpha\in (0,1)$. Then $d_{\alpha (n-1)} \to 0$ (where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times) is an admissible bandwidth.
+  Let $f:\R^m \to \R$ be a Lipschitz probability density function for $X$. Fix $\alpha\in (0,1)$. Then $d_{\alpha (n-1)} \to 0$ (where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times) is an admissible bandwidth.
 \end{corollary}
 
 %\begin{proof}
