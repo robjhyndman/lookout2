@@ -270,7 +270,7 @@ As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \inf
 \end{proof}
 
 \begin{theorem}\label{thm:d_alphan to 0}
-  Let $f:\R^p \to \R$ be a Lipschitz probability density function (with Lipschitz constant $M$) for $X$. For any $\alpha\in (0,1)$, the limit $d_{\alpha (n-1)} \to 0$ converges almost surely, where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times.
+  Let $f:\R^m \to \R$ be a Lipschitz probability density function (with Lipschitz constant $M$) for $X$. For any $\alpha\in (0,1)$, the limit $d_{\alpha (n-1)} \to 0$ converges almost surely, where $d_{\alpha (n-1)}$ is the $\alpha$ quantile of finite death times.
 \end{theorem}
 
 \begin{proof}
@@ -292,9 +292,9 @@ As $B(x_i, \epsilon) \subset f^{-1}[c-M\epsilon, \infty)\subset f^{-1}[c/2, \inf
 
   If $Z_i$ is the event that at there are no samples in $B(y_i, \epsilon)$. By \cref{lem:samplescover}
   $$
-  \P(\cup Z_i) \leq \frac{2^d n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^d}{\log n} .
+  \P(\cup Z_i) \leq \frac{2^m n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^m}{\log n} .
   $$
- This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon_n)$ almost surely. All points with the same ball $B(y_i, \epsilon_n)$ will be connected in the Rips complex with radius $2\epsilon_n$. This implies that the number of connected components when restricting to points inside $L_{\alpha}$ will be bounded above by $l_n \leq \frac{2^d n}{\log n}$ (almost surely).
+ This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \epsilon_n)$ almost surely. All points with the same ball $B(y_i, \epsilon_n)$ will be connected in the Rips complex with radius $2\epsilon_n$. This implies that the number of connected components when restricting to points inside $L_{\alpha}$ will be bounded above by $l_n \leq \frac{2^m n}{\log n}$ (almost surely).
 
   %Let $p=\P(X\notin L)$. Note that for all $x\in L$ we have
   % $f(x)>c$. Since $f$ has only finitely many local maxima we have
