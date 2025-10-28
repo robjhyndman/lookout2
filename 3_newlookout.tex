@@ -16,7 +16,7 @@ We prefer this to the min-max scaling used in the original lookout algorithm, as
 
 The Rips death diameters are computed from the scaled and rotated data $\bm{Z}$. Let $d_1,\dots,d_n$ denote the (ordered) Rips death diameters computed from the sample $\bm{z}_1,\dots,\bm{z}_n$, and let $d^* = d_{0.9(n-1)}$ denote the 0.9 sample quantile computed from $\{d_1,\dots,d_n\}$ \citep{HF96}.
 
-A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ using the bandwidth matrix $\bm{H} = (d^*)^{2/m}\bm{I}$, where $m$ is the dimension of the data. Under this estimator, up to 10\% of the data may be anomalous without affecting the bandwidth matrix selection, and the density estimator is consistent under Corollary \ref{cor:consistency}.
+A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ using the bandwidth matrix $\bm{H} = (d^*)^{2/m}\bm{I}_m$, where $m$ is the dimension of the data. Under this estimator, up to 10\% of the data may be anomalous without affecting the bandwidth matrix selection, and the density estimator is consistent under Corollary \ref{cor:consistency}.
 
 Further, the kernels are now aligned with the data, as both have covariance matrices that are scalar multiples of the identity matrix. While alignment is not necessary for consistency, it does improve the efficiency of the kernel density estimates \citep{chacon2018multivariate}.
 
@@ -25,7 +25,7 @@ Further, the kernels are now aligned with the data, as both have covariance matr
 In the following lemma we show that the kernel density estimates at the observations, and their negative logarithms, are bounded by constants that depend only on the dimension $m$ and the sample size $n$.
 
 \begin{lemma}\label{lemma:boundsforkde}
-  Let $\{\bm{y}_1, \dots, \bm{y}_n\}$ be $n$ data points in   $\mathbb{R}^m$, with kernel density estimate given by
+  Let $\{\bm{y}_1, \dots, \bm{y}_n\}$ be $n$ data points in $\R^m$, with kernel density estimate given by
   $$
   \hat{f}(\bm{y}) = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{y} - \bm{y}_i)\right),
   $$
@@ -39,7 +39,7 @@ In the following lemma we show that the kernel density estimates at the observat
   The constant $M$ may depend on $m$.
 \end{proof}
 
-For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{m/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $M = \frac{1}{(2 \pi)^{m/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2c_m} \left( 1 - \|\bm{u}\| \right)_{+}$, where $c_m$ is the volume of the unit sphere in $\mathbb{R}^m$, and $u_+ = max(0, u)$, then $M = (m+2)/(2c_m)$.
+For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{m/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $M = \frac{1}{(2 \pi)^{m/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} \left( 1 - \|\bm{u}\| \right)_{+}$, where $b_m$ is the volume of the unit sphere in $\R^m$, and $u_+ = max(0, u)$, then $M = (m+2)/(2b_m)$.
 
 Under Theorem \ref{thm:FisherTippett}, the limiting distribution of the extremes of $-\log\hat{f}(\bm{y}_j)$ is a Weibull distribution, corresponding to a Generalized Extreme Value distribution with $\xi<0$. Thus, when we fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$, we can constrain the shape parameter to be non-positive, which improves the stability of the GPD fitting.
 
