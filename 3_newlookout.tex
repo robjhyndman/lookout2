@@ -4,10 +4,10 @@ In light of the preceding theoretical considerations, we propose three modificat
 
 \subsection{Standardization}
 
-Let $\bm{Y}$ be the $m\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. Then the \emph{orthogonalized Gnanadesikan-Kettenring estimator} provides an iterative robust estimate of $\Sigma$, the covariance matrix of $\bm{Y}$ \citep{Maronna2002-qn}. Let 
+Let $\bm{Y}$ be the $m\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. Then the \emph{orthogonalized Gnanadesikan-Kettenring estimator} provides an iterative robust estimate of $\Sigma$, the covariance matrix of $\bm{Y}$ \citep{Maronna2002-qn}. Let
 \begin{equation}\label{eq:ogk}
   \hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}
-\end{equation} 
+\end{equation}
 denote its eigendecomposition. Then, the data can be scaled by $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, so that the covariance matrix of the scaled data $\bm{Z}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
 
 We prefer this to the min-max scaling used in the original lookout algorithm, as it is robust to outliers and removes the correlations between variables, leading to more efficient kernel density estimates.
@@ -29,17 +29,17 @@ In the following lemma we show that the kernel density estimates at the observat
   $$
   \hat{f}(\bm{y}) = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{y} - \bm{y}_i)\right),
   $$
-  where $K(\bm{u})$ is a multivariate kernel function that is bounded below by 0 and above by $K(\bm{0}) = M$, and $\bm{H}$ is an $m\times m$ symmetric positive-definite bandwidth matrix. Then for all $j \in \{1, \dots, n\}$, the kernel density estimates at the observations, $\hat{f}(\bm{y}_j)$, and their negative logarithms, $-\log \hat{f}(\bm{y}_j)$, are bounded by constants that depend only on $m$ and $n$.
+  where $K(\bm{u})$ is a multivariate kernel function that is bounded below by 0 and above by $K(\bm{0}) = K_0$, and $\bm{H}$ is an $m\times m$ symmetric positive-definite bandwidth matrix. Then for all $j \in \{1, \dots, n\}$, the kernel density estimates at the observations, $\hat{f}(\bm{y}_j)$, and their negative logarithms, $-\log \hat{f}(\bm{y}_j)$, are bounded by constants that depend only on $m$ and $n$.
 \end{lemma}
 \begin{proof}
   $$
-  \frac{M|\bm{H}|^{-1/2}}{n} \leq\hat{f}(\bm{y}_j) =
-  \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{y}_j - \bm{y}_i)\right) \leq M|\bm{H}|^{-1/2}\, .
+  \frac{K_0|\bm{H}|^{-1/2}}{n} \leq\hat{f}(\bm{y}_j) =
+  \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{y}_j - \bm{y}_i)\right) \leq K_0|\bm{H}|^{-1/2}\, .
   $$
-  The constant $M$ may depend on $m$.
+  The constant $K_0$ may depend on $m$.
 \end{proof}
 
-For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{m/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $M = \frac{1}{(2 \pi)^{m/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} \left( 1 - \|\bm{u}\| \right)_{+}$, where $b_m$ is the volume of the unit sphere in $\R^m$, and $u_+ = max(0, u)$, then $M = (m+2)/(2b_m)$.
+For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{m/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $K_0 = \frac{1}{(2 \pi)^{m/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} \left( 1 - \|\bm{u}\| \right)_{+}$, where $b_m$ is the volume of the unit sphere in $\R^m$, and $u_+ = \max(0, u)$, then $K_0 = (m+2)/(2b_m)$.
 
 Under Theorem \ref{thm:FisherTippett}, the limiting distribution of the extremes of $-\log\hat{f}(\bm{y}_j)$ is a Weibull distribution, corresponding to a Generalized Extreme Value distribution with $\xi<0$. Thus, when we fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$, we can constrain the shape parameter to be non-positive, which improves the stability of the GPD fitting.
 
@@ -51,7 +51,7 @@ We are now in a position to describe the modified lookout algorithm.
   \caption{Modified lookout algorithm}\label{alg:modifiedlookout}
   \begin{algorithmic}[1]
     \Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta \in (0,1)$, threshold $\alpha \in (0,1)$, and quantile level $\gamma \in (0,1)$.
-    \State Let $\bm{Y}$ be the $m\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. 
+    \State Let $\bm{Y}$ be the $m\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$.
     \State Optional scaling: Calculate the eigendecomposition \eqref{eq:ogk}, and rotate and scale the data using $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, with scaled observations $\bm{z}_1, \dots, \bm{z}_n$ comprising the rows of $\bm{Z}$.
     \State Compute the persistence homology barcode of the data cloud $\bm{Z}$ (set $\bm{Z} = \bm{Y}$ if no scaling is applied) for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}, and obtain the ordered death diameters $\{d_i\}_{i = 1}^n$ for connected components.
     \State Let $d^* =$ the $\gamma$ sample quantile computed from $\{ d_i \}_{i=1}^n$.
