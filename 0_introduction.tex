@@ -2,7 +2,7 @@
 \section{Introduction} \label{sec:intro}
 % ------------------------------------------------------------
 
-\cite{lookout} proposed the \textit{lookout} algorithm for anomaly detection using a kernel density estimate with bandwidth based on persistence homology. Anomalies are identified by fitting a Generalized Pareto Distribution (GPD) to the negative logarithm of the smallest leave-one-out kernel density estimates, and declaring points with low GPD probabilities as anomalies.
+Anomaly detection is used in many application domains such as credit card fraud and scam detection \citep{kolupuri2025scams}.  \cite{lookout} proposed the \textit{lookout} algorithm for anomaly detection using a kernel density estimate with bandwidth based on persistence homology. Anomalies are identified by fitting a Generalized Pareto Distribution (GPD) to the negative logarithm of the smallest leave-one-out kernel density estimates, and declaring points with low GPD probabilities as anomalies.
 
 In this paper, we explore some of the theoretical properties of the lookout algorithm, particularly the choice of bandwidth based on the Rips death diameters, and the consistency of the kernel density estimates produced by this choice. This leads us to propose a modified lookout algorithm using a different bandwidth, although still based on the Rips death diameters. The modified algorithm improves the performance and robustness of the original algorithm, under a broader range of conditions.
 
@@ -94,11 +94,10 @@ The following result is provided by \citet[][p31--37]{chacon2018multivariate}.
   \end{itemize}
 \end{theorem}
 
-We consider matrices of the form $\bm{H} = h_n \bm{I}_m$, where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$
+We consider matrices of the form $\bm{H} = h_n \bm{I}_m$, where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. We have $|\bm{H}|=h_n^m$ so $n^{-1}|\bm{H}|^{-1/2} \rightarrow 0$ precisely when $n^{-1}(h_n)^{-m/2} \to 0$. This leads to our definition of admissible bandwidth as these are the bandwidths which will determine consistent estimators.
 \begin{defn}
-  We say that $h_n$ is an \emph{admissible bandwidth} if $(h_n)^{2/m}\rightarrow 0$ and $nh_n\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
+  We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $n(h_n)^{m/2}\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
 \end{defn}
-Thus, an admissible bandwidth leads to a consistent kernel density estimator.
 
 \subsection{The lookout algorithm for anomaly detection}
 
