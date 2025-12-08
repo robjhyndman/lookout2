@@ -80,9 +80,9 @@ Given a set of observations $\bm{y}_{i} \in \R^m$ for $i \in \{1, \dots, n\}$, a
 \end{equation}
 where $K$ is a square-integrable spherically-symmetric function, bounded below by 0, with a finite second-order moment and unit integral, and $\bm{H}$ is a symmetric $m\times m$ positive-definite matrix.
 
-\begin{defn}[Consistency] Let $Y_1,\dots,Y_n$ be a sequence of independent random variables from a continuous distribution with square integrable density function $f$. Then \eqref{eq:mkde} is a \emph{consistent} estimator of $f$ if
+\begin{defn}[Consistency] Let $\bm{Y}_1,\dots,\bm{Y}_n$ be a sequence of independent random variables from a continuous distribution on $\R^m$ with square integrable density function $f$. Then \eqref{eq:mkde} is a \emph{consistent} estimator of $f$ (replacing $\bm{y}_i$ by $\bm{Y}_i$) if
   $$
-  \lim_{n\rightarrow0} \text{E}\left[\left(\hat{f}(\bm{u}) - f(\bm{u})\right)^2 du\right] = 0
+  \lim_{n\rightarrow0} \text{E}\left[\int \left(\hat{f}(\bm{u}) - f(\bm{u})\right)^2 d\bm{u}\right] = 0
   $$
 \end{defn}
 The following result is provided by \citet[][p31--37]{chacon2018multivariate}.
