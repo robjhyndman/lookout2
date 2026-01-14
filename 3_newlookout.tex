@@ -4,11 +4,11 @@ In light of the preceding theoretical considerations, we propose three modificat
 
 \subsection{Standardization}
 
-Let $\bm{Y}$ be the $m\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$. Then the \emph{orthogonalized Gnanadesikan-Kettenring estimator} provides an iterative robust estimate of $\Sigma$, the covariance matrix of $\bm{Y}$ \citep{Maronna2002-qn}. Let
+The \emph{orthogonalized Gnanadesikan-Kettenring estimator} provides an iterative robust estimate of $\bm{\Sigma}$, the covariance matrix of $\{\bm{y}_1,\dots,\bm{y}_n\}$ \citep{Maronna2002-qn}. Let
 \begin{equation}\label{eq:ogk}
-  \hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{\Lambda} \bm{U}
+  \hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{U}
 \end{equation}
-denote its eigendecomposition. Then, the data can be scaled by $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, so that the covariance matrix of the scaled data $\bm{Z}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
+denote the Cholesky decomposition of its inverse. Then, the data can be scaled by $\bm{U}$, giving $\bm{z}_i = \bm{U}(\bm{y}_i - \bm{m})$, where $\bm{m}$ is the vector of medians of $\{\bm{y}_1,\dots,\bm{y}_n\}$. The covariance matrix of the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
 
 We prefer this to the min-max scaling used in the original lookout algorithm, as it is robust to outliers and removes the correlations between variables, leading to more efficient kernel density estimates.
 
