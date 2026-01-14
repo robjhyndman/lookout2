@@ -255,38 +255,42 @@ The following is a standard useful lemma, but we include it for completeness.
 It is useful to have notation for offsets of Euclidean subsets. For any subset $L\subset \R^m$ and any $\delta>0$, let $L^\delta$ denote the set $\{y+v \mid y\in L, \|v\| \leq \delta\}$.
 
 \begin{lemma}\label{lem:covernumber}
-  Let $f: \R^m\to [0,\infty)$ be a Lipschitz probability density function (with Lipschitz constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$. For all $\varepsilon\in(0, c/2M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that $\{B(x_i, \varepsilon)\}$ is a cover of $L$, $l\leq\frac{2^{m+2}}{c b_m \varepsilon^m}$, and $\P(X\in B(x_i, \varepsilon))>\frac{c b_m}{2} \varepsilon^m$ for all $i$ (where $X$ is drawn according to pdf $f$). Here $b_m$ is the volume of the unit ball in $\R^m$.
+  Let $f: \R^m\to [0,\infty)$ be a Lipschitz probability density function (with Lipschitz constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$. For all $\varepsilon\in(0, c/M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that $L \subseteq \cup_i B(x_i, \varepsilon)$, $l\leq\frac{2^{m}}{c b_m \varepsilon^m}$, and $\P(X\in B(x_i, \varepsilon))>\frac{c b_m}{2} \varepsilon^m$ for all $i$ (where $X$ is drawn according to pdf $f$). Here $b_m$ is the volume of the unit ball in $\R^m$.
   %Furthermore, $\cup_i B(x_i, \varepsilon)$ contains at most $$??$$
   % connected components.
 \end{lemma}
 \begin{proof}
-  Fix $\varepsilon \in (0, c/M]$ and take a maximal $(\varepsilon/2)$-separated subset $S = \{x_1, x_2, \ldots, x_l\}$ within $L$. This means that $|x_i-x_j|\geq \varepsilon$ for all $i\neq j$ and that no additional point in $L$ can be added to $S$ without breaking this condition. By construction this implies that $L\subset \cup_{i} B(x_i, \varepsilon)$ as otherwise any missed location in $L$ could be added as an additional point and the set remain $(\varepsilon/2)$-separated.
+  Fix $\varepsilon \in (0, c/M]$ and take a maximal $(\varepsilon/2)$-separated subset $S = \{x_1, x_2, \ldots, x_l\}$ within $L$. This means that $|x_i-x_j|\geq \varepsilon$ for all $i\neq j$ and that no additional point in $L$ can be added to $S$ without breaking this condition. By construction this implies that $L\subseteq \cup_{i} B(x_i, \varepsilon)$ as otherwise any missed location in $L$ could be added as an additional point and the set remain $(\varepsilon/2)$-separated.
 
   As each $x_i\in L$ we also have $B(x_i, \varepsilon/2)\subset L^{\varepsilon/2}$. Since $f$ is Lipschitz with Lipschitz constant $M$, we have
   $L^{\varepsilon/2} \subseteq f^{-1}[c-M\varepsilon/2, \infty)$.
-  For $\varepsilon<c/M$ we have $B(x_i, \varepsilon/2)\subset f^{-1}[c/2, \infty)$ so $$\P(X\in B(x_i, \varepsilon/2))=\int_{B(x_i, \varepsilon/2)}f dx \geq \frac{c b_m \varepsilon^m}{2^{m+2}}.$$ Each of the $B(x_i, \varepsilon/2)$ are disjoint so $l\frac{c b_m \varepsilon^m}{2^{m+2}} \leq \P(X\in \cup_i B(x_i, \varepsilon/2))\leq 1$. We thus get $l\leq \frac{2^{m+2}} {c b_m \varepsilon^d}$.
+  For $\varepsilon<c/M$ we have $B(x_i, \varepsilon/2)\subset f^{-1}[c/2, \infty)$ so $$\P(X\in B(x_i, \varepsilon/2))=\int_{B(x_i, \varepsilon/2)}f dx \geq \frac{c b_m \varepsilon^m}{2^{m}}.$$ Each of the $B(x_i, \varepsilon/2)$ are disjoint so $l\frac{c b_m \varepsilon^m}{2^{m}} \leq \P(X\in \cup_i B(x_i, \varepsilon/2))\leq 1$. We thus get $l\leq \frac{2^{m}} {c b_m \varepsilon^m}$.
 
   As $B(x_i, \varepsilon) \subset f^{-1}[c-M\varepsilon, \infty)\subset f^{-1}[c/2, \infty]$ we have $\P(X\in B(x_i, \varepsilon))\geq \frac{c b_m \varepsilon^m}{2}$.
 \end{proof}
 
 \begin{theorem}\label{thm:d_alphan to 0}
   Let $f:\R^m \to \R$ be a Lipschitz probability density function (with Lipschitz constant $M$) for $X$. For any $\gamma\in (0,1)$, the limit $d_{\gamma (n-1)} \to 0$ converges almost surely, where $d_{\gamma (n-1)}$ is the $\gamma$ quantile of finite death times.
+
+    In particular, $$d_{\gamma(n-1)} < C(f,\gamma) \left( \frac{\log n}{n}\right)^{1/m}$$ almost surely, with $C(f,\gamma)$ a constant dependent on $f$ and $\gamma$.
+    %In particular, $$d_{\gamma(n-1)}<C(f,\gamma) \left( \frac{\log n}{n}\right)^{1/m}$$ almost surely, with $C(f,\gamma)$ a constant dependent on $f$ and $\gamma$.
 \end{theorem}
 
 \begin{proof}
   Fix $\gamma\in [0,1)$.
 Choose $c>0$ such that for $L=f^{-1}[c, \infty)$ we have $\P(X\notin L)<(1-\gamma)/2$.
 
+
   Consider the sequence $\varepsilon_n:= \left(\frac{2\log n}{c b_m n}\right)^{1/m}$, so that
   $$
   \frac{c b_m \varepsilon_n^m}{2} =\frac{\log n}{n}.
   $$
   (where $b_m$ is the volume of the unit ball in $\R^m$).
-  Note that for $\varepsilon_n \in (0, c/2M)$ for large enough $n$. Restrict the sequence to $n$ where this holds.
+  Note that for $\varepsilon_n \in (0, c/M)$ for large enough $n$. Restrict the sequence to $n$ where this holds.
 
   By \cref{lem:covernumber} there exists a cover of $L$ by $l_n$ balls $\{B(y_i, \varepsilon_n)\mid i=1, 2, \ldots l_n\}$, with
   $$
-  l_n\leq \frac{2^{m+1}}{c b_m \varepsilon_n^m}=\frac{2^m n}{\log n}
+  l_n\leq \frac{2^{m}}{c b_m \varepsilon_n^m}=\frac{2^m n}{\log n}
   $$
   and
   $\P(X\in B(y_i, \varepsilon_n))>\frac{c b_m \varepsilon_n^m}{2} = \frac{\log n}{n}$ for each $i$.
@@ -296,6 +300,7 @@ Choose $c>0$ such that for $L=f^{-1}[c, \infty)$ we have $\P(X\notin L)<(1-\gamm
   \P(\cup Z_i) \leq \frac{2^m n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^m}{\log n} .
   $$
   This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, \varepsilon_n)$ almost surely. All points with the same ball $B(y_i, \varepsilon_n)$ will be connected in the Rips complex with radius $2\varepsilon_n$. This implies that the number of connected components when restricting to points inside $L$ will be bounded above by $l_n \leq \frac{2^m n}{\log n}$ (almost surely).
+
 
   %Let $p=\P(X\notin L)$. Note that for all $x\in L$ we have
   % $f(x)>c$. Since $f$ has only finitely many local maxima we have
@@ -327,9 +332,10 @@ Choose $c>0$ such that for $L=f^{-1}[c, \infty)$ we have $\P(X\notin L)<(1-\gamm
   \end{align*}
   This clearly goes to zero as $n$ goes to infinity.
 
-  If there are less than $n(1-\gamma)$ connected components in $\cup_j B(x_j, \varepsilon_n)$ then $d_{\gamma(n-1)}< \varepsilon_n$. Thus we have proved $$\mathbb{P}(d_{\gamma(n-1)} > 
+  If there are less than $n(1-\gamma)$ connected components in $\cup_j B(x_j, \varepsilon_n)$ then $d_{\gamma(n-1)}< \varepsilon_n$. Thus we have proved $$\P(d_{\gamma(n-1)} > 
   \varepsilon_n)\leq \P(\cup Z_i)+\P(Y(L,n)>5n(1-\gamma)/6)\to 0$$ as $n\to \infty$.
   As $\varepsilon_n \to 0$ as $n\to \infty$ we have $d_{\gamma(n-1)} \to 0$ almost surely.
+  In particular, $$d_{\gamma(n-1)}<C(f,\gamma) \left( \frac{\log n}{n}\right)^{1/m}$$ almost surely, with $C(f,\gamma)$ a constant dependent on $f$ and $\gamma$.
 \end{proof}
 
 We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n) in plane}  to show $d_{\gamma(n-1)}$ is an admissible bandwidth as a corollary.
@@ -337,6 +343,7 @@ We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n) in 
 \begin{corollary}\label{cor:consistency}
   Let $f:\R^m \to \R$ be a Lipschitz probability density function for $X$. Fix $\gamma\in (0,1)$. Then $d_{\gamma (n-1)} \to 0$ (where $d_{\gamma (n-1)}$ is the $\gamma$ quantile of finite death times) is an admissible bandwidth.
 \end{corollary}
+
 
 %\begin{proof}
 %  By \cref{thm:d_alphan to 0} we have $\lim_{n\to \infty} d_{\gamma(n-1)} =0$.
