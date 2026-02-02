@@ -73,12 +73,17 @@ A second result from EVT that we will use is Pickands theorem \citep{Pickands197
 The family of distributions defined by equation~\eqref{eq:POT4} is called the \textbf{Generalized Pareto Distribution} (GPD). The shape parameter $\xi$ is the same in both GPD and GEV distributions. Furthermore, the GEV parameters can be recovered from the GPD formulation by estimating a GPD on all observations above some threshold.
 
 \subsection{Kernel Density Estimation}
+{\color{red}Note to self (Kate) rewrite this removing the H as awe are only considering symmetric kernels anyway. Add a remark somewhere that it can be gernalised to non-symmetric kernels. 
+
+More importantly: For other reasons I have been reading around the literature on kernel density estimation and for symmetric kernels consistency is $nh_n^m\to \infty$ and not $nh_n^{m/2}\to infinity$. I had a brief look at the reference given here (Chacon and Duong) and I found the notation confusing. It seemed that there were extra factors missing in our formula so I fear a transcription mistake. Anyway, I will try to rewrite with symmetric kernels and the (correct?) rate. Unfortunately I will need to go back and massage the proofs and maybe theorem statements to this new limit.} 
+
 
 Given a set of observations $\bm{y}_{i} \in \R^m$ for $i \in \{1, \dots, n\}$, a kernel density estimate is defined as \citep{chacon2018multivariate}
 \begin{equation}\label{eq:mkde}
   \hat{f}(\bm{y}) = \frac{1}{n} \sum_{i=1}^n |\bm{H}|^{-1/2} K\big(\bm{H}^{-1/2}(\bm{y} - \bm{y}_i)\big),
 \end{equation}
 where $K$ is a square-integrable spherically-symmetric function, bounded below by 0, with a finite second-order moment and unit integral, and $\bm{H}$ is a symmetric $m\times m$ positive-definite matrix.
+
 
 \begin{defn}[Consistency] Let $\bm{Y}_1,\dots,\bm{Y}_n$ be a sequence of independent random variables from a continuous distribution on $\R^m$ with square integrable density function $f$. Then \eqref{eq:mkde} is a \emph{consistent} estimator of $f$ (replacing $\bm{y}_i$ by $\bm{Y}_i$) if
   $$

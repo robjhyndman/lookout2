@@ -1,8 +1,8 @@
 \section{Consistency and crackle}\label{sec:theory}
 
-We will first prove a number of limit theorems about $d_{\omega(n)}$, that is the $\omega(n)$-th death time (when ordered increasingly by size). For consistency of the kernel density estimator, we want to show $d_{\omega(n)} \to 0$ and $n(d_{\omega(n)})^{m/2}\to \infty$.
+We will first prove a number of limit theorems about $d_{\omega(n)}$, that is the $\omega(n)$-th death time (when ordered increasingly by size) in order to construct an admissible bandwidth $h_n$ as a function of $d_{\omega(n)}$. Recall that For consistency of the kernel density estimator, we want to show that for bandwidth $h_n$ that $h_n \to 0$ and $nh_n^m\to \infty$. This means we need both (asymptoptic) lower and upper bounds on $d_{\omega(n)}$.
 
-\subsection{Limit of $n(d_{\omega(n)})^{m/2}$}
+\subsection{Lower bound on $d_{\omega(n)}$}
 %Main mathematical results with proofs (possibly relegated to the Appendices).
 
 %A consequence of the below theorems is that $nd_{\gamma(n-1)}\to
@@ -12,7 +12,9 @@ We will first prove a number of limit theorems about $d_{\omega(n)}$, that is th
 % upper bound on the pdf and the dimension of the space to be at least $2$.
 
 \begin{theorem}\label{thm:nd_f(n) in plane}
-  Let $d_k$ denote the $k$th smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution $X$ over $\R^m$ such that the probability density function exists and is bounded above. Note that there are $n-1$ finite death times. Choose any sequence of integers $\{\omega_n\}$ such that $0<\omega_n <n$ for all $n$ and $\lim_{n\to \infty} \omega_n =\infty$. Then $n(d_{\omega_n})^{m/2}\to \infty$ as $n\to \infty$ almost surely.
+  Let $d_k$ denote the $k$th smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution $X$ over $\R^m$ such that the probability density function $f$ exists and is bounded above. Note that there are $n-1$ finite death times. Fix a $c\in (0,1)$ and choose any sequence of integers $\{\omega_n\}$ such that $\gamma n \leq \omega_n <n$ for all sufficiently large $n$. Then there exists $C_{lower}(f, \gamma)$ independent of $n$ such that 
+  $$d_{\omega_n} \geq C_{lower}(f, \gamma)\left( \frac{1}{n\log n}\right)^{1/m}$$
+  for sufficiently large $n$.
 \end{theorem}
 
 \begin{proof}
@@ -45,7 +47,7 @@ We will first prove a number of limit theorems about $d_{\omega(n)}$, that is th
  % $$
  % \lim_{n\to \infty}\frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n}{\omega(n)} = 0.
  % $$
- A useful upper bound for $n-C(n,r_n)$ is $E(n,r_n)$, where $E(n,r_n)$ is the number of edges in the graph connecting any two points are less than $2r$ apart. This inequality is because every edge we add either reducing the number of connected components by $1$ or keeps the number of connected components unchanged. Coupling these random variables we have the bound $\mathbb{E}[n-C(n, r)]\leq \mathbb{E}\left[E\left(n,r\right)\right]$. The expected number of edges is much easier to calculate than the expected number of components, with
+ A useful upper bound for $n-C(n,r_n)$ is $E(n,r_n)$, where $E(n,r_n)$ is the number of edges in the graph connecting any two points are less than $2r$ apart. This inequality is because every edge we add either reduces the number of connected components by $1$ or keeps the number of connected components unchanged. Coupling these random variables we have the bound $\mathbb{E}[n-C(n, r)]\leq \mathbb{E}\left[E\left(n,r\right)\right]$. The expected number of edges is much easier to calculate than the expected number of components, with
   \begin{align*}
     \mathbb{E}\left[E\left(n,r\right)\right]
     & =\frac{n(n-1)}{2}\mathbb{P}(\lVert x-y \rVert<2r\mid x,y \sim X)
@@ -164,10 +166,10 @@ In this section we will prove the complementary limit theorem needed for $d_{\om
 We would like to combine the previous results to show that $\bm{H} = d_*\bm{I}_m$ results in a consistent density estimator of Gaussian samples in $\R^m$.  
 The only remaining task is to show $i(n) \to \infty$ as $n \to \infty$ almost surely. This seems intuitively clear, but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem.
 
-\subsection{A counterexample of a $d_{\omega(n)}$ which is not an admissible bandwidth}
+\subsection{A counterexample where $(d_{\omega(n)})^\delta$ is not an admissible bandwidth}
 %Consequences of crackle for distributions with fat tails}
 
-There are many potential indexing functions $\omega(n)$ that we can choose to decide which death time to use to compute the bandwidth matrix. We wish for this choice $d_{\omega(n)}$ to be an admissible bandwidth we need $d_{\omega(n)} \to 0$ as $n \to \infty$.
+There are many potential indexing functions $\omega(n)$ that we can choose to decide which death time to use to compute the bandwidth matrix. In order for this choice $d_{\omega(n)}$ to be an admissible bandwidth we need $d_{\omega(n)} \to 0$ as $n \to \infty$.
 
 If our samples are Gaussian, then we know that $d_{\omega(n)}$ leads is an admissible bandwidth whenever $\lim_{n\to \infty} \omega(n)=\infty$. However, when samples come from a fat-tailed distribution, we can construct examples where with positive probability $d_{\omega(n)}$ does not converge to $0$, which implies that $d_{\omega(n)}$ is not an admissible bandwidth.
 
@@ -232,9 +234,9 @@ $$
 $$
 for sufficiently large $n$. When $S_n \in (n^{1-2/m},2n^{1-2/m})$ and $\hat{S}_n\leq n^{1-2/m}$ and $Y_n=0$ we are guaranteed that at least $n^{1-2/m}$ points are isolated in the Rips complex at radius $1$. This implies that there are at least $n^{1-2/m}$ connected components and $d_{n-n^{1-2/m}}\geq 1$.
 
-If we set $\omega(n)=n-n^{1-2/m}$, then we do \emph{not} have the limit $d_{\omega(n)}\to 0$ as $n\to \infty$ with probability $1$ which means that $d_{\omega(n)}$ is not an admissible bandwidth.
+If we set $\omega(n)=n-n^{1-2/m}$, then we do \emph{not} have the limit $d_{\omega(n)}\to 0$ as $n\to \infty$ with probability $1$ which means that no power of $d_{\omega(n)}$ is an admissible bandwidth.
 
-\subsection{Quantile death times $d_{\gamma(n-1)}$ are an admissible bandwidth}
+\subsection{Upper bounding the quantile death times $d_{\gamma(n-1)}$}
 
 Despite the counterexample in the previous subsection, we can find consistent estimators using sequences of death times under very mild assumptions of the distribution (even with fat tails!).
 An approach that generally works is to a percentile of the death times. That is $d_{\gamma(n-1)}$ for some $\gamma\in [0,1]$. Recall that there are only $n-1$ finite death times, so $d_{n-1}$ is the largest finite death value. Strictly speaking, we will need an integer value, so you can interpret $\gamma(n-1)$ as either the floor or the ceiling; the same limits will hold in either case.
