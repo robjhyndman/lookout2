@@ -95,14 +95,18 @@ The following result is provided by \citet[][p31--37]{chacon2018multivariate}.
   For $\hat{f}$ to be a consistent estimator, $\bm{H}$ must be a symmetric positive-definite matrix that satisfies the following conditions:
   \begin{itemize}
     \item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
-    \item $n^{-1}|\bm{H}|^{-1/2} \rightarrow 0$ as $n\rightarrow\infty$.
+    \item $n|\bm{H}|\rightarrow \infty$ as $n\rightarrow\infty$.
   \end{itemize}
 \end{theorem}
 
-We consider matrices of the form $\bm{H} = h_n \bm{I}_m$, where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. We have $|\bm{H}|=h_n^m$ so $n^{-1}|\bm{H}|^{-1/2} \rightarrow 0$ precisely when $n^{-1}(h_n)^{-m/2} \to 0$. This leads to our definition of admissible bandwidth as these are the bandwidths which will determine consistent estimators.
+We consider matrices of the form $\bm{H} = h_n \bm{I}_m$, where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. We have $|\bm{H}|=h_n^m$ so $n|\bm{H}| \rightarrow \infty$ precisely when $n(h_n)^{m} \to \infty$. This leads to our definition of admissible bandwidth as these are the bandwidths which will determine consistent estimators.
 \begin{defn}
-  We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $n(h_n)^{m/2}\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
+  We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $n(h_n)^{m}\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
 \end{defn}
+
+We can further bound the rate of convergence if we know the density function is sufficiently nice. 
+
+
 
 \subsection{The lookout algorithm for anomaly detection}
 
@@ -140,7 +144,7 @@ As a result of these theoretical considerations, we propose three modifications 
 
 \begin{enumerate}
   \item Rather than use a max-min scaling of the data, we standardize the data using a robust covariance estimator. That is, we scale and rotate the data to ensure that the covariance matrix of the transformed data is approximately the identity matrix. This ensures that the data have zero pairwise correlations, which leads to more efficient kernel density estimates. It also leads to each variable having approximately unit variance, which provides a more robust scaling than min-max scaling.
-  \item Rather than using the lower point of the largest gap in Rips death diameters, we use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death. It also ensures the consistency of the kernel density estimates under relatively weak conditions.
+  \item Rather than using the lower point of the largest gap in Rips death diameters, we use an appropriate power of an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death. It also ensures the consistency of the kernel density estimates under relatively weak conditions.
   \item The estimated GPD shape parameter is constrained to be non-positive, which improves the stability of the GPD fitting. This is justified by noting that the kernel density estimates are bounded, so the limiting distribution under the Fisher-Tippett-Gnedenko theorem is a Weibull distribution, which has a negative shape parameter, $\xi$.
 \end{enumerate}
 
