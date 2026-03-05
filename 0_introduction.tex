@@ -95,13 +95,13 @@ The following result is provided by \citet[][p31--37]{chacon2018multivariate}.
   For $\hat{f}$ to be a consistent estimator, $\bm{H}$ must be a symmetric positive-definite matrix that satisfies the following conditions:
   \begin{itemize}
     \item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
-    \item $n|\bm{H}|\rightarrow \infty$ as $n\rightarrow\infty$.
+    \item $n|\bm{H}|^{1/2}\rightarrow \infty$ as $n\rightarrow\infty$.
   \end{itemize}
 \end{theorem}
 
-We consider matrices of the form $\bm{H} = h_n \bm{I}_m$, where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. We have $|\bm{H}|=h_n^m$ so $n|\bm{H}| \rightarrow \infty$ precisely when $n(h_n)^{m} \to \infty$. This leads to our definition of admissible bandwidth as these are the bandwidths which will determine consistent estimators.
+We consider matrices of the form $\bm{H} = h_n \bm{I}_m$, where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. We have $|\bm{H}|=h_n^m$ so $n|\bm{H}|^{1/2} \rightarrow \infty$ precisely when $n(h_n)^{m/2} \to \infty$. This leads to our definition of admissible bandwidth as these are the bandwidths which will determine consistent estimators.
 \begin{defn}
-  We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $n(h_n)^{m}\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
+  We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $n(h_n)^{m/2}\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
 \end{defn}
 
 We can further bound the rate of convergence if we know the density function is sufficiently nice. 

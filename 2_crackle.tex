@@ -352,21 +352,21 @@ $$\mathbb{P}(C(n,r_n)\leq  n-\omega_n)\leq \frac{Mb_m n g_n^m}{2\omega_n}\leq \f
 We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n) in plane}  to show that $d_{\gamma(n-1)}^\delta$ is an admissible bandwidth for all $\delta\in (0,1)$.
 
 \begin{corollary}\label{cor:consistency}
-  Let $f:\R^m \to \R$ be a Lipschitz probability density function for $X$. If there exists $0<\gamma_1< \gamma_2<1$ such that $\omega_n \in (\gamma_1 n, \gamma_2 n)$ for all sufficiently large $n$ then $d_{\omega_n}^\delta$ is an admissible bandwidth for all $\delta\in (0,1)$.
+  Let $f:\R^m \to \R$ be a Lipschitz probability density function for $X$. If there exists $0<\gamma_1< \gamma_2<1$ such that $\omega_n \in (\gamma_1 n, \gamma_2 n)$ for all sufficiently large $n$ then $d_{\omega_n}$ is an admissible bandwidth. %for all $\delta\in (0,1)$.
 \end{corollary}
 
 \begin{proof}
-Recall that for $d_{\omega_n}^\delta$ to be an admissible bandwidth we require $d_{\omega_n}^\delta \to 0$ and $n(d_{\omega_n}^\delta)^m \to \infty$ as $n\to \infty$ with probability $1$. 
+Recall that for $d_{\omega_n}$ to be an admissible bandwidth we require $d_{\omega_n}^\delta \to 0$ and $n(d_{\omega_n})^m \to \infty$ as $n\to \infty$ with probability $1$. 
 %From Theorem \ref{thm:d_alphan to 0}  $d_{\omega_n} \to 0$ as $n\to \infty$ with probability $1$. As $\delta>0$ is fixed, this also holds for $(d_{\omega_n})^\delta$. 
-As $n^{-1/m} \to 0$ as $n\to \infty$ we can conclude from Theorem \ref{thm:d_alphan to 0} that $d_{\omega_n}\to 0$ as $n\to\infty$ (with probability $1$). Since $\delta>0$ this limit also holds for $\{d_{\omega_n}^\delta\}$.
+As $n^{-1/m} \to 0$ as $n\to \infty$ we can conclude from Theorem \ref{thm:d_alphan to 0} that $d_{\omega_n}\to 0$ as $n\to\infty$ (with probability $1$).
 
 From Theorem \ref{thm:nd_f(n) in plane}, with $g_n=(\log n)^{-1/m}$, we get $\lim_{n\to \infty}\mathbb{P}\left(d_{\omega_n} \geq (n\log n)^{-1/m}\right)=1$ and thus 
       $$ \lim_{n\to \infty}\mathbb{P}\left(n(d_{\omega_n}^{\delta})^m \geq n (n\log n)^{-\delta}\right)=1.$$
-      Since $\delta<1$ (by assumption) we have $n (n\log n)^{-\delta}\to \infty$ as $n\to \infty$. This in turn implies $n(d_{\omega_n}^{\delta})^m \to \infty$ as $n\to \infty$ with probability $1$.
+      Since $\delta<1$ (by assumption) we have $n (n\log n)^{-\delta}\to \infty$ as $n\to \infty$. This in turn implies $n(d_{\omega_n})^{m/2}\to \infty$ as $n\to \infty$ with probability $1$.
 
 \end{proof}
 
-We can also use the upper and lower bounds to infer an upper bound on the rate of convergence of the kernel regression estimator using the bandwidth $d_{\omega_n}^\delta$ for suitable sequences $\omega_n$. We can prove that we get almost get the classical theoretically optimal bandwidth choice for kernel regression in Euclidean space.
+We can also use the upper and lower bounds to infer an upper bound on the rate of convergence of the kernel regression estimator using the bandwidth $d_{\omega_n}^\delta$ for suitable sequences $\omega_n$. We can prove that we almost get the classical theoretically optimal bandwidth choice for kernel regression in Euclidean space.
 
 \begin{theorem}\label{cor:consistency}
   Let $f\in C^{p}(\R^n, \R)$ be a probability density function for $X$. Choose any function $\hat{g}(n)$ with $\hat{g}(n)\to \infty$ as $n\to \infty$. 
