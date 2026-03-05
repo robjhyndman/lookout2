@@ -1,0 +1,63 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage,amsmath,amssymb,amsfonts,bbm,parskip,bm}
+\usepackage{natbib,mathpazo}
+\usepackage[no-weekday]{eukdate}
+
+\newcommand{\R}{\mathbb{R}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{defn}{Definition}
+
+\begin{document}
+\title{Kernel Density Estimation}
+\maketitle
+
+\emph{This document summarises the main results on kernel density estimation that are relevant to our work. For more details, see \citet{chacon2018multivariate} and the references therein.}
+
+Given a set of observations $\bm{y}_{i} \in \R^m$ for $i \in \{1, \dots, n\}$, a kernel density estimate is defined as
+\begin{equation}\label{eq:mkde}
+  \hat{f}(\bm{y}) = \frac{1}{n} \sum_{i=1}^n |\bm{H}|^{-1/2} K\big(\bm{H}^{-1/2}(\bm{y} - \bm{y}_i)\big),
+\end{equation}
+where $K$ is a square-integrable spherically-symmetric function, bounded below by 0, with a finite second-order moment and unit integral, and $\bm{H}$ is a symmetric $m\times m$ positive-definite matrix.
+
+A standard way to measure the performance of a density estimator is via the mean integrated squared error (MISE) defined as
+$$
+\text{MISE}(\hat{f}(\cdot, \bm{H})) = \text{E}\left[\int \left(\hat{f}(\bm{u}) - f(\bm{u})\right)^2 d\bm{u}\right]
+$$
+That is, MISE is the expected $L_2$ distance between the estimator $\hat{f}$ and the true density $f$.
+
+We say that $\hat{f}$ is a \emph{consistent} estimator of $f$ if $\text{MISE}(\hat{f})\rightarrow 0$ as $n\rightarrow\infty$.
+
+We will need some conditions on the density function, the kernel and the bandwidth matrix to ensure consistency of the kernel density estimator. These are given below.
+
+\begin{description}
+\item[A1] The density function $f$ is square integrable and twice differentiable, with all of its second-order partial derivatives bounded, continuous and square integrable.
+\item[A2] The kernel $K$ is a square-integrable, spherically symmetric function on $\R^m$ that satisfies\break $\int K(\bm{u})d\bm{u} = 1$, $\int \bm{u} K(\bm{u})d\bm{u} = \bm{0}$ and $\int \bm{u}\bm{u}^T K(\bm{u})d\bm{u} = \mu_2(K)\bm{I}_m$ for some $\mu_2(K) > 0$.
+\item[A3] The bandwidth matrix $\bm{H}$ is a sequence of symmetric positive-definite matrices such that\break $\bm{H}\rightarrow \bm{O}$ and $n|\bm{H}|^{1/2} \rightarrow \infty$ as $n\rightarrow\infty$.
+\end{description}
+
+\begin{theorem}[Consistency] Let $\bm{y}_1,\dots,\bm{y}_n$ be a sequence of independent random variables from a distribution on $\R^m$ that satisfies A1. Then under conditions A2 and A3,
+$$
+\lim_{n\rightarrow\infty} \text{E}\left[\int \left(\hat{f}(\bm{u}) - f(\bm{u})\right)^2 d\bm{u}\right] = 0.
+$$
+\end{theorem}
+
+An asymptotic approximation of the MISE is given by
+\begin{equation}\label{eq:amse}
+\text{AMISE}(\hat{f}(\cdot, \bm{H})) = n^{-1}|\bm{H}|^{-1/2} R(K) + \frac{1}{4} \mu_2(K)^2 \int \left\{\text{tr}(\bm{H} D^2 f(\bm{u}))\right\}^2 d\bm{u},
+\end{equation}
+where $R(K) = \int K(\bm{u})^2 d\bm{u}$ and $D^2 f$ is the Hessian of $f$.
+
+If $\bm{H} = h_n \bm{I}_m$ for some $h_n > 0$, then we can write
+\begin{equation}\label{eq:amse_iso}
+\text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = n^{-1} h_n^{-m/2} R(K) + \frac{1}{4} \mu_2(K)^2 h_n^2 \int \left\{\text{tr}(D^2 f(\bm{u}))\right\}^2 d\bm{u}.
+\end{equation}
+
+The minimal MISE rate is achieved when $h_n$ is of order $n^{-2/(m+4)}$, and the corresponding MISE is of order $n^{-4/(m+4)}$.
+
+However, we are not really interested in optimizing the MISE, as we care more about the tails of the distribution where $f$ is relatively small.
+
+\bibliography{References}
+\bibliographystyle{agsm}
+
+\end{document}
