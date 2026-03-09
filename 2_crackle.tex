@@ -358,41 +358,40 @@ We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n)}  t
 
 \end{proof}
 
-Ultimately we are not really interested in optimizing the MISE, as we care more about the tails of the distribution where $f$ is relatively small. However, proving consistency and bounds on mean square error are still useful as a theoretical justification of bandwidth selection. 
+Thus, setting the bandwidth to be $\bm{H} = d_{\gamma(n-1)} \bm{I}_m$, for $0<\gamma<1$, leads to a consistent kernel density estimator with MISE \eqref{eq:mise} converging to zero as $n\to \infty$.
 
+Ultimately we are not really interested in optimizing the MISE, as we care more about the tails of the distribution where $f$ is relatively small. However, proving consistency and bounds on mean square error are still useful as a theoretical justification of bandwidth selection.
 
-An asymptotic approximation of the MISE is given by
+An asymptotic approximation of the MISE is given by \citep{chacon2018multivariate}
 \begin{equation}\label{eq:amse}
-\text{AMISE}(\hat{f}(\cdot, \bm{H})) = n^{-1}|\bm{H}|^{-1/2} R(K) + \frac{1}{4} \mu_2(K)^2 \int \left\{\text{tr}(\bm{H} D^2 f(\bm{u}))\right\}^2 d\bm{u},
+  \text{AMISE}(\hat{f}(\cdot, \bm{H})) = n^{-1}|\bm{H}|^{-1/2} R(K) + \frac{1}{4} \mu_2(K)^2 \int \left\{\text{tr}(\bm{H} D^2 f(\bm{u}))\right\}^2 d\bm{u},
 \end{equation}
 where $R(K) = \int K(\bm{u})^2 d\bm{u}$ and $D^2 f$ is the Hessian of $f$.
 
 If $\bm{H} = h_n \bm{I}_m$ for some $h_n > 0$, then we can write
 \begin{equation}\label{eq:amse_iso}
-\text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = n^{-1} h_n^{-m/2} R(K) + \frac{1}{4} \mu_2(K)^2 h_n^2 \int \left\{\text{tr}(D^2 f(\bm{u}))\right\}^2 d\bm{u}.
+  \text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = n^{-1} h_n^{-m/2} R(K) + \frac{1}{4} \mu_2(K)^2 h_n^2 \int \left\{\text{tr}(D^2 f(\bm{u}))\right\}^2 d\bm{u}.
 \end{equation}
 
-The minimal MISE rate is achieved when $h_n$ is of order $n^{-2/(m+4)}$, and the corresponding MISE is of order $n^{-4/(m+4)}$. From the upper and lower bounds in Theorem  \ref{thm:d_alphan to 0} and Theorem \ref{thm:nd_f(n)} we asymptotically we expect, with high probability, that $d_{\gamma(n-1)}$ will have a rate close to $n^{-1/m}$. A rate of $n^{-1/m}$ would correspond to AMISE of order $O(n^{-1/2}+n^{-2/m})$.
+The minimal MISE rate is achieved when $h_n$ is of order $n^{-2/(m+4)}$, and the corresponding MISE is of order $n^{-4/(m+4)}$.
 
-
-
-
+From the upper and lower bounds in Theorem  \ref{thm:d_alphan to 0} and Theorem \ref{thm:nd_f(n)}, asymptotically we expect, with high probability, that $d_{\gamma(n-1)}$ will have a rate close to $n^{-1/m}$. A rate of $n^{-1/m}$ would correspond to AMISE of order $O(n^{-1/2}+n^{-2/m})$.
 
 %We can also use the upper and lower bounds to infer an upper bound on the rate of convergence of the kernel regression estimator using the bandwidth $d_{\omega}$ for suitable sequences $\omega_n$. We can prove that we almost get the classical theoretically optimal bandwidth choice for kernel regression in Euclidean space.
 
 %\begin{corollary}\label{cor:convergence_rate}
-%  Let $f\in C^{p}(\R^n, \R)$ be a probability density function for $X$ that satisfies A1. Choose any function $\hat{g}(n)$ with $\hat{g}(n)\to \infty$ as $n\to \infty$. 
-  
+%  Let $f\in C^{p}(\R^n, \R)$ be a probability density function for $X$ that satisfies A1. Choose any function $\hat{g}(n)$ with $\hat{g}(n)\to \infty$ as $n\to \infty$.
+
 %  If there exists $0<\gamma_1< \gamma_2<1$ such that $\omega_n \in (\gamma_1 n, \gamma_2 n)$, for all sufficiently large $n$, then the symmetric kernel regression estimator with bandwidth $d_{\omega_n}^{\frac{m}{m+2p}}$ has an asymptotic convergence rate bounded above by $n^{\frac{-2}{m+2p}}\hat{g}(n)$.
 %\end{corollary}
 
 %\begin{proof}
-%From 
-%$$\text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = C_1 n^{-1} h_n^{-m/2} + C_2 h_n^2 $$   
+%From
+%$$\text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = C_1 n^{-1} h_n^{-m/2} + C_2 h_n^2 $$
 %\end{proof}
 
 \begin{remark}
- There is evidence that $d_*$ (the choice made in the original lookout algorithm) is an admissible bandwidth for samples drawn from a Gaussian distribution, but that it is not an admissible bandwidth when drawn from distributions with fat tails. Given  Theorem \ref{thm:d_n-1 Gaussian} this seems likely but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem. Part of the challenge is we have no formula $\omega_n$ for where the largest gap in the death values is likely to occur.
+  There is evidence that $d_*$ (the choice made in the original lookout algorithm) is an admissible bandwidth for samples drawn from a Gaussian distribution, but that it is not an admissible bandwidth when drawn from distributions with fat tails. Given  Theorem \ref{thm:d_n-1 Gaussian} this seems likely but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem. Part of the challenge is we have no formula $\omega_n$ for where the largest gap in the death values is likely to occur.
 \end{remark}
 %\begin{corollary}\label{cor:d_*}
 %  For point clouds sampled from multivariate Gaussian distributions, we have $d_* \to 0$ as $n\to \infty$.
@@ -401,11 +400,11 @@ The minimal MISE rate is achieved when $h_n$ is of order $n^{-2/(m+4)}$, and the
 %  Note that $i_*< n-1$ and so $d_*=d_{i_*}\leq d_{n-1}$ which we know limits to $0$ almost surely from \cref{thm:d_n-1 Gaussian}.
 %\end{proof}
 
-%We would like to combine the previous results to show that $\bm{H} = d_*\bm{I}_m$ results in a consistent density estimator of Gaussian samples in $\R^m$.  
+%We would like to combine the previous results to show that $\bm{H} = d_*\bm{I}_m$ results in a consistent density estimator of Gaussian samples in $\R^m$.
 %The only remaining task is to show there exists a $\gamma \in (0,1)$ such that $i(n) >\gamma n$ for sufficiently large $n$. This seems intuitively clear, but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem.
 
 %\begin{conj}
-%  Let $S_n$ denote a random sample of $n$ iid points from a fixed multivariate Gaussian in $\R^m$. There exists a $\gamma \in (0,1)$ such that $i(n) >\gamma n$ for sufficiently large $n$.    
+%  Let $S_n$ denote a random sample of $n$ iid points from a fixed multivariate Gaussian in $\R^m$. There exists a $\gamma \in (0,1)$ such that $i(n) >\gamma n$ for sufficiently large $n$.
 %\end{conj}
 
 %\begin{proof}
