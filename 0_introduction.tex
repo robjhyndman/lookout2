@@ -74,17 +74,38 @@ The family of distributions defined by equation~\eqref{eq:POT4} is called the \t
 
 \subsection{Kernel Density Estimation}
 
-
-
 Given a set of observations $\bm{y}_{i} \in \R^m$ for $i \in \{1, \dots, n\}$, a kernel density estimate is defined as \citep{chacon2018multivariate}
 \begin{equation}\label{eq:mkde}
   \hat{f_n}(\bm{y}) = \frac{1}{n} \sum_{i=1}^n |\bm{H}|^{-1/2} K\big(\bm{H}^{-1/2}(\bm{y} - \bm{y}_i)\big),
 \end{equation}
 where $K$ is a square-integrable spherically-symmetric function, bounded below by 0, with a finite second-order moment and unit integral, and $\bm{H}$ is a symmetric $m\times m$ positive-definite matrix.
 
+The expected $L_2$ distance between the estimator $\hat{f}_n$ and the true density $f$ is given by the mean integrated squared error (MISE) defined as
+\begin{equation}\label{eq:mise}
+\text{MISE}(\hat{f}_n) = \text{E}\left[\int \left(\hat{f_n}(\bm{u}) - f(\bm{u})\right)^2 d\bm{u}\right].
+\end{equation}
+We say that $\hat{f}$ is a \emph{consistent estimator} of $f$ if $\text{MISE}(\hat{f}_n)\rightarrow 0$ as $n\rightarrow\infty$.
 
+We will need some conditions on the density function, the kernel and the bandwidth matrix to ensure consistency of the kernel density estimator. These are given below.
 
+\begin{description}
+\item[A1] The density function $f$ is square integrable and twice differentiable, with all of its second-order partial derivatives bounded, continuous and square integrable.
+\item[A2] The kernel $K$ is a square-integrable, spherically symmetric function on $\R^m$ that satisfies\break $\int K(\bm{u})d\bm{u} = 1$, $\int \bm{u} K(\bm{u})d\bm{u} = \bm{0}$ and $\int \bm{u}\bm{u}^T K(\bm{u})d\bm{u} = \mu_2(K)\bm{I}_m$ for some $\mu_2(K) > 0$.
+\item[A3] The bandwidth matrix $\bm{H}$ is a sequence of symmetric positive-definite matrices such that\break $\bm{H}\rightarrow \bm{O}$ and $n|\bm{H}|^{1/2} \rightarrow \infty$ as $n\rightarrow\infty$.
+\end{description}
 
+The following result is provided by \citet[][p31--37]{chacon2018multivariate}.
+
+\begin{theorem}[Consistency] Let $\bm{y}_1,\dots,\bm{y}_n$ be a sequence of independent random variables from a distribution on $\R^m$ that satisfies A1. Then under conditions A2 and A3,
+$$
+\lim_{n\rightarrow\infty} \text{E}\left[\int \left(\hat{f_n}(\bm{u}) - f(\bm{u})\right)^2 d\bm{u}\right] = 0.
+$$
+\end{theorem}
+
+We consider matrices of the form $\bm{H} = h_n \bm{I}_m$, where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. We have $|\bm{H}|=h_n^m$ so $n|\bm{H}|^{1/2} \rightarrow \infty$ precisely when $n(h_n)^{m/2} \to \infty$. This leads to our definition of an admissible bandwidth as these are the bandwidths which will determine consistent estimators.
+\begin{defn}[Admissible bandwidth]\label{def:admissible_bandwidth}
+  We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $n(h_n)^{m/2}\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
+\end{defn}
 
 
 \subsection{The lookout algorithm for anomaly detection}

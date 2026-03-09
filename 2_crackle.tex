@@ -343,55 +343,7 @@ $$\mathbb{P}(C(n,r_n)\leq  n-\omega_n)\leq \frac{Mb_m n g_n^m}{2\omega_n}\leq \f
   which limits to $0$ as $n\to \infty$. This implies that $\lim_{n\to \infty}\mathbb{P}(d_{\omega_n}\geq r_n)=1$.
 \end{proof}
 
-\section{Admissible bandwidths and rates of convergence}
-
-
-
-
-A standard way to measure the performance of a density estimator is via the mean integrated squared error (MISE) defined as
-$$
-\text{MISE}(\hat{f_n}(\cdot, \bm{H})) = \text{E}\left[\int \left(\hat{f_n}(\bm{u}) - f(\bm{u})\right)^2 d\bm{u}\right]
-$$
-That is, MISE is the expected $L_2$ distance between the estimator $\hat{f}$ and the true density $f$.
-
-%We say that $\hat{f}$ is a consistent estimator of $f$ in mean square error if $\text{MISE}(\hat{f})\rightarrow 0$ as $n\rightarrow\infty$.
-
-
-We will need some conditions on the density function, the kernel and the bandwidth matrix to ensure consistency of the kernel density estimator. These are given below.
-
-\begin{description}
-\item[A1] The density function $f$ is square integrable and twice differentiable, with all of its second-order partial derivatives bounded, continuous and square integrable.
-\item[A2] The kernel $K$ is a square-integrable, spherically symmetric function on $\R^m$ that satisfies\break $\int K(\bm{u})d\bm{u} = 1$, $\int \bm{u} K(\bm{u})d\bm{u} = \bm{0}$ and $\int \bm{u}\bm{u}^T K(\bm{u})d\bm{u} = \mu_2(K)\bm{I}_m$ for some $\mu_2(K) > 0$.
-\item[A3] The bandwidth matrix $\bm{H}$ is a sequence of symmetric positive-definite matrices such that\break $\bm{H}\rightarrow \bm{O}$ and $n|\bm{H}|^{1/2} \rightarrow \infty$ as $n\rightarrow\infty$.
-\end{description}
-
-The following result is provided by \citet[][p31--37]{chacon2018multivariate}.
-
-\begin{theorem}[Consistency] Let $\bm{y}_1,\dots,\bm{y}_n$ be a sequence of independent random variables from a distribution on $\R^m$ that satisfies A1. Then under conditions A2 and A3,
-$$
-\lim_{n\rightarrow\infty} \text{E}\left[\int \left(\hat{f_n}(\bm{u}) - f(\bm{u})\right)^2 d\bm{u}\right] = 0.
-$$
-\end{theorem}
-
-
-%\begin{defn}[Consistency] Let $\bm{Y}_1,\dots,\bm{Y}_n$ be a sequence of independent random variables from a continuous distribution on $\R^m$ with square integrable density function $f$. Then \eqref{eq:mkde} is a \emph{consistent} estimator of $f$ (replacing $\bm{y}_i$ by $\bm{Y}_i$) if
-%  $$
-%   \lim_{n\rightarrow0}\text{MISE}(\hat{f_n}(\cdot, \bm{H}))= 0
-%  $$
-%\end{defn}
-%The following result is provided by \citet[][p31--37]{chacon2018multivariate}.
-%\begin{theorem}
-%  For $\hat{f}$ to be a consistent estimator, $\bm{H}$ must be a symmetric %positive-definite matrix that satisfies the following conditions:
-%  \begin{itemize}
-%    \item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
-%    \item $n|\bm{H}|^{1/2}\rightarrow \infty$ as $n\rightarrow\infty$.
-%  \end{itemize}
-%\end{theorem}
-
-We consider matrices of the form $\bm{H} = h_n \bm{I}_m$, where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. We have $|\bm{H}|=h_n^m$ so $n|\bm{H}|^{1/2} \rightarrow \infty$ precisely when $n(h_n)^{m/2} \to \infty$. This leads to our definition of admissible bandwidth as these are the bandwidths which will determine consistent estimators.
-\begin{defn}
-  We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $n(h_n)^{m/2}\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
-\end{defn}
+\subsection{Admissible bandwidths and rates of convergence}
 
 
 
