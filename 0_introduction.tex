@@ -15,7 +15,7 @@ There is no broadly accepted definition for an anomaly. \citet{hawkins1980identi
 \begin{defn}[Anomalies]
   Given a set of observations $\bm{y}_{i} \in \R^m$ for $i \in \{1, \dots, n\}$, and a probability density function $f$, we define observation $\bm{y}_i$ as anomalous if
   \begin{equation}
-    \text{Pr}(f(Y) < f(\bm{y}_{i})) < \alpha,
+    \text{Pr}(f(Y) \le f(\bm{y}_{i})) < \alpha,
   \end{equation}
   where $Y$ is a random variable with density $f$, and $\alpha>0$ is a chosen threshold.
 \end{defn}
@@ -26,8 +26,8 @@ There is no broadly accepted definition for an anomaly. \citet{hawkins1980identi
 These are better known as  ``log scores'' in statistics \citep{Good1952-zw}, but we prefer the term ``surprisals'' from information theory \citep{Stone2022}, as it provides a measure of how surprising an observation is, given the probability density function $f$. Specifically, it takes large values for observations that are unlikely under $f$.
 
 Let $S = -\log f(\bm{Y})$ be the random variable representing the surprisal of a random vector $\bm{Y}$ drawn from $f$, and let $G(s) = \text{Pr}(S\le s)$ be its distribution function. Then the surprisal probability of observation $\bm{y}_i$ is given by
-$$p_i = 1 - G(-\log f (\bm{y}_i))$$
-and an observation is an anomaly iff $p_i < \alpha$.
+$$p_i = 1 - G(s_i^-),$$
+where $s_i = -\log f (\bm{y}_i)$, and $G(s_i^-) = \lim_{t \uparrow s_i} G(t)$ is the left limit of $G$ at $s_i$. An observation is an anomaly iff $p_i < \alpha$.
 
 \subsection{Extreme Value Theory}
 
