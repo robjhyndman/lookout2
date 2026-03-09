@@ -73,38 +73,17 @@ A second result from EVT that we will use is Pickands theorem \citep{Pickands197
 The family of distributions defined by equation~\eqref{eq:POT4} is called the \textbf{Generalized Pareto Distribution} (GPD). The shape parameter $\xi$ is the same in both GPD and GEV distributions. Furthermore, the GEV parameters can be recovered from the GPD formulation by estimating a GPD on all observations above some threshold.
 
 \subsection{Kernel Density Estimation}
-{\color{red}Note to self (Kate) rewrite this removing the H as awe are only considering symmetric kernels anyway. Add a remark somewhere that it can be gernalised to non-symmetric kernels. 
 
-More importantly: For other reasons I have been reading around the literature on kernel density estimation and for symmetric kernels consistency is $nh_n^m\to \infty$ and not $nh_n^{m/2}\to infinity$. I had a brief look at the reference given here (Chacon and Duong) and I found the notation confusing. It seemed that there were extra factors missing in our formula so I fear a transcription mistake. Anyway, I will try to rewrite with symmetric kernels and the (correct?) rate. Unfortunately I will need to go back and massage the proofs and maybe theorem statements to this new limit.} 
 
 
 Given a set of observations $\bm{y}_{i} \in \R^m$ for $i \in \{1, \dots, n\}$, a kernel density estimate is defined as \citep{chacon2018multivariate}
 \begin{equation}\label{eq:mkde}
-  \hat{f}(\bm{y}) = \frac{1}{n} \sum_{i=1}^n |\bm{H}|^{-1/2} K\big(\bm{H}^{-1/2}(\bm{y} - \bm{y}_i)\big),
+  \hat{f_n}(\bm{y}) = \frac{1}{n} \sum_{i=1}^n |\bm{H}|^{-1/2} K\big(\bm{H}^{-1/2}(\bm{y} - \bm{y}_i)\big),
 \end{equation}
 where $K$ is a square-integrable spherically-symmetric function, bounded below by 0, with a finite second-order moment and unit integral, and $\bm{H}$ is a symmetric $m\times m$ positive-definite matrix.
 
 
-\begin{defn}[Consistency] Let $\bm{Y}_1,\dots,\bm{Y}_n$ be a sequence of independent random variables from a continuous distribution on $\R^m$ with square integrable density function $f$. Then \eqref{eq:mkde} is a \emph{consistent} estimator of $f$ (replacing $\bm{y}_i$ by $\bm{Y}_i$) if
-  $$
-  \lim_{n\rightarrow0} \text{E}\left[\int \left(\hat{f}(\bm{u}) - f(\bm{u})\right)^2 d\bm{u}\right] = 0
-  $$
-\end{defn}
-The following result is provided by \citet[][p31--37]{chacon2018multivariate}.
-\begin{theorem}
-  For $\hat{f}$ to be a consistent estimator, $\bm{H}$ must be a symmetric positive-definite matrix that satisfies the following conditions:
-  \begin{itemize}
-    \item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
-    \item $n|\bm{H}|^{1/2}\rightarrow \infty$ as $n\rightarrow\infty$.
-  \end{itemize}
-\end{theorem}
 
-We consider matrices of the form $\bm{H} = h_n \bm{I}_m$, where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. We have $|\bm{H}|=h_n^m$ so $n|\bm{H}|^{1/2} \rightarrow \infty$ precisely when $n(h_n)^{m/2} \to \infty$. This leads to our definition of admissible bandwidth as these are the bandwidths which will determine consistent estimators.
-\begin{defn}
-  We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $n(h_n)^{m/2}\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
-\end{defn}
-
-We can further bound the rate of convergence if we know the density function is sufficiently nice. 
 
 
 
@@ -120,7 +99,7 @@ The \textit{lookout} algorithm of \cite{lookout} has four inputs: the dataset $\
     \State Compute the persistence homology barcode of the (possibly scaled) data cloud for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}.
     \State From the barcode, obtain the ordered death diameters $\{d_i\}_{i = 1}^n$ for connected components, and their successive differences $\Delta d_i = d_{i+1} - d_i$.
     \State Let $d_* = d_{i_*}$ where $i_* = \text{arg\! max} \{\Delta d_i \}_{i=1}^n$; that is, $d_*$ is the diameter corresponding to the lower point of the maximum $\Delta d_i$.
-    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde}, $\bm{H} = h_n\bm{I}_m$, and $h_n = (d_*)^{2/m}$.
+    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde}, $\bm{H} = h_n\bm{I}_m$, and $h_n = d_*$.
     \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - \bm{H}^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
     \State Fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
     \State Calculate the probability of each observation by applying the estimated GDP to the leave-one-out kde values: $p_i = (1-\beta)P(-\log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.

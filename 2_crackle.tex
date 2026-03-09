@@ -1,6 +1,6 @@
 \section{Lower and upper bounds on $d_{\omega_n}$}\label{sec:theory}
 
-We will first prove a number of limit theorems about $d_{\omega_n}$, that is the $\omega_n$-th death time in the degreee 0 Rips persistent homology of the Rips filtration (when ordered increasingly by size) in order to construct an admissible bandwidth $h_n$ as a function of $d_{\omega_n}$. %Recall that For consistency of the kernel density estimator, we want to show that for bandwidth $h_n$ that $h_n \to 0$ and $nh_n^m\to \infty$. This means we need both (asymptoptic) lower and upper bounds on $d_{\omega_n}$.
+We will first prove a number of limit theorems about $d_{\omega_n}$, that is the $\omega_n$-th death time in the degreee 0 Rips persistent homology of the Rips filtration (when ordered increasingly by size) in order to construct an admissible bandwidth $h_n=d_{\omega_n}$. %Recall that For consistency of the kernel density estimator, we want to show that for bandwidth $h_n$ that $h_n \to 0$ and $nh_n^m\to \infty$. This means we need both (asymptoptic) lower and upper bounds on $d_{\omega_n}$.
 
 
 \subsection{Limit of $d_{n-1}$ for Gaussian Samples}
@@ -287,7 +287,7 @@ Given the general upper bound result in Subsection \ref{sec:upperboundquartile} 
 %This holds for very general distributions. We only require a global
 % upper bound on the pdf and the dimension of the space to be at least $2$.
 
-\begin{theorem}\label{thm:nd_f(n) in plane}
+\begin{theorem}\label{thm:nd_f(n)}
   Let $d_k$ denote the $k$th smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution $X$ over $\R^m$ such that the probability density function $f$ exists and is bounded above. Note that there are $n-1$ finite death times. Fix a $\gamma\in (0,1)$ and choose any sequence of integers $\{\omega_n\}$ such that $\gamma n \leq \omega_n <n$ for all sufficiently large $n$. Then for any sequence $\{g_n\}$, such that $g_n\to 0$ as $n \to \infty$, we have
   $$\lim_{n\to \infty}\mathbb{P}\left(d_{\omega_n} \geq n^{-1/m}g_n\right)=1.$$
 \end{theorem}
@@ -348,37 +348,104 @@ $$\mathbb{P}(C(n,r_n)\leq  n-\omega_n)\leq \frac{Mb_m n g_n^m}{2\omega_n}\leq \f
 
 
 
+A standard way to measure the performance of a density estimator is via the mean integrated squared error (MISE) defined as
+$$
+\text{MISE}(\hat{f_n}(\cdot, \bm{H})) = \text{E}\left[\int \left(\hat{f_n}(\bm{u}) - f(\bm{u})\right)^2 d\bm{u}\right]
+$$
+That is, MISE is the expected $L_2$ distance between the estimator $\hat{f}$ and the true density $f$.
 
-We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n) in plane}  to show that $d_{\gamma(n-1)}^\delta$ is an admissible bandwidth for all $\delta\in (0,1)$.
+%We say that $\hat{f}$ is a consistent estimator of $f$ in mean square error if $\text{MISE}(\hat{f})\rightarrow 0$ as $n\rightarrow\infty$.
 
-\begin{corollary}\label{cor:consistency}
-  Let $f:\R^m \to \R$ be a Lipschitz probability density function for $X$. If there exists $0<\gamma_1< \gamma_2<1$ such that $\omega_n \in (\gamma_1 n, \gamma_2 n)$ for all sufficiently large $n$ then $d_{\omega_n}$ is an admissible bandwidth. %for all $\delta\in (0,1)$.
-\end{corollary}
+
+We will need some conditions on the density function, the kernel and the bandwidth matrix to ensure consistency of the kernel density estimator. These are given below.
+
+\begin{description}
+\item[A1] The density function $f$ is square integrable and twice differentiable, with all of its second-order partial derivatives bounded, continuous and square integrable.
+\item[A2] The kernel $K$ is a square-integrable, spherically symmetric function on $\R^m$ that satisfies\break $\int K(\bm{u})d\bm{u} = 1$, $\int \bm{u} K(\bm{u})d\bm{u} = \bm{0}$ and $\int \bm{u}\bm{u}^T K(\bm{u})d\bm{u} = \mu_2(K)\bm{I}_m$ for some $\mu_2(K) > 0$.
+\item[A3] The bandwidth matrix $\bm{H}$ is a sequence of symmetric positive-definite matrices such that\break $\bm{H}\rightarrow \bm{O}$ and $n|\bm{H}|^{1/2} \rightarrow \infty$ as $n\rightarrow\infty$.
+\end{description}
+
+The following result is provided by \citet[][p31--37]{chacon2018multivariate}.
+
+\begin{theorem}[Consistency] Let $\bm{y}_1,\dots,\bm{y}_n$ be a sequence of independent random variables from a distribution on $\R^m$ that satisfies A1. Then under conditions A2 and A3,
+$$
+\lim_{n\rightarrow\infty} \text{E}\left[\int \left(\hat{f_n}(\bm{u}) - f(\bm{u})\right)^2 d\bm{u}\right] = 0.
+$$
+\end{theorem}
+
+
+%\begin{defn}[Consistency] Let $\bm{Y}_1,\dots,\bm{Y}_n$ be a sequence of independent random variables from a continuous distribution on $\R^m$ with square integrable density function $f$. Then \eqref{eq:mkde} is a \emph{consistent} estimator of $f$ (replacing $\bm{y}_i$ by $\bm{Y}_i$) if
+%  $$
+%   \lim_{n\rightarrow0}\text{MISE}(\hat{f_n}(\cdot, \bm{H}))= 0
+%  $$
+%\end{defn}
+%The following result is provided by \citet[][p31--37]{chacon2018multivariate}.
+%\begin{theorem}
+%  For $\hat{f}$ to be a consistent estimator, $\bm{H}$ must be a symmetric %positive-definite matrix that satisfies the following conditions:
+%  \begin{itemize}
+%    \item All elements of $\bm{H}$ approach zero as $n\rightarrow\infty$; and
+%    \item $n|\bm{H}|^{1/2}\rightarrow \infty$ as $n\rightarrow\infty$.
+%  \end{itemize}
+%\end{theorem}
+
+We consider matrices of the form $\bm{H} = h_n \bm{I}_m$, where $h_n\in\R$ is a function of the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. We have $|\bm{H}|=h_n^m$ so $n|\bm{H}|^{1/2} \rightarrow \infty$ precisely when $n(h_n)^{m/2} \to \infty$. This leads to our definition of admissible bandwidth as these are the bandwidths which will determine consistent estimators.
+\begin{defn}
+  We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $n(h_n)^{m/2}\rightarrow \infty$ as $n\rightarrow\infty$ almost surely.
+\end{defn}
+
+
+
+We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n)}  to show that $d_{\gamma(n-1)}$ is an admissible bandwidth.
+
+\begin{theorem}\label{thm:consistency}
+  Let $f:\R^m \to \R$ be a density function that satisfies A1. If there exists $0<\gamma_1< \gamma_2<1$ such that $\omega_n \in (\gamma_1 n, \gamma_2 n)$ for all sufficiently large $n$ then $d_{\omega_n}$ is an admissible bandwidth. %for all $\delta\in (0,1)$.
+\end{theorem}
 
 \begin{proof}
-Recall that for $d_{\omega_n}$ to be an admissible bandwidth we require $d_{\omega_n}^\delta \to 0$ and $n(d_{\omega_n})^m \to \infty$ as $n\to \infty$ with probability $1$. 
+Note that the assumptions of A1 imply that $f$ is Lipschitz and bounded.
+
+Recall that for $d_{\omega_n}$ to be an admissible bandwidth we require $d_{\omega_n} \to 0$ and $n(d_{\omega_n})^{m/2} \to \infty$ as $n\to \infty$ with probability $1$. 
 %From Theorem \ref{thm:d_alphan to 0}  $d_{\omega_n} \to 0$ as $n\to \infty$ with probability $1$. As $\delta>0$ is fixed, this also holds for $(d_{\omega_n})^\delta$. 
 As $n^{-1/m} \to 0$ as $n\to \infty$ we can conclude from Theorem \ref{thm:d_alphan to 0} that $d_{\omega_n}\to 0$ as $n\to\infty$ (with probability $1$).
 
 From Theorem \ref{thm:nd_f(n) in plane}, with $g_n=(\log n)^{-1/m}$, we get $\lim_{n\to \infty}\mathbb{P}\left(d_{\omega_n} \geq (n\log n)^{-1/m}\right)=1$ and thus 
-      $$ \lim_{n\to \infty}\mathbb{P}\left(n(d_{\omega_n}^{\delta})^m \geq n (n\log n)^{-\delta}\right)=1.$$
-      Since $\delta<1$ (by assumption) we have $n (n\log n)^{-\delta}\to \infty$ as $n\to \infty$. This in turn implies $n(d_{\omega_n})^{m/2}\to \infty$ as $n\to \infty$ with probability $1$.
+      $$ \lim_{n\to \infty}\mathbb{P}\left(nd_{\omega_n}^{m/2} \geq n (n\log n)^{-1/2}\right)=1.$$
+      Since $n (n\log n)^{-1/2}\to \infty$ as $n\to \infty$ we have in turn  $n(d_{\omega_n})^{m/2}\to \infty$ as $n\to \infty$ with probability $1$.
 
 \end{proof}
 
-We can also use the upper and lower bounds to infer an upper bound on the rate of convergence of the kernel regression estimator using the bandwidth $d_{\omega_n}^\delta$ for suitable sequences $\omega_n$. We can prove that we almost get the classical theoretically optimal bandwidth choice for kernel regression in Euclidean space.
+Ultimately we are not really interested in optimizing the MISE, as we care more about the tails of the distribution where $f$ is relatively small. However, proving consistency and bounds on mean square error are still useful as a theoretical justification of bandwidth selection. 
 
-\begin{theorem}\label{cor:consistency}
-  Let $f\in C^{p}(\R^n, \R)$ be a probability density function for $X$. Choose any function $\hat{g}(n)$ with $\hat{g}(n)\to \infty$ as $n\to \infty$. 
+
+An asymptotic approximation of the MISE is given by
+\begin{equation}\label{eq:amse}
+\text{AMISE}(\hat{f}(\cdot, \bm{H})) = n^{-1}|\bm{H}|^{-1/2} R(K) + \frac{1}{4} \mu_2(K)^2 \int \left\{\text{tr}(\bm{H} D^2 f(\bm{u}))\right\}^2 d\bm{u},
+\end{equation}
+where $R(K) = \int K(\bm{u})^2 d\bm{u}$ and $D^2 f$ is the Hessian of $f$.
+
+If $\bm{H} = h_n \bm{I}_m$ for some $h_n > 0$, then we can write
+\begin{equation}\label{eq:amse_iso}
+\text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = n^{-1} h_n^{-m/2} R(K) + \frac{1}{4} \mu_2(K)^2 h_n^2 \int \left\{\text{tr}(D^2 f(\bm{u}))\right\}^2 d\bm{u}.
+\end{equation}
+
+The minimal MISE rate is achieved when $h_n$ is of order $n^{-2/(m+4)}$, and the corresponding MISE is of order $n^{-4/(m+4)}$. From the upper and lower bounds in Theorem  \ref{thm:d_alphan to 0} and Theorem \ref{thm:nd_f(n)} we asymptotically we expect, with high probability, that $d_{\gamma(n-1)}$ will have a rate close to $n^{-1/m}$. A rate of $n^{-1/m}$ would correspond to AMISE of order $O(n^{-1/2}+n^{-2/m})$.
+
+
+
+
+
+%We can also use the upper and lower bounds to infer an upper bound on the rate of convergence of the kernel regression estimator using the bandwidth $d_{\omega}$ for suitable sequences $\omega_n$. We can prove that we almost get the classical theoretically optimal bandwidth choice for kernel regression in Euclidean space.
+
+%\begin{corollary}\label{cor:convergence_rate}
+%  Let $f\in C^{p}(\R^n, \R)$ be a probability density function for $X$ that satisfies A1. Choose any function $\hat{g}(n)$ with $\hat{g}(n)\to \infty$ as $n\to \infty$. 
   
-  If there exists $0<\gamma_1< \gamma_2<1$ such that $\omega_n \in (\gamma_1 n, \gamma_2 n)$, for all sufficiently large $n$, then the symmetric kernel regression estimator with bandwidth $d_{\omega_n}^{\frac{m}{m+2p}}$ has an asymptotic convergence rate bounded above by $n^{\frac{-2}{m+2p}}\hat{g}(n)$.
-\end{theorem}
+%  If there exists $0<\gamma_1< \gamma_2<1$ such that $\omega_n \in (\gamma_1 n, \gamma_2 n)$, for all sufficiently large $n$, then the symmetric kernel regression estimator with bandwidth $d_{\omega_n}^{\frac{m}{m+2p}}$ has an asymptotic convergence rate bounded above by $n^{\frac{-2}{m+2p}}\hat{g}(n)$.
+%\end{corollary}
 
-\begin{proof}
-INCLUDE
-
-    
-\end{proof}
+%\begin{proof}
+%From 
+%$$\text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = C_1 n^{-1} h_n^{-m/2} + C_2 h_n^2 $$   
+%\end{proof}
 
 \begin{remark}
  There is evidence that $d_*$ (the choice made in the original lookout algorithm) is an admissible bandwidth for samples drawn from a Gaussian distribution, but that it is not an admissible bandwidth when drawn from distributions with fat tails. Given  Theorem \ref{thm:d_n-1 Gaussian} this seems likely but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem. Part of the challenge is we have no formula $\omega_n$ for where the largest gap in the death values is likely to occur.

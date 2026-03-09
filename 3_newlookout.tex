@@ -20,7 +20,7 @@ A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z
 
 Further, the kernels are now aligned with the data, as both have covariance matrices that are scalar multiples of the identity matrix. While alignment is not necessary for consistency, it does improve the efficiency of the kernel density estimates \citep{chacon2018multivariate}.
 
-An equivalent density estimate of the original data $\{\bm{y}_1,\dots,\bm{y}_n\}$ could be obtained using $\bm{H} = (d^*)^{2/m}\hat{\bm{\Sigma}}$, although for our purposes, working with the scaled data is sufficient.
+An equivalent density estimate of the original data $\{\bm{y}_1,\dots,\bm{y}_n\}$ could be obtained using $\bm{H} = (d^*)\hat{\bm{\Sigma}}$, although for our purposes, working with the scaled data is sufficient.
 
 \subsection{Bounds for kernel density estimates}
 
@@ -57,7 +57,7 @@ We are now in a position to describe the modified lookout algorithm.
     \State Optional scaling: Calculate the eigendecomposition \eqref{eq:ogk}, and rotate and scale the data using $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, with scaled observations $\bm{z}_1, \dots, \bm{z}_n$ comprising the rows of $\bm{Z}$.
     \State Compute the persistence homology barcode of the data cloud $\bm{Z}$ (set $\bm{Z} = \bm{Y}$ if no scaling is applied) for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}, and obtain the ordered death diameters $\{d_i\}_{i = 1}^n$ for connected components.
     \State Let $d^* =$ the $\gamma$ sample quantile computed from $\{ d_i \}_{i=1}^n$.
-    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde}, $\bm{H} = h_n\bm{I}_m$, and $h_n = (d^*)^{2/m}$.
+    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde}, $\bm{H} = h_n\bm{I}_m$, and $h_n = d^*$.
     \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - \bm{H}^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
     \State Fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, constraining the shape parameter to be non-positive, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
     \State Calculate the probability of each observation by applying the estimated GDP to the leave-one-out kde values: $p_i = (1-\beta)P(-\log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
