@@ -118,8 +118,8 @@ The \textit{lookout} algorithm of \cite{lookout} has four inputs: the dataset $\
     \Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta \in (0,1)$, threshold $\alpha \in (0,1)$, \emph{unitize} $\in \{\text{True}, \text{False}\}$.
     \State If \textit{unitize}, scale the data to lie in the unit cube in $\R^m$.
     \State Compute the persistence homology barcode of the (possibly scaled) data cloud for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}.
-    \State From the barcode, obtain the ordered death diameters $\{d_i\}_{i = 1}^n$ for connected components, and their successive differences $\Delta d_i = d_{i+1} - d_i$.
-    \State Let $d_* = d_{i_*}$ where $i_* = \text{arg\! max} \{\Delta d_i \}_{i=1}^n$; that is, $d_*$ is the diameter corresponding to the lower point of the maximum $\Delta d_i$.
+    \State From the barcode, obtain the ordered finite death diameters $\{d_i\}_{i = 1}^{n-1}$ for connected components, and their successive differences $\Delta d_i = d_{i+1} - d_i$.
+    \State Let $d_* = d_{i_*}$ where $i_* = \text{arg\! max} \{\Delta d_i \}_{i=1}^{n-2}$; that is, $d_*$ is the diameter corresponding to the lower point of the maximum $\Delta d_i$.
     \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde}, $\bm{H} = h_n\bm{I}_m$, and $h_n = d_*$.
     \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - \bm{H}^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
     \State Fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
