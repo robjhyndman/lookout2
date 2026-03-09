@@ -16,7 +16,7 @@ We prefer this to the min-max scaling used in the original lookout algorithm, as
 
 Let $d_1,\dots,d_n$ denote the (ordered) Rips death diameters, computed from the scaled and rotated data $\bm{z}_1,\dots,\bm{z}_n$, and let $d^*$ denote the $\gamma$-quantile computed from $\{d_1,\dots,d_n\}$ \citep{HF96}, for a large value of $\gamma \in (0,1)$.
 
-A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ using the bandwidth matrix $\bm{H} = (d^*)^{2/m}\bm{I}_m$, where $m$ is the dimension of the data. Under this estimator, up to $1-\gamma$ of the data may be anomalous without affecting the bandwidth matrix selection, and the density estimator is consistent under Corollary \ref{cor:consistency}.
+A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ using the bandwidth matrix $\bm{H} = d_{\gamma(n-1)}\bm{I}_m$, where $m$ is the dimension of the data. Under this estimator, up to $1-\gamma$ of the data may be anomalous without affecting the bandwidth matrix selection, and the density estimator is consistent under Theorem \ref{thm:consistency}.
 
 Further, the kernels are now aligned with the data, as both have covariance matrices that are scalar multiples of the identity matrix. While alignment is not necessary for consistency, it does improve the efficiency of the kernel density estimates \citep{chacon2018multivariate}.
 

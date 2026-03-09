@@ -144,7 +144,7 @@ As a result of these theoretical considerations, we propose three modifications 
 
 \begin{enumerate}
   \item Rather than use a max-min scaling of the data, we standardize the data using a robust covariance estimator. That is, we scale and rotate the data to ensure that the covariance matrix of the transformed data is approximately the identity matrix. This ensures that the data have zero pairwise correlations, which leads to more efficient kernel density estimates. It also leads to each variable having approximately unit variance, which provides a more robust scaling than min-max scaling.
-  \item Rather than using the lower point of the largest gap in Rips death diameters, we use an appropriate power of an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death. It also ensures the consistency of the kernel density estimates under relatively weak conditions.
+  \item Rather than using the lower point of the largest gap in Rips death diameters, we use an upper quantile of the Rips death diameters. This avoids the problem where anomalies affect the largest gap in the Rips diameters that cause a persistent homology death. It also ensures the consistency of the kernel density estimates under relatively weak conditions.
   \item The estimated GPD shape parameter is constrained to be non-positive, which improves the stability of the GPD fitting. This is justified by noting that the kernel density estimates are bounded, so the limiting distribution under the Fisher-Tippett-Gnedenko theorem is a Weibull distribution, which has a negative shape parameter, $\xi$.
 \end{enumerate}
 
