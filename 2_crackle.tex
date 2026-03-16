@@ -153,11 +153,11 @@ for sufficiently large $n$. When $S_n \in (n^{1-2/m},2n^{1-2/m})$ and $\hat{S}_n
 If we set $\omega_n=n-n^{1-2/m}$, then we do \emph{not} have the limit $d_{\omega_n}\to 0$ as $n\to \infty$ with probability $1$.
 %which means that no power of $d_{\omega_n}$ is an admissible bandwidth.
 
-\subsection{Upper bounding the percentile death times $d_{\gamma(n-1)}$}\label{sec:upperboundquartile}
+\subsection{Upper bounding the quantile death times $d_{\gamma(n-1)}$}\label{sec:upperboundquartile}
 
 Despite the counterexample in the previous subsection, we can find sequences of death times that will limit to zero under very mild assumptions of the distribution (even with fat tails!).
 
-An approach that generally works is to use a percentile of the death times. That is $d_{\gamma(n-1)}$ for some $\gamma\in [0,1]$. Recall that there are only $n-1$ finite death times, so $d_{n-1}$ is the largest finite death value. Strictly speaking, we need an integer value, so you can interpret $\gamma(n-1)$ as either the floor or the ceiling. More precisely in this subsection we will consider sequences $\omega_n$ where there exists $\gamma\in (0,1)$ with $\omega_n\leq \gamma n$ for large enough $n$.
+An approach that generally works is to use a quantile of the death times. That is $d_{\gamma(n-1)}$ for some $\gamma\in [0,1]$. Recall that there are only $n-1$ finite death times, so $d_{n-1}$ is the largest finite death value. Strictly speaking, we need an integer value, so you can interpret $\gamma(n-1)$ as either the floor or the ceiling. More precisely in this subsection we will consider sequences $\omega_n$ where there exists $\gamma\in (0,1)$ with $\omega_n\leq \gamma n$ for large enough $n$.
 
 %The following is a standard useful lemma, but we include it for completeness.
 
@@ -270,14 +270,14 @@ It is useful to have notation for offsets of Euclidean subsets. For any subset $
   with $C(f,\gamma)$ a constant dependent on $f$ and $\gamma$ (and independent of $n$).
 \end{proof}
 
-\subsection{Lower bounding the percentile death times $d_{\gamma(n-1)}$}
+\subsection{Lower bounding the quantile death times $d_{\gamma(n-1)}$}
 
-Given the general upper bound result in Subsection \ref{sec:upperboundquartile} we will now focus showing limit theorems when our sequence of death times is a percentile $\gamma(n-1)$ for some $\gamma\in (0,1)$. Again we will pose our theorems in terms of $d_{\omega_n}$ where $\omega_n$ is controlled appropriately --- here $\omega_n\geq \gamma n$ for large enough $n$.
+Given the general upper bound result in Subsection \ref{sec:upperboundquartile} we will now focus showing limit theorems when our sequence of death times is a quantile $\gamma(n-1)$ for some $\gamma\in (0,1)$. Again we will pose our theorems in terms of $d_{\omega_n}$ where $\omega_n$ is controlled appropriately --- here $\omega_n\geq \gamma n$ for large enough $n$.
 
 %Main mathematical results with proofs (possibly relegated to the Appendices).
 
 %A consequence of the below theorems is that $nd_{\gamma(n-1)}\to
-% \infty$ %whenever $d_*$ is chosen as the any fixed percentile of
+% \infty$ %whenever $d_*$ is chosen as the any fixed quantile of
 % the death times.
 %This holds for very general distributions. We only require a global
 % upper bound on the pdf and the dimension of the space to be at least $2$.
@@ -390,9 +390,9 @@ From the upper and lower bounds in Theorem  \ref{thm:d_alphan to 0} and Theorem 
 %$$\text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = C_1 n^{-1} h_n^{-m/2} + C_2 h_n^2 $$
 %\end{proof}
 
-\begin{remark}
+
   There is evidence that $d_*$ (the choice made in the original lookout algorithm) is an admissible bandwidth for samples drawn from a Gaussian distribution, but that it is not an admissible bandwidth when drawn from distributions with fat tails. Given  Theorem \ref{thm:d_n-1 Gaussian} this seems likely but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem. Part of the challenge is we have no formula $\omega_n$ for where the largest gap in the death values is likely to occur.
-\end{remark}
+
 %\begin{corollary}\label{cor:d_*}
 %  For point clouds sampled from multivariate Gaussian distributions, we have $d_* \to 0$ as $n\to \infty$.
 %\end{corollary}
