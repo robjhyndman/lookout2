@@ -21,7 +21,7 @@ For experiment 1 we consider the $\text{Gamma}(a, r)$ distribution with shape $a
 
 \subsection{Experiment 2: Different anomaly means for Normal distribution}
 
-For experiment 2 we consider the normal distribution $\mathcal{N}(\mu, \sigma)$ with mean $\mu$ and standard deviation $\sigma$. We let $Y_i = (Y_{i1}, Y_{i2})$ where $Y_{i1}$ and $Y_{i2}$ are independent with $Y_{ij} \sim \mathcal{N}(\mu, \sigma)$. The non-anomalous distribution is $\mathcal{N}(0, 1)$. The anomalous distribution has $\mu \in \{ 2.50, 2.75, \dots, 3.75, 4.00\} $ and $\sigma = 0.2$. We consider 1000 non-anomalies and 10 anomalies, and we produce 10 replicates for each value of $\mu$.
+For experiment 2 we consider the normal distribution $\mathcal{N}(\mu, 1)$ with mean $\mu$. We let $Y_i = (Y_{i1}, Y_{i2})$ where $Y_{i1}$ and $Y_{i2}$ are independent with $Y_{ij} \sim \mathcal{N}(\mu, 1)$. The non-anomalous distribution has $\mu=0$, while the anomalous distribution has $\mu \in \{ 2.50, 2.75, \dots, 3.75, 4.00\}$. We consider 1000 non-anomalies and 10 anomalies, and we produce 10 replicates for each value of $\mu$.
 
 \cref{fig:exp2NormalRates} shows Experiment 2 data and results. As $\mu$ increases, the anomalies shift away from the non-anomalies. Thus, we expect the true positive rate to increase and the false negative rate to decrease with $\mu$. Here, the two versions of the lookout algorithm are statistically indistinguishable, across all values of $\mu$.
 

@@ -4,8 +4,8 @@ generate_exp2 <- function(n1, n2, mm) {
   out <- rbind(
     data.frame(x = rnorm(n1), y = rnorm(n1)),
     data.frame(
-      x = rnorm(n2, mean = mm, sd = 0.2),
-      y = rnorm(n2, mean = mm, sd = 0.2)
+      x = rnorm(n2, mean = mm, sd = 1),
+      y = rnorm(n2, mean = mm, sd = 1)
     )
   )
   colnames(out) <- c("Y1", "Y2")
@@ -111,8 +111,8 @@ create_figure_exp2 <- function(results) {
     ) +
     facet_wrap(metric ~ .) +
     labs(x = "Mean (µ)", y = "Anomaly rate") +
-    guides(color = guide_legend(title = "Algorithm")) +
-    scale_y_continuous(breaks = seq(0, 1, by = 0.2))
+    guides(color = guide_legend(title = "Algorithm")) #+
+  #scale_y_continuous(breaks = seq(0, 1, by = 0.2))
 
   # Generate random data for plotting
   n1 <- 1000
