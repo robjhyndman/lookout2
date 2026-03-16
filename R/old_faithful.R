@@ -8,6 +8,7 @@ analyze_old_faithful <- function(scale, alpha, beta, gamma) {
     alpha = alpha,
     beta = beta,
     gamma = gamma,
+    fast = FALSE,
     old_version = FALSE
   )
 
@@ -16,6 +17,7 @@ analyze_old_faithful <- function(scale, alpha, beta, gamma) {
     alpha = alpha,
     beta = beta,
     scale = scale,
+    fast = FALSE,
     old_version = TRUE
   )
 

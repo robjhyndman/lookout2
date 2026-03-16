@@ -17,6 +17,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     alpha = alpha,
     beta = beta,
     gamma = gamma,
+    fast = FALSE,
     old_version = FALSE
   )
 
@@ -25,6 +26,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     alpha = alpha,
     beta = beta,
     scale = scale,
+    fast = FALSE,
     old_version = TRUE
   )
 
@@ -49,6 +51,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     alpha = alpha,
     beta = beta,
     gamma = gamma,
+    fast = FALSE,
     old_version = FALSE
   )
 
@@ -57,6 +60,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     scale = scale,
     alpha = alpha,
     beta = beta,
+    fast = FALSE,
     old_version = TRUE
   )
 
@@ -86,6 +90,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     alpha = alpha,
     beta = beta,
     gamma = gamma,
+    fast = FALSE,
     old_version = FALSE
   )
 
@@ -94,6 +99,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     scale = scale,
     alpha = alpha,
     beta = beta,
+    fast = FALSE,
     old_version = TRUE
   )
 
@@ -123,6 +129,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     alpha = alpha,
     beta = beta,
     gamma = gamma,
+    fast = FALSE,
     old_version = FALSE
   )
   ex4_lookout_old <- lookout::lookout(
@@ -130,6 +137,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     scale = scale,
     alpha = alpha,
     beta = beta,
+    fast = FALSE,
     old_version = TRUE
   )
 
@@ -150,6 +158,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     alpha = alpha,
     beta = beta,
     gamma = gamma,
+    fast = FALSE,
     old_version = FALSE
   )
   ex5_lookout_old <- lookout::lookout(
@@ -157,6 +166,7 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
     scale = scale,
     alpha = alpha,
     beta = beta,
+    fast = FALSE,
     old_version = TRUE
   )
 

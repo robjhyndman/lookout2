@@ -35,6 +35,7 @@ run_synthetic_exp3 <- function(scale, alpha, beta, gamma) {
       alpha = alpha,
       beta = beta,
       gamma = gamma,
+      fast = FALSE,
       old_version = FALSE
     )
     lookobj_old <- lookout::lookout(
@@ -42,6 +43,7 @@ run_synthetic_exp3 <- function(scale, alpha, beta, gamma) {
       alpha = alpha,
       beta = beta,
       scale = scale,
+      fast = FALSE,
       old_version = TRUE
     )
     act <- X$Points == "Anomaly"

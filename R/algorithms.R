@@ -18,6 +18,7 @@ algorithm_configs <- function() {
           alpha = alpha,
           beta = beta,
           gamma = gamma,
+          fast = FALSE,
           old_version = FALSE
         )
       },
@@ -31,6 +32,7 @@ algorithm_configs <- function() {
           alpha = alpha,
           beta = beta,
           gamma = gamma,
+          fast = FALSE,
           old_version = TRUE
         )
       },

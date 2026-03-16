@@ -9,6 +9,7 @@ analyze_wine_data <- function(wine_reviews, scale, alpha, beta, gamma) {
     alpha = alpha,
     beta = beta,
     gamma = gamma,
+    fast = TRUE,
     old_version = FALSE
   )
 
@@ -17,6 +18,7 @@ analyze_wine_data <- function(wine_reviews, scale, alpha, beta, gamma) {
     scale = scale,
     alpha = alpha,
     beta = beta,
+    fast = TRUE,
     old_version = TRUE
   )
 
