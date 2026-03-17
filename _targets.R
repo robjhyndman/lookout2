@@ -30,10 +30,10 @@ list(
   tar_target(scale, TRUE),
   # Value of alpha
   tar_target(alpha, 0.01),
-  # Value of gamma
+  # Value of beta
   tar_target(beta, 0.90),
   # Value of gamma
-  tar_target(gamma, 0.97),
+  tar_target(gamma, 0.98),
 
   # ------------------------------------------------------
   # Experiment 1: Gamma distribution
