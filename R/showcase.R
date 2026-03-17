@@ -6,8 +6,8 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
       y = rnorm(1000)
     ),
     tibble(
-      x = rnorm(5, mean = 10, sd = 0.2),
-      y = rnorm(5, mean = 10, sd = 0.2)
+      x = rnorm(5, mean = 10, sd = 0.3),
+      y = rnorm(5, mean = 10, sd = 0.3)
     )
   )
 
@@ -41,8 +41,8 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
       y = rnorm(1000)
     ),
     tibble(
-      x = rnorm(5, sd = 0.2),
-      y = rnorm(5, sd = 0.2)
+      x = rnorm(5, sd = 0.3),
+      y = rnorm(5, sd = 0.3)
     )
   )
   ex2_lookout_new <- lookout::lookout(
@@ -79,8 +79,8 @@ generate_showcase_examples <- function(scale, alpha, beta, gamma) {
       y = rnorm(100, sd = 0.7)
     ),
     tibble(
-      x = rnorm(3, mean = 6, sd = 0.2),
-      y = rnorm(3, mean = 6, sd = 0.2)
+      x = rnorm(3, mean = 6, sd = 0.3),
+      y = rnorm(3, mean = 6, sd = 0.3)
     )
   )
 
