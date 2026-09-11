@@ -41,7 +41,7 @@ In the following lemma we show that the kernel density estimates at the observat
   The constant $K_0$ may depend on $m$.
 \end{proof}
 
-For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{m/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $K_0 = \frac{1}{(2 \pi)^{m/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} \left( 1 - \|\bm{u}\| \right)_{+}$, where $b_m$ is the volume of the unit sphere in $\R^m$, and $u_+ = \max(0, u)$, then $K_0 = (m+2)/(2b_m)$.
+For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{m/2}} \exp \left( -\frac12 \|\bm{u}\|^2 \right)$, then $K_0 = \frac{1}{(2 \pi)^{m/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} \left( 1 - \|\bm{u}\|^2 \right)_{+}$, where $b_m$ is the volume of the unit ball in $\R^m$, and $u_+ = \max(0, u)$, then $K_0 = (m+2)/(2b_m)$.
 
 Under Theorem \ref{thm:FisherTippett}, the limiting distribution of the extremes of $-\log\hat{f}(\bm{y}_j)$ is a Weibull distribution, corresponding to a Generalized Extreme Value distribution with $\xi<0$. Thus, when we fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$, we can constrain the shape parameter to be non-positive, which improves the stability of the GPD fitting.
 
@@ -53,14 +53,14 @@ We are now in a position to describe the modified lookout algorithm.
   \caption{Modified lookout algorithm}\label{alg:modifiedlookout}
   \begin{algorithmic}[1]
     \Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta \in (0,1)$, threshold $\alpha \in (0,1)$, and quantile level $\gamma \in (0,1)$.
-    \State Let $\bm{Y}$ be the $m\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$.
-    \State Optional scaling: Calculate the eigendecomposition \eqref{eq:ogk}, and rotate and scale the data using $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, with scaled observations $\bm{z}_1, \dots, \bm{z}_n$ comprising the rows of $\bm{Z}$.
-    \State Compute the persistence homology barcode of the data cloud $\bm{Z}$ (set $\bm{Z} = \bm{Y}$ if no scaling is applied) for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}, and obtain the ordered death diameters $\{d_i\}_{i = 1}^n$ for connected components.
-    \State Let $d_{\gamma(n-1)} =$ the $\gamma$ sample quantile computed from $\{ d_i \}_{i=1}^n$.
-    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde}, $\bm{H} = h_n\bm{I}_m$, and $h_n = d_{\gamma(n-1)}$.
-    \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - \bm{H}^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
+    \State Let $\bm{Y}$ be the $n\times m$ data matrix with rows $\bm{y}_1', \dots, \bm{y}_n'$.
+    \State Optional scaling: Calculate the Cholesky decomposition \eqref{eq:ogk}, and centre, rotate and scale the data using $\bm{U}$, giving $\bm{Z} = (\bm{Y} - \bm{1}_n\bm{m}')\bm{U}'$, where $\bm{1}_n$ is a vector of $n$ ones and $\bm{m}$ is the vector of column medians of $\bm{Y}$, with scaled observations $\bm{z}_1, \dots, \bm{z}_n$ comprising the rows of $\bm{Z}$.
+    \State Compute the persistence homology barcode of the data cloud $\bm{Z}$ (set $\bm{Z} = \bm{Y}$ if no scaling is applied) for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}, and obtain the ordered finite death diameters $\{d_i\}_{i = 1}^{n-1}$ for connected components.
+    \State Let $d_{\gamma(n-1)} =$ the $\gamma$ sample quantile computed from $\{ d_i \}_{i=1}^{n-1}$.
+    \State Compute the kernel density estimates at the scaled observations: $f_i = \hat{f}(\bm{z}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde} applied to $\bm{z}_1,\dots,\bm{z}_n$, $\bm{H} = h_n\bm{I}_m$, and $h_n = d_{\gamma(n-1)}$.
+    \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - |\bm{H}|^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
     \State Fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, constraining the shape parameter to be non-positive, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
-    \State Calculate the probability of each observation by applying the estimated GDP to the leave-one-out kde values: $p_i = (1-\beta)P(-\log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
+    \State Calculate the probability of each observation by applying the estimated GPD to the leave-one-out kde values: $p_i = (1-\beta)P(-\log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
     \State If $p_i < \alpha$, declare $\bm{y}_i$ anomalous.
   \end{algorithmic}
 \end{algorithm}

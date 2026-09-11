@@ -91,121 +91,117 @@ We will first consider the case where the samples come from a Gaussian distribut
 
 There are many potential indexing functions $\omega_n$ that we can choose to decide which death time to use to compute the bandwidth matrix. We are interested in using a bandwidth that is a function $f(d_{\omega_n})$ for some strictly increasing nice function $f$ (with $f(0)=0$). Thus, in order for this choice $f(d_{\omega_n})$ to be an admissible bandwidth we need $d_{\omega_n} \to 0$ as $n \to \infty$.
 
-If our samples are Gaussian, then we know that $d_{\omega_n}$ satisfies this limit. However, when samples come from a fat-tailed distribution, we can construct examples where with positive probability $d_{\omega_n}$ does not converge to $0$. The methods here are highly influenced by those within \cite{Crackle} but with a different focus we we are more concerned in bounding the probability that there are at least a specified number of connected components instead of limit theorems of expected number of components. 
+If our samples are Gaussian, then we know that $d_{\omega_n}$ satisfies this limit. However, when samples come from a fat-tailed distribution, we can construct examples where with positive probability $d_{\omega_n}$ does not converge to $0$. The methods here are highly influenced by those within \cite{Crackle} but with a different focus: we are more concerned with bounding the probability that there are at least a specified number of connected components instead of limit theorems of expected number of components.
 
-%Consider the distribution on $\R^m$ with the density function $f(x)=\frac{c_m}{1+\|x\|^{m+1}}$ where $c_m$ is the appropriate constant. 
+%Consider the distribution on $\R^m$ with the density function $f(x)=\frac{c_m}{1+\|x\|^{m+1}}$ where $c_m$ is the appropriate constant.
 
-For the remainder of this subsection we will consider the distribution on $\R^m$, $m\geq 3$, with the density function $f(x)=\frac{c_m}{1+\|x\|^{m+1}}$ where $c_m$ is the appropriate constant. %Set $R_n=\frac{2n^{2/m}}{c_m s_{m-1}}$ where $s_{m-1}$ is the volume of the $(m-1)$-sphere.
+For the remainder of this subsection we will consider the distribution on $\R^m$, $m\geq 3$, with the density function $f(x)=\frac{c_m}{1+\|x\|^{m+1}}$ where $c_m$ is the appropriate constant. %Set $R_n=\frac{2n^{2/m}}{c_m s_{m-1}}$ where $s_{m-1}$ is the surface measure of the unit sphere $S^{m-1}$.
 
 A useful quantity is the number of samples with radius at least $R$. Let $A_n^{[R, \infty)}$ be the number of samples lying in $\{x\in \mathbb{R}^m\mid \|x\|\geq R\}.$
 
 We will want to show that outside a certain radius $R_n$ that all the points are isolated in the Rips complex at length scale $1$ and thus each contributing their own connected component. A sufficient condition for this to hold is for there to be no edges in the Rips complex at length scale $1$ between points of radius at least $R_n-1$. Note that we will be not claiming anything about the points in the annular region from radius $R_n-1$ to $R_n$ being isolated as they could be connected to points with smaller radius.
 
 \begin{lemma}\label{lem:bound edges}
-Fix a sequence of positive numbers $R_n$.
-Let $S_n$ be a set of $n$ point sampled i.i.d. according to density $f$. Let $g(n)$ be any function bounded above by $\sqrt{\frac{R_n^{m-1}}{\log n}}$.
-Let $Y_n$ be the number of edges in the Rips complex at radius $1$ between points in $\{x\in \mathbb{R}^m\mid \|x\|>R_n-1\}$.
-We have the limit $$\P\left(Y_n=0 \mid A^{[R_n-1, \infty)}_n < \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right)\to 1$$ as $n\to \infty$.
+  Fix a sequence of positive numbers $R_n$.
+  Let $S_n$ be a set of $n$ point sampled i.i.d. according to density $f$. Let $g(n)$ be any function bounded above by $\sqrt{\frac{R_n^{m-1}}{\log n}}$.
+  Let $Y_n$ be the number of edges in the Rips complex at radius $1$ between points in $\{x\in \mathbb{R}^m\mid \|x\| > R_n-1\}$.
+  We have the limit $$\P\left(Y_n=0 \mid A^{[R_n-1, \infty)}_n < \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right)\to 1$$ as $n\to \infty$.
 \end{lemma}
 \begin{proof}
 
+  %Consider the Rips complex at radius $1$. We want to lower bound the probability that all the points outside $B(0,R)$ are isolated. A sufficient condition for this is that there are no edges between points outside $B(0, R-1)$.
 
-%Consider the Rips complex at radius $1$. We want to lower bound the probability that all the points outside $B(0,R)$ are isolated. A sufficient condition for this is that there are no edges between points outside $B(0, R-1)$.
+  \begin{align*}
+    \mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\|\geq R-1)&=
+    \frac{1}{\mathbb{P}(\|x\|,\|y\|\geq R-1)}\int_{R-1}^\infty \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}} \mathbb{P}(y\in B(x,1)\mid |x|=r) \,dr
+  \end{align*}
 
-\begin{align*}
-  \mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\|\geq R-1)&=
-  \frac{1}{\mathbb{P}(\|x\|,\|y\|\geq R-1)}\int_{R-1}^\infty \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}} \mathbb{P}(y\in B(x,1)\mid |x|=r) \,dr
-\end{align*}
+  If $|x|=r$ ($r$ sufficiently large), then the probability that another sample $y$ lies in $B(x,1)$ is bounded above by $\int_{B(x,1)} \frac{c_m}{1+\|z\|^{m+1}}dz \leq C/r^m$ for some constant $C$ independent of $r$. This implies that there exists a constant $C_1$ independent of $R$ such that
+  \begin{align*}
+    \mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\| >R-1)& < (R-1)^2 C_1\int_{R-1}^\infty \frac{1}{r^{m+2}}\,dr.
+  \end{align*}
+  Thus there is some constant $C_2$ independent of $R$ (for sufficiently large $R$) such that
+  $$
+  \mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\| >R-1)\leq \frac{C_2}{R^{m-1}}.
+  $$
 
-If $|x|=r$ ($r$ sufficiently large), then the probability that another sample $y$ lies in $B(x,1)$ is bounded above by $\int_{B(x,1)} \frac{c_m}{1+\|z\|^{m+1}}dz \leq C/r^m$ for some constant $C$ independent of $r$. This implies that there exists a constant $C_1$ independent of $R$ such that
-\begin{align*}
-  \mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\|>R-1)& < (R-1)^2 C_1\int_{R-1}^\infty \frac{1}{r^{m+2}}\,dr.
-\end{align*}
-Thus there is some constant $C_2$ independent of $R$ (for sufficiently large $R$) such that
-$$
-\mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\|>R-1)\leq \frac{C_2}{R^{m-1}}.
-$$
+  Let $Y_n$ be the number of edges in the Rips complex at radius $1$ between points outside $B(0,R_n-1)$. %When $S_n\leq 2n^{1-2/m}$ and $\hat{S}_n\leq n^{1-2/m}$ then the number of samples outside $B(0, R-1)$ is upper bounded by $3n^{1-2/m}$.
+  For each pair of points the probability of an edge between them is bounded above by $C_2/R_n^{m-1}$. Changing the function $g(n)$ will not invalidate this upper bound. Together we get the upper bound on expectation
+  \begin{align*}
+    \E\left[Y_n|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right]
+    \leq \left(\frac{R_n^{m-1}}{\log n}\right)\frac{C_2}{2R_n^{m-1}}
+    = \frac{C_2}{2\log n}
+  \end{align*}
+  for some $C_2$ independent of (sufficiently large) $n$.
 
+  Since $Y_n$ can only be a non-negative integer we have $$\mathbb{P}\left(Y_n\neq 0|A^{[R-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right)\leq \mathbb{E}\left[Y_n|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}}\right].$$ As $\E\left[Y_n|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right]\to 0$ as $n\to \infty$ we can conclude that $$\mathbb{P}(Y_n = 0|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}}\text{ and } A^{[R_n, \infty)}>g(n))\to 1$$  as $n\to \infty$.
 
-Let $Y_n$ be the number of edges in the Rips complex at radius $1$ between points outside $B(0,R_n-1)$. %When $S_n\leq 2n^{1-2/m}$ and $\hat{S}_n\leq n^{1-2/m}$ then the number of samples outside $B(0, R-1)$ is upper bounded by $3n^{1-2/m}$. 
-For each pair of points the probability of an edge between them is bounded above by $C_2/R_n^{m-1}$. Changing the function $g(n)$ will not invalidate this upper bound. Together we get the upper bound on expectation
-\begin{align*}
-  \E\left[Y_n|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right]
-  \leq \left(\frac{R_n^{m-1}}{\log n}\right)\frac{C_2}{2R_n^{m-1}}
-  = \frac{C_2}{2\log n}
-\end{align*}
-for some $C_2$ independent of (sufficiently large) $n$.
-
-Since $Y_n$ can only be a non-negative integer we have $$\mathbb{P}\left(Y_n\neq 0|A^{[R-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right)\leq \mathbb{E}\left[Y_n|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}}\right].$$ As $\E\left[Y_n|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right]\to 0$ as $n\to \infty$ we can conclude that $$\mathbb{P}(Y_n = 0|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}}\text{ and } A^{[R_n, \infty)}>g(n))\to 1$$  as $n\to \infty$.
-
-%Fix any $\delta_2\in (0,1)$. We have $\E[Y_n|S_n<2n^{1-2/m}  \text{ and } \hat{S}_n\leq n^{1-2/m}]<1-\delta_2$ for sufficiently large $n$. As $Y_n$ is a non-negative integer we get $\mathbb{P}(Y_n=0\mid S_n<2n^{1-2/m} \text{ and } \hat{S}_n\leq n^{1-2/m})>\delta_2$ for sufficiently large $n$.
+  %Fix any $\delta_2\in (0,1)$. We have $\E[Y_n|S_n<2n^{1-2/m}  \text{ and } \hat{S}_n\leq n^{1-2/m}]<1-\delta_2$ for sufficiently large $n$. As $Y_n$ is a non-negative integer we get $\mathbb{P}(Y_n=0\mid S_n<2n^{1-2/m} \text{ and } \hat{S}_n\leq n^{1-2/m})>\delta_2$ for sufficiently large $n$.
 
 \end{proof}
 
-Given the above lemma, our next step is to show that with positive probability that we have enough points with radius at least $R_n$ but not too many of radius more than $R_n-1$. 
+Given the above lemma, our next step is to show that with positive probability that we have enough points with radius at least $R_n$ but not too many of radius more than $R_n-1$.
 
 \begin{lemma}\label{lem:bound points}
-Let $S_n$ be a sample of points i.i.d. according to $f$.
-Set $R_n=\frac{n^{2/m}}{c_m s_{m-1}}$ where $s_{m-1}$ is the volume of the $(m-1)$-sphere.
+  Let $S_n$ be a sample of points i.i.d. according to $f$.
+  Set $R_n=\frac{n^{2/m}}{c_m s_{m-1}}$, where $s_{m-1}=mb_m$ is the $(m-1)$-dimensional surface measure of the unit sphere $S^{m-1}\subset\R^m$.
 
-Then $\mathbb{P}\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)>1/3$ for $n$ sufficiently large.
+  Then $\mathbb{P}\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)>1/3$ for $n$ sufficiently large.
 \end{lemma}
 
-
 \begin{proof}
-For each radius $R$ the probability a sample point has modulus at least $R$ (that is, it lies outside $B(0, R)$) is
-$$
-p_{[R,\infty)}=\int_{R}^\infty \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}}\,dr.
-$$
+  For each radius $R$ the probability a sample point has modulus at least $R$ (that is, it lies outside $B(0, R)$) is
+  $$
+  p_{[R,\infty)}=\int_{R}^\infty \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}}\,dr.
+  $$
 
- We have $p_{[R, \infty)}\in (\frac{c_m s_{m-1}}{2R}, \frac{c_m s_{m-1}}{R})$ for $R>1$. Thus $A^{[R_n, \infty)}_n \sim \mathcal{B}(n, p)$, the binomial distribution for some $p \in (\frac{n^{-2/m}}{2}, n^{-2/m})$. Using Chebyshev's inequality
-$$\mathbb{P}\left(A_n^{[R_n, \infty)}\in \left(\frac{n^{1-2/m}}{4},2n^{1-2/m}\right)\right)>\frac{1}{2}$$.
+  We have $p_{[R, \infty)}\in (\frac{c_m s_{m-1}}{2R}, \frac{c_m s_{m-1}}{R})$ for $R>1$. Thus $A^{[R_n, \infty)}_n \sim \mathcal{B}(n, p)$, the binomial distribution for some $p \in (\frac{n^{-2/m}}{2}, n^{-2/m})$. Using Chebyshev's inequality
+  $$\mathbb{P}\left(A_n^{[R_n, \infty)}\in \left(\frac{n^{1-2/m}}{4},2n^{1-2/m}\right)\right)>\frac{1}{2}$$.
 
-Given that a sample point $x$ lies in $B(0,R)$, the probability that $x$ has its modulus in $[R-1, R)$ (that is, $x\in B(0, R)\backslash B(0, R-1)$) is
-\begin{align*}
-  \hat{p}&=\frac{\int_{R-1}^R \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}}\,dr }{1-p_{[R, \infty)}}
-  % &<\frac{\int_{R-1}^R \frac{c_m s_{m-1}}{r^2}\,dr }{1-p_{R}}\\
-  <\frac{-\frac{c_m s_{m-1}}{R}+\frac{c_m s_{m-1}}{R-1}}{1-\frac{c_m s_{m-1}}{R}}
-  <\frac{2c_m s_{m-1}}{R^2}
-\end{align*}
-for sufficiently large $R$. For $R_n=\frac{2n^{2/m}}{c_m s_{m-1}}$ we have $\hat{p}_n\leq C_1 n^{-4/m}$ for large $n$ (with $C_1$ a constant independent of $n$).
+  Given that a sample point $x$ lies in $B(0,R)$, the probability that $x$ has its modulus in $[R-1, R)$ (that is, $x\in B(0, R)\backslash B(0, R-1)$) is
+  \begin{align*}
+    \hat{p}&=\frac{\int_{R-1}^R \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}}\,dr }{1-p_{[R, \infty)}}
+    % &<\frac{\int_{R-1}^R \frac{c_m s_{m-1}}{r^2}\,dr }{1-p_{R}}\\
+    <\frac{-\frac{c_m s_{m-1}}{R}+\frac{c_m s_{m-1}}{R-1}}{1-\frac{c_m s_{m-1}}{R}}
+    <\frac{2c_m s_{m-1}}{R^2}
+  \end{align*}
+  for sufficiently large $R$. For $R_n=\frac{2n^{2/m}}{c_m s_{m-1}}$ we have $\hat{p}_n\leq C_1 n^{-4/m}$ for large $n$ (with $C_1$ a constant independent of $n$).
 
-Let $\hat{A}^{[R_{n-1}, R_n)}_n$ the number of samples in $\{x\in \mathbb{R}\mid \|x\|\in[R_{n-1}, R_n)\}$ conditioned on there being $A^{[R_n, \infty)}_n$ samples outside $B(0,R_n)$. We have $\hat{A}^{[R_{n-1}, R_n)}_n \sim \mathcal{B}(n-A^{[R_n, \infty)}_n, \hat{p})$. We can couple $\mathcal{B}(n-A^{[R_n, \infty)}_n, \hat{p}_n)$ to $\mathcal{B}(n, \hat{p}_n)$ to imply that $\mathbb{P}(\hat{A}^{[R_n, \infty)}_n\leq n^{1-2/m})>2/3$ for large enough $n$. 
+  Let $\hat{A}^{[R_{n-1}, R_n)}_n$ the number of samples in $\{x\in \mathbb{R}\mid \|x\|\in[R_{n-1}, R_n)\}$ conditioned on there being $A^{[R_n, \infty)}_n$ samples outside $B(0,R_n)$. We have $\hat{A}^{[R_{n-1}, R_n)}_n \sim \mathcal{B}(n-A^{[R_n, \infty)}_n, \hat{p})$. We can couple $\mathcal{B}(n-A^{[R_n, \infty)}_n, \hat{p}_n)$ to $\mathcal{B}(n, \hat{p}_n)$ to imply that $\mathbb{P}(\hat{A}^{[R_n, \infty)}_n\leq n^{1-2/m})>2/3$ for large enough $n$.
 
-Combining
-\begin{align*}
+  Combining
+  \begin{align*}
     \mathbb{P}&\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right) \\
     &\geq  \mathbb{P}\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n \in \left( \frac{1}{4}n^{1-2/m}, 2n^{1-2/m}\right)\right)\\
     & \geq \mathbb{P}\left( \hat{A}^{[R_n-1, \infty)}_n < n^{1-2/m}\mid  A^{[R_n, \infty)}_n \in \left( \frac{1}{4}n^{1-2/m}, 2n^{1-2/m}\right)\right)\mathbb{P}\left( A^{[R_n, \infty)}_n \in \left( \frac{1}{4}n^{1-2/m}, 2n^{1-2/m}\right)\right)\\
     &\geq \frac{2}{3}\frac{1}{2}=\frac{1}{3}
-\end{align*}
+  \end{align*}
 \end{proof}
 
 We can finally combine these to complete our counterexample. Note that the probabilities are far from tight as we only need to show that $d_{\omega_n}$ does not converge to $0$
 
 \begin{counterexample}
-For $\omega_n=n-\frac{1}{4}n^{1-2/m}$ we have
-$\mathbb{P}(d_{\omega_n}>1)>1/4$ and thus $d_{\omega_n}$ is not an admissible bandwidth.
+  For $\omega_n=n-\frac{1}{4}n^{1-2/m}$ we have
+  $\mathbb{P}(d_{\omega_n}>1)>1/4$ and thus $d_{\omega_n}$ is not an admissible bandwidth.
 \end{counterexample}
 \begin{proof}
-A sufficient condition for $d_{\omega_n}\geq 1$ is for the Rips complex at length scale $1$ to have $\frac{1}{4}n^{1-2/m}$ isolated points. 
+  A sufficient condition for $d_{\omega_n}\geq 1$ is for the Rips complex at length scale $1$ to have $\frac{1}{4}n^{1-2/m}$ isolated points.
 
-One way to orchestrate this many isolated points is to have $A_n^{[R_n, \infty)}>\frac{1}{4}n^{1-2/m}$ and $Y_n=0$. Consider $R_n=\frac{n^{2/m}}{c_m s_{m-1}}$ where $s_{m-1}$ is the volume of the $(m-1)$-sphere.
+  One way to orchestrate this many isolated points is to have $A_n^{[R_n, \infty)}>\frac{1}{4}n^{1-2/m}$ and $Y_n=0$. Consider $R_n=\frac{n^{2/m}}{c_m s_{m-1}}$, with $s_{m-1}$ the surface measure of the unit sphere as above.
 
-From \ref{lem:bound points} we have $\mathbb{P}\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)>1/3$ for $n$ sufficiently large. 
+  From \ref{lem:bound points} we have $\mathbb{P}\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)>1/3$ for $n$ sufficiently large.
 
-By substituting in $R_n$ we can easily check that  $3n^{1-2/m}<\sqrt{\frac{R_n^{m-1}}{\log n}} $. This means we can apply Lemma \ref{lem:bound edges} to say
-that for $Y_n$ the number of edges between samples of radius $R_n-1$, we have $\mathbb{P}\left(Y_n=0\mid A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)to 1$ as  $n\to \infty$, and thus at least $\frac{3}{4}$ for sufficiently large $n$.
+  By substituting in $R_n$ we can easily check that  $3n^{1-2/m}<\sqrt{\frac{R_n^{m-1}}{\log n}} $. This means we can apply Lemma \ref{lem:bound edges} to say
+  that for $Y_n$ the number of edges between samples of radius $R_n-1$, we have $\mathbb{P}\left(Y_n=0\mid A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)\to 1$ as $n\to \infty$, and thus at least $\frac{3}{4}$ for sufficiently large $n$.
 
-Combining everything, 
-\begin{align*}
+  Combining everything,
+  \begin{align*}
     \mathbb{P}(d_{\omega_n}>1)&\geq \mathbb{P}\left(Y_n=0 \text{ and } A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)\\
     \geq \frac{1}{3}\frac{3}{4}=\frac{1}{4}.
-\end{align*}
+  \end{align*}
 
-This contradicts $d_{\omega_n}\to 0$ as $n\to \infty$ with probability $1$ and thus $d_{\omega_n}$ can't be an admissible bandwidth. 
+  This contradicts $d_{\omega_n}\to 0$ as $n\to \infty$ with probability $1$ and thus $d_{\omega_n}$ can't be an admissible bandwidth.
 \end{proof}
-
 
 \subsection{Upper bounding the quantile death times $d_{\gamma(n-1)}$}\label{sec:upperboundquartile}
 
@@ -227,7 +223,7 @@ An approach that generally works is to use a quantile of the death times. That i
 It is useful to have notation for offsets of Euclidean subsets. For any subset $L\subset \R^m$ and any $\delta>0$, let $L^\delta$ denote the set $\{y+v \mid y\in L, \|v\| \leq \delta\}$.
 
 \begin{lemma}\label{lem:covernumber}
-  Let $f: \R^m\to [0,\infty)$ be a Lipschitz probability density function (with Lipschitz constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$. For all $\varepsilon\in(0, c/(2M)]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that $L \subseteq \cup_i B(x_i, \varepsilon)$, $l\leq\frac{2^{m}}{c b_m \varepsilon^m}$.
+  Let $f: \R^m\to [0,\infty)$ be a Lipschitz probability density function (with Lipschitz constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$. For all $\varepsilon\in(0, c/M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that $L \subseteq \cup_i B(x_i, \varepsilon)$, $l\leq\frac{2^{m}}{c b_m \varepsilon^m}$.
   %and $\P(X\in B(x_i, \varepsilon))>\frac{c b_m}{2} \varepsilon^m$ for all $i$ (where $X$ is drawn according to pdf $f$).
   Here $b_m$ is the volume of the unit ball in $\R^m$.
   %Furthermore, $\cup_i B(x_i, \varepsilon)$ contains at most $$??$$
@@ -247,9 +243,9 @@ It is useful to have notation for offsets of Euclidean subsets. For any subset $
 
   Let $d_k$ denote the $k$th smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution $X$ over $\R^m$ such that the probability density function $f$ exists and for over the region where $f\leq 1$ it is Lipschitz with Lipschitz constant $M$ . Note that there are $n-1$ finite death times. Fix a $\gamma\in (0,1)$ and choose any sequence of integers $\{\omega_n\}$ such that $0\leq \omega_n \leq \gamma n$ for all sufficiently large $n$. Then there exists a constant $C(f,\gamma)$ (dependent on $f$ and $\gamma$ but not $n$) such that
   $$
-  \mathbb{P}\left(d_{\omega_n} \leq C(f,\gamma)n^{-1/m}\right) < 1- \frac{12}{n(1-\gamma)}
+  \mathbb{P}\left(d_{\omega_n} \leq C(f,\gamma)n^{-1/m}\right) \geq 1- \frac{12}{n(1-\gamma)}
   $$
-  which limits to $1$ as $n\to \infty$.
+  for all sufficiently large $n$, and the right-hand side limits to $1$ as $n\to \infty$.
   %Then for any sequence $\{g_n\}$, such that $g_n\to 0$ as $n \to \infty$, we have
   %  $$\lim_{n\to \infty}\mathbb{P}\left(d_{\omega_n} \geq n^{-1/m}g_n\right)=1.$$
 \end{theorem}
@@ -283,7 +279,7 @@ It is useful to have notation for offsets of Euclidean subsets. For any subset $
   % \P(\cup Z_i) \leq \frac{2^m n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^m}{\log n} .$$
   %This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, r_n)$ with probability $1$.
 
-  All points with the same ball $B(y_i, r_n)$ will be connected in the Rips complex with radius $2r_n$. This implies that the number of connected components when restricting to points inside $L$ will be bounded above by $l_n \leq n(1-\gamma)/2 $.
+  Any two points lying in the same ball $B(y_i, r_n)$ are at distance at most $2r_n$, so they are joined by an edge in the Rips complex at diameter $2r_n$. This implies that the number of connected components at diameter $2r_n$, when restricting to points inside $L$, will be bounded above by $l_n \leq n(1-\gamma)/2 $.
 
   %Let $p=\P(X\notin L)$. Note that for all $x\in L$ we have
   % $f(x)>c$. Since $f$ has only finitely many local maxima we have
@@ -296,7 +292,7 @@ It is useful to have notation for offsets of Euclidean subsets. For any subset $
   Let $Y(L,n)$ denote the random variable for the number of our $n$ sample points that are not in $L$.
   In the case we would have an upper bound on the number of connected components in $\cup_j B(x_j, r_n)$ by $
   Y(L,n)+n(1-\gamma)/2$.
-  We have $d_{\omega_n}<r_n$ whenever $\cup_i B(x_i, \epsilon_n)$ has less than $n-\omega_n$ connected components.
+  We have $d_{\omega_n}\leq 2r_n$ whenever the Rips complex at diameter $2r_n$ has fewer than $n-\omega_n$ connected components.
   We will want to show that
   $$
   Y(L,n)+n(1-\gamma)/2<n-\omega_n
@@ -306,7 +302,7 @@ It is useful to have notation for offsets of Euclidean subsets. For any subset $
   From the construction of $L$ we have $Y(L,n)$ is a binomial distribution with mean $np$ and variance $np(1-p)$, with $p<(1-\gamma)/3$. We can use Chebyshev's inequality to bound $\P(Y(L,n)>n(1-\gamma)/2)$.
   \begin{align*}
     \P(Y(L,n)>n(1-\gamma)/2) & \leq
-    \P(|Y(L,n)-np|>n(1-\gamma)/2-n(1-\gamma)/) \\
+    \P(|Y(L,n)-np| >n(1-\gamma)/2-n(1-\gamma)/3) \\
     & = \P(|Y(L,n)-np| >n(1-\gamma)/6)                    \\
     & \leq \frac{Var(Y)}{(n(1-\gamma)/6)^2}             \\
     & \leq \frac{36np(1-p)}{n^2(1-\gamma)^2}             \\
@@ -315,7 +311,7 @@ It is useful to have notation for offsets of Euclidean subsets. For any subset $
   \end{align*}
   This clearly goes to zero as $n$ goes to infinity.
 
-  If there are less than $n(1-\gamma)$ connected components in $\cup_j B(x_j, r_n)$ then $d_{\omega_n}\leq r_n=: C(f, \gamma) n^{-1/m}.$
+  If there are fewer than $n(1-\gamma)$ connected components at diameter $2r_n$ then $d_{\omega_n}\leq 2r_n =: C(f, \gamma) n^{-1/m}$, where $C(f,\gamma)= 2\left(\frac{2^{m+1}}{c b_m (1-\gamma)}\right)^{1/m}$.
   Thus we have proved $\P(d_{\omega_n} > C(f, \gamma) n^{-1/m}
   )\leq \frac{12}{n(1-\gamma)} \to 0$ as $n\to \infty$
   %as $n\to \infty$.
@@ -444,8 +440,7 @@ From the upper and lower bounds in Theorem  \ref{thm:d_alphan to 0} and Theorem 
 %$$\text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = C_1 n^{-1} h_n^{-m/2} + C_2 h_n^2 $$
 %\end{proof}
 
-
-  There is evidence that $d_*$ (the choice made in the original lookout algorithm) is an admissible bandwidth for samples drawn from a Gaussian distribution, but that it is not an admissible bandwidth when drawn from distributions with fat tails. Given  Theorem \ref{thm:d_n-1 Gaussian} this seems likely but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem. Part of the challenge is we have no formula $\omega_n$ for where the largest gap in the death values is likely to occur.
+There is evidence that $d_*$ (the choice made in the original lookout algorithm) is an admissible bandwidth for samples drawn from a Gaussian distribution, but that it is not an admissible bandwidth when drawn from distributions with fat tails. Given  Theorem \ref{thm:d_n-1 Gaussian} this seems likely but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem. Part of the challenge is we have no formula $\omega_n$ for where the largest gap in the death values is likely to occur.
 
 %\begin{corollary}\label{cor:d_*}
 %  For point clouds sampled from multivariate Gaussian distributions, we have $d_* \to 0$ as $n\to \infty$.
