@@ -1,0 +1,5 @@
+[format]
+wrap = "reflow"
+line-width = 9999
+line-ending = "lf"
+tab-width = 2
