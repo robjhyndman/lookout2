@@ -1,498 +1,135 @@
-\section{Lower and upper bounds on $d_{\omega_n}$}\label{sec:theory}
+% -----------------------------------------------------------
+\section{Asymptotics of the minimum spanning tree bandwidth} \label{sec:theory}
+% ------------------------------------------------------------
 
-We will first prove a number of limit theorems about $d_{\omega_n}$, that is the $\omega_n$-th death time in the degree 0 Rips persistent homology of the Rips filtration (when ordered increasingly by size) in order to construct an admissible bandwidth $h_n=d_{\omega_n}$. %Recall that For consistency of the kernel density estimator, we want to show that for bandwidth $h_n$ that $h_n \to 0$ and $nh_n^m\to \infty$. This means we need both (asymptoptic) lower and upper bounds on $d_{\omega_n}$.
+This section establishes the order of $h_n = e_{(\lceil\gamma(n-1)\rceil)}$, shows why a fixed quantile is the right thing to take and the largest gap is not, and works out what the resulting bandwidth does to the kernel density estimate. Throughout, $b_m$ denotes the volume of the unit ball in $\R^m$, $M$ a global upper bound on the density $f$, and $\{\omega_n\}$ a sequence of integers indexing which edge length is used. Proofs of \cref{thm:d_alphan to 0} and of \cref{cex:fattails} are in \cref{app:proofs}.
 
-\subsection{Limit of $d_{n-1}$ for Gaussian Samples}
+\subsection{The order of the quantile edge length}\label{sec:order}
 
-We will first consider the case where the samples come from a Gaussian distribution. Since $d_{\omega_n}\leq d_{n-1}$, to asymptotically upper bound $d_{\omega_n}$ it is sufficient to show $d_{n-1} \to 0$ as $n\to \infty$. The proof is a straightforward modification of the proof for Theorem 2.1 in \cite{Crackle}. The only real change is that we need to consider a sequence of decreasing radii for the balls, whereas in \cite{Crackle} the radii remain constant (value $1$). We just need to ensure that the radii decrease slowly enough so that the union of balls remains connected. Due to this variation in the proof, we include the calculations for completeness.
-%For consistency in the case of
-% Gaussian distributions over $\R^2$, we also need to show that the
-% index function for the maximum gap in death values will go to
-% infinity almost surely.
-
-\begin{theorem}\label{thm:d_n-1 Gaussian}
-  Let $S_n$ denote a random sample of $n$ iid points from a fixed multivariate Gaussian in $\R^m$. Then for the Rips filtration over $S_n$ we have $d_{n-1} \to 0$ as $n\to \infty$ almost surely.
-\end{theorem}
-\begin{proof}
-  We will first prove the result in the case of a standard Gaussian, where the probability density function is spherically symmetric and is $c \exp\{-\|x\|^2/2\}$ for some constant $c$. Denote $f(r) = c\exp\{-r^2/2\}$ for this density in terms of the radial coordinate.
-
-  %  Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction $r(n)\rightarrow 0$ as $n \rightarrow \infty$. We will use $r(n)$ to show that the core is covered by balls around the samples with radius $r(n)$.
-  Set $R_n:=\sqrt{2(\log n+m\log \log n)}$ and  $C_n=\sqrt{2(\log n -\log \log n)}$.
-  $R_n$ will be the radius outside which we will expect no samples to occur and $C_n$ will represent the radius of the core of the point cloud - which we expect to be densely covered.
-
-  Cover $B(0, C_n)$ by a grid with side lengths $g_n$. Let $Y(n, C_n, g_n)$ be the event that at least one of the boxes in this grid is empty. Equation 3.1 in \cite{Crackle} states:
-  $$
-  \mathbb{P}(Y(n,C_n,g_n)) \leq (2g_n^{-1})m (C_n)^m\exp\{-ng_n^m f(C_n)\}.
-  $$
-  %Set $R_n^c=\sqrt{2(\log n -\log \log n)}$, which will represent the core of the point cloud.
-  Set $g_n$
-  %=\frac{r(n)}{2\sqrt{d}}$
-  so that $g_n^m=\frac{1}{c \log \log n}$.
-  In addition, note that $f(C_n)= c \exp\{-\log n+\log\log n\}=c\frac{\log n}{n}$.
-  Combined, we get
-  \begin{align*}
-    \mathbb{P}(Y(n,C_n,g_n))
-    & \leq 2^{m}c \log \log n (2(\log n -\log \log n))^{m/2}\exp\left(\frac{-nc\log n}{cn\log \log n}\right)
-    \leq k\frac{(\log n)^{m/2}\log\log n }{\exp(\frac{\log n}{\log \log n})}
-  \end{align*}
-  where $k$ is a constant independent of $n$. For large $n$, $\log n>(m\log\log n) \log \log n$ and thus
-  $$
-  \exp\left(\frac{\log n}{\log \log n}\right)>\exp(m\log\log n)=(\log n)^m.
-  $$
-  Thus, for large $n$ we can bound
-  $$
-  \mathbb{P}\left(Y\left(n,C_n, g_n\right)\right)\leq k \frac{\log\log n }{(\log n)^{m/2}}
-  $$
-  which goes to $0$ as $n \to \infty$.
-
-  %Set $R_n^2:=\sqrt{2(\log n+d\log \log n)}$.
-
-  Let $X(n, R_n)$ be the event that all the samples lie inside $B(0, R_n)$.
-  From Theorem 4 in \cite{Crackle} we have $\lim_{n\to \infty} \E[|S_n \cap B(0,R_n)^c|]=0$. As $|S_n \cap B(0,R_n)^c|$ must be an integer between $0$ and $n$ this implies that $\lim_{n\to \infty} \mathbb{P}(X(n,R_n))=1$.
-
-  %that the probability of there being a point outside the ball centered at the origin with radius $R_n:=\sqrt{2(\log n +d\log\log n)}$ goes to zero as $n\to \infty$. This implies that we can assume all points are within $B(0,R_n)$ and, from our grid size, that every point in $B(0, C_n)$ is within $\frac{2\sqrt{d}}{ c \log \log n}$ of a sample point.
-
-  We want to bound the distance from any point in $B(0, R_n)$ to its closest point in $B(0, C_n)$ which is the same as bounding $R_n-C_n$.
-  We have $R_n+C_n= \sqrt{2(\log n +m\log\log n)}+\sqrt{2(\log n -\log \log n)} > 2\sqrt{\log n}$ so
-  \begin{align*}
-    R_n-C_n &=\frac{R_n^2-C_n^2}{R_n+C_n}\\
-    &<\frac{2(\log n +m\log\log n)-2(\log n -\log \log n)}{2\sqrt{\log n}}\\
-    &=\frac{(m+1)\log\log n}{\sqrt{\log n}}
-  \end{align*}
-
-  Suppose that both $Y(n, C_n, g_n)$ does not hold (every grid box in the covering the core contains at least one sample) and $X(n, R_n)$ does hold (all samples within a ball of radius $R_n$). That is every sample lies in $B(0,R_n)$ and there is a sample in every box in the grid over $C_n$. Set
-  $$
-  r(n):= \frac{2\sqrt{m}}{(c\log \log n)^{1/m}} + \frac{(m+1)\log\log n}{\sqrt{\log n}}
-  $$
-  which was chosen so $r(n)>(R_n-C_n) + 2\sqrt{m}g_n$.
-  By construction we have $\cup_{x\in S_n}B(x, r(n))$ must be connected. This is because every sample is within $(R_n-C_n)$ of a grid point and every grid point is within $2\sqrt{m}g_n$ of a sample point.
-
-  This implies that $d_{n-1}\leq r(n)$ as $d_{n-1}$ is the supremum of radii $r$ where $\cup_{x\in S_n}B(x, r)$ is disconnected.
-
-  %This then implies that every point within $R_n^c$
-  %Set $r(n)$ to satisfy $r(n)^d c \log \log n = 1$. By construction $r(n)\rightarrow 0$ as $n \rightarrow \infty$.
-
-  %  Let $s(n)=r(n) + (d+1)\frac{\log\log n}{\sqrt{\log n}}$.
-  %  Let $X(n,r(n))$ be the event that $\cup_{x\in S_n} B(x, s(n))$ is connected.
-  As both $Y(n, C_n, g_n)$ and $X(n, R_n)$ occur with probability $1$ as $n$ grows to infinity, we have $d_{n-1}\leq r(n) \to 0$ as $n\to \infty$ almost surely.
-
-  %  We want to show that %there is a function $r(n)$ such that $r(n)\rightarrow 0$ as $n \rightarrow \infty$ and
-  %  $\mathbb{P}(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$.
-  %  This implies that $d_{n-1}\leq s(n)$ must also limit to $0$.
-
-  %  %Let $s(n)=r(n) + (d+1)\frac{\log\log n}{\sqrt{\log n}}$.
-  %  Then by the above arguments $\P(X(n,s(n)))\rightarrow 1$ as $n\rightarrow \infty$. This implies that $0<d_{n-1}<s(n)$. We also have $s(n)\to 0$ as $n\to \infty$. Together, they squeeze $d_{n-1}$ to satisfy $d_{n-1}\to 0$ as $n\to \infty$.
-
-  To then extend the result to general multivariate Gaussian distributions, observe that our sample of points $\hat{S}_n$ is the linear transformation $T$ of a sample of points $S_n$ of the standard Gaussian. If $\cup_{x\in S_n} B(x, r)$ is connected, then we can infer that $\cup_{x\in S_n} B(T(x), \|T\|r)$ is also connected. This implies that $d_{n-1}(\hat{S}_n)\leq \|T\|d_{n-1}(S_n)$ and thus $d_{n-1}(\hat{S}_n) \to 0$ as $n\to \infty$.
-\end{proof}
-
-\subsection{A counterexample where $d_{\omega_n}$ does not converge to $0$}
-%Consequences of crackle for distributions with fat tails}
-
-There are many potential indexing functions $\omega_n$ that we can choose to decide which death time to use to compute the bandwidth matrix. We are interested in using a bandwidth that is a function $f(d_{\omega_n})$ for some strictly increasing nice function $f$ (with $f(0)=0$). Thus, in order for this choice $f(d_{\omega_n})$ to be an admissible bandwidth we need $d_{\omega_n} \to 0$ as $n \to \infty$.
-
-If our samples are Gaussian, then we know that $d_{\omega_n}$ satisfies this limit. However, when samples come from a fat-tailed distribution, we can construct examples where with positive probability $d_{\omega_n}$ does not converge to $0$. The methods here are highly influenced by those within \cite{Crackle} but with a different focus: we are more concerned with bounding the probability that there are at least a specified number of connected components instead of limit theorems of expected number of components.
-
-%Consider the distribution on $\R^m$ with the density function $f(x)=\frac{c_m}{1+\|x\|^{m+1}}$ where $c_m$ is the appropriate constant.
-
-For the remainder of this subsection we will consider the distribution on $\R^m$, $m\geq 3$, with the density function $f(x)=\frac{c_m}{1+\|x\|^{m+1}}$ where $c_m$ is the appropriate constant. %Set $R_n=\frac{2n^{2/m}}{c_m s_{m-1}}$ where $s_{m-1}$ is the surface measure of the unit sphere $S^{m-1}$.
-
-A useful quantity is the number of samples with radius at least $R$. Let $A_n^{[R, \infty)}$ be the number of samples lying in $\{x\in \mathbb{R}^m\mid \|x\|\geq R\}.$
-
-We will want to show that outside a certain radius $R_n$ that all the points are isolated in the Rips complex at length scale $1$ and thus each contributing their own connected component. A sufficient condition for this to hold is for there to be no edges in the Rips complex at length scale $1$ between points of radius at least $R_n-1$. Note that we will be not claiming anything about the points in the annular region from radius $R_n-1$ to $R_n$ being isolated as they could be connected to points with smaller radius.
-
-\begin{lemma}\label{lem:bound edges}
-  Fix a sequence of positive numbers $R_n$.
-  Let $S_n$ be a set of $n$ point sampled i.i.d. according to density $f$. Let $g(n)$ be any function bounded above by $\sqrt{\frac{R_n^{m-1}}{\log n}}$.
-  Let $Y_n$ be the number of edges in the Rips complex at radius $1$ between points in $\{x\in \mathbb{R}^m\mid \|x\| > R_n-1\}$.
-  We have the limit $$\P\left(Y_n=0 \mid A^{[R_n-1, \infty)}_n < \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right)\to 1$$ as $n\to \infty$.
-\end{lemma}
-\begin{proof}
-
-  %Consider the Rips complex at radius $1$. We want to lower bound the probability that all the points outside $B(0,R)$ are isolated. A sufficient condition for this is that there are no edges between points outside $B(0, R-1)$.
-
-  \begin{align*}
-    \mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\|\geq R-1)&=
-    \frac{1}{\mathbb{P}(\|x\|,\|y\|\geq R-1)}\int_{R-1}^\infty \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}} \mathbb{P}(y\in B(x,1)\mid |x|=r) \,dr
-  \end{align*}
-
-  If $|x|=r$ ($r$ sufficiently large), then the probability that another sample $y$ lies in $B(x,1)$ is bounded above by $\int_{B(x,1)} \frac{c_m}{1+\|z\|^{m+1}}dz \leq C/r^m$ for some constant $C$ independent of $r$. This implies that there exists a constant $C_1$ independent of $R$ such that
-  \begin{align*}
-    \mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\| >R-1)& < (R-1)^2 C_1\int_{R-1}^\infty \frac{1}{r^{m+2}}\,dr.
-  \end{align*}
-  Thus there is some constant $C_2$ independent of $R$ (for sufficiently large $R$) such that
-  $$
-  \mathbb{P}(\|x-y\|\leq 1|\mid \|x\|, \|y\| >R-1)\leq \frac{C_2}{R^{m-1}}.
-  $$
-
-  Let $Y_n$ be the number of edges in the Rips complex at radius $1$ between points outside $B(0,R_n-1)$. %When $S_n\leq 2n^{1-2/m}$ and $\hat{S}_n\leq n^{1-2/m}$ then the number of samples outside $B(0, R-1)$ is upper bounded by $3n^{1-2/m}$.
-  For each pair of points the probability of an edge between them is bounded above by $C_2/R_n^{m-1}$. Changing the function $g(n)$ will not invalidate this upper bound. Together we get the upper bound on expectation
-  \begin{align*}
-    \E\left[Y_n|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right]
-    \leq \left(\frac{R_n^{m-1}}{\log n}\right)\frac{C_2}{2R_n^{m-1}}
-    = \frac{C_2}{2\log n}
-  \end{align*}
-  for some $C_2$ independent of (sufficiently large) $n$.
-
-  Since $Y_n$ can only be a non-negative integer we have $$\mathbb{P}\left(Y_n\neq 0|A^{[R-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right)\leq \mathbb{E}\left[Y_n|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}}\right].$$ As $\E\left[Y_n|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right]\to 0$ as $n\to \infty$ we can conclude that $$\mathbb{P}(Y_n = 0|A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}}\text{ and } A^{[R_n, \infty)}>g(n))\to 1$$  as $n\to \infty$.
-
-  %Fix any $\delta_2\in (0,1)$. We have $\E[Y_n|S_n<2n^{1-2/m}  \text{ and } \hat{S}_n\leq n^{1-2/m}]<1-\delta_2$ for sufficiently large $n$. As $Y_n$ is a non-negative integer we get $\mathbb{P}(Y_n=0\mid S_n<2n^{1-2/m} \text{ and } \hat{S}_n\leq n^{1-2/m})>\delta_2$ for sufficiently large $n$.
-
-\end{proof}
-
-Given the above lemma, our next step is to show that with positive probability that we have enough points with radius at least $R_n$ but not too many of radius more than $R_n-1$.
-
-\begin{lemma}\label{lem:bound points}
-  Let $S_n$ be a sample of points i.i.d. according to $f$.
-  Set $R_n=\frac{n^{2/m}}{c_m s_{m-1}}$, where $s_{m-1}=mb_m$ is the $(m-1)$-dimensional surface measure of the unit sphere $S^{m-1}\subset\R^m$.
-
-  Then $\mathbb{P}\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)>1/3$ for $n$ sufficiently large.
-\end{lemma}
-
-\begin{proof}
-  For each radius $R$ the probability a sample point has modulus at least $R$ (that is, it lies outside $B(0, R)$) is
-  $$
-  p_{[R,\infty)}=\int_{R}^\infty \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}}\,dr.
-  $$
-
-  We have $p_{[R, \infty)}\in (\frac{c_m s_{m-1}}{2R}, \frac{c_m s_{m-1}}{R})$ for $R>1$. Thus $A^{[R_n, \infty)}_n \sim \mathcal{B}(n, p)$, the binomial distribution for some $p \in (\frac{n^{-2/m}}{2}, n^{-2/m})$. Using Chebyshev's inequality
-  $$\mathbb{P}\left(A_n^{[R_n, \infty)}\in \left(\frac{n^{1-2/m}}{4},2n^{1-2/m}\right)\right)>\frac{1}{2}$$.
-
-  Given that a sample point $x$ lies in $B(0,R)$, the probability that $x$ has its modulus in $[R-1, R)$ (that is, $x\in B(0, R)\backslash B(0, R-1)$) is
-  \begin{align*}
-    \hat{p}&=\frac{\int_{R-1}^R \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}}\,dr }{1-p_{[R, \infty)}}
-    % &<\frac{\int_{R-1}^R \frac{c_m s_{m-1}}{r^2}\,dr }{1-p_{R}}\\
-    <\frac{-\frac{c_m s_{m-1}}{R}+\frac{c_m s_{m-1}}{R-1}}{1-\frac{c_m s_{m-1}}{R}}
-    <\frac{2c_m s_{m-1}}{R^2}
-  \end{align*}
-  for sufficiently large $R$. For $R_n=\frac{2n^{2/m}}{c_m s_{m-1}}$ we have $\hat{p}_n\leq C_1 n^{-4/m}$ for large $n$ (with $C_1$ a constant independent of $n$).
-
-  Let $\hat{A}^{[R_{n-1}, R_n)}_n$ the number of samples in $\{x\in \mathbb{R}\mid \|x\|\in[R_{n-1}, R_n)\}$ conditioned on there being $A^{[R_n, \infty)}_n$ samples outside $B(0,R_n)$. We have $\hat{A}^{[R_{n-1}, R_n)}_n \sim \mathcal{B}(n-A^{[R_n, \infty)}_n, \hat{p})$. We can couple $\mathcal{B}(n-A^{[R_n, \infty)}_n, \hat{p}_n)$ to $\mathcal{B}(n, \hat{p}_n)$ to imply that $\mathbb{P}(\hat{A}^{[R_n, \infty)}_n\leq n^{1-2/m})>2/3$ for large enough $n$.
-
-  Combining
-  \begin{align*}
-    \mathbb{P}&\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right) \\
-    &\geq  \mathbb{P}\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n \in \left( \frac{1}{4}n^{1-2/m}, 2n^{1-2/m}\right)\right)\\
-    & \geq \mathbb{P}\left( \hat{A}^{[R_n-1, \infty)}_n < n^{1-2/m}\mid  A^{[R_n, \infty)}_n \in \left( \frac{1}{4}n^{1-2/m}, 2n^{1-2/m}\right)\right)\mathbb{P}\left( A^{[R_n, \infty)}_n \in \left( \frac{1}{4}n^{1-2/m}, 2n^{1-2/m}\right)\right)\\
-    &\geq \frac{2}{3}\frac{1}{2}=\frac{1}{3}
-  \end{align*}
-\end{proof}
-
-We can finally combine these to complete our counterexample. Note that the probabilities are far from tight as we only need to show that $d_{\omega_n}$ does not converge to $0$
-
-\begin{counterexample}
-  For $\omega_n=n-\frac{1}{4}n^{1-2/m}$ we have
-  $\mathbb{P}(d_{\omega_n}>1)>1/4$ and thus $d_{\omega_n}$ is not an admissible bandwidth.
-\end{counterexample}
-\begin{proof}
-  A sufficient condition for $d_{\omega_n}\geq 1$ is for the Rips complex at length scale $1$ to have $\frac{1}{4}n^{1-2/m}$ isolated points.
-
-  One way to orchestrate this many isolated points is to have $A_n^{[R_n, \infty)}>\frac{1}{4}n^{1-2/m}$ and $Y_n=0$. Consider $R_n=\frac{n^{2/m}}{c_m s_{m-1}}$, with $s_{m-1}$ the surface measure of the unit sphere as above.
-
-  From \ref{lem:bound points} we have $\mathbb{P}\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)>1/3$ for $n$ sufficiently large.
-
-  By substituting in $R_n$ we can easily check that  $3n^{1-2/m}<\sqrt{\frac{R_n^{m-1}}{\log n}} $. This means we can apply Lemma \ref{lem:bound edges} to say
-  that for $Y_n$ the number of edges between samples of radius $R_n-1$, we have $\mathbb{P}\left(Y_n=0\mid A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)\to 1$ as $n\to \infty$, and thus at least $\frac{3}{4}$ for sufficiently large $n$.
-
-  Combining everything,
-  \begin{align*}
-    \mathbb{P}(d_{\omega_n}>1)&\geq \mathbb{P}\left(Y_n=0 \text{ and } A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \frac{1}{4}n^{1-2/m}\right)\\
-    \geq \frac{1}{3}\frac{3}{4}=\frac{1}{4}.
-  \end{align*}
-
-  This contradicts $d_{\omega_n}\to 0$ as $n\to \infty$ with probability $1$ and thus $d_{\omega_n}$ can't be an admissible bandwidth.
-\end{proof}
-
-\subsection{Upper bounding the quantile death times $d_{\gamma(n-1)}$}\label{sec:upperboundquartile}
-
-Despite the counterexample in the previous subsection, we can find sequences of death times that will limit to zero under very mild assumptions of the distribution (even with fat tails!).
-
-An approach that generally works is to use a quantile of the death times. That is $d_{\gamma(n-1)}$ for some $\gamma\in [0,1]$. Recall that there are only $n-1$ finite death times, so $d_{n-1}$ is the largest finite death value. Strictly speaking, we need an integer value, so you can interpret $\gamma(n-1)$ as either the floor or the ceiling. More precisely in this subsection we will consider sequences $\omega_n$ where there exists $\gamma\in (0,1)$ with $\omega_n\leq \gamma n$ for large enough $n$.
-
-%The following is a standard useful lemma, but we include it for completeness.
-
-%\begin{lemma}\label{lem:samplescover}
-%  Let $U_1, \ldots, U_l\subset \R^m$ and $X$ a random sample such that $\P(X\in U_i)>\delta $ for all $i$. Let $\{x_1, \ldots x_n\}$ be i.i.d. draws of $X$. If $Z_i$ is the event that at no samples $x_j$ lie in $U_i$ then
-% $\P(\cup Z_i) \leq l e^{-n\delta}.$
-%\end{lemma}
-%\begin{proof}
-%  For a single draw $x_j$ we have $\P(x_j\notin Z_i)\leq 1-\delta\leq e^{-\delta}$ and thus for $n$ draws $\P(Z_i)\leq e^{-n\delta}$. Combining over all the $Z_i$ we gain the upper bound
-%  $\P(\cup Z_i)\leq \sum_i \P(Z_i)\leq le^{-n\delta}$.
-%\end{proof}
-
-It is useful to have notation for offsets of Euclidean subsets. For any subset $L\subset \R^m$ and any $\delta>0$, let $L^\delta$ denote the set $\{y+v \mid y\in L, \|v\| \leq \delta\}$.
-
-\begin{lemma}\label{lem:covernumber}
-  Let $f: \R^m\to [0,\infty)$ be a Lipschitz probability density function (with Lipschitz constant $M$), and $L=f^{-1} [c,\infty)$ be a non-empty superlevel set of $f$ for some $c>0$. For all $\varepsilon\in(0, c/M]$ there exists $\{x_1, \ldots x_l\}\subset L$ such that $L \subseteq \cup_i B(x_i, \varepsilon)$, $l\leq\frac{2^{m}}{c b_m \varepsilon^m}$.
-  %and $\P(X\in B(x_i, \varepsilon))>\frac{c b_m}{2} \varepsilon^m$ for all $i$ (where $X$ is drawn according to pdf $f$).
-  Here $b_m$ is the volume of the unit ball in $\R^m$.
-  %Furthermore, $\cup_i B(x_i, \varepsilon)$ contains at most $$??$$
-  % connected components.
-\end{lemma}
-\begin{proof}
-  Fix $\varepsilon \in (0, c/M]$ and take a maximal $(\varepsilon/2)$-separated subset $S = \{x_1, x_2, \ldots, x_l\}$ within $L$. This means that $|x_i-x_j|\geq \varepsilon$ for all $i\neq j$ and that no additional point in $L$ can be added to $S$ without breaking this condition. By construction this implies that $L\subseteq \cup_{i} B(x_i, \varepsilon)$ as otherwise any missed location in $L$ could be added as an additional point and the set remain $(\varepsilon/2)$-separated.
-
-  As each $x_i\in L$ we also have $B(x_i, \varepsilon/2)\subset L^{\varepsilon/2}$. Since $f$ is Lipschitz with Lipschitz constant $M$, we have
-  $L^{\varepsilon/2} \subseteq f^{-1}[c-M\varepsilon/2, \infty)$.
-  For $\varepsilon<c/M$ we have $B(x_i, \varepsilon/2)\subset f^{-1}[c/2, \infty)$ so $$\P(X\in B(x_i, \varepsilon/2))=\int_{B(x_i, \varepsilon/2)}f dx \geq \frac{c b_m \varepsilon^m}{2^{m}}.$$ Each of the $B(x_i, \varepsilon/2)$ are disjoint so $l\frac{c b_m \varepsilon^m}{2^{m}} \leq \P(X\in \cup_i B(x_i, \varepsilon/2))\leq 1$. We thus get $l\leq \frac{2^{m}} {c b_m \varepsilon^m}$.
-
-  % As $B(x_i, \varepsilon) \subset f^{-1}[c-M\varepsilon, \infty)\subset f^{-1}[c/2, \infty]$ we have $\P(X\in B(x_i, \varepsilon))\geq \frac{c b_m \varepsilon^m}{2}$.
-\end{proof}
+The upper bound holds under a local Lipschitz condition and no assumption at all on the tails.
 
 \begin{theorem}\label{thm:d_alphan to 0}
-
-  Let $d_k$ denote the $k$th smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution $X$ over $\R^m$ such that the probability density function $f$ exists and for over the region where $f\leq 1$ it is Lipschitz with Lipschitz constant $M$ . Note that there are $n-1$ finite death times. Fix a $\gamma\in (0,1)$ and choose any sequence of integers $\{\omega_n\}$ such that $0\leq \omega_n \leq \gamma n$ for all sufficiently large $n$. Then there exists a constant $C(f,\gamma)$ (dependent on $f$ and $\gamma$ but not $n$) such that
+  Let $e_{(k)}$ denote the $k$th smallest edge length of the Euclidean minimum spanning tree of $n$ points sampled independently from a distribution on $\R^m$ whose density $f$ is Lipschitz with constant $M$ over the region where $f\leq 1$. Fix $\gamma\in (0,1)$ and choose any sequence of integers $\{\omega_n\}$ with $0\leq \omega_n \leq \gamma n$ for all sufficiently large $n$. Then there exists a constant $C(f,\gamma)$, depending on $f$ and $\gamma$ but not on $n$, such that
   $$
-  \mathbb{P}\left(d_{\omega_n} \leq C(f,\gamma)n^{-1/m}\right) \geq 1- \frac{12}{n(1-\gamma)}
+  \mathbb{P}\big(e_{(\omega_n)} \leq C(f,\gamma)n^{-1/m}\big) \geq 1- \frac{12}{n(1-\gamma)}
   $$
-  for all sufficiently large $n$, and the right-hand side limits to $1$ as $n\to \infty$.
-  %Then for any sequence $\{g_n\}$, such that $g_n\to 0$ as $n \to \infty$, we have
-  %  $$\lim_{n\to \infty}\mathbb{P}\left(d_{\omega_n} \geq n^{-1/m}g_n\right)=1.$$
+  for all sufficiently large $n$.
 \end{theorem}
 
-%  Let $f:\R^m \to \R$ be a Lipschitz probability density function (with Lipschitz constant $M$) for $X$. For any $\gamma\in (0,1)$, the limit $d_{\gamma (n-1)} \to 0$ converges in probability, where $d_{\gamma (n-1)}$ is the $\gamma$ quantile of finite death times.
+The argument is a covering one. Choose a superlevel set $L = f^{-1}[c,\infty)$ carrying all but a small fraction of the probability, cover it by $O(r_n^{-m})$ balls of radius $r_n$, and note that two points in a common ball are joined at diameter $2r_n$, so the number of components at that diameter is at most the number of balls plus the number of sample points outside $L$. Choosing $r_n \asymp n^{-1/m}$ makes the first count at most $n(1-\gamma)/2$, and Chebyshev's inequality controls the second. The constant is $C(f,\gamma)= 2\big(2^{m+1}/(c b_m (1-\gamma))\big)^{1/m}$.
 
-%   $$\lim_{n\to \infty}\mathbb{P}\left(d_{\gamma(n-1)} \leq  \left( \frac{\log n}{n}\right)^{1/m}\right)=1.$$ %almost surely, with $C(f,\gamma)$ a constant dependent on $f$ and $\gamma$.
-%In particular, $$d_{\gamma(n-1)}<C(f,\gamma) \left( \frac{\log n}{n}\right)^{1/m}$$ almost surely, with $C(f,\gamma)$ a constant dependent on $f$ and $\gamma$.
-%\end{theorem}
+A matching lower bound holds under the weaker assumption that $f$ is merely bounded.
 
-\begin{proof}
-  %  Fix $\gamma\in [0,1)$.
-  %Note that $d_{\omega_n}<d_{\gamma n}$ for sufficiently large $n$ so it is sufficient to prove the theorem
-  Choose $c\in(0,1)$ such that for $L=f^{-1}[c, \infty)$ we have $\P(X\notin L)<(1-\gamma)/3$.
-
-  Consider the sequence $r_n:= \left(\frac{2^{m+1}}{c b_m n(1-\gamma)}\right)^{1/m}$
-  %so that $\frac{2^m}{c b_m r_n^m} =n(1-\gamma)/2.$
-  (where $b_m$ is the volume of the unit ball in $\R^m$).
-  Note that for $r_n \in (0, c/M)$ for large enough $n$. Restrict the sequence to $n$ where this holds.
-
-  By \cref{lem:covernumber} there exists a cover of $L$ by $l_n$ balls $\{B(y_i, r_n)\mid i=1, 2, \ldots l_n\}$, with
+\begin{theorem}\label{thm:lowerbound}
+  Let $e_{(k)}$ be as in \cref{thm:d_alphan to 0}, with $f$ bounded above by $M$. Fix $\gamma\in(0,1)$ and choose any sequence of integers $\{\omega_n\}$ with $\gamma n\le\omega_n<n$ for all sufficiently large $n$. Put $c=\big(\gamma/(M b_m)\big)^{1/m}$. Then, for all sufficiently large $n$,
   $$
-  l_n\leq \frac{2^m}{c b_m r_n^m} =n(1-\gamma)/2 .
-  %\frac{2^{m}}{c b_m r_n^m}=\frac{2^m n}{\log n}.
+  \mathbb{P}\big(e_{(\omega_n)}\geq c\,n^{-1/m}\big)\ \geq\ 1-\frac{6}{\gamma n}.
   $$
-  %and
-  %$\P(X\in B(y_i, r_n))>\frac{c b_m r_n^m}{2} = \frac{\log n}{n}$ for each $i$.
-  %We have $d_{\gamma(n-1)}<r_n$ whenever $\cup_i B(x_i, r_n)$ has less than $n(1-\gamma)$ connected components.
-  %  If $Z_i$ is the event that there are no samples in $B(y_i, r_n)$. By \cref{lem:samplescover}
-  % $$
-  % \P(\cup Z_i) \leq \frac{2^m n}{\log n} e^{-n \frac{\log n}{n}}= \frac{2^m}{\log n} .$$
-  %This implies that as $n\to \infty$ we have at least one sample in each of the $B(y_i, r_n)$ with probability $1$.
-
-  Any two points lying in the same ball $B(y_i, r_n)$ are at distance at most $2r_n$, so they are joined by an edge in the Rips complex at diameter $2r_n$. This implies that the number of connected components at diameter $2r_n$, when restricting to points inside $L$, will be bounded above by $l_n \leq n(1-\gamma)/2 $.
-
-  %Let $p=\P(X\notin L)$. Note that for all $x\in L$ we have
-  % $f(x)>c$. Since $f$ has only finitely many local maxima we have
-  % that the number of connected components in $L$ is finite.
-  %Denote these connected components by $L_1, L_2, \ldots L_K$.
-  % %Consider also the sets $L_i^\varepsilon=\{y\in \R^m| \text{ there
-  % exists }x\in L_i \text{ such that } \|x-y\|<\varepsilon\}$
-  %We also know that the volumes of the $L_i$ are all bounded.
-
-  Let $Y(L,n)$ denote the random variable for the number of our $n$ sample points that are not in $L$.
-  In the case we would have an upper bound on the number of connected components in $\cup_j B(x_j, r_n)$ by $
-  Y(L,n)+n(1-\gamma)/2$.
-  We have $d_{\omega_n}\leq 2r_n$ whenever the Rips complex at diameter $2r_n$ has fewer than $n-\omega_n$ connected components.
-  We will want to show that
-  $$
-  Y(L,n)+n(1-\gamma)/2<n-\omega_n
-  $$
-  for large $n$. As $n-\omega_n>n(1-\gamma)$, it is sufficient to show $Y(L,n)<n(1-\gamma)/2$ for large $n$.
-
-  From the construction of $L$ we have $Y(L,n)$ is a binomial distribution with mean $np$ and variance $np(1-p)$, with $p<(1-\gamma)/3$. We can use Chebyshev's inequality to bound $\P(Y(L,n)>n(1-\gamma)/2)$.
-  \begin{align*}
-    \P(Y(L,n)>n(1-\gamma)/2) & \leq
-    \P(|Y(L,n)-np| >n(1-\gamma)/2-n(1-\gamma)/3) \\
-    & = \P(|Y(L,n)-np| >n(1-\gamma)/6)                    \\
-    & \leq \frac{Var(Y)}{(n(1-\gamma)/6)^2}             \\
-    & \leq \frac{36np(1-p)}{n^2(1-\gamma)^2}             \\
-    %&\leq \frac{9(1-\gamma)(1-p)/2}{n(1-\gamma)^2}\\
-    & \leq \frac{12}{n(1-\gamma)}
-  \end{align*}
-  This clearly goes to zero as $n$ goes to infinity.
-
-  If there are fewer than $n(1-\gamma)$ connected components at diameter $2r_n$ then $d_{\omega_n}\leq 2r_n =: C(f, \gamma) n^{-1/m}$, where $C(f,\gamma)= 2\left(\frac{2^{m+1}}{c b_m (1-\gamma)}\right)^{1/m}$.
-  Thus we have proved $\P(d_{\omega_n} > C(f, \gamma) n^{-1/m}
-  )\leq \frac{12}{n(1-\gamma)} \to 0$ as $n\to \infty$
-  %as $n\to \infty$.
-  %As $r_n \to 0$ as $n\to \infty$ we have $d_{\gamma(n-1)} \to 0$ almost surely.
-  %In particular, $$d_{\omega_n}\leq C(f,\gamma) \left( \frac{\log n}{n}\right)^{1/m}$$ almost surely,
-  with $C(f,\gamma)$ a constant dependent on $f$ and $\gamma$ (and independent of $n$).
-\end{proof}
-
-\subsection{Lower bounding the quantile death times $d_{\gamma(n-1)}$}
-
-Given the general upper bound result in Subsection \ref{sec:upperboundquartile} we will now focus showing limit theorems when our sequence of death times is a quantile $\gamma(n-1)$ for some $\gamma\in (0,1)$. Again we will pose our theorems in terms of $d_{\omega_n}$ where $\omega_n$ is controlled appropriately --- here $\omega_n\geq \gamma n$ for large enough $n$.
-
-%Main mathematical results with proofs (possibly relegated to the Appendices).
-
-%A consequence of the below theorems is that $nd_{\gamma(n-1)}\to
-% \infty$ %whenever $d_*$ is chosen as the any fixed quantile of
-% the death times.
-%This holds for very general distributions. We only require a global
-% upper bound on the pdf and the dimension of the space to be at least $2$.
-
-\begin{theorem}\label{thm:nd_f(n)}
-  Let $d_k$ denote the $k$th smallest death time of the $0$-homology for the Rips filtrations of a set of $n$ points sampled from probability distribution $X$ over $\R^m$ such that the probability density function $f$ exists and is bounded above. Note that there are $n-1$ finite death times. Fix a $\gamma\in (0,1)$ and choose any sequence of integers $\{\omega_n\}$ such that $\gamma n \leq \omega_n <n$ for all sufficiently large $n$. Then for any sequence $\{g_n\}$, such that $g_n\to 0$ as $n \to \infty$, we have
-  $$\lim_{n\to \infty}\mathbb{P}\left(d_{\omega_n} \geq n^{-1/m}g_n\right)=1.$$
 \end{theorem}
 
 \begin{proof}
-  %It is sufficient for there to exist a function $r(n)$ (with and $r(n)\to \infty$ as $n\to \infty$) such that $\mathbb{P}(d_{\omega_n}\geq \frac{r(n)}{n}) \to 1$ as $n\to \infty$.
-  For any sequence of positive numbers, $\{r_n\}$, let $C(n, r_n)$ denote the number of components of $\cup_x B(x, r_n)$ (where $B(x,r_n)$ denotes the ball of radius $r_n$ centered at $x$). Each death time corresponds to the reduction by one of the number of connected components. This implies that $d_{\omega_n} > r_n$ occurs when $C(n, r_n) > n - \omega_n$.
-
-  Now $C(n, r_n)$ is a random variable with range contained in $[1,n]$. This implies we can the upper bound the expectation by
-  \begin{align*}
-  \E[C(n, r_n)] &\leq n\left(1-\mathbb{P}\left(C(n, r_n )\leq n-\omega_n)\right)\right)+ (n-\omega_n)(\mathbb{P}(C(n,r_n) \leq (n- \omega_n))\\
-    &= n - \omega_n \mathbb{P}(C(n,r_n)\leq n-\omega_n).
-  \end{align*}
-  Rearranging we get
+  Let $E(n,r)=\sum_{i<j}\mathbf{1}\{\|\bm{y}_i-\bm{y}_j\|\leq r\}$ be the number of pairs within distance $r$, and let $C(n,r)$ be the number of connected components of the graph joining all such pairs. The number of minimum spanning tree edges of length at most $r$ is $n-C(n,r)$, and adding an edge either reduces the component count by one or leaves it unchanged, so $n-C(n,r)\leq E(n,r)$. Hence
   $$
-  \mathbb{P}(C(n,r_n)\leq  n-\omega_n)\leq \frac{n-\E[C(n,r_n)]}{\omega_n}= \frac{\E[n-C(n,r_n)]}{\omega_n}.
+  \{e_{(\omega_n)}<r\}\subseteq\{n-C(n,r)\geq\omega_n\}\subseteq\{E(n,r)\geq\gamma n\}.
   $$
-  % \begin{align*}
-  %     \E[X] &\leq N\mathbb{P}(X\geq (N-\lambda)) + (N-\lambda)(1-\mathbb{P}(X\geq (N- \lambda)))= N-\lambda + \lambda \mathbb{P}(X\geq N-\lambda)
-  %\end{align*}
-  %and hence $$\mathbb{P}(X\geq N-\lambda)\geq \frac{\E[X]-N +\lambda}{\lambda}.$$
-  % Since the number of components can only be an integer between $1$ and $n$,
-  %\begin{align*}
-  %   \Mathbb{E}\left[C\left(n, \frac{r(n)}{n}\right)> n-\omega_n\right]&\leq n\mathbb{P}\left(C\left(n, \frac{r(n)}{n}\right)> n-\omega_n\right) + (1-\mathbb{P}\left(C\left(n, \frac{r(n)}{n}\right)> n-\omega_n\right) (n-\omega_n)\\
-  %     &=(n-\omega_n)+ \mathbb{P}\left(C\left(n, \frac{r(n)}{n}\right)> n-\omega_n\right)\omega_n
-  %\end{align*}
-  %and thus
-  %  $$
-  %  \mathbb{P}\left(C\left(n, \frac{r(n)}{n}\right)\leq n-\omega_n\right) \leq \frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n}{\omega_n}.
-  %  $$
-  % It is thus sufficient to show that there exists a suitable sequence $r(n)$ such that $r(n)\to \infty$ as $n\to \infty$, and
-  % $$
-  % \lim_{n\to \infty}\frac{\mathbb{E}[C(n, \frac{r(n)}{n})]-n}{\omega_n} = 0.
-  % $$
-  A useful upper bound for $n-C(n,r_n)$ is $E(n,r_n)$, where $E(n,r_n)$ is the number of edges in the graph connecting any two points are less than $2r$ apart. This inequality is because every edge we add will either reduce the number of connected components by $1$ or keeps the number of connected components unchanged. Coupling these random variables we have the bound $\mathbb{E}[n-C(n, r)]\leq \mathbb{E}\left[E\left(n,r\right)\right]$. The expected number of edges is much easier to calculate than the expected number of components, with
-  \begin{align*}
-    \mathbb{E}\left[E\left(n,r_n\right)\right]
-    & =\frac{n(n-1)}{2}\mathbb{P}(\lVert x-y \rVert<2r_n\mid x,y \sim X)
-    \leq \frac{n(n-1)}{2} Mb_m r_n^m %             \leq \frac{K \pi}{2}r(n)^2
-  \end{align*}
-  where $M$ is the global upper bound on the probability density function of $X$ and $b_m$ is the volume of the unit ball in $\R^m$.
 
-  Consider the sequence $\left\{r_n=n^{-1/m}g_n\right\}$.
-  %such that $n^2r_n^m=\log(\omega_n)$.
-  %that is $$r_n=\left(\frac{\log(\omega_n)}{n^2}\right)^{1/m}.$$
-  % =\sqrt{2\log (\omega (n))}$ (noting $\lim_{n\to \infty} r(n)= \infty$ as $\lim_{n\to \infty} \omega_n=\infty$) we get
-  % $\mathbb{E}\left[C\left(n, \frac{r(n)}{n}\right)\right]\geq n- K \pi\log(\omega_n)$ and thus
-  Then
-  $$\mathbb{E}[n-C(n, r_n)]\leq \frac{n(n-1)}{2} Mb_m r_n^m \leq \frac{Mb_m}{2} n g_n^m$$
-  and so
-  $$\mathbb{P}(C(n,r_n)\leq  n-\omega_n)\leq \frac{Mb_m n g_n^m}{2\omega_n}\leq \frac{Mb_m g_n^m}{2\gamma}$$
-  which limits to $0$ as $n\to \infty$. This implies that $\lim_{n\to \infty}\mathbb{P}(d_{\omega_n}\geq r_n)=1$.
+  Set $r_n=c\,n^{-1/m}$, so that $\theta:=M b_m r_n^m=\gamma/n$. Since $\mathbb{P}(\|\bm{y}_1-\bm{y}_2\|\leq r)\leq M b_m r^m$,
+  $$
+  \E[E(n,r_n)]=\binom n2\,\mathbb{P}(\|\bm{y}_1-\bm{y}_2\|\leq r_n)\leq \frac{n(n-1)}{2}\cdot\frac\gamma n<\frac{\gamma n}2 .
+  $$
+  Now $E(n,r_n)$ is an unnormalised U-statistic of degree two with kernel $h_{ij}=\mathbf{1}\{\|\bm{y}_i-\bm{y}_j\|\leq r_n\}$, so
+  $$
+  \operatorname{Var}\big(E(n,r_n)\big)=\binom n2\operatorname{Var}(h_{12})+n(n-1)(n-2)\operatorname{Cov}(h_{12},h_{13}).
+  $$
+  The first term is at most $\binom n2\theta<\gamma n/2$. For the second, conditioning on $\bm{y}_1$ gives $\operatorname{Cov}(h_{12},h_{13})\leq\E\big[\mathbb{P}(\bm{y}_2\in B(\bm{y}_1,r_n)\mid \bm{y}_1)^2\big]\leq\theta^2$, so that term is at most $n^3\theta^2=\gamma^2 n$. Therefore $\operatorname{Var}(E(n,r_n))\leq \tfrac32\gamma n$. Since $\E[E(n,r_n)]<\gamma n/2$, Chebyshev's inequality gives
+  $$
+  \mathbb{P}\big(E(n,r_n)\geq\gamma n\big)\leq\mathbb{P}\Big(E(n,r_n)-\E[E(n,r_n)]>\frac{\gamma n}2\Big)
+  \leq\frac{\tfrac32\gamma n}{(\gamma n/2)^2}=\frac{6}{\gamma n}. \qedhere
+  $$
 \end{proof}
 
-\subsection{Admissible bandwidths and rates of convergence}
+Markov's inequality alone is not enough here: it bounds $\mathbb{P}(E(n,r_n)\geq\gamma n)$ by a constant below one, which does not vanish. The variance calculation is what turns the bound into a statement that holds with probability tending to one, and it is why earlier versions of this result had to be weakened by a factor tending to zero.
 
-We can combine Theorem \ref{thm:d_alphan to 0} with Theorem \ref{thm:nd_f(n)}  to show that $d_{\gamma(n-1)}$ is an admissible bandwidth (Definition \ref{def:admissible_bandwidth}).
+Together the two theorems pin down the order exactly.
 
-\begin{theorem}\label{thm:consistency}
-  Let $f:\R^m \to \R$ be a density function that satisfies A1. If there exists $0<\gamma_1< \gamma_2<1$ such that $\omega_n \in (\gamma_1 n, \gamma_2 n)$ for all sufficiently large $n$ then $d_{\omega_n}$ is an admissible bandwidth. %for all $\delta\in (0,1)$.
-\end{theorem}
+\begin{corollary}\label{cor:order}
+  Under the assumptions of \cref{thm:d_alphan to 0}, there exist constants $0<c\leq C<\infty$ depending on $f$ and $\gamma$ such that
+  $$
+  \mathbb{P}\big(c\,n^{-1/m}\leq e_{(\lceil\gamma(n-1)\rceil)}\leq C\,n^{-1/m}\big)\to 1 \quad\text{as } n\to\infty;
+  $$
+  that is, $h_n \asymp n^{-1/m}$ in probability.
+\end{corollary}
+
+Note that both bounds fail at $\gamma$ close to its endpoints, and in opposite ways: the upper bound degrades as $\gamma\to1$ and the lower bound as $\gamma\to0$. At the default $\gamma=0.98$ the guaranteed constants are one to two orders of magnitude away from the observed values, so \cref{cor:order} should be read as a statement about order and not as a usable numerical bound.
+
+\begin{remark}[Total tree length]\label{rem:steele}
+  For light-tailed densities there is a sharper route to the upper bound. \citet{Steele1988} showed for compactly supported densities, and \citet[Theorem 1.1]{PenroseYukich2003} for densities on $\R^m$ satisfying a moment condition, that the total length $M_n$ of the minimum spanning tree satisfies $n^{1/m-1}M_n\to C(1,m)\int f^{1-1/m}$ almost surely; the proof is given in \citet{Yukich1998}. If $e_{(k)}>t$ then all $n-k$ edges ranked $k$ and above exceed $t$, so $M_n\geq(1-\gamma)(n-1)t$, and therefore
+  $$
+  h_n \leq \frac{M_n}{(1-\gamma)(n-1)} = \frac{C(1,m)\int f^{1-1/m}}{1-\gamma}\,n^{-1/m}\,(1+o(1))
+  $$
+  almost surely. The constant is explicit and interpretable, where the constant of \cref{thm:d_alphan to 0} involves a covering number. This complements \cref{thm:d_alphan to 0} rather than replacing it: the moment condition fails for the heavy-tailed density of \cref{sec:counterexample}, which is precisely the case the paper needs, and there the covering argument, which requires no moment at all, is the only one of the two that survives.
+\end{remark}
+
+\begin{remark}[Nearest-neighbour distances]\label{rem:nn}
+  It is natural to ask why the tree is needed when nearest-neighbour distances have the same $n^{-1/m}$ scaling and are cheaper still. The two are not alternatives: by the cut property, the edge from an observation to its nearest neighbour is the unique shortest edge across the cut isolating that observation, so it belongs to the minimum spanning tree. Every nearest-neighbour distance is therefore an edge length of $T$, and \cref{cor:order} says the $\gamma$ quantile of all $n-1$ edge lengths has the same order as the typical nearest-neighbour distance. What the tree adds is the remaining edges, which record how the components of the data join up rather than only how close each point is to its closest companion. \cref{sec:compareWithOtherMethods} compares lookout against detectors built directly on nearest-neighbour distances.
+\end{remark}
+
+\begin{remark}[The longest edge]\label{rem:penrose}
+  The results above say nothing about $e_{(n-1)}$, the longest edge, which is the object a max-gap rule is closest to. Its behaviour is known in considerable detail: \citet{Penrose1997} gives the limiting distribution of the longest edge of the minimum spanning tree for densities on a compact region, and \citet{Penrose1998} treats the normally distributed case. Both are sharper than anything we prove or need, and we refer the reader to them rather than restating weaker versions here.
+\end{remark}
+
+\subsection{Why a fixed quantile and not the largest gap}\label{sec:counterexample}
+
+The original bandwidth rule takes the largest gap in the upper half of the edge lengths, which places it at the extreme top of the edge-length distribution, where $\omega_n/n\to1$. \cref{cor:order} does not apply there, and for good reason: at heavy tails the top of the distribution need not settle down at all.
+
+\begin{counterexample}\label{cex:fattails}
+  Let $m\geq3$ and let the observations be sampled from the density $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$ on $\R^m$. For $\omega_n=n-\tfrac{1}{4}n^{1-2/m}$ we have $\mathbb{P}(e_{(\omega_n)}>1)>1/4$ for all sufficiently large $n$, so $e_{(\omega_n)}$ does not converge to zero.
+\end{counterexample}
+
+The mechanism is crackle \citep{Crackle}. Under a heavy-tailed density the sample has, with probability bounded away from zero, a halo of order $n^{1-2/m}$ points at radius beyond $R_n \asymp n^{2/m}$ that are mutually isolated at unit scale, each forming its own connected component. Any rule that reads the top $O(n^{1-2/m})$ of the edge-length distribution is reading that halo, and the halo does not shrink. A fixed quantile $\gamma<1$ never looks that far up, and \cref{thm:d_alphan to 0} shows it converges at the right rate for this density as for any other. The full argument is in \cref{app:proofs}.
+
+There is a second way to see where the difficulty lives. The integral $\int f^{1-1/m}$ that governs the total tree length in \cref{rem:steele} is finite for compactly supported and Gaussian densities, but for the density above $f^{1-1/m}$ decays like $\|\bm{x}\|^{-(m^2-1)/m}$ and $(m^2-1)/m<m$, so the integral diverges and the total tree length grows faster than $n^{1-1/m}$. The excess is absorbed entirely by the longest edges: the $\gamma$ quantile still behaves like $n^{-1/m}$ while the mean edge length does not. The same integral that controls the scaling is the one that fails under heavy tails, and it fails exactly where the max-gap rule looks and the fixed quantile does not.
+
+This is the formal version of the objection raised in \cref{sec:related}. \citet{Rohlf1975} reads a gap near the top of the edge lengths to find outliers, and reading the same feature to set a bandwidth inherits its instability.
+
+\subsection{The bandwidth sits at the critical scaling}\label{sec:critical}
+
+We can now say what \eqref{eq:Hmst} does to the kernel density estimate.
+
+\begin{proposition}\label{prop:critical}
+  Let $f$ satisfy the assumptions of \cref{thm:d_alphan to 0} and let $\bm{H}=(m+4)h_n^2\bm{I}_m$ with $h_n=e_{(\lceil\gamma(n-1)\rceil)}$. Then there exist constants $0<c'\leq C'<\infty$ such that $\mathbb{P}\big(c'\leq n|\bm{H}|^{1/2}\leq C'\big)\to1$ as $n\to\infty$.
+\end{proposition}
 
 \begin{proof}
-  Note that the assumptions of A1 imply that $f$ is Lipschitz and bounded.
-
-  Recall that for $d_{\omega_n}$ to be an admissible bandwidth we require $d_{\omega_n} \to 0$ and $n(d_{\omega_n})^{m/2} \to \infty$ as $n\to \infty$ with probability $1$.
-  %From Theorem \ref{thm:d_alphan to 0}  $d_{\omega_n} \to 0$ as $n\to \infty$ with probability $1$. As $\delta>0$ is fixed, this also holds for $(d_{\omega_n})^\delta$.
-  As $n^{-1/m} \to 0$ as $n\to \infty$ we can conclude from Theorem \ref{thm:d_alphan to 0} that $d_{\omega_n}\to 0$ as $n\to\infty$ (with probability $1$).
-
-  From Theorem \ref{thm:nd_f(n)}, with $g_n=(\log n)^{-1/m}$, we get $\lim_{n\to \infty}\mathbb{P}\left(d_{\omega_n} \geq (n\log n)^{-1/m}\right)=1$ and thus
-  $$ \lim_{n\to \infty}\mathbb{P}\left(nd_{\omega_n}^{m/2} \geq n (n\log n)^{-1/2}\right)=1.$$
-  Since $n (n\log n)^{-1/2}\to \infty$ as $n\to \infty$ we have in turn  $n(d_{\omega_n})^{m/2}\to \infty$ as $n\to \infty$ with probability $1$.
-
+  $|\bm{H}|^{1/2}=(m+4)^{m/2}h_n^m$, so $n|\bm{H}|^{1/2}=(m+4)^{m/2}nh_n^m$, and \cref{cor:order} gives $nh_n^m$ between $c^m$ and $C^m$ with probability tending to one.
 \end{proof}
 
-Thus, setting the bandwidth to be $\bm{H} = d_{\gamma(n-1)} \bm{I}_m$, for $0<\gamma<1$, leads to a consistent kernel density estimator with MISE \eqref{eq:mise} converging to zero as $n\to \infty$.
+Condition A3 therefore fails: $n|\bm{H}|^{1/2}$ is bounded rather than divergent, the variance term $n^{-1}|\bm{H}|^{-1/2}R(K)$ of the MISE does not vanish, and the estimator is not MISE-consistent. This is a property of the rule, not an oversight, and it has a clean reading. The expected number of observations falling inside the kernel window at a typical point is of order $n|\bm{H}|^{1/2}f$, which \cref{prop:critical} says is $O(1)$ in $n$: the estimator has a fixed local resolution, set by a fixed number of neighbours rather than by a shrinking neighbourhood. That is the same design as a fixed-$k$ nearest-neighbour density estimate, which is likewise inconsistent and which underlies both the local outlier factor \citep{breunig2000lof} and nearest-neighbour outlier scores. \cref{sec:whynotmise} argues that this is the right place to be.
 
-Ultimately we are not really interested in optimizing the MISE, as we care more about the tails of the distribution where $f$ is relatively small. However, proving consistency and bounds on mean square error are still useful as a theoretical justification of bandwidth selection.
+\begin{remark}[Consistency is one factor away]\label{rem:inflate}
+  Nothing prevents consistency if it is wanted. For any $a_n\to\infty$, however slowly, the inflated bandwidth $a_nh_n$ satisfies $a_nh_n\to0$ and $n(a_nh_n)^m\asymp a_n^m\to\infty$, so it is an admissible bandwidth in the sense of \cref{def:admissible_bandwidth} and the resulting estimator is MISE-consistent. Taking $a_n=\log n$ changes the bandwidth by a factor invisible at the sample sizes considered here. The rule sits at the boundary by choice.
+\end{remark}
 
-An asymptotic approximation of the MISE is given by \citep{chacon2018multivariate}
+\subsection{Why MISE-optimality is the wrong target}\label{sec:whynotmise}
+
+An asymptotic approximation to the MISE \eqref{eq:mise} is given by \citet{chacon2018multivariate}:
 \begin{equation}\label{eq:amse}
-  \text{AMISE}(\hat{f}(\cdot, \bm{H})) = n^{-1}|\bm{H}|^{-1/2} R(K) + \frac{1}{4} \mu_2(K)^2 \int \left\{\text{tr}(\bm{H} D^2 f(\bm{u}))\right\}^2 d\bm{u},
+  \text{AMISE}(\hat{f}(\cdot, \bm{H})) = n^{-1}|\bm{H}|^{-1/2} R(K) + \frac{1}{4} \mu_2(K)^2 \int \big\{\text{tr}(\bm{H} D^2 f(\bm{u}))\big\}^2 d\bm{u},
 \end{equation}
-where $R(K) = \int K(\bm{u})^2 d\bm{u}$ and $D^2 f$ is the Hessian of $f$.
-
-If $\bm{H} = h_n \bm{I}_m$ for some $h_n > 0$, then we can write
+where $R(K) = \int K(\bm{u})^2 d\bm{u}$ and $D^2 f$ is the Hessian of $f$. Writing $\bm{H}=h^2\bm{I}_m$ with $h$ a length, this is
 \begin{equation}\label{eq:amse_iso}
-  \text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = n^{-1} h_n^{-m/2} R(K) + \frac{1}{4} \mu_2(K)^2 h_n^2 \int \left\{\text{tr}(D^2 f(\bm{u}))\right\}^2 d\bm{u}.
+  \text{AMISE} = n^{-1} h^{-m} R(K) + \frac{1}{4} \mu_2(K)^2 h^4 \int \big\{\Delta f(\bm{u})\big\}^2 d\bm{u},
 \end{equation}
+minimised at $h_{\text{opt}} \asymp n^{-1/(m+4)}$, with MISE of order $n^{-4/(m+4)}$. Against this, \cref{cor:order} gives $h_n \asymp n^{-1/m}$. The ratio is
+$$
+\frac{h_n}{h_{\text{opt}}} \asymp n^{-4/\{m(m+4)\}},
+$$
+which tends to zero for every $m\geq1$. The minimum spanning tree bandwidth undersmooths relative to MISE in every dimension, severely when $m$ is small and mildly when $m$ is large. At $h\asymp n^{-1/m}$ the bias term of \eqref{eq:amse_iso} is $O(n^{-4/m})$ and vanishes, while the variance term is $\Theta(1)$; all of the residual error is variance.
 
-The minimal MISE rate is achieved when $h_n$ is of order $n^{-2/(m+4)}$, and the corresponding MISE is of order $n^{-4/(m+4)}$.
+We argue that this is acceptable, and for anomaly detection desirable. The MISE is an integrated criterion weighted by the density itself, so it is dominated by the bulk of the distribution, and the bandwidth that minimises it is the one that best describes where most of the data are. Anomaly detection asks a different question. What matters is the ranking of $\hat f$ at the observed points in the low-density region, and the upper tail of the surprisals $-\log\hat f(\bm{y}_i)$, neither of which is what \eqref{eq:amse} measures. A bandwidth chosen for the bulk oversmooths the tail, filling in the gaps around isolated observations with probability mass borrowed from their distant neighbours, which is precisely the signal an anomaly detector needs to keep. Undersmoothing keeps isolated points isolated.
 
-From the upper and lower bounds in Theorem  \ref{thm:d_alphan to 0} and Theorem \ref{thm:nd_f(n)}, asymptotically we expect, with high probability, that $d_{\gamma(n-1)}$ will have a rate close to $n^{-1/m}$. A rate of $n^{-1/m}$ would correspond to AMISE of order $O(n^{-1/2}+n^{-2/m})$.
+The guarantee to demand is therefore not consistency and not an optimal rate, but the correct order: $h_n$ should be the scale at which neighbouring observations sit, which is $n^{-1/m}$. That is what \cref{thm:d_alphan to 0} and \cref{thm:lowerbound} deliver, and it is what rules out the largest-gap rule, whose bandwidth fails even to converge to zero under the heavy tails of \cref{cex:fattails}. Correct order is a weaker requirement than MISE-optimality, and it is the one that discriminates between the two rules.
 
-%We can also use the upper and lower bounds to infer an upper bound on the rate of convergence of the kernel regression estimator using the bandwidth $d_{\omega}$ for suitable sequences $\omega_n$. We can prove that we almost get the classical theoretically optimal bandwidth choice for kernel regression in Euclidean space.
-
-%\begin{corollary}\label{cor:convergence_rate}
-%  Let $f\in C^{p}(\R^n, \R)$ be a probability density function for $X$ that satisfies A1. Choose any function $\hat{g}(n)$ with $\hat{g}(n)\to \infty$ as $n\to \infty$.
-
-%  If there exists $0<\gamma_1< \gamma_2<1$ such that $\omega_n \in (\gamma_1 n, \gamma_2 n)$, for all sufficiently large $n$, then the symmetric kernel regression estimator with bandwidth $d_{\omega_n}^{\frac{m}{m+2p}}$ has an asymptotic convergence rate bounded above by $n^{\frac{-2}{m+2p}}\hat{g}(n)$.
-%\end{corollary}
-
-%\begin{proof}
-%From
-%$$\text{AMISE}(\hat{f}(\cdot, h_n \bm{I}_m)) = C_1 n^{-1} h_n^{-m/2} + C_2 h_n^2 $$
-%\end{proof}
-
-There is evidence that $d_*$ (the choice made in the original lookout algorithm) is an admissible bandwidth for samples drawn from a Gaussian distribution, but that it is not an admissible bandwidth when drawn from distributions with fat tails. Given  Theorem \ref{thm:d_n-1 Gaussian} this seems likely but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem. Part of the challenge is we have no formula $\omega_n$ for where the largest gap in the death values is likely to occur.
-
-%\begin{corollary}\label{cor:d_*}
-%  For point clouds sampled from multivariate Gaussian distributions, we have $d_* \to 0$ as $n\to \infty$.
-%\end{corollary}
-%\begin{proof}
-%  Note that $i_*< n-1$ and so $d_*=d_{i_*}\leq d_{n-1}$ which we know limits to $0$ almost surely from \cref{thm:d_n-1 Gaussian}.
-%\end{proof}
-
-%We would like to combine the previous results to show that $\bm{H} = d_*\bm{I}_m$ results in a consistent density estimator of Gaussian samples in $\R^m$.
-%The only remaining task is to show there exists a $\gamma \in (0,1)$ such that $i(n) >\gamma n$ for sufficiently large $n$. This seems intuitively clear, but technically challenging. It is not the focus of the new version of lookout, and thus we will leave this proof as an open problem.
-
-%\begin{conj}
-%  Let $S_n$ denote a random sample of $n$ iid points from a fixed multivariate Gaussian in $\R^m$. There exists a $\gamma \in (0,1)$ such that $i(n) >\gamma n$ for sufficiently large $n$.
-%\end{conj}
-
-%\begin{proof}
-%  By \cref{thm:d_alphan to 0} we have $\lim_{n\to \infty} d_{\gamma(n-1)} =0$.
-
-%  As $f$ is a Lipschitz probability function it must be bounded. If $d=2$ then by \cref{thm:nd_f(n) in plane}, or if $d>2$ then by \cref{thm:nd_f(n) in higher dimensions}, we know that $\lim_{n\to \infty} nd_{\gamma(n-1)}=\infty$.
-%\end{proof}
-
-% \subsection{Bounds for kernel density estimates}
-% \begin{lemma}\label{lemma:boundsforkde}
-% Let $\{\bm{x}_1, \dots, \bm{x}_n\}$ be $n$ data points in
-% $\mathbb{R}^p$, with kernel density estimate given by
-% $$ \hat{f}(\bm{x}) = \frac{1}{n} \sum_{i = 1}^n
-% |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{x} - \bm{x}_i)\right),
-% $$
-% where $K(\bm{u})$ is a multivariate kernel function that is
-% bounded below by 0 and above by $K(\bm{0}) = M$, and $\bm{H}$ is
-% a $p\times p$ symmetric positive-definite bandwidth matrix. Then
-% for all $j \in \{1, \dots, n\}$, the kernel density estimates at
-% the observations, $\hat{f}(\bm{x}_j)$, and their negative
-% logarithms, $- \log \hat{f}(\bm{x}_j)$, are bounded by constants
-% that depend only on $p$ and $n$.
-% \end{lemma}
-% \begin{proof}
-% $$
-% \frac{M|\bm{H}|^{-1/2}}{n} \leq\hat{f}(\bm{x}_j) = \frac{1}{n}
-% \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{x}_j -
-% \bm{x}_i)\right) \leq M|\bm{H}|^{-1/2}\, .
-% $$
-% The constant $M$ may depend on $p$.
-% \end{proof}
-
-% For example, if we use the multivariate Gaussian kernel
-% $K(\bm{u}) = \frac{1}{(2 \pi)^{p/2}} \exp \left( -\frac12
-% \|\bm{u}\| \right)$, then $M = \frac{1}{(2 \pi)^{p/2}}$. If we
-% use the multivariate Epanechnikov kernel $K(\bm{u}) =
-% \frac{p+2}{2c_p} \left( 1 - \|\bm{u}\| \right)_{+}$, where $c_p$
-% is the volume of the unit sphere in $\mathbb{R}^p$, and $u_+ =
-% max(0, u)$, then $M = (p+2)/(2c_p)$.
-
-% When there is a bandwidth $h$, the lower bound of
-% $\hat{f}(\bm{x}_j)$ has an additional $h$ in the denominator.
+% TODO (step 4): forward reference to the bandwidth-sensitivity ablation, showing
+% detection performance flat over a wide range of h and the MISE-optimal h not
+% being detection-optimal.
