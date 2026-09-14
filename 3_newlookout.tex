@@ -4,8 +4,8 @@ In light of the preceding theoretical considerations, we propose three modificat
 
 \subsection{Standardization}
 
-The \emph{orthogonalized Gnanadesikan-Kettenring estimator} provides an iterative robust estimate of $\bm{\Sigma}$, the covariance matrix of $\{\bm{y}_1,\dots,\bm{y}_n\}$ \citep{Maronna2002-qn}. Let
-\begin{equation}\label{eq:ogk}
+The \emph{minimum covariance determinant} estimator provides a robust estimate of $\bm{\Sigma}$, the covariance matrix of $\{\bm{y}_1,\dots,\bm{y}_n\}$, by searching for the subsample of a given size whose sample covariance matrix has the smallest determinant \citep{rousseeuw1999fast}. We take that subsample to be of size $0.9n$. This is less resistant than the usual choice of $n/2$, but anomalies are rare by assumption, and the larger subsample gives a more efficient estimate of $\bm{\Sigma}$ for the bulk of the data, which is what the scaling is for. Let
+\begin{equation}\label{eq:mcd}
   \hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{U}
 \end{equation}
 denote the Cholesky decomposition of its inverse. Then, the data can be scaled by $\bm{U}$, giving $\bm{z}_i = \bm{U}(\bm{y}_i - \bm{m})$, where $\bm{m}$ is the vector of medians of $\{\bm{y}_1,\dots,\bm{y}_n\}$. The covariance matrix of the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
@@ -54,7 +54,7 @@ We are now in a position to describe the modified lookout algorithm.
   \begin{algorithmic}[1]
     \Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta \in (0,1)$, threshold $\alpha \in (0,1)$, and quantile level $\gamma \in (0,1)$.
     \State Let $\bm{Y}$ be the $n\times m$ data matrix with rows $\bm{y}_1', \dots, \bm{y}_n'$.
-    \State Optional scaling: Calculate the Cholesky decomposition \eqref{eq:ogk}, and centre, rotate and scale the data using $\bm{U}$, giving $\bm{Z} = (\bm{Y} - \bm{1}_n\bm{m}')\bm{U}'$, where $\bm{1}_n$ is a vector of $n$ ones and $\bm{m}$ is the vector of column medians of $\bm{Y}$, with scaled observations $\bm{z}_1, \dots, \bm{z}_n$ comprising the rows of $\bm{Z}$.
+    \State Optional scaling: Calculate the Cholesky decomposition \eqref{eq:mcd}, and centre, rotate and scale the data using $\bm{U}$, giving $\bm{Z} = (\bm{Y} - \bm{1}_n\bm{m}')\bm{U}'$, where $\bm{1}_n$ is a vector of $n$ ones and $\bm{m}$ is the vector of column medians of $\bm{Y}$, with scaled observations $\bm{z}_1, \dots, \bm{z}_n$ comprising the rows of $\bm{Z}$.
     \State Compute the Euclidean minimum spanning tree of the data cloud $\bm{Z}$ (set $\bm{Z} = \bm{Y}$ if no scaling is applied), and obtain its ordered edge lengths $e_{(1)} \le \cdots \le e_{(n-1)}$.
     \State Let $h_n = e_{(\lceil\gamma(n-1)\rceil)}$, the $\gamma$ sample quantile computed from $\{ e_{(i)} \}_{i=1}^{n-1}$.
     \State Compute the kernel density estimates at the scaled observations: $f_i = \hat{f}(\bm{z}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde} applied to $\bm{z}_1,\dots,\bm{z}_n$ with $\bm{H} = (m+4)h_n^2\bm{I}_m$.
@@ -68,3 +68,5 @@ We are now in a position to describe the modified lookout algorithm.
 As with the original lookout algorithm, the values of $p_i$ can also act as anomaly scores, with lower values indicating more anomalous points.
 
 The default values for the parameters are $\alpha = 0.001$, $\beta = 0.90$ and $\gamma = 0.98$. The default values are used in all experiments reported here, unless explicitly stated otherwise. Scaling is also applied by default, unless otherwise stated.
+
+Step 5 evaluates \eqref{eq:mkde} at each of the $n$ observations, which costs $O(n^2)$ if the sum is taken over all pairs. For very large $n$ the implementation instead sums over the nearest few hundred neighbours of each observation. Because the Epanechnikov kernel has compact support, this changes nothing whenever fewer than that many observations lie within the kernel's half-width, which by \cref{prop:critical} is the typical case: the number of observations inside the window does not grow with $n$.

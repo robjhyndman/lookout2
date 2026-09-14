@@ -65,7 +65,7 @@ Computing $h_n$ requires the minimum spanning tree and nothing else. We use the 
 
 This is a change of implementation as well as of description. A Vietoris-Rips filtration builds simplices in every degree and is far more expensive than the degree-zero information we actually use; computing it to extract $n-1$ numbers that a minimum spanning tree algorithm returns directly is wasteful. The \texttt{lookout} package computes the tree.
 
-For large $n$ the package can also reduce the point set before building the tree. A single greedy pass over the min-max scaled observations retains a set of exemplars that are pairwise separated by at least $\varepsilon$, where $\varepsilon$ shrinks like $(\log n)^{-1/m}$, and discards each remaining observation to the nearest exemplar. This is much cheaper, but it is not a neutral approximation: because the exemplars are $\varepsilon$-separated by construction, every edge of the reduced tree has length at least $\varepsilon$, so the bandwidth computed from it cannot fall below that floor. All of the theory in \cref{sec:theory} is stated for the tree on the full sample.
+The tree is built on all $n$ observations, so the bandwidth of \cref{def:mstbw} is exactly the quantile whose behaviour \cref{sec:theory} describes, with no subsampling or other approximation in between.
 
 % TODO (step 4): timing table or figure over n and m, and the measured cost
 % against a Rips filtration. Needs new R scripts and targets.
