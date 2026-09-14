@@ -1,24 +1,31 @@
-\documentclass[referee,pdflatex,sn-mathphys-ay]{sn-jnl}
+\documentclass[11pt]{article}
 
 \usepackage{graphicx}%
 \usepackage{multirow}%
-\usepackage{amsmath,amssymb,amsfonts,bbm}%
+\usepackage{amsmath,amssymb,amsfonts,bbm,bm}%
 \usepackage{amsthm}%
 \usepackage{mathrsfs}%
 \usepackage[title]{appendix}%
-\usepackage{xcolor}%
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}%
 \usepackage{textcomp}%
 \usepackage{manyfoot}%
 \usepackage{booktabs}%
-\usepackage{algorithm}%
-\usepackage{algorithmicx}%
-\usepackage{algpseudocode}%
+\usepackage{algorithm,algorithmicx,algpseudocode}%
 \usepackage{mathtools}
 %\mathtoolsset{showonlyrefs}
+\usepackage{natbib}%
+\bibliographystyle{agsm}
+\usepackage{hyperref,xurl}
+\hypersetup{
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+urlcolor={Blue}}
 \usepackage[capitalize,nameinlink]{cleveref}
-\usepackage{subfig,bm,todonotes}
+\usepackage{subfig,todonotes}
+\usepackage[margin=2cm]{geometry}
 
-\geometry{margin=2.5cm,bindingoffset=0cm}
 \raggedbottom\sloppy
 \allowdisplaybreaks
 
@@ -27,7 +34,7 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\diag}{\text{diag}}
 
-\theoremstyle{thmstyleone}%
+\theoremstyle{plain}%
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{remark}[theorem]{Remark}
@@ -47,34 +54,57 @@
 
 \graphicspath{{Figures/}}
 
+%% Set \anon to 0 to hide the authors and acknowledgements, producing the
+%% anonymized version required for double-anonymous review. Set it to 1 to
+%% produce the manuscript with author details and acknowledgements.
+\newcommand{\anon}{1}
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize}
+
 \begin{document}
+
+\spacingset{1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title[When lookout sees crackle]{When lookout sees crackle: Anomaly~detection~via~kernel~density~estimation}
+\if1\anon
+{
+  \title{\bf When lookout sees crackle: Anomaly detection via kernel density estimation}
+  \author{Rob J Hyndman\thanks{Rob Hyndman and Sevvandi Kandanaarachchi are part of the Australian Research Council Industrial Transformation Training Centre in Optimisation Technologies, Integrated Methodologies, and Applications (OPTIMA), Project ID IC200100009. KT is supported by an Australian Research Council Future Fellowship, FT250100951.}\hspace{.2cm}\\
+    Monash University, Australia\\
+    and \\
+    Sevvandi Kandanaarachchi\thanks{Corresponding author. Email: sevvandi.kandanaarachchi@csiro.au}\\
+    CSIRO, Australia\\
+    and \\
+    Katharine Turner\\
+  Australian National University, Australia}
+  \maketitle
+} \fi
 
-\author[1]{\fnm{Rob J} \sur{Hyndman}}
-\author*[2]{\fnm{Sevvandi} \sur{Kandanaarachchi}}\email{sevvandi.kandanaarachchi@csiro.au}
-\author[3]{\fnm{Katharine} \sur{Turner}}
-\affil[1]{\orgname{Monash University}, \country{Australia}}
-\affil[2]{\orgname{CSIRO}, \country{Australia}}
-\affil[3]{\orgname{Australian National University}, \country{Australia}}
+\if0\anon
+{
+  \bigskip
+  \bigskip
+  \bigskip
+  \begin{center}
+    {\LARGE\bf When lookout sees crackle: Anomaly detection via kernel density estimation}
+  \end{center}
+  \medskip
+} \fi
 
-\abstract{
+\bigskip
+\begin{abstract}
   We present an updated version of \textit{lookout} -- an algorithm for detecting anomalies using kernel density estimates with bandwidth based on Rips death diameters -- with theoretical guarantees. The kernel density estimator for updated \textit{lookout} is shown to be consistent, and the proposed multivariate scaling is robust and efficient. We show our updated algorithm performs better than the previous version on diverse examples.
   %TBC. 200 or fewer words.
-}
+\end{abstract}
 
-\keywords{
-  Bandwidth selection,
-  Extreme value theory,
-  Generalized Pareto distribution,
-  Outlier detection,
-  Persistent homology,
-  Topological data analysis
-}
+\noindent%
+{\it Keywords:} Bandwidth selection, Extreme value theory, Generalized Pareto distribution, Outlier detection, Persistent homology, Topological data analysis
+\vfill
 
-\maketitle
+\newpage
+\spacingset{1.8} % DON'T change the spacing!
 
 \input{0_introduction}
 %\input{1_preliminaries}
@@ -84,20 +114,19 @@
 \input{5_experiments_2}
 \input{6_discussion}
 
-\backmatter
+\section{Disclosure statement}
 
-\bmhead{Supplementary information}
+There are no conflicts of interest to declare.
+
+\bigskip
+
+\begin{center}
+  {\large\bf SUPPLEMENTARY MATERIAL}
+\end{center}
 
 The updated algorithm is implemented in the \texttt{lookout} R package \citep{Rlookout}, available on CRAN at \url{https://CRAN.R-project.org/package=lookout}.
 
 Files to reproduce all numerical examples are available at \url{https://github.com/robjhyndman/Look-Out-2}
-
-\bmhead{Acknowledgements}
-
-Rob Hyndman and Sevvandi Kandanaarachchi are part of the Australian Research Council Industrial Transformation Training Centre in Optimisation Technologies, Integrated Methodologies, and Applications (OPTIMA), Project ID IC200100009. KT is supported by an Australian Research Council Future Fellowship, FT250100951.
-
-\bmhead{Conflict of interest}
-Katharine Turner is a member of the APCT Editorial Board. She was not involved in the peer review or handling of this manuscript. No other conflicts of interest are declared.
 
 \bibliography{References}
 
