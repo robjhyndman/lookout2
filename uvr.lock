@@ -1037,8 +1037,8 @@ requires = ["zoo"]
 name = "lookout"
 version = "2.0.2-4.9000"
 source = "github"
-url = "https://api.github.com/repos/sevvandi/lookout/tarball/50403bd1423432498d6046fd3a976ecf6e6cd07a"
-checksum = "git:50403bd1423432498d6046fd3a976ecf6e6cd07a"
+url = "https://api.github.com/repos/sevvandi/lookout/tarball/2b5d49ada6ec0f5ceec0e036fae15af45fb04ba9"
+checksum = "git:2b5d49ada6ec0f5ceec0e036fae15af45fb04ba9"
 requires = [
     "evd",
     "ggplot2",
