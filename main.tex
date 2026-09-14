@@ -5,14 +5,9 @@
 \usepackage{amsmath,amssymb,amsfonts,bbm,bm}%
 \usepackage{amsthm}%
 \usepackage{mathrsfs}%
-\usepackage[title]{appendix}%
 \usepackage[dvipsnames,svgnames,x11names]{xcolor}%
-\usepackage{textcomp}%
-\usepackage{manyfoot}%
 \usepackage{booktabs}%
 \usepackage{algorithm,algorithmicx,algpseudocode}%
-\usepackage{mathtools}
-%\mathtoolsset{showonlyrefs}
 \usepackage{natbib}%
 \bibliographystyle{agsm}
 \usepackage{hyperref,xurl}
@@ -21,7 +16,8 @@
   linkcolor={blue},
   filecolor={Maroon},
   citecolor={Blue},
-urlcolor={Blue}}
+  urlcolor={Blue}
+}
 \usepackage[capitalize,nameinlink]{cleveref}
 \usepackage{subfig,todonotes}
 \usepackage[margin=2cm]{geometry}
@@ -47,10 +43,7 @@ urlcolor={Blue}}
 \renewcommand{\subsectionautorefname}{Section}
 \renewcommand{\subsubsectionautorefname}{Section}
 \newcommand{\corollaryautorefname}{Corollary}
-\newcommand{\lemmaautorefname}{Corollary}
-
-\usepackage{comment}
-\newcommand{\SK}[1]{\textcolor{blue}{[{\sc SK}] #1}}
+\newcommand{\lemmaautorefname}{Lemma}
 
 \graphicspath{{Figures/}}
 
@@ -100,8 +93,7 @@ urlcolor={Blue}}
 \end{abstract}
 
 \noindent%
-{\it Keywords:} Bandwidth selection, Extreme value theory, Generalized Pareto distribution, Outlier detection, Persistent homology, Topological data analysis
-\vfill
+\textit{Keywords:} Bandwidth selection, Extreme value theory, Generalized Pareto distribution, Outlier detection, Persistent homology, Topological data analysis
 
 \newpage
 \spacingset{1.8} % DON'T change the spacing!
@@ -114,15 +106,11 @@ urlcolor={Blue}}
 \input{5_experiments_2}
 \input{6_discussion}
 
-\section{Disclosure statement}
+\section*{Disclosure statement}
 
 There are no conflicts of interest to declare.
 
-\bigskip
-
-\begin{center}
-  {\large\bf SUPPLEMENTARY MATERIAL}
-\end{center}
+\section*{Supplementary material}
 
 The updated algorithm is implemented in the \texttt{lookout} R package \citep{Rlookout}, available on CRAN at \url{https://CRAN.R-project.org/package=lookout}.
 
