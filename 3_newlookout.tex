@@ -45,6 +45,8 @@ For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2
 
 In particular the surprisals $-\log\hat{f}(\bm{y}_j)$ are bounded above by $\log(n/K_0) + \tfrac12\log|\bm{H}|$. A generalized Pareto distribution with non-negative shape parameter has unbounded support, so when we fit a generalized Pareto distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$ we may constrain its shape parameter to be non-positive, which improves the stability of the GPD fitting.
 
+Two approximations are involved here. These surprisals are computed from $\hat{f}$ rather than from $f$, and they are evaluated at the observations rather than at independent draws, so the values to which the GPD is fitted are neither mutually independent nor distributed exactly as the $S$ of \cref{sec:intro}. The peaks-over-threshold model is used as an approximation on both counts.
+
 \subsection{Modified lookout algorithm}
 
 We are now in a position to describe the modified lookout algorithm.
@@ -53,14 +55,13 @@ We are now in a position to describe the modified lookout algorithm.
   \caption{Modified lookout algorithm}\label{alg:modifiedlookout}
   \begin{algorithmic}[1]
     \Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta \in (0,1)$, threshold $\alpha \in (0,1)$, and quantile level $\gamma \in (0,1)$.
-    \State Let $\bm{Y}$ be the $n\times m$ data matrix with rows $\bm{y}_1', \dots, \bm{y}_n'$.
-    \State Optional scaling: Calculate the Cholesky decomposition \eqref{eq:mcd}, and centre, rotate and scale the data using $\bm{U}$, giving $\bm{Z} = (\bm{Y} - \bm{1}_n\bm{m}')\bm{U}'$, where $\bm{1}_n$ is a vector of $n$ ones and $\bm{m}$ is the vector of column medians of $\bm{Y}$, with scaled observations $\bm{z}_1, \dots, \bm{z}_n$ comprising the rows of $\bm{Z}$.
-    \State Compute the Euclidean minimum spanning tree of the data cloud $\bm{Z}$ (set $\bm{Z} = \bm{Y}$ if no scaling is applied), and obtain its ordered edge lengths $e_{(1)} \le \cdots \le e_{(n-1)}$.
+    \State Optional scaling: calculate the Cholesky decomposition \eqref{eq:mcd}, and centre, rotate and scale the data using $\bm{U}$, giving $\bm{z}_i = \bm{U}(\bm{y}_i - \bm{m})$ for $i = 1,\dots,n$, where $\bm{m}$ is the vector of medians of $\{\bm{y}_1,\dots,\bm{y}_n\}$.
+    \State Compute the Euclidean minimum spanning tree of $\{\bm{z}_1,\dots,\bm{z}_n\}$ (set $\bm{z}_i = \bm{y}_i$ if no scaling is applied), and obtain its ordered edge lengths $e_{(1)} \le \cdots \le e_{(n-1)}$.
     \State Let $h_n = e_{(\lceil\gamma(n-1)\rceil)}$, the $\gamma$ sample quantile computed from $\{ e_{(i)} \}_{i=1}^{n-1}$.
     \State Compute the kernel density estimates at the scaled observations: $f_i = \hat{f}(\bm{z}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde} applied to $\bm{z}_1,\dots,\bm{z}_n$ with $\bm{H} = (m+4)h_n^2\bm{I}_m$.
     \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - |\bm{H}|^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
     \State Fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, constraining the shape parameter to be non-positive, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
-    \State Calculate the probability of each observation by applying the estimated GPD to the leave-one-out kde values: $p_i = (1-\beta)P(-\log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
+    \State Calculate the probability of each observation by applying the estimated GPD to the leave-one-out kde values: $p_i = (1-\beta)\big(1 - \hat{F}(-\log f_{-i})\big)$, where $\hat{F}$ is the distribution function of the fitted GPD.
     \State If $p_i < \alpha$, declare $\bm{y}_i$ anomalous.
   \end{algorithmic}
 \end{algorithm}
@@ -69,4 +70,4 @@ As with the original lookout algorithm, the values of $p_i$ can also act as anom
 
 The default values for the parameters are $\alpha = 0.001$, $\beta = 0.90$ and $\gamma = 0.98$. The default values are used in all experiments reported here, unless explicitly stated otherwise. Scaling is also applied by default, unless otherwise stated.
 
-Step 5 evaluates \eqref{eq:mkde} at each of the $n$ observations, which costs $O(n^2)$ if the sum is taken over all pairs. For very large $n$ the implementation instead sums over the nearest few hundred neighbours of each observation. Because the Epanechnikov kernel has compact support, this changes nothing whenever fewer than that many observations lie within the kernel's half-width, which by \cref{prop:critical} is the typical case: the number of observations inside the window does not grow with $n$.
+Step 4 evaluates \eqref{eq:mkde} at each of the $n$ observations, which costs $O(n^2)$ if the sum is taken over all pairs. For very large $n$ the implementation instead sums over the nearest few hundred neighbours of each observation. Because the Epanechnikov kernel has compact support, this changes nothing whenever fewer than that many observations lie within the kernel's half-width, which by \cref{prop:critical} is the typical case: the number of observations inside the window does not grow with $n$.

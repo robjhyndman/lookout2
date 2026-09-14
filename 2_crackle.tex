@@ -11,7 +11,7 @@ The upper bound holds under a local Lipschitz condition and no assumption at all
 \begin{theorem}\label{thm:d_alphan to 0}
   Let $e_{(k)}$ denote the $k$th smallest edge length of the Euclidean minimum spanning tree of $n$ points sampled independently from a distribution on $\R^m$ whose density $f$ is Lipschitz with constant $M$ over the region where $f\leq 1$. Fix $\gamma\in (0,1)$ and choose any sequence of integers $\{\omega_n\}$ with $0\leq \omega_n \leq \gamma n$ for all sufficiently large $n$. Then there exists a constant $C(f,\gamma)$, depending on $f$ and $\gamma$ but not on $n$, such that
   $$
-  \mathbb{P}\big(e_{(\omega_n)} \leq C(f,\gamma)n^{-1/m}\big) \geq 1- \frac{12}{n(1-\gamma)}
+  \P\big(e_{(\omega_n)} \leq C(f,\gamma)n^{-1/m}\big) \geq 1- \frac{12}{n(1-\gamma)}
   $$
   for all sufficiently large $n$.
 \end{theorem}
@@ -23,7 +23,7 @@ A matching lower bound holds under the weaker assumption that $f$ is merely boun
 \begin{theorem}\label{thm:lowerbound}
   Let $e_{(k)}$ be as in \cref{thm:d_alphan to 0}, with $f$ bounded above by $M$. Fix $\gamma\in(0,1)$ and choose any sequence of integers $\{\omega_n\}$ with $\gamma n\le\omega_n<n$ for all sufficiently large $n$. Put $c=\big(\gamma/(M b_m)\big)^{1/m}$. Then, for all sufficiently large $n$,
   $$
-  \mathbb{P}\big(e_{(\omega_n)}\geq c\,n^{-1/m}\big)\ \geq\ 1-\frac{6}{\gamma n}.
+  \P\big(e_{(\omega_n)}\geq c\,n^{-1/m}\big)\ \geq\ 1-\frac{6}{\gamma n}.
   $$
 \end{theorem}
 
@@ -33,29 +33,29 @@ A matching lower bound holds under the weaker assumption that $f$ is merely boun
   \{e_{(\omega_n)}<r\}\subseteq\{n-C(n,r)\geq\omega_n\}\subseteq\{E(n,r)\geq\gamma n\}.
   $$
 
-  Set $r_n=c\,n^{-1/m}$, so that $\theta:=M b_m r_n^m=\gamma/n$. Since $\mathbb{P}(\|\bm{y}_1-\bm{y}_2\|\leq r)\leq M b_m r^m$,
+  Set $r_n=c\,n^{-1/m}$, so that $\theta:=M b_m r_n^m=\gamma/n$. Since $\P(\|\bm{y}_1-\bm{y}_2\|\leq r)\leq M b_m r^m$,
   $$
-  \E[E(n,r_n)]=\binom n2\,\mathbb{P}(\|\bm{y}_1-\bm{y}_2\|\leq r_n)\leq \frac{n(n-1)}{2}\cdot\frac\gamma n<\frac{\gamma n}2 .
+  \E[E(n,r_n)]=\binom n2\,\P(\|\bm{y}_1-\bm{y}_2\|\leq r_n)\leq \frac{n(n-1)}{2}\cdot\frac\gamma n<\frac{\gamma n}2 .
   $$
   Now $E(n,r_n)$ is an unnormalised U-statistic of degree two with kernel $h_{ij}=\mathbf{1}\{\|\bm{y}_i-\bm{y}_j\|\leq r_n\}$, so
   $$
   \operatorname{Var}\big(E(n,r_n)\big)=\binom n2\operatorname{Var}(h_{12})+n(n-1)(n-2)\operatorname{Cov}(h_{12},h_{13}).
   $$
-  The first term is at most $\binom n2\theta<\gamma n/2$. For the second, conditioning on $\bm{y}_1$ gives $\operatorname{Cov}(h_{12},h_{13})\leq\E\big[\mathbb{P}(\bm{y}_2\in B(\bm{y}_1,r_n)\mid \bm{y}_1)^2\big]\leq\theta^2$, so that term is at most $n^3\theta^2=\gamma^2 n$. Therefore $\operatorname{Var}(E(n,r_n))\leq \tfrac32\gamma n$. Since $\E[E(n,r_n)]<\gamma n/2$, Chebyshev's inequality gives
+  The first term is at most $\binom n2\theta<\gamma n/2$. For the second, conditioning on $\bm{y}_1$ gives $\operatorname{Cov}(h_{12},h_{13})\leq\E\big[\P(\bm{y}_2\in B(\bm{y}_1,r_n)\mid \bm{y}_1)^2\big]\leq\theta^2$, so that term is at most $n^3\theta^2=\gamma^2 n$. Therefore $\operatorname{Var}(E(n,r_n))\leq \tfrac32\gamma n$. Since $\E[E(n,r_n)]<\gamma n/2$, Chebyshev's inequality gives
   $$
-  \mathbb{P}\big(E(n,r_n)\geq\gamma n\big)\leq\mathbb{P}\Big(E(n,r_n)-\E[E(n,r_n)]>\frac{\gamma n}2\Big)
+  \P\big(E(n,r_n)\geq\gamma n\big)\leq\P\Big(E(n,r_n)-\E[E(n,r_n)]>\frac{\gamma n}2\Big)
   \leq\frac{\tfrac32\gamma n}{(\gamma n/2)^2}=\frac{6}{\gamma n}. \qedhere
   $$
 \end{proof}
 
-Markov's inequality alone is not enough here: it bounds $\mathbb{P}(E(n,r_n)\geq\gamma n)$ by a constant below one, which does not vanish. The variance calculation is what turns the bound into a statement that holds with probability tending to one, and it is why earlier versions of this result had to be weakened by a factor tending to zero.
+Markov's inequality alone is not enough here: it bounds $\P(E(n,r_n)\geq\gamma n)$ by a constant below one, which does not vanish. The variance calculation is what turns the bound into a statement that holds with probability tending to one, and it is why earlier versions of this result had to be weakened by a factor tending to zero.
 
 Together the two theorems pin down the order exactly.
 
 \begin{corollary}\label{cor:order}
   Under the assumptions of \cref{thm:d_alphan to 0}, there exist constants $0<c\leq C<\infty$ depending on $f$ and $\gamma$ such that
   $$
-  \mathbb{P}\big(c\,n^{-1/m}\leq e_{(\lceil\gamma(n-1)\rceil)}\leq C\,n^{-1/m}\big)\to 1 \quad\text{as } n\to\infty;
+  \P\big(c\,n^{-1/m}\leq e_{(\lceil\gamma(n-1)\rceil)}\leq C\,n^{-1/m}\big)\to 1 \quad\text{as } n\to\infty;
   $$
   that is, $h_n \asymp n^{-1/m}$ in probability.
 \end{corollary}
@@ -83,7 +83,7 @@ Note that both bounds fail at $\gamma$ close to its endpoints, and in opposite w
 The original bandwidth rule takes the largest gap in the upper half of the edge lengths, which places it at the extreme top of the edge-length distribution, where $\omega_n/n\to1$. \cref{cor:order} does not apply there, and for good reason: at heavy tails the top of the distribution need not settle down at all.
 
 \begin{counterexample}\label{cex:fattails}
-  Let $m\geq3$ and let the observations be sampled from the density $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$ on $\R^m$. For $\omega_n=n-\tfrac{1}{4}n^{1-2/m}$ we have $\mathbb{P}(e_{(\omega_n)}>1)>1/4$ for all sufficiently large $n$, so $e_{(\omega_n)}$ does not converge to zero.
+  Let $m\geq3$ and let the observations be sampled from the density $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$ on $\R^m$. For $\omega_n=n-\tfrac{1}{4}n^{1-2/m}$ we have $\P(e_{(\omega_n)}>1)>1/4$ for all sufficiently large $n$, so $e_{(\omega_n)}$ does not converge to zero.
 \end{counterexample}
 
 The mechanism is crackle \citep{Crackle}. Under a heavy-tailed density the sample has, with probability bounded away from zero, a halo of order $n^{1-2/m}$ points at radius beyond $R_n \asymp n^{2/m}$ that are mutually isolated at unit scale, each forming its own connected component. Any rule that reads the top $O(n^{1-2/m})$ of the edge-length distribution is reading that halo, and the halo does not shrink. A fixed quantile $\gamma<1$ never looks that far up, and \cref{thm:d_alphan to 0} shows it converges at the right rate for this density as for any other. The full argument is in \cref{app:proofs}.
@@ -97,7 +97,7 @@ This is the formal version of the objection raised in \cref{sec:related}. \citet
 We can now say what \eqref{eq:Hmst} does to the kernel density estimate.
 
 \begin{proposition}\label{prop:critical}
-  Let $f$ satisfy the assumptions of \cref{thm:d_alphan to 0} and let $\bm{H}=(m+4)h_n^2\bm{I}_m$ with $h_n=e_{(\lceil\gamma(n-1)\rceil)}$. Then there exist constants $0<c'\leq C'<\infty$ such that $\mathbb{P}\big(c'\leq n|\bm{H}|^{1/2}\leq C'\big)\to1$ as $n\to\infty$.
+  Let $f$ satisfy the assumptions of \cref{thm:d_alphan to 0} and let $\bm{H}=(m+4)h_n^2\bm{I}_m$ with $h_n=e_{(\lceil\gamma(n-1)\rceil)}$. Then there exist constants $0<c'\leq C'<\infty$ such that $\P\big(c'\leq n|\bm{H}|^{1/2}\leq C'\big)\to1$ as $n\to\infty$.
 \end{proposition}
 
 \begin{proof}
@@ -114,7 +114,7 @@ Condition A3 therefore fails: $n|\bm{H}|^{1/2}$ is bounded rather than divergent
 
 An asymptotic approximation to the MISE \eqref{eq:mise} is given by \citet{chacon2018multivariate}:
 \begin{equation}\label{eq:amse}
-  \text{AMISE}(\hat{f}(\cdot, \bm{H})) = n^{-1}|\bm{H}|^{-1/2} R(K) + \frac{1}{4} \mu_2(K)^2 \int \big\{\text{tr}(\bm{H} D^2 f(\bm{u}))\big\}^2 d\bm{u},
+  \text{AMISE}(\hat{f}) = n^{-1}|\bm{H}|^{-1/2} R(K) + \frac{1}{4} \mu_2(K)^2 \int \big\{\text{tr}(\bm{H} D^2 f(\bm{u}))\big\}^2 d\bm{u},
 \end{equation}
 where $R(K) = \int K(\bm{u})^2 d\bm{u}$ and $D^2 f$ is the Hessian of $f$. Writing $\bm{H}=h^2\bm{I}_m$ with $h$ a length, this is
 \begin{equation}\label{eq:amse_iso}
