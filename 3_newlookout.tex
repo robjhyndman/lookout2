@@ -43,7 +43,7 @@ In the following lemma we show that the kernel density estimates at the observat
 
 For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{m/2}} \exp \left( -\frac12 \|\bm{u}\|^2 \right)$, then $K_0 = \frac{1}{(2 \pi)^{m/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} \left( 1 - \|\bm{u}\|^2 \right)_{+}$, where $b_m$ is the volume of the unit ball in $\R^m$, and $u_+ = \max(0, u)$, then $K_0 = (m+2)/(2b_m)$.
 
-Under Theorem \ref{thm:FisherTippett}, the limiting distribution of the extremes of $-\log\hat{f}(\bm{y}_j)$ is a Weibull distribution, corresponding to a Generalized Extreme Value distribution with $\xi<0$. Thus, when we fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$, we can constrain the shape parameter to be non-positive, which improves the stability of the GPD fitting.
+In particular the surprisals $-\log\hat{f}(\bm{y}_j)$ are bounded above by $\log(n/K_0) + \tfrac12\log|\bm{H}|$. A generalized Pareto distribution with non-negative shape parameter has unbounded support, so when we fit a generalized Pareto distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$ we may constrain its shape parameter to be non-positive, which improves the stability of the GPD fitting.
 
 \subsection{Modified lookout algorithm}
 
