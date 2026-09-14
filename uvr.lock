@@ -1035,11 +1035,10 @@ requires = ["zoo"]
 
 [[package]]
 name = "lookout"
-version = "2.0.2"
-source = "cran"
-raw_version = "2.0.2"
-url = "https://cran.r-project.org/src/contrib/lookout_2.0.2.tar.gz"
-checksum = "md5:641560c780e41a6c78629d2892af9aa0"
+version = "2.0.2-4.9000"
+source = "github"
+url = "https://api.github.com/repos/sevvandi/lookout/tarball/50403bd1423432498d6046fd3a976ecf6e6cd07a"
+checksum = "git:50403bd1423432498d6046fd3a976ecf6e6cd07a"
 requires = [
     "evd",
     "ggplot2",
