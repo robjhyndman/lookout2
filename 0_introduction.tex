@@ -21,11 +21,11 @@ There is no broadly accepted definition for an anomaly. \citet{hawkins1980identi
 \end{defn}
 
 \begin{defn}[Surprisals]
-  Given a probability density function $f$, the \emph{surprisal} of an observation $\bm{y}$ drawn from the density $f$ is defined as $-\log f(\bm{y})$.
+  Given a probability density function $f$, the \emph{surprisal} of an observation $\bm{y}$ with respect to $f$ is defined as $-\log f(\bm{y})$.
 \end{defn}
 These are better known as  ``log scores'' in statistics \citep{Good1952-zw}, but we prefer the term ``surprisals'' from information theory \citep{Stone2022}, as it provides a measure of how surprising an observation is, given the probability density function $f$. Specifically, it takes large values for observations that are unlikely under $f$.
 
-Let $S = -\log f(\bm{Y})$ be the random variable representing the surprisal of a random vector $\bm{Y}$ drawn from $f$, and let $G(s) = \P(S\le s)$ be its distribution function. Then the surprisal probability of observation $\bm{y}_i$ is given by
+Let $S = -\log f(\bm{Y})$ be the random variable representing the surprisal of a random vector $\bm{Y}$ with density $f$, and let $G(s) = \P(S\le s)$ be its distribution function. Then the surprisal probability of observation $\bm{y}_i$ is given by
 $$p_i = 1 - G(s_i^-),$$
 where $s_i = -\log f (\bm{y}_i)$, and $G(s_i^-) = \lim_{t \uparrow s_i} G(t)$ is the left limit of $G$ at $s_i$. An observation is an anomaly if and only if $p_i < \alpha$.
 
@@ -34,10 +34,9 @@ where $s_i = -\log f (\bm{y}_i)$, and $G(s_i^-) = \lim_{t \uparrow s_i} G(t)$ is
 The lookout algorithm determines which surprisals are unusually large by using a peaks-over-threshold approach \citep{Pickands1975,coles2001introduction}, and fitting a Generalized Pareto distribution (GPD) to the upper tail of the observed surprisals. That is,
 \begin{equation}\label{eq:POT4}
   \P(S \le s \mid S > u) = \frac{G(s) - G(u)}{1 - G(u)}
-  \approx 1 - (1 + \xi (s-u)/\sigma_u)^{-1/\xi}, \quad 1 + \xi (s-u) /\sigma_u > 0,
+  \approx 1 - (1 + \xi (s-u)/\sigma_u)^{-1/\xi}, \qquad s > u, \quad 1 + \xi (s-u)/\sigma_u > 0,
 \end{equation}
-where $s > u$ and $u$ is a threshold chosen to be large enough that the conditional distribution of the excess $S-u$ over the threshold is well approximated by a GPD,
-$\sigma_u > 0$ is a scale parameter depending on the threshold, $\xi \in \R$ is a shape parameter that does not, and $\xi = 0$ is read as the limiting case $1 - \exp(-(s-u)/\sigma_u)$.
+where $u$ is a threshold chosen to be large enough that the conditional distribution of the excess $S-u$ over the threshold is well approximated by a GPD, $\sigma_u > 0$ is a scale parameter depending on the threshold, and $\xi \in \R$ is a shape parameter that does not. The case $\xi = 0$ is read as the limiting case $1 - \exp(-(s-u)/\sigma_u)$.
 
 The distribution in \eqref{eq:POT4} is unbounded above when $\xi \ge 0$, and has finite upper endpoint $u + \sigma_u/|\xi|$ when $\xi < 0$, so a quantity that is bounded above cannot have a positive shape parameter. We use this in \cref{sec:modified} to constrain the fitted GPD.
 
@@ -59,7 +58,7 @@ where the expectation is taken over that sample, and we say that $\hat{f}$ is a 
   \item[A3] The bandwidth matrix $\bm{H}$ is a sequence of symmetric positive-definite matrices such that\break $\bm{H}\rightarrow \bm{O}$ and $n|\bm{H}|^{1/2} \rightarrow \infty$ as $n\rightarrow\infty$.
 \end{description}
 
-We consider matrices of the form $\bm{H} = a h_n^2 \bm{I}_m$ for a fixed constant $a>0$, where $h_n\in\R$ is a length scale computed from the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. Then $|\bm{H}|^{1/2}=a^{m/2}h_n^m$, so the two requirements of A3 reduce to $h_n \rightarrow 0$ and $nh_n^m \rightarrow \infty$, which we take as the definition of an admissible bandwidth.
+We consider matrices of the form $\bm{H} = a h_n^2 \bm{I}_m$ for a fixed constant $a>0$, where $h_n\in\R$ is a length scale computed from the sample $\{\bm{y}_1,\dots,\bm{y}_n\}$. The constant $a$ fixes what $h_n$ measures; taking $a = m+4$ makes $h_n$ the per-coordinate standard deviation of the spherically symmetric Epanechnikov kernel. Then $|\bm{H}|^{1/2}=a^{m/2}h_n^m$, so the two requirements of A3 reduce to $h_n \rightarrow 0$ and $nh_n^m \rightarrow \infty$, which we take as the definition of an admissible bandwidth.
 
 \begin{defn}[Admissible bandwidth]\label{def:admissible_bandwidth}
   We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $nh_n^m\rightarrow \infty$ as $n\rightarrow\infty$ in probability.
@@ -77,7 +76,7 @@ The \textit{lookout} algorithm of \cite{lookout} has four inputs: the dataset $\
     \State Compute the persistence homology barcode of the (possibly scaled) data cloud for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}.
     \State From the barcode, obtain the ordered finite death diameters $\{d_i\}_{i = 1}^{n-1}$ for connected components, and their successive differences $\Delta d_i = d_{i+1} - d_i$.
     \State Let $\mathcal{I} = \{i : d_i \geq \text{median}(d_1,\dots,d_{n-1})\}$ and let $d_* = d_{i_*}$ where $i_* = \text{arg\! max} \{\Delta d_i : i \in \mathcal{I}\}$; that is, $d_*$ is the diameter corresponding to the lower point of the maximum $\Delta d_i$, where the search is restricted to death diameters at or above the median.
-    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde}, $\bm{H} = h_n\bm{I}_m$, and $h_n = d_*$.
+    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde} with $\bm{H} = ad_*^2\bm{I}_m$; that is, the length scale is $h_n = d_*$.
     \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - |\bm{H}|^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
     \State Fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
     \State Calculate the probability of each observation by applying the estimated GPD to the leave-one-out kde values: $p_i = (1-\beta)\big(1 - \hat{F}(-\log f_{-i})\big)$, where $\hat{F}$ is the distribution function of the fitted GPD.
@@ -85,13 +84,13 @@ The \textit{lookout} algorithm of \cite{lookout} has four inputs: the dataset $\
   \end{algorithmic}
 \end{algorithm}
 
-The lookout algorithm provides density-based anomaly detection, where anomalies are identified as points with low density in the space of the data. If there are no anomalies in the data, the algorithm should identify $\alpha$ of the data as false positive ``anomalies''.
+The lookout algorithm provides density-based anomaly detection, where anomalies are identified as points with low density in the space of the data. If there are no true anomalies in the data, the algorithm should identify a proportion $\alpha$ of the data as false positive ``anomalies''.
 
-In degree zero the persistent homology of steps 2--4 of \cref{alg:lookout} is a familiar statistical object. Components of the Vietoris-Rips complex merge as the shortest edge between them appears, which is Kruskal's algorithm, so the merges occur along the edges of the Euclidean minimum spanning tree $T$ of the data. The finite death diameters $d_1 \le \cdots \le d_{n-1}$ are therefore the ordered edge lengths $e_{(1)} \le \cdots \le e_{(n-1)}$ of $T$, and also the merge heights of the single linkage dendrogram \citep{Gower1969}. We use the tree rather than the filtration for the rest of the paper, allowing us to draw on the limit theory for minimum spanning trees.
+In degree zero the persistent homology of steps 2--4 of \cref{alg:lookout} is a familiar statistical object. Components of the Vietoris-Rips complex merge as the shortest edge between them appears, which is Kruskal's algorithm, so the merges occur along the edges of the Euclidean minimum spanning tree $T$ of the data. The finite death diameters $d_1 \le \cdots \le d_{n-1}$ are therefore the ordered edge lengths $e_{(1)} \le \cdots \le e_{(n-1)}$ of $T$ \citep[Remark 1]{AdamsPHdim}, and also the merge heights of the single linkage dendrogram \citep{Gower1969}. We use the tree rather than the filtration for the rest of the paper, allowing us to draw on the limit theory for minimum spanning trees.
 
-While \citet{lookout} demonstrated excellent results in applying their algorithm to a variety of simulated and real datasets, we see several potential areas for improvement that we aim to address in this paper. First, elements of the algorithm are not robust to outliers, including the min-max scaling, and the use of the largest gap in the Rips death diameters (equivalently, edge lengths). Second, the diagonal bandwidth matrix $\bm{H}$ does not account for correlations between variables, which can lead to suboptimal performance if the data have strong correlations. Third, it is not obvious that this bandwidth matrix choice even has the right order, or that it shrinks to zero at all, particularly for distributions with heavy tails. Finally, the GPD estimation made minimal assumptions about the distribution of the surprisal values, but we know that these are bounded above and below, and that fact can be used to improve the estimated GPD.
+While \citet{lookout} demonstrated excellent results in applying their algorithm to a variety of simulated and real datasets, we see several potential areas for improvement that we aim to address in this paper. First, elements of the algorithm are not robust to outliers, including the min-max scaling, and the use of the largest gap in the Rips death diameters (equivalently, edge lengths). Second, the diagonal bandwidth matrix $\bm{H}$ does not account for correlations between variables, which can lead to suboptimal performance if the data have strong correlations. Third, it is not obvious that this bandwidth matrix choice has the right order, or that it shrinks to zero at all, particularly for distributions with heavy tails. Finally, the GPD estimation made minimal assumptions about the distribution of the surprisal values, but we know that these are bounded above and below, and that fact can be used to improve the estimated GPD.
 
-\cref{sec:mst} defines the bandwidth we use, an upper quantile $e_{(\gamma(n-1))}$ of the edge lengths, and places it among the existing minimum spanning tree and nearest-neighbour methods for anomaly detection. \cref{sec:theory} then establishes its order. We give matching lower and upper bounds showing that $e_{(\gamma(n-1))}$ is of order $n^{-1/m}$ with high probability, and we exhibit a heavy-tailed distribution for which the previous choice $h_n=d_*$ fails even to converge to zero, so that the change of rule is necessary and not merely convenient.
+\cref{sec:mst} defines the bandwidth we use, an upper quantile $e_{(\gamma(n-1))}$ of the edge lengths, and places it among the existing minimum spanning tree and nearest-neighbour methods for anomaly detection. \cref{sec:theory} then establishes its order. We give matching lower and upper bounds showing that $e_{(\gamma(n-1))}$ is of order $n^{-1/m}$ with high probability, and we exhibit a heavy-tailed distribution for which the previous choice $h_n=d_*$ fails to converge to zero, so that the change of rule is necessary.
 
 The mathematical tool behind that heavy-tailed example is the notion of crackle, introduced in \cite{Crackle}, which describes the persistent homology of noise. They proved asymptotic results for the persistent homology of the union of unit balls centered on iid samples of various distributions. There are qualitative differences between sets of samples taken from the Gaussian distribution (which do not ``crackle'') compared to those from heavy-tailed distributions. We adapt their methods to this setting, where we wish to shrink the radius to $0$, albeit slowly.
 
