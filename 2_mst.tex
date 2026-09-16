@@ -1,10 +1,48 @@
 % -----------------------------------------------------------
-\section{Asymptotics of the minimum spanning tree bandwidth} \label{sec:theory}
+\section{Bandwidth selection from the minimum spanning tree} \label{sec:mst}
 % ------------------------------------------------------------
 
-This section establishes the order of $h_n = e_{(\lceil\gamma(n-1)\rceil)}$, shows why a fixed quantile is the right thing to take and the largest gap is not, and works out what the resulting bandwidth does to the kernel density estimate. Throughout, $b_m$ denotes the volume of the unit ball in $\R^m$, $M$ a global upper bound on the density $f$, and $\{\omega_n\}$ a sequence of integers indexing which edge length is used. Proofs of \cref{thm:d_alphan to 0} and of \cref{cex:fattails} are in \cref{app:proofs}.
+\subsection{The bandwidth rule}
+
+Let $T$ denote the Euclidean minimum spanning tree of $\{\bm{y}_1,\dots,\bm{y}_n\}\subset\R^m$: the connected graph on the $n$ observations whose total edge length is smallest. Provided the pairwise distances are distinct, which holds almost surely when the observations are drawn from a continuous density, $T$ is unique and has $n-1$ edges. When placed in increasing order, the edge lengths are denoted by $e_{(1)} \le \cdots \le e_{(n-1)}$.
+
+\begin{defn}[Minimum spanning tree bandwidth]\label{def:mstbw}
+  For $\gamma\in(0,1)$, the \emph{minimum spanning tree bandwidth} is the $\gamma$ quantile of the edge lengths of $T$,
+  \begin{equation}\label{eq:mstbw}
+    h_n = e_{(\lceil \gamma(n-1)\rceil)}.
+  \end{equation}
+\end{defn}
+We take $\gamma = 0.98$ throughout unless stated otherwise. (In computation, we use the median-unbiased quantile estimator of \citet{HF96} rather than the order statistic itself, but the distinction is immaterial asymptotically.) The kernel density estimate \eqref{eq:mkde} is then computed with the bandwidth matrix
+\begin{equation}\label{eq:Hmst}
+  \bm{H} = ah_n^2\bm{I}_m,
+\end{equation}
+where $a=m+4$ for the Epanechnikov kernel. In \cref{sec:modified} the estimate is applied to robustly standardized data, so that a single scalar $h_n$ is enough; the bandwidth matrix in the original coordinates is $(m+4)h_n^2\hat{\bm{\Sigma}}$.
+
+The single linkage reading of \eqref{eq:mstbw} assists interpretability. Cutting the single linkage dendrogram at height $h_n$ leaves the $n$ observations in about $(1-\gamma)n$ connected components, since each of the $\lceil\gamma(n-1)\rceil$ shortest edges has already been used to merge two components. With $\gamma=0.98$, the bandwidth is the scale at which single linkage has gathered all but about 2\% of the observations into components. It is a measure of how far apart neighbouring observations are once the few most isolated ones are set aside, which is exactly the scale a density estimate should resolve.
+
+To compute $h_n$, we use the dual-tree Bor\r{u}vka algorithm of \citet{March2010}, as implemented in \texttt{mlpack} \citep{mlpackR}, which builds the exact Euclidean minimum spanning tree in $O(n\log n)$ time under the same assumptions that make dual-tree nearest-neighbour search efficient, and degrades gracefully in higher dimensions.
+
+% TODO (step 4): three-panel figure --- 2-d point cloud with its MST, the single
+% linkage dendrogram with the gamma cut marked, and the resulting KDE contours
+% with the detected anomalies.
+
+% TODO (step 4): timing table or figure over n and m, and the measured cost
+% against a Rips filtration. Needs new R scripts and targets.
+
+\subsection{Other uses of MST in anomaly detection}\label{sec:related}
+
+Minimum spanning trees have a long history in multivariate statistics, and we are not the first to use it in an anomaly detection context.
+\citet{Rohlf1975} proposed what is still the standard minimum spanning tree test for multivariate outliers: order the edge lengths, look for a gap near the top, and declare the observations beyond the gap to be outliers. The bandwidth rule of \citet{lookout} is a form of the same test. It takes the largest gap among the edge lengths at or above the median and uses the lower endpoint of that gap as the bandwidth. Where Rohlf uses the gap to label points, \citet{lookout} use it to set a scale, but both read the same feature of the same distribution, and both inherit the same difficulty: the largest gap near the top of the edge-length distribution is determined by the few most isolated observations, which are the very points an anomaly detector is trying not to be influenced by. \cref{sec:counterexample} makes this precise, by exhibiting a density for which the top of the edge-length distribution does not settle down at all while a fixed quantile does.
+
+Related uses of the tree include single linkage detectors, which cut the dendrogram and declare the resulting small clusters anomalous, and minimum spanning tree clustering with outlier removal, which deletes long edges before clustering. \citet{FriedmanRafsky1979} give the broader statistical setting, using minimum spanning trees to construct multivariate analogues of the Wald-Wolfowitz and Smirnov two-sample tests.
+
+Two of the detectors we compare against in \cref{sec:compareWithOtherMethods} are built on nearest-neighbour distances combined with extreme value theory: HDoutliers \citep{wilkinson2017visualizing,hdoutliers} and stray \citep{stray}. The connection to what we do is close. By the cut property of minimum spanning trees, the edge joining an observation to its nearest neighbour is the unique shortest edge across the cut separating that observation from the rest, and so belongs to $T$; every nearest-neighbour edge is an edge of the tree. The minimum spanning tree quantile is thus a connectivity-aware global summary of the same distances, and \cref{sec:order} shows that it has the same $n^{-1/m}$ order as the typical nearest-neighbour distance.
+
+The distinction that matters is what the tree is used for. We do not use the minimum spanning tree to label anomalies. We use the distribution of its edge lengths only to choose a scale. Labelling is done by the leave-one-out kernel density estimate and the fitted generalized Pareto distribution, exactly as in \cref{alg:lookout}. A long edge of $T$ therefore does not make its endpoint an anomaly, and an observation can be anomalous without being incident to a long edge.
 
 \subsection{The order of the quantile edge length}\label{sec:order}
+
+This section establishes the order of $h_n = e_{(\lceil\gamma(n-1)\rceil)}$, shows why a fixed quantile is the right thing to take and the largest gap is not, and works out what the resulting bandwidth does to the kernel density estimate. Throughout, $b_m$ denotes the volume of the unit ball in $\R^m$, $M$ a global upper bound on the density $f$, and $\{\omega_n\}$ a sequence of integers indexing which edge length is used. Proofs of \cref{thm:d_alphan to 0} and of \cref{cex:fattails} are in \cref{app:proofs}.
 
 The upper bound holds under a local Lipschitz condition and no assumption at all on the tails.
 
