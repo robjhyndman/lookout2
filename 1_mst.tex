@@ -4,7 +4,7 @@
 
 \subsection{The bandwidth rule}
 
-Let $T$ denote the Euclidean minimum spanning tree of $\{\bm{y}_1,\dots,\bm{y}_n\}\subset\R^m$: the connected graph on the $n$ observations whose total edge length is smallest. Provided the pairwise distances are distinct, which holds almost surely when the observations are drawn from a density, $T$ is unique and has $n-1$ edges. Write $e_{(1)} \le \cdots \le e_{(n-1)}$ for its edge lengths in increasing order.
+Let $T$ denote the Euclidean minimum spanning tree of $\{\bm{y}_1,\dots,\bm{y}_n\}\subset\R^m$: the connected graph on the $n$ observations whose total edge length is smallest. Provided the pairwise distances are distinct, which holds almost surely when the observations are drawn from a continuous density, $T$ is unique and has $n-1$ edges. When placed in increasing order, the edge lengths are denoted by $e_{(1)} \le \cdots \le e_{(n-1)}$.
 
 \begin{defn}[Minimum spanning tree bandwidth]\label{def:mstbw}
   For $\gamma\in(0,1)$, the \emph{minimum spanning tree bandwidth} is the $\gamma$ quantile of the edge lengths of $T$,
@@ -12,34 +12,11 @@ Let $T$ denote the Euclidean minimum spanning tree of $\{\bm{y}_1,\dots,\bm{y}_n
     h_n = e_{(\lceil \gamma(n-1)\rceil)}.
   \end{equation}
 \end{defn}
-We take $\gamma = 0.98$ throughout unless stated otherwise, and in practice we use the median-unbiased quantile estimator of \citet{HF96} rather than the order statistic itself; the distinction is immaterial asymptotically. The kernel density estimate \eqref{eq:mkde} is then computed with the bandwidth matrix
+We take $\gamma = 0.98$ throughout unless stated otherwise. (In computation, we use the median-unbiased quantile estimator of \citet{HF96} rather than the order statistic itself, but the distinction is immaterial asymptotically.) The kernel density estimate \eqref{eq:mkde} is then computed with the bandwidth matrix
 \begin{equation}\label{eq:Hmst}
-  \bm{H} = (m+4)h_n^2\bm{I}_m,
+  \bm{H} = ah_n^2\bm{I}_m,
 \end{equation}
-so that $h_n$ is a \emph{length} on the scale of the data rather than a variance. The constant $m+4$ makes the per-coordinate standard deviation of the spherically symmetric Epanechnikov kernel equal to $h_n$. In \cref{sec:modified} the estimate is applied to robustly standardized data, so that a single scalar $h_n$ is enough; the bandwidth matrix in the original coordinates is $(m+4)h_n^2\hat{\bm{\Sigma}}$.
-
-Definition~\ref{def:mstbw} is not how the rule was originally derived. \citet{lookout} obtained the bandwidth from the degree-zero persistent homology of a Vietoris-Rips filtration, and \cref{alg:lookout} is stated in those terms. The two descriptions coincide.
-
-\begin{proposition}\label{prop:equivalence}
-  Let $\{\bm{y}_1,\dots,\bm{y}_n\}\subset\R^m$ have distinct pairwise distances. The following three sets of $n-1$ numbers are equal.
-  \begin{enumerate}
-    \item The finite death diameters of the degree-zero persistent homology of the Vietoris-Rips filtration.
-    \item The edge lengths of the Euclidean minimum spanning tree $T$.
-    \item The merge heights of the single linkage dendrogram.
-  \end{enumerate}
-\end{proposition}
-
-\begin{proof}
-  In the Vietoris-Rips complex at diameter $t$, two observations are joined whenever they lie within distance $t$ of each other. As $t$ increases, edges appear in increasing order of length, and the number of connected components falls by one exactly when an edge appears that joins two distinct components; each such event is the death of a degree-zero homology class, and the death diameter is the length of that edge. Adding edges in increasing order of length and keeping those that join distinct components is Kruskal's algorithm, so the edges at which deaths occur are precisely the edges of $T$. That single linkage merges two clusters at the length of the shortest edge between them, and therefore produces the same sequence of merges, is the equivalence of \citet{Gower1969}.
-\end{proof}
-
-\begin{remark}[Convention]\label{rem:convention}
-  The scale parameter is a distance between two observations, not the radius of a ball. Two observations lying in a common ball of radius $r$ are therefore joined at diameter $2r$. Working with edge lengths removes the choice: a minimum spanning tree has no radius convention. A reader who prefers radii should halve every scale in this paper, which changes no conclusion and no rate.
-\end{remark}
-
-\begin{remark}[Persistent homology]\label{rem:ph}
-  \cref{prop:equivalence} is the only point at which the filtration is needed. Everything that follows is a statement about the edge lengths of $T$, and the filtration reappears only in \cref{sec:counterexample}, where the crackle results of \citet{Crackle} describe the persistent homology of noise.
-\end{remark}
+where $a=m+4$ for the Epanechnikov kernel. In \cref{sec:modified} the estimate is applied to robustly standardized data, so that a single scalar $h_n$ is enough; the bandwidth matrix in the original coordinates is $(m+4)h_n^2\hat{\bm{\Sigma}}$.
 
 The single linkage reading of \eqref{eq:mstbw} is what makes the rule interpretable. Cutting the single linkage dendrogram at height $h_n$ leaves the $n$ observations in about $(1-\gamma)n$ connected components, since each of the $\lceil\gamma(n-1)\rceil$ shortest edges has already been used to merge two components. With $\gamma=0.98$, the bandwidth is the scale at which single linkage has gathered all but about 2\% of the observations into components. It is a measure of how far apart neighbouring observations are once the few most isolated ones are set aside, which is exactly the scale a density estimate should resolve.
 
@@ -49,9 +26,7 @@ The single linkage reading of \eqref{eq:mstbw} is what makes the rule interpreta
 
 \subsection{Relation to existing methods}\label{sec:related}
 
-Minimum spanning trees have a long history in multivariate statistics, and it is worth being explicit about which part of that history we are drawing on.
-
-\citet{Rohlf1975} proposed what is still the standard minimum spanning tree test for multivariate outliers: order the edge lengths, look for a gap near the top, and declare the observations beyond the gap to be outliers. The bandwidth rule of \citet{lookout} is a form of the same test. It takes the largest gap among the edge lengths at or above the median and uses the lower endpoint of that gap as the bandwidth. Where Rohlf uses the gap to label points, \citet{lookout} use it to set a scale, but both read the same feature of the same distribution, and both inherit the same difficulty: the largest gap near the top of the edge-length distribution is determined by the few most isolated observations, which are the very points an anomaly detector is trying not to be influenced by. \cref{sec:counterexample} makes this precise, by exhibiting a density for which the top of the edge-length distribution does not settle down at all while a fixed quantile does.
+Minimum spanning trees have a long history in multivariate statistics. \citet{Rohlf1975} proposed what is still the standard minimum spanning tree test for multivariate outliers: order the edge lengths, look for a gap near the top, and declare the observations beyond the gap to be outliers. The bandwidth rule of \citet{lookout} is a form of the same test. It takes the largest gap among the edge lengths at or above the median and uses the lower endpoint of that gap as the bandwidth. Where Rohlf uses the gap to label points, \citet{lookout} use it to set a scale, but both read the same feature of the same distribution, and both inherit the same difficulty: the largest gap near the top of the edge-length distribution is determined by the few most isolated observations, which are the very points an anomaly detector is trying not to be influenced by. \cref{sec:counterexample} makes this precise, by exhibiting a density for which the top of the edge-length distribution does not settle down at all while a fixed quantile does.
 
 Related uses of the tree include single linkage detectors, which cut the dendrogram and declare the resulting small clusters anomalous, and minimum spanning tree clustering with outlier removal, which deletes long edges before clustering. \citet{FriedmanRafsky1979} give the broader statistical setting, using minimum spanning trees to construct multivariate analogues of the Wald-Wolfowitz and Smirnov two-sample tests.
 
@@ -61,11 +36,7 @@ The distinction that matters is what the tree is used for. We do not use the min
 
 \subsection{Computation}\label{sec:computation}
 
-Computing $h_n$ requires the minimum spanning tree and nothing else. We use the dual-tree Bor\r{u}vka algorithm of \citet{March2010}, as implemented in \texttt{mlpack} \citep{mlpackR}, which builds the exact Euclidean minimum spanning tree in $O(n\log n)$ time under the same assumptions that make dual-tree nearest-neighbour search efficient, and degrades gracefully in higher dimensions. The naive alternative costs $O(n^2)$ in time and memory, since it forms all pairwise distances.
-
-This is a change of implementation as well as of description. A Vietoris-Rips filtration builds simplices in every degree and is far more expensive than the degree-zero information we actually use; computing it to extract $n-1$ numbers that a minimum spanning tree algorithm returns directly is wasteful. The \texttt{lookout} package computes the tree.
-
-The tree is built on all $n$ observations, so the bandwidth of \cref{def:mstbw} is exactly the quantile whose behaviour \cref{sec:theory} describes, with no subsampling or other approximation in between.
+To compute $h_n$, we use the dual-tree Bor\r{u}vka algorithm of \citet{March2010}, as implemented in \texttt{mlpack} \citep{mlpackR}, which builds the exact Euclidean minimum spanning tree in $O(n\log n)$ time under the same assumptions that make dual-tree nearest-neighbour search efficient, and degrades gracefully in higher dimensions.
 
 % TODO (step 4): timing table or figure over n and m, and the measured cost
 % against a Rips filtration. Needs new R scripts and targets.
