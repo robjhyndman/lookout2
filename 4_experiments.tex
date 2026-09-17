@@ -1,0 +1,125 @@
+% -------------------------------------------------------------------------
+\section{Numerical experiments}\label{sec:experiments}
+% -------------------------------------------------------------------------
+
+We now evaluate the new version of lookout in seven simulation experiments. Experiments 1 to 4 compare it against the original version. Experiments 1 and 2 allow the anomalies to move away from the non-anomalous distribution, and compare the sensitivity of the two versions as the anomalies become more obvious. Experiments 3 and 4 place the anomalies on the boundary of the non-anomalous region, and increase the number of data points to explore the performance of the two versions at different sample sizes. A set of showcase examples then illustrates the output of both versions across a range of configurations. Experiments 5 to 7 widen the comparison to four other anomaly detection methods.
+
+Those four are two Extreme Value Theory (EVT) based methods and two KDE-based methods. The EVT-based methods are HDoutliers \citep{wilkinson2017visualizing} and \textit{stray} \citep{stray}, both with their $\alpha$ parameter set to 0.01, which is the default for stray. The KDE-based methods are KDEOS \citep{Schubert2014} and RDOS \citep{Tang2017}, both run with their default settings. The same anomaly detection methods were used for comparison in the original version of lookout \citep{lookout}. Experiments 1 to 4 report true positive and false negative rates; the metrics used in Experiments 5 to 7 are defined next.
+
+Both HDoutliers and stray identify anomalies, i.e., they give a binary label 1 to anomalies and 0 to non-anomalies. Therefore, to compare lookout with stray and HDoutliers we have used the metrics \textit{Fmeasure} and \textit{Gmean}. Suppose TP denotes the true positives (actual = 1, predicted = 1), FP denotes the false positives (actual = 0, predicted = 1), TN denotes the true negatives (actual = 0, predicted = 0) and FN denotes the false negatives (actual = 1, predicted = 0). Then these metrics are defined as follows:
+\[
+  \text{Fmeasure} = \frac{2(\text{Precision}\times\text{Recall})}{\text{Precision} + \text{Recall}}
+  \quad \text{where} \quad
+  \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
+  \quad \text{and} \quad
+  \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} \, ,
+\]
+\[
+  \text{Gmean} = \sqrt{\text{Sensitivity} \times \text{Specificity} }
+  \quad \text{where} \quad \text{Sensitivity} = \frac{\text{TP}}{\text{TP} + \text{FN}}
+  \quad \text{and} \quad \text{Specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}} \, .
+\]
+Note that recall and sensitivity define the same quantity. Sensitivity is commonly used in epidemiological settings while recall is used in computer science.
+
+The KDE-based methods KDEOS and RDOS give anomaly scores instead of identifying points as anomalous or not. A standard way to compare anomaly scores is by using the area under the Receiver Operator Curve (ROC). For a given set of anomaly scores the ROC plots 1 - Specificity on the $x$-axis for different cut-off points and Sensitivity on the $y$-axis. A method $A$ is better than method $B$ if the area under the ROC is greater for method $A$ compared to $B$. As lookout gives anomaly scores as well as binary labels, we compare lookout with KDEOS and RDOS using the area under the ROC, which we denote by AUC.
+
+\subsection{Experiment 1: Different anomaly rates for Gamma distribution}
+
+For experiment 1 we consider the $\text{Gamma}(a, r)$ distribution with shape $a$ and rate $r$ and generate data points with different rates $r$. We select $\text{Gamma}(2, 2)$ as the non-anomalous distribution and $\text{Gamma}(2, r)$ as the anomalous distribution where $r \in \{0.1, 0.2, \ldots, 1\}$. Let $Y_i = (Y_{i1}, Y_{i2})$ where $Y_{i1}$ and $Y_{i2}$ are independent with $Y_{ij} \sim \text{Gamma}(2, 2)$ for the non-anomalous distribution and $Y_{ij} \sim \text{Gamma}(2, r)$ for the anomalous distributions. We consider 10 replications of the experiment for each value of $r$. For each replication we generate 500 non-anomalies and 10 anomalies.
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{Figures/Exp1_Gamma_Rates.pdf}
+  \caption{Experiment 1 data and results. Left: data for two iterations of the experiment with $r = 0.2$ and $r = 0.9$. Anomalies with lower values of $r$ are easier to identify. Right: the relative performance of the two algorithms. The points in the right panel are slightly jittered horizontally to avoid overlapping points.}
+  \label{fig:exp1GammaRates}
+\end{figure}
+
+\cref{fig:exp1GammaRates} shows the data and results of Experiment 1. As the rate $r$ of the anomalous Gamma distribution increases, the anomalies and non-anomalies become more similar. Thus, we expect a decrease in the true positive rate and an increase in the false negative rate as $r$ increases. The anomalies are maximally different from non-anomalies when $r = 0.1$. We see that new lookout performs better on average than the old lookout algorithm across all values of $r$, with the largest differences for the smallest values of $r$.
+
+\subsection{Experiment 2: Different anomaly means for Normal distribution}
+
+For experiment 2 we consider the normal distribution $\mathcal{N}(\mu, 1)$ with mean $\mu$. We let $Y_i = (Y_{i1}, Y_{i2})$ where $Y_{i1}$ and $Y_{i2}$ are independent with $Y_{ij} \sim \mathcal{N}(\mu, 1)$. The non-anomalous distribution has $\mu=0$, while the anomalous distribution has $\mu \in \{ 2.50, 2.75, \dots, 3.75, 4.00\}$. We consider 1000 non-anomalies and 10 anomalies, and we produce 10 replicates for each value of $\mu$.
+
+\cref{fig:exp2NormalRates} shows Experiment 2 data and results. As $\mu$ increases, the anomalies shift away from the non-anomalies. Thus, we expect the true positive rate to increase and the false negative rate to decrease with $\mu$. Here, the two versions of the lookout algorithm are statistically indistinguishable, across all values of $\mu$.
+
+\begin{figure}[!hb]
+  \centering
+  \includegraphics[width=1\textwidth]{Figures/Exp2_Normal_Rates.pdf}
+  \caption{Experiment 2 data and results. Left: data for two iterations of the experiment with $\mu = 2.5$ and $\mu = 3.75$. Anomalies with higher values of $\mu$ are easier to identify. Right: the relative performance of the two algorithms. The points in the right panel are slightly jittered horizontally to avoid overlapping points.}
+  \label{fig:exp2NormalRates}
+\end{figure}
+
+\subsection[Experiment 3: As N increases - Normal distribution]{Experiment 3: As $N$ increases - Normal distribution}
+
+It is often difficult to distinguish anomalies from legitimate observations because they can appear similar. In such cases, anomalies are not well separated from the non-anomalous points. In this experiment, we explore the efficacy of \textit{lookout} when anomalies are close to regions containing non-anomalous points.
+
+We consider $n$ non-anomalies for $n \in \{1000, 2000, \ldots, 10000\}$ and $0.005 \times n$ anomalies. We let $Y_i = (Y_{i1}, Y_{i2})$ where $Y_{i1}$ and $Y_{i2}$ are independent, with $Y_{ij} \sim \mathcal{N}(\mu, \sigma)$. For the non-anomalies, we set $\mu=0$ and $\sigma=1$. We generate anomalies in a ring just beyond most of the non-anomalous points, by first sampling $\mu_{i1} \sim \mathcal{U}(-\sqrt{2}\times 2.2, \sqrt{2}\times 2.2)$ and letting $\mu_{i2} = \sqrt{2\times2.2^2 - \mu_{i1}^2}$. Then we sample the anomalies $(Y_{i1}, Y_{i2})$ where $Y_{i1} \sim \mathcal{N}(\mu_{i1}, 0.1)$ and $Y_{i2} \sim \mathcal{N}(\mu_{i2}, 0.1)$. We produce 10 replications for each value of $n$.
+
+\cref{fig:exp3NormalIncreasingN} shows the data of a single run and the results of experiment 3. Both new and old lookout give low false positive rates and high true negative rates. However, we see that new lookout has a larger true positive rate and a lower false negative rate compared to old lookout, with statistically significant differences for smaller sample sizes.
+
+\begin{figure}[!hb]
+  \centering
+  \includegraphics[width=\textwidth]{Figures/Exp3.pdf}
+  \caption{Experiment 3 data and results using Normal distributions. Left: data for $n=10000$. Right: the relative performance of the two algorithms. The points in the right panel are slightly jittered horizontally to avoid overlapping points.}
+  \label{fig:exp3NormalIncreasingN}
+\end{figure}
+
+\subsection[Experiment 4: As N increases - Gamma distributions]{Experiment 4: As $N$ increases - Gamma distribution}
+
+This experiment is similar to experiment 3, but we set $Y_{ij} \sim \text{Gamma}(2, 2)$ for the non-anomalous points. To obtain anomalous points, we first generate $n$ points $Y_i = (Y_{i1},Y_{i2})$ where $Y_{i1}$ and $Y_{i2}$ are independent, with $Y_{ij} \sim \text{Gamma}(2.2, 2)$. Then we consider the subset $\{Y_i: \lVert Y_i \rVert > \lVert X\rVert _{0.99} \}$ where $\lVert Y_i \rVert = \sqrt{ Y_{i1}^2 + Y_{i2}^2} $ denotes the distance from the origin to $Y_i$ and $\lVert X\rVert _{0.99}$ denotes the 0.99 quantile of $\left \{\sqrt{ Y_{i1}^2 + Y_{i2}^2} \right \}_{i=1}^n$. From this subset we sample $0.005 \times n$ points and label them as anomalies. Each iteration for a given $n$ is repeated 10 times. \cref{fig:exp4GammaIncreasingN} shows the data from an iteration of the experiment with $n = 10000$ and the results for the new and old version of \textit{lookout}. The two versions of lookout are not significantly different, other than at the largest sample sizes, where the older version does slightly better.
+
+\begin{figure}[!thb]
+  \centering
+  \includegraphics[width=\textwidth]{Exp4.pdf}
+  \caption{Experiment 4 data and results using Gamma distributions. Left: data for $n=10000$. Right: the relative performance of the two algorithms. The points in the right panel are slightly jittered horizontally to avoid overlapping points.}
+  \label{fig:exp4GammaIncreasingN}
+\end{figure}
+
+\subsection{Showcase examples}\label{sec:showcase}
+
+\begin{figure}[!p]
+  \centering
+  \includegraphics[width=0.84\linewidth]{Figures/Showcase_Examples.pdf}
+  \caption{Comparing new lookout with the older version on some showcase examples}
+  \label{fig:showcaseExamples}
+\end{figure}
+
+\cref{fig:showcaseExamples} shows some examples of new and old versions of lookout with identified anomalies in red. The purpose of this exercise is to check if the new version agrees with the old version on obvious anomalies. The graphs on the first row have anomalies at the top right-hand corner, which are identified by both algorithms; both algorithms find some false anomalies in the lower cloud of points, with the new version finding more. The second row depicts a bi-modal distribution with anomalies placed in the middle. Both versions of lookout identify the central anomalies, along with some false anomalies, with the new version finding more false anomalies. The third row has 3 clusters of normally distributed points with anomalies placed away from the three clusters. Here, the older version of the algorithm finds four false positives compared to ten with the new algorithm. The same setting is repeated in the fourth row with the anomalies spread out, and the two algorithms are similar. The last row has non-anomalous points in a parabola and the anomalous points outside of it. This is a tricky example as the points are on a manifold, and we are not considering their geometry. In this example, only the new algorithm finds all three anomalies lying off the manifold, while both algorithms produce several false positives on the manifold. Overall, on these examples, the new algorithm is more sensitive to identifying anomalies, but also produces a few more false positives. The false anomalies identified by the new algorithm tend to be in regions of the data space with a low density of points, which is consistent with our definition of an anomaly.
+
+\subsection{Experiment 5: Normal distributions moving out in each iteration}
+
+In this experiment we consider 405 points in $\R^6$, of which 5 points are anomalies. The experiment is run for 10 iterations with anomalies becoming more obvious in each iteration. The non-anomalies are distributed as $\mathcal{N}(0,1)$ in all dimensions. The anomalies differ the non-anomalies only in the first dimension. The anomalies are distributed as $\mathcal{N}\left(2 + (i-1)\times0.5, \, 0.2 \right)$ for iterations $i \in \{1, \ldots, 10\}$ in the first dimension. In the other dimensions the anomalies are distributed as $\mathcal{N}(0,1)$. We run the experiment for 10 iterations and in each iteration the anomalies move further away from the non-anomalous points. Each iteration is repeated 10 times to account for randomness.
+
+\cref{fig:comparisonExp5} shows the data and the results of this experiment, with anomalies shown in red. The top left plot shows the data on the $Y_1Y_2$ plane for the 3rd iteration and the middle two plots show the data for the 9th iteration. We see that the anomalies have separated from the other points in the $Y_1$ direction, but mixed with the non-anomalies on the $Y_3Y_4$ plane.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\linewidth]{Figures/Exp5_Data_and_Results.pdf}
+  \caption{Experiment 5 results. Top left: Data from the 3rd iteration showing the $Y_1Y_2$ plane with anomalies in red. Middle left: Data from the 9th iteration showing both the $Y_1Y_2$ plane and $Y_3Y_4$ plane, with anomalies moving further away in the $Y_1$ direction, resulting in the anomalies and non-anomalies being mixed on the $Y_3Y_4$ plane. Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
+  \label{fig:comparisonExp5}
+\end{figure}
+
+The plot on the right gives the AUC when comparing lookout with KDEOS and RDOS and Fmeasure and Gmean for comparison with HDoutliers and stray. As discussed the reason for different metrics is because KDEOS and RDOS give anomaly scores, while stray and HDoutiers identify anomalies. We see that new lookout performs better than the old lookout in terms of Gmean and Fmeasure for higher iterations. In terms of AUC both versions of lookout give the same performance.
+
+\subsection[Experiment 6: Annulus in R4]{Experiment 6: Annulus in $\R^4$}
+
+For this experiment we consider 805 points in $\R^3$ of which 5 points are anomalies. \cref{fig:comparisonExp6} shows the data lying in an annulus on the $Y_1Y_2$ plane with $Y_3 \sim \mathcal{U}(0,1)$. As before, the experiment is run for 10 iterations with anomalies moving towards the centre of the hole in each iteration. Plots from iteration 3 and 9 are shown on the left in \cref{fig:comparisonExp6}. The results of the different methods are shown on the right.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\linewidth]{Figures/Exp6_Data_and_Results.pdf}
+  \caption{Experiment 6 results. Top left: Data from the 3rd iteration showing the $Y_1Y_2$ plane with anomalies in red. Middle left: Data from the 9th iteration showing both the $Y_1Y_2$ plane and $Y_2Y_3$ plane, with anomalies moving into the annulus. Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
+  \label{fig:comparisonExp6}
+\end{figure}
+
+\subsection[Experiment 7: Unit cube in R20]{Experiment 7: Unit cube in $\R^{20}$}
+
+This experiment considers 500 points in $\R^{20}$ of which one is an anomaly. At the start of the experiment all 500 points are uniformly distributed with $y_i \sim \mathcal{U}(0,1)$ in each dimension. For this experiment we consider 20 iterations and in each iteration the 500th data point becomes more anomalous. In the first iteration the 500th point is updated with the first coordinate $Y_1 = 0.9$. In the second iteration it is further updated with $Y_2 = 0.9$, resulting in $(0.9, 0.9, Y_3, \dots, Y_{20})$. In the $i$th iteration the 500th point is updated with $Y_i = 0.9$. Each iteration is repeated 10 times to account for randomness.
+
+The anomalous point is not anomalous in any single dimension or on any $Y_iY_j$ plane. In fact even in the space of the first two principal components, the anomaly is not distinguishable. We use \textit{dobin} \citep{dobinPaper}, a dimension reduction method especially developed for anomalies to visualize this space. \cref{fig:comparisonExp7} shows the data and the results of this experiment. The plots on the left show the data on the $D_1D_2$ plane for iterations 5, 12 and 20, where $D_1$ and $D_2$ are the first two axes of dobin projection. We see that in the 20th iteration the anomaly can be easily identified on the $D_1D_2$ plane. The plot on the right shows the results of applying the various algorithms to this problem. The lookout algorithms are applied without scaling in this experiment.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\linewidth]{Figures/Exp7_Data_and_Results.pdf}
+  \caption{Experiment 7 results. Left: Data from the 5th, 12th and 20th iterations, showing the $D_1D_2$ plane from the dobin projection. Anomalies are shown in red. Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
+  \label{fig:comparisonExp7}
+\end{figure}

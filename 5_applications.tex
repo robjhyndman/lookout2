@@ -1,0 +1,27 @@
+% -------------------------------------------------------------------------
+\section{Applications}\label{sec:applications}
+% -------------------------------------------------------------------------
+
+We check the new and old versions of lookout on two sets of real data. Neither of these examples have labeled anomalies and so we cannot compute accuracy measures. However, as both datasets have a small number of variables, we can visualize the output. The datasets are
+\begin{enumerate}
+  \item Old faithful dataset\footnote{Data downloaded from \url{https://geysertimes.org}.}: eruptions of the Old Faithful Geyser in Yellowstone National Park, Wyoming, USA, from 14 January 2017 to 29 December 2023. For each recorded eruption the duration is given in seconds along with the waiting time to the following eruption. The records are incomplete, especially during winter.
+  \item Wine reviews dataset\footnote{Data downloaded from \url{https://www.kaggle.com/datasets/zynicide/wine-reviews/data}.}: different attributes of wines from 44 countries, obtained from the \emph{Wine Enthusiast Magazine} during the week of 15 June 2017. We focus on the numerical points score given by the \emph{Wine Enthusiast} reviewer on a scale of 0--100 and the corresponding price of each bottle of wine.
+\end{enumerate}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\linewidth]{Figures/old_faithful.pdf}
+  \caption{Anomalies in the Old Faithful dataset}
+  \label{fig:oldfaithful}
+\end{figure}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\linewidth]{Figures/wine_reviews.pdf}
+  \caption{Anomalies in the Wine Reviews dataset. Left with new version of lookout and the right with the old version of lookout.}
+  \label{fig:winereviews}
+\end{figure}
+
+\cref{fig:oldfaithful} shows the output of new and old versions of lookout when applied to the \textit{Old Faithful} dataset, with the identified anomalies depicted in red. New lookout identifies more ``anomalous'' points in regions of low density, while the old version tends to identify some points that are close to the main cloud of points as anomalous, and misses some points in the low density regions. In this example, the new lookout algorithm appears to be an improvement over the old.
+
+\cref{fig:winereviews} shows the output of lookout on the \textit{Wine Reviews} dataset. For this dataset we see that the new version identifies far fewer anomalies compared to the old version, especially at the extremes of the points score, and around the main cloud of points. In this example the new lookout algorithm is a substantial improvement over the old.
