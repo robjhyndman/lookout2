@@ -6,27 +6,15 @@ Throughout this appendix, $b_m$ denotes the volume of the unit ball in $\R^m$, $
 
 \subsection{Proof of \texorpdfstring{\cref{prop:order}}{Proposition 5}}
 
-Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rceil$. For a locally finite set $\mathcal{X}\subset\R^m$, a point $\bm{x}\in\mathcal{X}$ and $r>0$, let $\mathcal{C}(\bm{x};\mathcal{X},r)$ be the component containing $\bm{x}$ of the graph on $\mathcal{X}$ that joins pairs at distance at most $r$. As in \cref{sec:order}, $C_n(r)$ is the number of components of that graph on $\mathcal{Y}_n$, and since a component with $k$ points contributes $k$ terms equal to $1/k$,
-$$
-C_n(r)=\sum_{i=1}^n\frac{1}{|\mathcal{C}(\bm{y}_i;\mathcal{Y}_n,r)|}.
-$$
-
-The limit theory is the following special case of \citet[Theorem 2.1]{PenroseYukich2003}. Suppose $\psi(\bm{x};\mathcal{X})\in[0,1]$ is defined for every locally finite $\mathcal{X}\subset\R^m$ and $\bm{x}\in\mathcal{X}$, is unchanged when $\bm{x}$ and $\mathcal{X}$ are translated together, and depends on $\mathcal{X}$ only through $\mathcal{X}\cap B(\bm{x},\rho)$ for some fixed $\rho<\infty$. Then, for every density $f$,
-\begin{equation}\label{eq:pywlln}
-  \frac1n\sum_{i=1}^n\psi(n^{1/m}\bm{y}_i;n^{1/m}\mathcal{Y}_n)\to\int_{\R^m}\E\big[\psi(\bm{0};\mathcal{P}_{f(\bm{x})}\cup\{\bm{0}\})\big]f(\bm{x})\,d\bm{x}
-\end{equation}
-in $L^2$, and hence in probability. A functional that depends only on the points within a fixed distance is stabilizing in their sense, and a bounded one satisfies their moment condition.
+Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rceil$, and recall from \cref{sec:order} that $C_n(r)$ is the number of components of the graph on $\mathcal{Y}_n$ that joins pairs at distance at most $r$.
 
 \begin{proof}[Proof of \cref{prop:order}]
-  \emph{Step 1: the component count.} Fix $t>0$ and an integer $j\geq1$, and let $\psi_j(\bm{x};\mathcal{X})=1/|\mathcal{C}(\bm{x};\mathcal{X},t)|$ when that component has at most $j$ points, and $\psi_j(\bm{x};\mathcal{X})=0$ otherwise. A component with at most $j$ points lies within distance $(j-1)t$ of $\bm{x}$, and a component with more than $j$ points has $j+1$ points joined to $\bm{x}$ by paths inside $B(\bm{x},jt)$, so $\psi_j$ depends only on $\mathcal{X}\cap B(\bm{x},jt)$. Scaling $\mathcal{P}_\tau\cup\{\bm{0}\}$ by $1/t$ turns joining at distance $t$ into joining at distance $1$, and intensity $\tau$ into $\tau t^m$, so \eqref{eq:pywlln} gives
-  $$
-  \frac1n\sum_{i=1}^n\psi_j(n^{1/m}\bm{y}_i;n^{1/m}\mathcal{Y}_n)\to G_j(t):=\int_{\R^m}\kappa_j\big(t^mf(\bm{x})\big)f(\bm{x})\,d\bm{x}
-  $$
-  in probability, where $\kappa_j(\lambda)=\E[\mathbf{1}\{|\mathcal{C}_\lambda|\le j\}/|\mathcal{C}_\lambda|]$. The set $n^{1/m}\mathcal{Y}_n$ joined at distance $t$ has the same components as $\mathcal{Y}_n$ joined at distance $tn^{-1/m}$, and $0\le1/k-\mathbf{1}\{k\le j\}/k\le1/(j+1)$ for every $k$, so the left side lies within $1/(j+1)$ of $\Xi_n(t):=n^{-1}C_n(tn^{-1/m})$. Likewise $G_j(t)$ lies within $1/(j+1)$ of
+  \emph{Step 1: the component count.} For $t>0$ put $\Xi_n(t):=n^{-1}C_n(tn^{-1/m})$ and
   $$
   G(t):=\int_{\R^m}\kappa\big(t^mf(\bm{x})\big)f(\bm{x})\,d\bm{x}.
   $$
-  As $j$ is arbitrary, $\Xi_n(t)\to G(t)$ in probability for every $t>0$.
+  Joining at distance $r_n=tn^{-1/m}$ keeps $nr_n^m=t^m$ fixed, which is the thermodynamic regime, so the law of large numbers for component counts of \citet{MitschePenrose2021} gives $\Xi_n(t)\to G(t)$ in probability, for every $t>0$ and every density $f$. Their limit function for component counts is $\kappa$, and their convergence is in fact complete and in $L^2$.
+  % TODO: theorem numbers for MitschePenrose2021. In arXiv:2006.14915v1 the result is Theorem 3.13, applying Theorem 2.1; check them against the published version.
 
   \emph{Step 2: properties of $G$.} The origin forms a component on its own exactly when $\mathcal{P}_\lambda$ has no point in $B(\bm{0},1)$, so $\kappa(\lambda)\ge\P(|\mathcal{C}_\lambda|=1)=e^{-b_m\lambda}$. Its component contains the $N\sim\text{Poisson}(b_m\lambda)$ points of $\mathcal{P}_\lambda$ in $B(\bm{0},1)$, so $\kappa(\lambda)\le\E[1/(1+N)]=(1-e^{-b_m\lambda})/(b_m\lambda)$. Integrating,
   $$
@@ -48,7 +36,11 @@ in $L^2$, and hence in probability. A functional that depends only on the points
   $$
   Both tend to zero by Step 1, so $n^{1/m}h_n\to q$ in probability.
 
-  Finally, applying \eqref{eq:pywlln} to $\psi(\bm{x};\mathcal{X})=\mathbf{1}\{\mathcal{X}\cap B(\bm{x},t)\neq\{\bm{x}\}\}$ shows that the proportion of observations whose nearest neighbour lies within $tn^{-1/m}$ converges in probability to $1-G_-(t)$. The argument of Step 3, with $G_-$ in place of $G$, then gives $n^{1/m}D_{(k_n)}\to t_-$ in probability, as stated in \cref{rem:nn}.
+  Finally, for a locally finite $\mathcal{X}\subset\R^m$ and $\bm{x}\in\mathcal{X}$, let $\psi_t(\bm{x};\mathcal{X})=\mathbf{1}\{\mathcal{X}\cap B(\bm{x},t)\neq\{\bm{x}\}\}$ indicate that some other point of $\mathcal{X}$ lies within distance $t$ of $\bm{x}$. It is bounded, unchanged when $\bm{x}$ and $\mathcal{X}$ are translated together, and depends only on the points within distance $t$ of $\bm{x}$, so \citet[Theorem 2.1]{PenroseYukich2003} applies and gives
+  $$
+  \frac1n\sum_{i=1}^n\psi_t(n^{1/m}\bm{y}_i;n^{1/m}\mathcal{Y}_n)\to\int_{\R^m}\P\big(\mathcal{P}_{f(\bm{x})}\cap B(\bm{0},t)\neq\emptyset\big)f(\bm{x})\,d\bm{x}=1-G_-(t)
+  $$
+  in probability. The left side is the proportion of observations whose nearest neighbour lies within $tn^{-1/m}$, so the argument of Step 3, with $G_-$ in place of $G$, gives $n^{1/m}D_{(k_n)}\to t_-$ in probability, as stated in \cref{sec:order}.
 \end{proof}
 
 \subsection{Proof of \texorpdfstring{\cref{cex:fattails}}{Counterexample 6}}
@@ -108,7 +100,7 @@ Given the above lemma, our next step is to show that with positive probability t
     <\frac{-\frac{c_m s_{m-1}}{R}+\frac{c_m s_{m-1}}{R-1}}{1-\frac{c_m s_{m-1}}{R}}
     <\frac{2c_m s_{m-1}}{R^2}
   \end{align*}
-  for sufficiently large $R$. For $R_n=2n^{2/m}/(c_m s_{m-1})$ we have $\hat{p}_n\leq C_1 n^{-4/m}$ for large $n$, with $C_1$ a constant independent of $n$.
+  for sufficiently large $R$. For $R_n=n^{2/m}/(c_m s_{m-1})$ we have $\hat{p}_n\leq C_1 n^{-4/m}$ for large $n$, with $C_1$ a constant independent of $n$.
 
   Let $\hat{A}^{[R_{n}-1, R_n)}_n$ be the number of samples with $\|\bm{x}\|\in[R_n-1, R_n)$, conditioned on there being $A^{[R_n, \infty)}_n$ samples outside $B(\bm{0},R_n)$. Then $\hat{A}^{[R_{n}-1, R_n)}_n \sim \mathcal{B}(n-A^{[R_n, \infty)}_n, \hat{p}_n)$. Coupling $\mathcal{B}(n-A^{[R_n, \infty)}_n, \hat{p}_n)$ to $\mathcal{B}(n, \hat{p}_n)$ implies that $\P(\hat{A}^{[R_n-1, R_n)}_n\leq n^{1-2/m})>2/3$ for large enough $n$. Combining,
   \begin{align*}
@@ -122,7 +114,7 @@ Given the above lemma, our next step is to show that with positive probability t
 We can finally combine these to complete the counterexample. The probabilities are far from tight, as we need only show that $e_{(\omega_n)}$ does not converge to $0$.
 
 \begin{proof}[Proof of \cref{cex:fattails}]
-  A sufficient condition for $e_{(\omega_n)}\geq 1$ is that the graph joining points within distance $1$ of each other has $\tfrac{1}{4}n^{1-2/m}$ isolated points. One way to obtain this many isolated points is to have $A_n^{[R_n, \infty)}>\tfrac{1}{4}n^{1-2/m}$ and $Y_n=0$. Consider $R_n=n^{2/m}/(c_m s_{m-1})$.
+  A sufficient condition for $e_{(\omega_n)}>1$ is that the graph joining points within distance $1$ of each other has more than $\tfrac{1}{4}n^{1-2/m}$ isolated points. One way to obtain this many isolated points is to have $A_n^{[R_n, \infty)}>\tfrac{1}{4}n^{1-2/m}$ and $Y_n=0$. Consider $R_n=n^{2/m}/(c_m s_{m-1})$.
 
   From \cref{lem:bound points} we have $\P\big( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \tfrac{1}{4}n^{1-2/m}\big)>1/3$ for $n$ sufficiently large. Substituting in $R_n$ shows that $3n^{1-2/m}<\sqrt{R_n^{m-1}/\log n}$, so \cref{lem:bound edges} applies and gives $\P\big(Y_n=0\mid A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \tfrac{1}{4}n^{1-2/m}\big)\to 1$ as $n\to \infty$, hence at least $\tfrac{3}{4}$ for sufficiently large $n$. Combining,
   \begin{align*}
