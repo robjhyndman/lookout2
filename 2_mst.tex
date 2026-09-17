@@ -40,74 +40,32 @@ The distinction that matters is what the tree is used for. We do not use the min
 
 \subsection{The order of the quantile edge length}\label{sec:order}
 
-This section establishes the order of $h_n = e_{(\lceil\gamma(n-1)\rceil)}$, shows why a fixed quantile is the right thing to take and the largest gap is not, and works out what the resulting bandwidth does to the kernel density estimate. Throughout, $b_m$ denotes the volume of the unit ball in $\R^m$, $M$ a global upper bound on the density $f$, and $\{\omega_n\}$ a sequence of integers indexing which edge length is used. Proofs of \cref{thm:d_alphan to 0} and of \cref{cex:fattails} are in \cref{app:proofs}.
+This section establishes the order of $h_n = e_{(\lceil\gamma(n-1)\rceil)}$, shows why a fixed quantile is the right thing to take and the largest gap is not, and works out what the resulting bandwidth does to the kernel density estimate. Throughout, $b_m$ denotes the volume of the unit ball in $\R^m$ and $\{\omega_n\}$ a sequence of integers indexing which edge length is used. Proofs of \cref{prop:order} and of \cref{cex:fattails} are in \cref{app:proofs}.
 
-The upper bound holds under a local Lipschitz condition and no assumption at all on the tails.
+The quantile is easiest to study through the single linkage reading of \eqref{eq:mstbw}. For $r>0$, let $C_n(r)$ be the number of connected components of the graph that joins every pair of observations at distance at most $r$. Kruskal's algorithm builds $T$ by adding edges in increasing order of length, so the edges of $T$ of length at most $r$ form a spanning forest of that graph, and there are $n-C_n(r)$ of them. Hence $h_n\le r$ exactly when $C_n(r)\le n-\lceil\gamma(n-1)\rceil$, and questions about $h_n$ become questions about a component count.
 
-\begin{theorem}\label{thm:d_alphan to 0}
-  Let $e_{(k)}$ denote the $k$th smallest edge length of the Euclidean minimum spanning tree of $n$ points sampled independently from a distribution on $\R^m$ whose density $f$ is Lipschitz with constant $M$ over the region where $f\leq 1$. Fix $\gamma\in (0,1)$ and choose any sequence of integers $\{\omega_n\}$ with $0\leq \omega_n \leq \gamma n$ for all sufficiently large $n$. Then there exists a constant $C(f,\gamma)$, depending on $f$ and $\gamma$ but not on $n$, such that
-  $$
-  \P\big(e_{(\omega_n)} \leq C(f,\gamma)n^{-1/m}\big) \geq 1- \frac{12}{n(1-\gamma)}
-  $$
-  for all sufficiently large $n$.
-\end{theorem}
+The number of components of a random geometric graph obeys a law of large numbers, with a limit expressed through a Poisson process. For $\lambda>0$, let $\mathcal{P}_\lambda$ be a homogeneous Poisson process of intensity $\lambda$ on $\R^m$, join each pair of points of $\mathcal{P}_\lambda\cup\{\bm{0}\}$ at distance at most $1$, let $\mathcal{C}_\lambda$ be the component containing the origin, and put $\kappa(\lambda)=\E[1/|\mathcal{C}_\lambda|]$, with $1/|\mathcal{C}_\lambda|=0$ when the component is infinite. Thus $\kappa(\lambda)$ is the number of components per point when points of intensity $\lambda$ are joined at unit distance.
 
-The argument is a covering one. Choose a superlevel set $L = f^{-1}[c,\infty)$ carrying all but a small fraction of the probability, cover it by $O(r_n^{-m})$ balls of radius $r_n$, and note that two points in a common ball are joined at diameter $2r_n$, so the number of components at that diameter is at most the number of balls plus the number of sample points outside $L$. Choosing $r_n \asymp n^{-1/m}$ makes the first count at most $n(1-\gamma)/2$, and Chebyshev's inequality controls the second. The constant is $C(f,\gamma)= 2\big(2^{m+1}/(c b_m (1-\gamma))\big)^{1/m}$.
+\begin{proposition}\label{prop:order}
+  Let $\bm{y}_1,\dots,\bm{y}_n$ be sampled independently from a density $f$ on $\R^m$, and fix $\gamma\in(0,1)$. Then $n^{1/m}h_n\to q_\gamma(f)$ in probability as $n\to\infty$, where $q_\gamma(f)\in(0,\infty)$ is the unique solution $q$ of
+  \begin{equation}\label{eq:qgamma}
+    \int_{\R^m}\kappa\big(q^m f(\bm{x})\big)f(\bm{x})\,d\bm{x}=1-\gamma.
+  \end{equation}
+  Moreover $t_-\le q_\gamma(f)\le t_+$, where $t_-$ and $t_+$ are the unique positive solutions $t$ of
+  $$
+  \int_{\R^m}e^{-b_m t^m f(\bm{x})}f(\bm{x})\,d\bm{x}=1-\gamma
+  \qquad\text{and}\qquad
+  \int_{\R^m}\big(1-e^{-b_m t^m f(\bm{x})}\big)\,d\bm{x}=(1-\gamma)\,b_m t^m
+  $$
+  respectively.
+\end{proposition}
 
-A matching lower bound holds under the weaker assumption that $f$ is merely bounded.
+Nothing is assumed about $f$: no smoothness, no bound, and no condition on the tails. The proposition therefore covers the heavy-tailed density of \cref{sec:counterexample} as well as every light-tailed one. It rests on the weak law of large numbers of \citet{PenroseYukich2003} for sums of locally determined contributions from random point sets, and \eqref{eq:qgamma} is the single linkage reading carried to the limit: once distances are rescaled by $n^{1/m}$, $q_\gamma(f)$ is the scale at which a large sample from $f$ has $1-\gamma$ components per observation. The price of that generality is that the proposition gives a limit without a rate, and no probability bound at any fixed $n$.
 
-\begin{theorem}\label{thm:lowerbound}
-  Let $e_{(k)}$ be as in \cref{thm:d_alphan to 0}, with $f$ bounded above by $M$. Fix $\gamma\in(0,1)$ and choose any sequence of integers $\{\omega_n\}$ with $\gamma n\le\omega_n<n$ for all sufficiently large $n$. Put $c=\big(\gamma/(M b_m)\big)^{1/m}$. Then, for all sufficiently large $n$,
-  $$
-  \P\big(e_{(\omega_n)}\geq c\,n^{-1/m}\big)\ \geq\ 1-\frac{6}{\gamma n}.
-  $$
-\end{theorem}
-
-\begin{proof}
-  Let $E(n,r)=\sum_{i<j}\mathbf{1}\{\|\bm{y}_i-\bm{y}_j\|\leq r\}$ be the number of pairs within distance $r$, and let $C(n,r)$ be the number of connected components of the graph joining all such pairs. The number of minimum spanning tree edges of length at most $r$ is $n-C(n,r)$, and adding an edge either reduces the component count by one or leaves it unchanged, so $n-C(n,r)\leq E(n,r)$. Hence
-  $$
-  \{e_{(\omega_n)}<r\}\subseteq\{n-C(n,r)\geq\omega_n\}\subseteq\{E(n,r)\geq\gamma n\}.
-  $$
-
-  Set $r_n=c\,n^{-1/m}$, so that $\theta:=M b_m r_n^m=\gamma/n$. Since $\P(\|\bm{y}_1-\bm{y}_2\|\leq r)\leq M b_m r^m$,
-  $$
-  \E[E(n,r_n)]=\binom n2\,\P(\|\bm{y}_1-\bm{y}_2\|\leq r_n)\leq \frac{n(n-1)}{2}\cdot\frac\gamma n<\frac{\gamma n}2 .
-  $$
-  Now $E(n,r_n)$ is an unnormalised U-statistic of degree two with kernel $h_{ij}=\mathbf{1}\{\|\bm{y}_i-\bm{y}_j\|\leq r_n\}$, so
-  $$
-  \operatorname{Var}\big(E(n,r_n)\big)=\binom n2\operatorname{Var}(h_{12})+n(n-1)(n-2)\operatorname{Cov}(h_{12},h_{13}).
-  $$
-  The first term is at most $\binom n2\theta<\gamma n/2$. For the second, conditioning on $\bm{y}_1$ gives $\operatorname{Cov}(h_{12},h_{13})\leq\E\big[\P(\bm{y}_2\in B(\bm{y}_1,r_n)\mid \bm{y}_1)^2\big]\leq\theta^2$, so that term is at most $n^3\theta^2=\gamma^2 n$. Therefore $\operatorname{Var}(E(n,r_n))\leq \tfrac32\gamma n$. Since $\E[E(n,r_n)]<\gamma n/2$, Chebyshev's inequality gives
-  $$
-  \P\big(E(n,r_n)\geq\gamma n\big)\leq\P\Big(E(n,r_n)-\E[E(n,r_n)]>\frac{\gamma n}2\Big)
-  \leq\frac{\tfrac32\gamma n}{(\gamma n/2)^2}=\frac{6}{\gamma n}. \qedhere
-  $$
-\end{proof}
-
-Markov's inequality alone is not enough here: it bounds $\P(E(n,r_n)\geq\gamma n)$ by a constant below one, which does not vanish. The variance calculation is what turns the bound into a statement that holds with probability tending to one, and it is why earlier versions of this result had to be weakened by a factor tending to zero.
-
-Together the two theorems pin down the order exactly.
-
-\begin{corollary}\label{cor:order}
-  Under the assumptions of \cref{thm:d_alphan to 0}, there exist constants $0<c\leq C<\infty$ depending on $f$ and $\gamma$ such that
-  $$
-  \P\big(c\,n^{-1/m}\leq e_{(\lceil\gamma(n-1)\rceil)}\leq C\,n^{-1/m}\big)\to 1 \quad\text{as } n\to\infty;
-  $$
-  that is, $h_n \asymp n^{-1/m}$ in probability.
-\end{corollary}
-
-Note that both bounds fail at $\gamma$ close to its endpoints, and in opposite ways: the upper bound degrades as $\gamma\to1$ and the lower bound as $\gamma\to0$. At the default $\gamma=0.98$ the guaranteed constants are one to two orders of magnitude away from the observed values, so \cref{cor:order} should be read as a statement about order and not as a usable numerical bound.
-
-\begin{remark}[Total tree length]\label{rem:steele}
-  For light-tailed densities there is a sharper route to the upper bound. \citet{Steele1988} showed for compactly supported densities, and \citet[Theorem 1.1]{PenroseYukich2003} for densities on $\R^m$ satisfying a moment condition, that the total length $M_n$ of the minimum spanning tree satisfies $n^{1/m-1}M_n\to C(1,m)\int f^{1-1/m}$ almost surely; the proof is given in \citet{Yukich1998}. If $e_{(k)}>t$ then all $n-k$ edges ranked $k$ and above exceed $t$, so $M_n\geq(1-\gamma)(n-1)t$, and therefore
-  $$
-  h_n \leq \frac{M_n}{(1-\gamma)(n-1)} = \frac{C(1,m)\int f^{1-1/m}}{1-\gamma}\,n^{-1/m}\,(1+o(1))
-  $$
-  almost surely. The constant is explicit and interpretable, where the constant of \cref{thm:d_alphan to 0} involves a covering number. This complements \cref{thm:d_alphan to 0} rather than replacing it: the moment condition fails for the heavy-tailed density of \cref{sec:counterexample}, which is precisely the case the paper needs, and there the covering argument, which requires no moment at all, is the only one of the two that survives.
-\end{remark}
+The function $\kappa$ has no closed form, and $t_-$ and $t_+$ come from two elementary bounds on it. The origin is a component on its own with probability $e^{-b_m\lambda}$, so $\kappa(\lambda)\ge e^{-b_m\lambda}$. Its component contains all of its neighbours, whose number is Poisson with mean $b_m\lambda$, so $\kappa(\lambda)\le(1-e^{-b_m\lambda})/(b_m\lambda)$. The resulting bounds are explicit and reasonably tight. With $\gamma=0.98$, the uniform density on $[0,1]^2$ gives $t_-=1.12$ and $t_+=3.99$, against $n^{1/2}h_n\approx1.24$ in simulation at $n=64{,}000$, and the bivariate standard normal gives $t_-=10.0$ and $t_+=25.2$, against about $12.5$.
 
 \begin{remark}[Nearest-neighbour distances]\label{rem:nn}
-  It is natural to ask why the tree is needed when nearest-neighbour distances have the same $n^{-1/m}$ scaling and are cheaper still. The two are not alternatives: by the cut property, the edge from an observation to its nearest neighbour is the unique shortest edge across the cut isolating that observation, so it belongs to the minimum spanning tree. Every nearest-neighbour distance is therefore an edge length of $T$, and \cref{cor:order} puts the $\gamma$ quantile of all $n-1$ edge lengths at the order $n^{-1/m}$, which is also the order of the typical nearest-neighbour distance. What the tree adds is the remaining edges, which record how the components of the data join up rather than only how close each point is to its closest companion. \cref{sec:experiments} compares lookout against detectors built directly on nearest-neighbour distances.
+  It is natural to ask why the tree is needed when nearest-neighbour distances have the same $n^{-1/m}$ scaling and are cheaper still. The two are not alternatives: by the cut property, the edge from an observation to its nearest neighbour is the unique shortest edge across the cut isolating that observation, so it belongs to the minimum spanning tree, and every nearest-neighbour distance is an edge length of $T$. The comparison also runs the other way. A component of the graph at scale $r$ with $k$ observations accounts for $k-1$ of the $n-C_n(r)$ edges of $T$ of length at most $r$, and only components with more than one observation contribute, so there are no more such edges than there are observations whose nearest neighbour lies within $r$. Writing $D_{(1)}\le\cdots\le D_{(n)}$ for the ordered nearest-neighbour distances, it follows that $h_n\ge D_{(\lceil\gamma(n-1)\rceil)}$ for every sample. The lower bound $t_-$ in \cref{prop:order} is the limit of $n^{1/m}D_{(\lceil\gamma(n-1)\rceil)}$. The gap between $t_-$ and $q_\gamma(f)$ reflects the components with more than one observation, and that is what the tree adds: a record of how the observations join up rather than only of how close each is to its closest companion. \cref{sec:experiments} compares lookout against detectors built directly on nearest-neighbour distances.
 \end{remark}
 
 \begin{remark}[The longest edge]\label{rem:penrose}
@@ -116,15 +74,15 @@ Note that both bounds fail at $\gamma$ close to its endpoints, and in opposite w
 
 \subsection{Why a fixed quantile and not the largest gap}\label{sec:counterexample}
 
-The original bandwidth rule takes the largest gap in the upper half of the edge lengths, which places it at the extreme top of the edge-length distribution, where $\omega_n/n\to1$. \cref{cor:order} does not apply there, and for good reason: at heavy tails the top of the distribution need not settle down at all.
+The original bandwidth rule takes the largest gap in the upper half of the edge lengths, which places it at the extreme top of the edge-length distribution, where $\omega_n/n\to1$. \cref{prop:order} does not apply there, and for good reason: at heavy tails the top of the distribution need not settle down at all.
 
 \begin{counterexample}\label{cex:fattails}
   Let $m\geq3$ and let the observations be sampled from the density $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$ on $\R^m$. For $\omega_n=n-\tfrac{1}{4}n^{1-2/m}$ we have $\P(e_{(\omega_n)}>1)>1/4$ for all sufficiently large $n$, so $e_{(\omega_n)}$ does not converge to zero.
 \end{counterexample}
 
-The mechanism is crackle \citep{Crackle}. Under a heavy-tailed density the sample has, with probability bounded away from zero, a halo of order $n^{1-2/m}$ points at radius beyond $R_n \asymp n^{2/m}$ that are mutually isolated at unit scale, each forming its own connected component. Any rule that reads the top $O(n^{1-2/m})$ of the edge-length distribution is reading that halo, and the halo does not shrink. A fixed quantile $\gamma<1$ never looks that far up, and \cref{thm:d_alphan to 0} shows it converges at the right rate for this density as for any other. The full argument is in \cref{app:proofs}.
+The mechanism is crackle \citep{Crackle}. Under a heavy-tailed density the sample has, with probability bounded away from zero, a halo of order $n^{1-2/m}$ points at radius beyond $R_n \asymp n^{2/m}$ that are mutually isolated at unit scale, each forming its own connected component. Any rule that reads the top $O(n^{1-2/m})$ of the edge-length distribution is reading that halo, and the halo does not shrink. A fixed quantile $\gamma<1$ never looks that far up, and \cref{prop:order} shows it converges at the right rate for this density as for any other. The full argument is in \cref{app:proofs}.
 
-There is a second way to see where the difficulty lives. The integral $\int f^{1-1/m}$ that governs the total tree length in \cref{rem:steele} is finite for compactly supported and Gaussian densities, but for the density above $f^{1-1/m}$ decays like $\|\bm{x}\|^{-(m^2-1)/m}$ and $(m^2-1)/m<m$, so the integral diverges and the total tree length grows faster than $n^{1-1/m}$. The excess is absorbed entirely by the longest edges: the $\gamma$ quantile still behaves like $n^{-1/m}$ while the mean edge length does not. The same integral that controls the scaling is the one that fails under heavy tails, and it fails exactly where the max-gap rule looks and the fixed quantile does not.
+There is a second way to see where the difficulty lives. \citet{Steele1988} showed for compactly supported densities, and \citet[Theorem 1.1]{PenroseYukich2003} for densities on $\R^m$ satisfying a moment condition, that the total length $M_n$ of the minimum spanning tree satisfies $n^{1/m-1}M_n\to C(1,m)\int f^{1-1/m}$ almost surely; the proof is given in \citet{Yukich1998}. The integral $\int f^{1-1/m}$ is finite for compactly supported and Gaussian densities, but for the density above $f^{1-1/m}$ decays like $\|\bm{x}\|^{-(m^2-1)/m}$ and $(m^2-1)/m<m$, so the integral diverges and the total tree length grows faster than $n^{1-1/m}$. The excess is absorbed entirely by the longest edges: the $\gamma$ quantile still behaves like $n^{-1/m}$ while the mean edge length does not. The same integral that controls the scaling is the one that fails under heavy tails, and it fails exactly where the max-gap rule looks and the fixed quantile does not.
 
 This is the formal version of the objection raised in \cref{sec:related}. \citet{Rohlf1975} reads the same upper tail to find outliers, and refers it to the mean edge length; for this density neither quantity settles down, while the $\gamma$ quantile does.
 
@@ -133,11 +91,11 @@ This is the formal version of the objection raised in \cref{sec:related}. \citet
 We can now say what \eqref{eq:Hmst} does to the kernel density estimate.
 
 \begin{proposition}\label{prop:critical}
-  Let $f$ satisfy the assumptions of \cref{thm:d_alphan to 0} and let $\bm{H}=(m+4)h_n^2\bm{I}_m$ with $h_n=e_{(\lceil\gamma(n-1)\rceil)}$. Then there exist constants $0<c'\leq C'<\infty$ such that $\P\big(c'\leq n|\bm{H}|^{1/2}\leq C'\big)\to1$ as $n\to\infty$.
+  Let $f$ be a density on $\R^m$ and let $\bm{H}=(m+4)h_n^2\bm{I}_m$ with $h_n=e_{(\lceil\gamma(n-1)\rceil)}$. Then $n|\bm{H}|^{1/2}\to(m+4)^{m/2}q_\gamma(f)^m$ in probability as $n\to\infty$, and the limit is finite and positive.
 \end{proposition}
 
 \begin{proof}
-  $|\bm{H}|^{1/2}=(m+4)^{m/2}h_n^m$, so $n|\bm{H}|^{1/2}=(m+4)^{m/2}nh_n^m$, and \cref{cor:order} gives $nh_n^m$ between $c^m$ and $C^m$ with probability tending to one.
+  $|\bm{H}|^{1/2}=(m+4)^{m/2}h_n^m$, so $n|\bm{H}|^{1/2}=(m+4)^{m/2}(n^{1/m}h_n)^m$, and \cref{prop:order} gives $n^{1/m}h_n\to q_\gamma(f)\in(0,\infty)$ in probability.
 \end{proof}
 
 Condition A3 therefore fails: $n|\bm{H}|^{1/2}$ is bounded rather than divergent, the variance term $n^{-1}|\bm{H}|^{-1/2}R(K)$ of the MISE does not vanish, and the estimator is not MISE-consistent. This is a property of the rule, not an oversight, and it has a clean reading. The expected number of observations falling inside the kernel window at a typical point is of order $n|\bm{H}|^{1/2}f$, which \cref{prop:critical} says is $O(1)$ in $n$: the estimator has a fixed local resolution, set by a fixed number of neighbours rather than by a shrinking neighbourhood. That is the same design as a fixed-$k$ nearest-neighbour density estimate, which is likewise inconsistent and which underlies both the local outlier factor \citep{breunig2000lof} and nearest-neighbour outlier scores. \cref{sec:whynotmise} argues that this is the right place to be.
@@ -156,7 +114,7 @@ where $R(K) = \int K(\bm{u})^2 d\bm{u}$ and $D^2 f$ is the Hessian of $f$. Writi
 \begin{equation}\label{eq:amse_iso}
   \text{AMISE} = n^{-1} h^{-m} R(K) + \frac{1}{4} \mu_2(K)^2 h^4 \int \big\{\Delta f(\bm{u})\big\}^2 d\bm{u},
 \end{equation}
-minimised at $h_{\text{opt}} \asymp n^{-1/(m+4)}$, with MISE of order $n^{-4/(m+4)}$. Against this, \cref{cor:order} gives $h_n \asymp n^{-1/m}$. The ratio is
+minimised at $h_{\text{opt}} \asymp n^{-1/(m+4)}$, with MISE of order $n^{-4/(m+4)}$. Against this, \cref{prop:order} gives $h_n \asymp n^{-1/m}$. The ratio is
 $$
 \frac{h_n}{h_{\text{opt}}} \asymp n^{-4/\{m(m+4)\}},
 $$
@@ -164,7 +122,7 @@ which tends to zero for every $m\geq1$. The minimum spanning tree bandwidth unde
 
 We argue that this is acceptable, and for anomaly detection desirable. The MISE is an integrated criterion weighted by the density itself, so it is dominated by the bulk of the distribution, and the bandwidth that minimises it is the one that best describes where most of the data are. Anomaly detection asks a different question. What matters is the ranking of $\hat f$ at the observed points in the low-density region, and the upper tail of the surprisals $-\log\hat f(\bm{y}_i)$, neither of which is what \eqref{eq:amse} measures. A bandwidth chosen for the bulk oversmooths the tail, filling in the gaps around isolated observations with probability mass borrowed from their distant neighbours, which is precisely the signal an anomaly detector needs to keep. Undersmoothing keeps isolated points isolated.
 
-The guarantee to demand is therefore not consistency and not an optimal rate, but the correct order: $h_n$ should be the scale at which neighbouring observations sit, which is $n^{-1/m}$. That is what \cref{thm:d_alphan to 0} and \cref{thm:lowerbound} deliver, and it is what rules out the largest-gap rule, whose bandwidth fails even to converge to zero under the heavy tails of \cref{cex:fattails}. Correct order is a weaker requirement than MISE-optimality, and it is the one that discriminates between the two rules.
+The guarantee to demand is therefore not consistency and not an optimal rate, but the correct order: $h_n$ should be the scale at which neighbouring observations sit, which is $n^{-1/m}$. That is what \cref{prop:order} delivers, and it is what rules out the largest-gap rule, whose bandwidth fails even to converge to zero under the heavy tails of \cref{cex:fattails}. Correct order is a weaker requirement than MISE-optimality, and it is the one that discriminates between the two rules.
 
 % TODO (step 4): forward reference to the bandwidth-sensitivity ablation, showing
 % detection performance flat over a wide range of h and the MISE-optimal h not
