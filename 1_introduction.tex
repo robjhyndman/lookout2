@@ -36,7 +36,7 @@ The lookout algorithm determines which surprisals are unusually large by using a
   \P(S \le s \mid S > u) = \frac{G(s) - G(u)}{1 - G(u)}
   \approx 1 - (1 + \xi (s-u)/\sigma_u)^{-1/\xi}, \qquad s > u, \quad 1 + \xi (s-u)/\sigma_u > 0,
 \end{equation}
-where $u$ is a threshold chosen to be large enough that the conditional distribution of the excess $S-u$ over the threshold is well approximated by a GPD, $\sigma_u > 0$ is a scale parameter depending on the threshold, and $\xi \in \R$ is a shape parameter that does not. The case $\xi = 0$ is read as the limiting case $1 - \exp(-(s-u)/\sigma_u)$.
+where $u$ is a threshold chosen to be large enough that the conditional distribution of the excess $S-u$ over the threshold is well approximated by a GPD, $\sigma_u > 0$ is a scale parameter depending on the threshold, and $\xi \in \R$ is a shape parameter. The case $\xi = 0$ is read as the limiting case $1 - \exp(-(s-u)/\sigma_u)$.
 
 The distribution in \eqref{eq:POT4} is unbounded above when $\xi \ge 0$, and has finite upper endpoint $u + \sigma_u/|\xi|$ when $\xi < 0$, so a quantity that is bounded above cannot have a positive shape parameter. We use this in \cref{sec:modified} to constrain the fitted GPD.
 
@@ -75,18 +75,16 @@ The \textit{lookout} algorithm of \cite{lookout}, as implemented in the \texttt{
     \State If \textit{unitize}, scale the data to lie in the unit cube in $\R^m$.
     \State Compute the persistence homology barcode of the (possibly scaled) data cloud for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}.
     \State From the barcode, obtain the ordered finite death diameters $\{d_i\}_{i = 1}^{n-1}$ for connected components, and their successive differences $\Delta d_i = d_{i+1} - d_i$.
-    \State Let $d_* = d_{i_*}$ where $i_* = \text{arg\! max} \{\Delta d_i\}_{i=1}^{n-2}$; that is, $d_*$ is the diameter corresponding to the lower point of the maximum $\Delta d_i$.\footnotemark
-    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde} with the kernel $K(\bm{u}) = \frac{m+2}{b_m}(1 - \|\bm{u}\|^2/5)_+$, $b_m$ being the volume of the unit ball in $\R^m$, and $\bm{H} = d_*^2\bm{I}_m$, so that the kernel has support radius $\sqrt5\,d_*$.\footnotemark
+    \State Let $d_* = d_{i_*}$ where $i_* = \text{arg\! max} \{\Delta d_i\}_{i=1}^{n-2}$; that is, $d_*$ is the diameter corresponding to the lower point of the maximum $\Delta d_i$.
+    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde} with the kernel $K(\bm{u}) = \frac{m+2}{b_m}(1 - \|\bm{u}\|^2/5)_+$, $b_m$ being the volume of the unit ball in $\R^m$, and $\bm{H} = d_*^2\bm{I}_m$, so that the kernel has support radius $\sqrt5\,d_*$.
     \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - |\bm{H}|^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
     \State Fit a GPD to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
     \State Calculate the probability of each observation by applying the estimated GPD to the leave-one-out kde values: $p_i = (1-\beta)\big(1 - \hat{F}(-\log f_{-i})\big)$, where $\hat{F}$ is the distribution function of the fitted GPD.
     \State If $p_i < \alpha$, declare $\bm{y}_i$ anomalous.
   \end{algorithmic}
 \end{algorithm}
-\addtocounter{footnote}{-1}
-\footnotetext{From version 0.1.4 of the \texttt{lookout} package, the search in step 4 is restricted to the death diameters at or above their median, so that a large gap among the shortest diameters is not chosen. The comparisons in \cref{sec:experiments} use this restricted rule.}
-\addtocounter{footnote}{1}
-\footnotetext{Equation (5) of \citet{lookout} gives the bandwidth matrix as $d_*^{2/m}\bm{I}_m$; the released implementation uses $d_*^2\bm{I}_m$ in every dimension, and we describe the implementation. The comparisons in \cref{sec:experiments} use $\bm{H}=(m+4)d_*^2\bm{I}_m$ with the kernel of \cref{alg:modifiedlookout} for both versions, so that $d_*$ plays the role of $h_n$.}
+
+Two details of \cref{alg:lookout} differ from the published description. From version 0.1.4 of the \texttt{lookout} package, the search in step 4 is restricted to the death diameters at or above their median, so that a large gap among the shortest diameters is not chosen, and the comparisons in \cref{sec:experiments} use this restricted rule. Equation (5) of \citet{lookout} gives the bandwidth matrix as $d_*^{2/m}\bm{I}_m$, whereas the implementation uses $d_*^2\bm{I}_m$ in every dimension, as in step 5. The comparisons in \cref{sec:experiments} use $\bm{H}=(m+4)d_*^2\bm{I}_m$ with the kernel of \cref{alg:modifiedlookout} for both versions, so that $d_*$ plays the role of $h_n$.
 
 The lookout algorithm provides density-based anomaly detection, where anomalies are identified as points with low density in the space of the data. If there are no true anomalies in the data, the algorithm should identify a proportion $\alpha$ of the data as false positive ``anomalies''.
 
