@@ -1,0 +1,87 @@
+\documentclass[11pt]{article}
+
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts,bbm,bm}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}%
+\usepackage{booktabs}%
+\usepackage{algorithm,algorithmicx,algpseudocode}%
+\usepackage{natbib}%
+\bibliographystyle{agsm}
+\usepackage{hyperref,xurl}
+\hypersetup{
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue}
+}
+\usepackage[capitalize,nameinlink]{cleveref}
+\usepackage{subfig,todonotes}
+\usepackage[margin=2cm]{geometry}
+
+\raggedbottom\sloppy
+\allowdisplaybreaks
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\diag}{\text{diag}}
+
+\theoremstyle{plain}%
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{counterexample}{Counterexample}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+
+\crefname{defn}{Definition}{Definitions}
+\Crefname{defn}{Definition}{Definitions}
+\crefname{counterexample}{Counterexample}{Counterexamples}
+\Crefname{counterexample}{Counterexample}{Counterexamples}
+\crefname{proposition}{Proposition}{Propositions}
+\Crefname{proposition}{Proposition}{Propositions}
+
+\renewcommand{\sectionautorefname}{Section}
+\renewcommand{\subsectionautorefname}{Section}
+\renewcommand{\subsubsectionautorefname}{Section}
+\newcommand{\corollaryautorefname}{Corollary}
+\newcommand{\lemmaautorefname}{Lemma}
+
+
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\theequation}{S\arabic{equation}}
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize}
+
+\begin{document}
+
+\spacingset{1}
+
+\title{\bf Online Appendix to ``Lookout 2: Anomaly Detection via Leave-One-Out Kernel Density Estimation''}
+\author{Rob J Hyndman\\
+  Department of Econometrics and Business Statistics, Monash University,\\
+  Clayton VIC 3800, Australia. Email: rob.hyndman@monash.edu\\
+  and\\
+  Sevvandi Kandanaarachchi\\
+  CSIRO Data61, Clayton VIC 3168, Australia. Email: sevvandi.kandanaarachchi@csiro.au\\ %% confirm unit and postcode
+  and\\
+  Katharine Turner\\
+  Mathematical Sciences Institute, Australian National University,\\
+  Canberra ACT 2601, Australia. Email: katharine.turner@anu.edu.au} %% confirm email
+\date{}
+\maketitle
+
+\spacingset{1.8}
+
+\input{7_proofs}
+
+\bibliography{References}
+
+\end{document}

@@ -10,7 +10,7 @@ R_SCRIPTS = $(wildcard $(RDIR)/*.R)
 .PHONY: all update clean clean-latex clean-figures
 
 # Default target
-all: $(TEXFILE).pdf
+all: $(TEXFILE).pdf supplement.pdf
 
 # Update all R packages to their latest versions. lookout is dropped from the
 # project and re-added, because `uvr update` only moves a GitHub dependency when
@@ -31,9 +31,13 @@ figures: $(R_SCRIPTS) _targets.R
 $(TEXFILE).pdf: $(TEX_FILES) $(BIB_FILES) figures
 	latexmk -pdf -quiet $(TEXFILE)
 
+# Online appendix
+supplement.pdf: supplement.tex 7_proofs.tex $(BIB_FILES)
+	latexmk -pdf -quiet supplement
+
 # Clean auxiliary LaTeX files (using latexmk)
 clean-latex:
-	latexmk -C $(TEXFILE).tex
+	latexmk -C $(TEXFILE).tex supplement.tex
 
 # Clean R targets cache
 clean-figures:

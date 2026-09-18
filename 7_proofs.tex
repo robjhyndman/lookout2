@@ -1,12 +1,30 @@
 % -----------------------------------------------------------
-\section{Proofs} \label{app:proofs}
+\section{Notation and results}
 % ------------------------------------------------------------
 
-Throughout this appendix, $b_m$ denotes the volume of the unit ball in $\R^m$, $s_{m-1}=mb_m$ the $(m-1)$-dimensional surface measure of the unit sphere $S^{m-1}\subset\R^m$, and $B(\bm{x},r)$ the closed ball of radius $r$ centred at $\bm{x}$.
+This appendix proves Proposition 1 and Counterexample 1 of the main paper, restated below. Throughout, $\bm{y}_1,\dots,\bm{y}_n$ are sampled independently from a density $f$ on $\R^m$, $T$ is their Euclidean minimum spanning tree with ordered edge lengths $e_{(1)}\le\cdots\le e_{(n-1)}$, and $h_n=e_{(\lceil\gamma(n-1)\rceil)}$ for a fixed $\gamma\in(0,1)$. For $r>0$, $C_n(r)$ is the number of connected components of the graph that joins every pair of observations at distance at most $r$. The edges of $T$ of length at most $r$ form a spanning forest of that graph, so there are $n-C_n(r)$ of them, and $e_{(k)}\le r$ exactly when $C_n(r)\le n-k$. The ordered nearest-neighbour distances are $D_{(1)}\le\cdots\le D_{(n)}$. For $\lambda>0$, $\mathcal{P}_\lambda$ is a homogeneous Poisson process of intensity $\lambda$ on $\R^m$; joining each pair of points of $\mathcal{P}_\lambda\cup\{\bm{0}\}$ at distance at most $1$, $\mathcal{C}_\lambda$ is the component containing the origin, and $\kappa(\lambda)=\E[1/|\mathcal{C}_\lambda|]$, with $1/|\mathcal{C}_\lambda|=0$ when the component is infinite. Finally, $b_m$ denotes the volume of the unit ball in $\R^m$, $s_{m-1}=mb_m$ the $(m-1)$-dimensional surface measure of the unit sphere $S^{m-1}\subset\R^m$, and $B(\bm{x},r)$ the closed ball of radius $r$ centred at $\bm{x}$.
 
-\subsection{Proof of \texorpdfstring{\cref{prop:order}}{Proposition 1}}
+\begin{proposition}\label{prop:order}
+  Let $\bm{y}_1,\dots,\bm{y}_n$ be sampled independently from a density $f$ on $\R^m$, and fix $\gamma\in(0,1)$. Then $n^{1/m}h_n\to q_\gamma(f)$ in probability as $n\to\infty$, where $q_\gamma(f)\in(0,\infty)$ is the unique solution $q$ of
+  \begin{equation}\label{eq:qgamma}
+    \int_{\R^m}\kappa\big(q^m f(\bm{x})\big)f(\bm{x})\,d\bm{x}=1-\gamma.
+  \end{equation}
+  Moreover $t_-\le q_\gamma(f)\le t_+$, where $t_-$ and $t_+$ are the unique positive solutions $t$ of
+  $$
+  \int_{\R^m}\exp(-b_m t^m f(\bm{x}))f(\bm{x})\,d\bm{x}=1-\gamma
+  \qquad\text{and}\qquad
+  \int_{\R^m}\big(1-\exp(-b_m t^m f(\bm{x}))\big)\,d\bm{x}=(1-\gamma)\,b_m t^m
+  $$
+  respectively, and $b_m$ is the volume of the unit ball in $\R^m$.
+\end{proposition}
 
-Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rceil$, and recall from \cref{sec:order} that $C_n(r)$ is the number of components of the graph on $\mathcal{Y}_n$ that joins pairs at distance at most $r$.
+\begin{counterexample}\label{cex:fattails}
+  Let the observations be sampled independently from the density $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$ on $\R^m$, $m\ge1$, and put $\omega_n=n-\lfloor n^{1/4}/4\rfloor$, which is at most $n-1$ once $n\ge256$. Then $\P(e_{(\omega_n)}>n^{1/8})\to1$ as $n\to\infty$. In particular $e_{(\omega_n)}$, and every longer edge of $T$, tends to infinity in probability.
+\end{counterexample}
+
+\section{Proof of \texorpdfstring{\cref{prop:order}}{Proposition 1}}
+
+Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rceil$.
 
 \begin{proof}[Proof of \cref{prop:order}]
   \emph{Step 1: the component count.} For $t>0$ put $\Xi_n(t):=n^{-1}C_n(tn^{-1/m})$ and
@@ -39,10 +57,10 @@ Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rce
   $$
   \frac1n\sum_{i=1}^n\psi_t(n^{1/m}\bm{y}_i;n^{1/m}\mathcal{Y}_n)\to\int_{\R^m}\P\big(\mathcal{P}_{f(\bm{x})}\cap B(\bm{0},t)\neq\emptyset\big)f(\bm{x})\,d\bm{x}=1-G_-(t)
   $$
-  in probability. The left side is the proportion of observations whose nearest neighbour lies within $tn^{-1/m}$, so the argument of Step 3, with $G_-$ in place of $G$, gives $n^{1/m}D_{(k_n)}\to t_-$ in probability, as stated in \cref{sec:order}.
+  in probability. The left side is the proportion of observations whose nearest neighbour lies within $tn^{-1/m}$, so the argument of Step 3, with $G_-$ in place of $G$, gives $n^{1/m}D_{(k_n)}\to t_-$ in probability, as stated after Proposition 1 in the main paper.
 \end{proof}
 
-\subsection{Proof of \texorpdfstring{\cref{cex:fattails}}{Counterexample 1}}
+\section{Proof of \texorpdfstring{\cref{cex:fattails}}{Counterexample 1}}
 
 Let $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$ on $\R^m$ with $m\ge1$, let $\bm{Y}$ have density $f$, and write $a_m=c_ms_{m-1}$. We use two elementary bounds. First, $\|\bm{Y}\|$ has density $a_mr^{m-1}/(1+r^{m+1})$, which for $r\ge1$ lies between $a_m/(2r^2)$ and $a_m/r^2$, so
 \begin{equation}\label{eq:tailprob}
@@ -69,7 +87,7 @@ Second, $f(\bm{z})\le c_m\|\bm{z}\|^{-(m+1)}$, so for every $\bm{x}$ and every $
   $$
   The right side is $C_m\,n^{2+m/8-3(m+2)/4}=C_m\,n^{1/2-5m/8}$ with $C_m$ depending only on $m$, and tends to zero for every $m\ge1$. Hence $\P(Y_n\ge1)\le\E[Y_n]\to0$.
 
-  \emph{Step 3: conclusion.} Suppose $N_n>K_n$ and $Y_n=0$. Any observation within distance $s_n$ of an observation $\bm{y}_i$ with $\|\bm{y}_i\|\ge R_n$ has norm at least $R_n-s_n$, so the pair would be counted in $Y_n$, and $Y_n=0$. Each of the $N_n$ observations beyond $R_n$ is therefore a component on its own when observations are joined at distance $s_n$, so $C_n(s_n)\ge N_n>K_n=n-\omega_n$. By \cref{sec:order}, exactly $n-C_n(s_n)$ edges of $T$ have length at most $s_n$, which is fewer than $\omega_n$, so $e_{(\omega_n)}>s_n$. Therefore
+  \emph{Step 3: conclusion.} Suppose $N_n>K_n$ and $Y_n=0$. Any observation within distance $s_n$ of an observation $\bm{y}_i$ with $\|\bm{y}_i\|\ge R_n$ has norm at least $R_n-s_n$, so the pair would be counted in $Y_n$, and $Y_n=0$. Each of the $N_n$ observations beyond $R_n$ is therefore a component on its own when observations are joined at distance $s_n$, so $C_n(s_n)\ge N_n>K_n=n-\omega_n$. Exactly $n-C_n(s_n)$ edges of $T$ have length at most $s_n$, which is fewer than $\omega_n$, so $e_{(\omega_n)}>s_n$. Therefore
   \begin{equation*}
   \P\big(e_{(\omega_n)}>n^{1/8}\big)\ge1-\P(N_n\le K_n)-\P(Y_n\ge1)\to1.\qedhere
   \end{equation*}
