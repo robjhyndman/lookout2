@@ -49,7 +49,7 @@ list(
   ),
   tar_target(
     illustration_data,
-    generate_illustration(alpha, beta, gamma)
+    generate_illustration(gamma)
   ),
   tar_target(
     fig_illustration,

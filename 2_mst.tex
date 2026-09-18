@@ -22,23 +22,14 @@ Equation \eqref{eq:mstbw} has an interpretation in terms of single linkage clust
 
 To compute $h_n$, we use the dual-tree Bor\r{u}vka algorithm of \citet{March2010}, as implemented in \texttt{mlpack} \citep{mlpackR}, which builds the exact Euclidean minimum spanning tree in $O(n\log n)$ time under the same assumptions that make dual-tree nearest-neighbour search efficient.
 
-\cref{fig:mstillustration} shows the rule on a sample of 300 standard normal observations in $\R^2$ with three anomalies added. The left panel shows the minimum spanning tree, with the edges longer than $h_n$ drawn in colour; the middle panel shows the single linkage dendrogram with the cut at $h_n$; the right panel shows the kernel density estimate computed with the bandwidth matrix \eqref{eq:Hmst} and the observations declared anomalous by \cref{alg:modifiedlookout}, which include two of the 300 normal observations, as expected with $\alpha=0.01$.
+\cref{fig:mstillustration} shows the rule on a sample of 300 standard normal observations in $\R^2$ with three anomalies added. The left panel shows the minimum spanning tree, with the edges longer than $h_n$ drawn in colour; the middle panel shows the single linkage dendrogram with the cut at $h_n$; the right panel shows the kernel density estimate computed with the bandwidth matrix \eqref{eq:Hmst}.
 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\linewidth]{Figures/mst_illustration.pdf}
-  \caption{The minimum spanning tree bandwidth for 300 standard normal observations in $\R^2$ and three anomalies. Left: the minimum spanning tree; edges longer than $h_n$ are shown in colour. Middle: the single linkage dendrogram, with the dashed line at height $h_n$. Right: contours of the kernel density estimate with bandwidth matrix \eqref{eq:Hmst}, and the observations identified as anomalous in red.}
+  \caption{The minimum spanning tree bandwidth for 300 standard normal observations in $\R^2$ and three anomalies. Left: the minimum spanning tree; edges longer than $h_n$ are shown in colour. Middle: the single linkage dendrogram, with the dashed line at height $h_n$. Right: contours of the kernel density estimate with bandwidth matrix \eqref{eq:Hmst}.}
   \label{fig:mstillustration}
 \end{figure}
-
-\cref{tab:timing} gives the time taken by the tree and by the whole of \cref{alg:modifiedlookout} for standard normal samples, on a desktop computer with an Intel Core Ultra 9 285 processor. The tree takes under four seconds in every case except $m=10$ at $n=10^5$, where it takes a minute. The kernel density estimate is computed either exactly, by a fixed-radius search whose cost is proportional to the number of pairs of observations inside the kernel support, or by a truncated sum over at most 500 nearest neighbours of each observation. In two dimensions the support holds few observations and the exact estimate takes under two seconds at $n=10^5$. In five and ten dimensions the support in the bulk of the data holds a large fraction of the sample (\cref{tab:bwconst}), so the exact estimate costs of order $n^2$ and is run only up to $n=10^4$; the truncated sum then takes 18 seconds for $n=10^5$ in five dimensions and two and a half minutes in ten, and 99 seconds for $n=10^6$ in two. In Experiments 3 to 5 of \cref{sec:experiments}, where $n\le805$, a run of lookout takes about $0.1$ seconds or less; KDEOS takes about the same, stray and HDoutliers less, and RDOS one to five seconds.
-
-\begin{table}[!ht]
-  \centering
-  \caption{Seconds taken by the minimum spanning tree and by the whole of \cref{alg:modifiedlookout} for standard normal samples in $\R^m$, on a desktop computer with an Intel Core Ultra 9 285 processor. The exact leave-one-out estimate uses a fixed-radius neighbour search and was run for $n\le10^4$, and up to $n=10^5$ in two dimensions; the truncated estimate sums each kernel over at most 500 nearest neighbours.}
-  \label{tab:timing}
-  \input{Data_Output/timing}
-\end{table}
 
 \subsection{Other uses of the minimum spanning tree}\label{sec:related}
 

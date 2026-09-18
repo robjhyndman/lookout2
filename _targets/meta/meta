@@ -18,8 +18,6 @@ fig_old_faithful|stem|8022a9da956e94f9|b1529ab598611dd0|553e98548b054312|2932069
 fig_wine|stem|5199bc2b96ed2aca|89ab52db62901876|3776b39336f68983|1404005279||t20710.2095144832s|s113b|113|rds|local|vector|||0.261||
 bandwidth_table|stem|386aa8600cbbb31d|85bd7e54c898837e|b52403e37697b333|-1215201585||t20714.0202820239s|s416b|416|rds|local|vector|||4.837||
 tab_bandwidth|stem|bd894169aaf0ec37|f78efde207f7a84e|6545328ffb5106f0|-989940832||t20714.0202822307s|s124b|124|rds|local|vector|||0.001||
-illustration_data|stem|098b6e0c2230f114|ce4fc1905f6dd40f|c17a6990151a3134|523109447||t20714.0545750889s|s87172b|87172|rds|local|vector|||0.068||
-fig_illustration|stem|c93832ff19da874b|d43da217edff4fe5|582379303b25043a|1952127182||t20714.0545948871s|s117b|117|rds|local|vector|||0.546||
 generate_exp6|function|d95894e9b1008d80|||||||||||||||
 generate_exp7|function|c39acda6c5a1508c|||||||||||||||
 create_figure_exp567|function|fb9b3d17df1af7d1|||||||||||||||
@@ -66,6 +64,7 @@ process_roc|function|0b1626ea2a110b1d
 generate_exp4|function|d95894e9b1008d80
 run_algorithm|function|291a93ad9be1158b
 generate_exp5|function|c39acda6c5a1508c
+generate_illustration|function|6b1aa486c1db1f49
 bandwidth_constants|function|767891e618b3781e
 truncated_smooth|function|2209345bcc71d09a
 create_table_bandwidth|function|e457ff2a1e051119
@@ -74,13 +73,12 @@ create_showcase_figure|function|cf70c5df062a9d8d
 create_figure_comparison|function|fb9b3d17df1af7d1
 create_wine_figure|function|1c27d3dce1fc93de
 create_old_faithful_figure|function|6f54f54af5316fbd
-create_figure_illustration|function|94e0380d7e964d56
+create_figure_illustration|function|ec277b10d7fbd487
 experiment_plot|function|a43886ae11476b87
 process_results|function|9b4d5365bfc2484c
 set_up_diff_metrics|function|448ecb18690e5dcb
 process|function|672b9c8a4fc4d3f2
 as.data.frame.lookoutliers|function|93bc04ccc349fcad
-generate_illustration|function|bb82ab92d0ee9b9b
 ablation_one|function|d1daa83d43f98b9e
 create_figure_ablation|function|7257907977ae2e71
 create_figure_exp3|function|093d6eb6b64371eb
@@ -101,3 +99,5 @@ compare_algorithms|function|f3294b8f04f197a7
 run_synthetic_exp3|function|9b04e951ba1ee06d
 run_synthetic_exp4|function|6a752329f2816105
 run_synthetic_exp5|function|c331f7c15ae12ff0
+illustration_data|stem|2d55fecf4d2b4ce8|eaf26a3578d4f68c|b2158d78ef91cce8|523109447||t20714.2650766098s|s87145b|87145|rds|local|vector|||0.519||
+fig_illustration|stem|c93832ff19da874b|d43da217edff4fe5|2f67795f1f685158|1952127182||t20714.2650840091s|s117b|117|rds|local|vector|||0.622||

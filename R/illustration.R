@@ -1,8 +1,8 @@
 # Illustration (Section 2): a small two-dimensional sample with its minimum
 # spanning tree, the single linkage dendrogram cut at h_n, and the kernel
-# density estimate with the detected anomalies.
+# density estimate.
 
-generate_illustration <- function(alpha, beta, gamma) {
+generate_illustration <- function(gamma) {
   n <- 300
   X <- rbind(
     matrix(rnorm(2 * n), n, 2),
@@ -16,14 +16,6 @@ generate_illustration <- function(alpha, beta, gamma) {
     length = emst[, 3]
   )
   h <- lookout::find_tda_bw(X, gamma = gamma)
-  fit <- lookout::lookout(
-    X,
-    alpha = alpha,
-    beta = beta,
-    gamma = gamma,
-    scale = FALSE,
-    fast = FALSE
-  )
   # Kernel density estimate on a grid, Epanechnikov kernel with support radius
   # sqrt(m + 4) h, as in lookout:::lookde
   m <- 2
@@ -34,7 +26,7 @@ generate_illustration <- function(alpha, beta, gamma) {
   d2 <- outer(grid$Y1, X[, 1], "-")^2 + outer(grid$Y2, X[, 2], "-")^2
   grid$density <- k0 / NROW(X) * rowSums(pmax(1 - d2 / r^2, 0))
   list(
-    X = as_tibble(X) |> mutate(anomaly = which_outliers(fit)),
+    X = as_tibble(X),
     edges = edges,
     h = h,
     hc = hclust(dist(X), method = "single"),
@@ -108,15 +100,9 @@ create_figure_illustration <- function(obj) {
       bins = 8,
       linewidth = 0.3
     ) +
-    geom_point(data = X, aes(Y1, Y2, colour = anomaly), size = 0.8) +
-    scale_colour_manual(
-      values = c(`FALSE` = "#999999", `TRUE` = "red"),
-      labels = c("Not anomalous", "Anomalous"),
-      name = NULL
-    ) +
+    geom_point(data = X, aes(Y1, Y2), size = 0.8) +
     coord_fixed() +
-    labs(title = "Kernel density estimate") +
-    theme(legend.position = "bottom")
+    labs(title = "Kernel density estimate")
   dir.create("Figures", showWarnings = FALSE)
   fig <- here::here("Figures/mst_illustration.pdf")
   cairo_pdf(file = fig, width = 10, height = 4)
