@@ -36,6 +36,19 @@ list(
   tar_target(gamma, 0.98),
 
   # ------------------------------------------------------
+  # Bandwidth constants for standard normal samples (Section 2)
+  # ------------------------------------------------------
+
+  tar_target(
+    bandwidth_table,
+    bandwidth_constants(gamma)
+  ),
+  tar_target(
+    tab_bandwidth,
+    create_table_bandwidth(bandwidth_table)
+  ),
+
+  # ------------------------------------------------------
   # Experiment 1: Gamma distribution
   # ------------------------------------------------------
 
