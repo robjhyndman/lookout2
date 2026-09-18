@@ -100,11 +100,19 @@ create_figure_ablation <- function(results) {
         levels = c("AUC", "True positive rate", "False positive rate")
       )
     )
+  # Results are stored under the experiment numbers used when they were run;
+  # the paper numbers them 1, 2, 3 and S1 (the last in the online appendix).
   xlabs <- c(
     "Experiment 1" = "r",
-    "Experiment 2" = "Mean (µ)",
     "Experiment 3" = "Number of points (n)",
-    "Experiment 5" = "Iteration"
+    "Experiment 5" = "Iteration",
+    "Experiment 2" = "Mean (µ)"
+  )
+  titles <- c(
+    "Experiment 1" = "Experiment 1",
+    "Experiment 3" = "Experiment 2",
+    "Experiment 5" = "Experiment 3",
+    "Experiment 2" = "Experiment S1"
   )
   colours <- c(scales::viridis_pal(end = 0.85)(5), "black")
   plots <- purrr::map(names(xlabs), function(ex) {
@@ -119,7 +127,7 @@ create_figure_ablation <- function(results) {
         values = c(rep("solid", 5), "dashed"),
         name = "Bandwidth"
       ) +
-      labs(x = xlabs[[ex]], y = NULL, title = ex)
+      labs(x = xlabs[[ex]], y = NULL, title = titles[[ex]])
   })
   dir.create("Figures", showWarnings = FALSE)
   fig <- here::here("Figures/bandwidth_ablation.pdf")

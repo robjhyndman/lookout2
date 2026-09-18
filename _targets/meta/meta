@@ -30,7 +30,6 @@ timing_table|stem|f9ed28652c288582|90d8cdfcb60877dd|ca6373c1a49492f7|594914473||
 ablation_results|stem|73dc4256a18498d5|650bf7f1069f7324|d0d584665bb9e59b|-921981994||t20714.0545740365s|s16000b|16000|rds|local|vector|||252.969||
 illustration_data|stem|098b6e0c2230f114|ce4fc1905f6dd40f|c17a6990151a3134|523109447||t20714.0545750889s|s87172b|87172|rds|local|vector|||0.068||
 tab_timing|stem|e139b0cd81158a83|e619accea189a8bd|523e210bae1d8c4d|2009669461||t20714.0545754263s|s111b|111|rds|local|vector|||0.005||
-fig_ablation|stem|22a0408e4adb971d|85e8f0e0ea11a7df|f6e401ad712b3c68|723862534||t20714.0545884823s|s118b|118|rds|local|vector|||1.121||
 fig_illustration|stem|c93832ff19da874b|d43da217edff4fe5|582379303b25043a|1952127182||t20714.0545948871s|s117b|117|rds|local|vector|||0.546||
 analyze_old_faithful|function|abf098636c56b212
 set_ggplot_options|function|074ff9b95545498d
@@ -71,7 +70,7 @@ process|function|672b9c8a4fc4d3f2
 as.data.frame.lookoutliers|function|93bc04ccc349fcad
 generate_illustration|function|bb82ab92d0ee9b9b
 ablation_one|function|d1daa83d43f98b9e
-create_figure_ablation|function|c51bfd83ba17fd6b
+create_figure_ablation|function|9dd215aafcd3f380
 create_figure_exp5|function|57fab5beae0ae928
 create_figure_exp6|function|e9239d4272ac18a7
 create_figure_exp7|function|9b6c7d8cde35ab4e
@@ -90,3 +89,4 @@ compare_algorithms|function|f3294b8f04f197a7
 run_synthetic_exp5|function|61c6ce3b90871341
 run_synthetic_exp6|function|5cfe4cb9784e7dcf
 run_synthetic_exp7|function|a370ee5fe56045e4
+fig_ablation|stem|22a0408e4adb971d|85e8f0e0ea11a7df|441037ab7b7ddbda|723862534||t20714.1298048036s|s118b|118|rds|local|vector|||1.152||
