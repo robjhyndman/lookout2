@@ -50,11 +50,15 @@ where $K$ is a kernel function and $\bm{H}$ is a symmetric $m\times m$ positive-
 \end{equation}
 where the expectation is taken over that sample, and $\hat{f}$ is a \emph{consistent estimator} of $f$ if $\text{MISE}(\hat{f})\rightarrow 0$ as $n\rightarrow\infty$. We consider matrices of the form $\bm{H} = a h_n^2 \bm{I}_m$ for a fixed constant $a>0$, where $h_n$ is a length scale computed from the sample, so that $|\bm{H}|^{1/2}=a^{m/2}h_n^m$.
 
-\begin{defn}[Admissible bandwidth]\label{def:admissible_bandwidth}
-  We say that $h_n$ is an \emph{admissible bandwidth} for samples in $\R^m$ if $h_n\rightarrow 0$ and $nh_n^m\rightarrow \infty$ as $n\rightarrow\infty$ in probability.
-\end{defn}
-
-For an admissible bandwidth, $\hat{f}$ is a consistent estimator of $f$ whenever $f$ is square integrable and twice differentiable with bounded, continuous and square integrable second derivatives, and $K$ is a square integrable, spherically symmetric density with a finite second moment \citep[pp.~31--37]{chacon2018multivariate}.
+For such a bandwidth matrix, $\hat{f}$ is a consistent estimator of $f$ whenever
+\begin{equation}\label{eq:hzero}
+  h_n \to 0
+\end{equation}
+and
+\begin{equation}\label{eq:nhinf}
+  nh_n^m \to \infty
+\end{equation}
+in probability as $n\to\infty$, provided that $f$ is square integrable and twice differentiable with bounded, continuous and square integrable second derivatives, and $K$ is a square integrable, spherically symmetric density with a finite second moment \citep[pp.~31--37]{chacon2018multivariate}. Neither version of the lookout algorithm has a bandwidth satisfying both conditions in general: under heavy tails the original bandwidth need not satisfy \eqref{eq:hzero}, and the modified bandwidth never satisfies \eqref{eq:nhinf}. In \cref{sec:whynotmise} we argue that a consistent estimate of $f$ is not required for anomaly detection, and that the second behaviour is the appropriate one.
 
 \subsection{The lookout algorithm for anomaly detection}
 
@@ -82,7 +86,7 @@ The lookout algorithm provides density-based anomaly detection, where anomalies 
 
 Steps 2--4 of \cref{alg:lookout} can be expressed in terms of the Euclidean minimum spanning tree $T$ of the data. Components of the Vietoris-Rips complex merge when the shortest edge between them appears, which is Kruskal's algorithm, so the merges occur along the edges of $T$. The finite death diameters $d_1 \le \cdots \le d_{n-1}$ are therefore the ordered edge lengths $e_{(1)} \le \cdots \le e_{(n-1)}$ of $T$ \citep[Remark 1]{AdamsPHdim}, and also the merge heights of the single linkage dendrogram \citep{Gower1969}. In the rest of the paper we use the tree rather than the filtration, so that we can apply the limit theory for minimum spanning trees.
 
-While \citet{lookout} demonstrated excellent results in applying their algorithm to a variety of simulated and real datasets, we see several potential areas for improvement that we aim to address in this paper. First, elements of the algorithm are not robust to outliers, including the min-max scaling, and the use of the largest gap in the Rips death diameters (equivalently, edge lengths). Second, the diagonal bandwidth matrix $\bm{H}$ does not account for correlations between variables, which can lead to suboptimal performance if the data have strong correlations. Third, it is not obvious that $d_*$ is an admissible bandwidth, or even that it shrinks to zero, particularly for distributions with heavy tails. Finally, the GPD estimation made minimal assumptions about the distribution of the surprisal values, but we know that these are bounded above and below, and that fact can be used to improve the estimated GPD.
+While \citet{lookout} demonstrated excellent results in applying their algorithm to a variety of simulated and real datasets, we see several potential areas for improvement that we aim to address in this paper. First, elements of the algorithm are not robust to outliers, including the min-max scaling, and the use of the largest gap in the Rips death diameters (equivalently, edge lengths). Second, the diagonal bandwidth matrix $\bm{H}$ does not account for correlations between variables, which can lead to suboptimal performance if the data have strong correlations. Third, the behaviour of $d_*$ as $n$ grows is not known: it is not obvious that it shrinks to zero as in \eqref{eq:hzero}, particularly for distributions with heavy tails. Finally, the GPD estimation made minimal assumptions about the distribution of the surprisal values, but we know that these are bounded above and below, and that fact can be used to improve the estimated GPD.
 
 \subsection{The modified lookout algorithm}
 
@@ -90,7 +94,7 @@ As a result of these considerations, we propose three modifications to the looko
 
 \begin{enumerate}
   \item Rather than use a min-max scaling of the data, we standardize the data using a robust covariance estimator. That is, we scale and rotate the data to ensure that the covariance matrix of the transformed data is approximately the identity matrix. This ensures that the data have zero pairwise correlations, which leads to more efficient kernel density estimates. It also leads to each variable having approximately unit variance, which provides a more robust scaling than min-max scaling.
-  \item Rather than using the lower point of the largest gap in the minimum spanning tree edge lengths, we use an upper quantile of those edge lengths. This avoids the problem that a few anomalies at the top of the edge length distribution can determine the largest gap and hence the bandwidth. It also gives the bandwidth the order $n^{-1/m}$ of the spacing between neighbouring observations, for any density.
+  \item Rather than using the lower point of the largest gap in the minimum spanning tree edge lengths, we use an upper quantile of those edge lengths. This avoids the problem that a few anomalies at the top of the edge length distribution can determine the largest gap and hence the bandwidth. It also gives the bandwidth the order $n^{-1/m}$ of the spacing between neighbouring observations, for any density, at which $nh_n^m$ stays bounded and \eqref{eq:nhinf} fails.
   \item The estimated GPD shape parameter is constrained to be non-positive, which improves the stability of the GPD fitting. This is justified by noting that the kernel density estimates are bounded away from zero, so the surprisals are bounded above and the fitted GPD cannot have a positive shape parameter.
 \end{enumerate}
 
