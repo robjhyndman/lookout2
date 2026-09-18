@@ -10,17 +10,11 @@ The \emph{minimum covariance determinant} estimator provides a robust estimate o
 \end{equation}
 denote the Cholesky decomposition of its inverse. Then, the data can be scaled by $\bm{U}$, giving $\bm{z}_i = \bm{U}(\bm{y}_i - \bm{m})$, where $\bm{m}$ is the vector of medians of $\{\bm{y}_1,\dots,\bm{y}_n\}$. The covariance matrix of the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
 
-We prefer this to the min-max scaling used in the original lookout algorithm, as it is robust to outliers and removes the correlations between variables, leading to more efficient kernel density estimates.
+We prefer this to the min-max scaling used in the original lookout algorithm because it is robust to outliers and removes the correlations between variables. The kernel in \cref{alg:modifiedlookout} also has a covariance matrix that is a multiple of the identity, so the kernel is aligned with the standardized data; alignment is not necessary, but it improves the efficiency of the kernel density estimate \citep{chacon2018multivariate}.
 
 \subsection{Bandwidth matrix selection}
 
-Let $e_{(1)} \le \cdots \le e_{(n-1)}$ denote the ordered edge lengths of the Euclidean minimum spanning tree of the scaled and rotated data $\bm{z}_1,\dots,\bm{z}_n$, and let $h_n = e_{(\lceil\gamma(n-1)\rceil)}$ be the minimum spanning tree bandwidth of \cref{def:mstbw}, for a large value of $\gamma \in (0,1)$.
-
-A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ using the bandwidth matrix $\bm{H} = (m+4)h_n^2\bm{I}_m$, where $m$ is the dimension of the data. By \cref{prop:critical} this places the estimator at the critical scaling, where the expected number of observations inside the kernel window is proportional to the local density and is bounded as $n\to\infty$; in \cref{sec:whynotmise} we argue that this is appropriate for anomaly detection. When the proportion of anomalies in the data is small, we would expect this estimate to be close to the density of the non-anomalous observations.
-
-Further, the kernels are now aligned with the data, as both have covariance matrices that are scalar multiples of the identity matrix. While alignment is not necessary, it does improve the efficiency of the kernel density estimates \citep{chacon2018multivariate}.
-
-An equivalent density estimate of the original data $\{\bm{y}_1,\dots,\bm{y}_n\}$ could be obtained using $\bm{H} = (m+4)h_n^2\hat{\bm{\Sigma}}$, although for our purposes, working with the scaled data is sufficient.
+Let $e_{(1)} \le \cdots \le e_{(n-1)}$ denote the ordered edge lengths of the Euclidean minimum spanning tree of the standardized data $\bm{z}_1,\dots,\bm{z}_n$, and let $h_n = e_{(\lceil\gamma(n-1)\rceil)}$ be the bandwidth of \cref{def:mstbw}. The kernel density estimate is computed from the standardized data with the bandwidth matrix \eqref{eq:Hmst}, so that by \cref{prop:critical} the number of observations inside the kernel window is bounded as $n\to\infty$, which \cref{sec:whynotmise} argues is appropriate for anomaly detection. When the proportion of anomalies is small, we expect this estimate to be close to the density of the non-anomalous observations. An equivalent estimate for the original data would use $\bm{H} = (m+4)h_n^2\hat{\bm{\Sigma}}$; we work with the standardized data throughout.
 
 \subsection{Bounds for kernel density estimates}
 
@@ -34,21 +28,21 @@ The surprisals to which the GPD is fitted are bounded, which constrains the shap
   and the surprisals $-\log\hat{f}(\bm{y}_j)$ lie in the interval $[\tfrac12\log|\bm{H}| - \log K_0,\ \tfrac12\log|\bm{H}| + \log(n/K_0)]$, whose endpoints depend on the sample only through $\bm{H}$.
 \end{remark}
 
-For the multivariate Gaussian kernel $K(\bm{u}) = (2 \pi)^{-m/2} \exp ( -\tfrac12 \|\bm{u}\|^2 )$, $K_0 = (2 \pi)^{-m/2}$. For the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} ( 1 - \|\bm{u}\|^2 )_{+}$, where $b_m$ is the volume of the unit ball in $\R^m$ and $u_+ = \max(0, u)$, $K_0 = (m+2)/(2b_m)$.
+For the Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} ( 1 - \|\bm{u}\|^2 )_{+}$, where $u_+ = \max(0, u)$, $K_0 = (m+2)/(2b_m)$.
 
-A generalized Pareto distribution with non-negative shape parameter has unbounded support, so when we fit a generalized Pareto distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$ we may constrain its shape parameter to be non-positive, which improves the stability of the GPD fitting.
+A GPD with non-negative shape parameter has unbounded support, so when we fit the GPD to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$ we constrain its shape parameter to be non-positive, which improves the stability of the fit.
 
 The GPD is fitted under two approximations. The surprisals are computed from $\hat{f}$ rather than from $f$, and they are evaluated at the observations rather than at independent draws, so the values to which the GPD is fitted are neither mutually independent nor distributed exactly as $S$ in \cref{sec:intro}.
 
 \subsection{Modified lookout algorithm}
 
-We are now in a position to describe the modified lookout algorithm.
+\cref{alg:modifiedlookout} summarises the modified algorithm.
 
 \begin{algorithm}
   \caption{Modified lookout algorithm}\label{alg:modifiedlookout}
   \begin{algorithmic}[1]
     \Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta \in (0,1)$, threshold $\alpha \in (0,1)$, and quantile level $\gamma \in (0,1)$.
-    \State Optional scaling: calculate the Cholesky decomposition \eqref{eq:mcd}, and centre, rotate and scale the data using $\bm{U}$, giving $\bm{z}_i = \bm{U}(\bm{y}_i - \bm{m})$ for $i = 1,\dots,n$, where $\bm{m}$ is the vector of medians of $\{\bm{y}_1,\dots,\bm{y}_n\}$.
+    \State Optional scaling: calculate the minimum covariance determinant estimate $\hat{\bm{\Sigma}}$ and the Cholesky decomposition \eqref{eq:mcd}, and centre, rotate and scale the data using $\bm{U}$, giving $\bm{z}_i = \bm{U}(\bm{y}_i - \bm{m})$ for $i = 1,\dots,n$, where $\bm{m}$ is the vector of medians of $\{\bm{y}_1,\dots,\bm{y}_n\}$.
     \State Compute the Euclidean minimum spanning tree of $\{\bm{z}_1,\dots,\bm{z}_n\}$ (set $\bm{z}_i = \bm{y}_i$ if no scaling is applied), and obtain its ordered edge lengths $e_{(1)} \le \cdots \le e_{(n-1)}$.
     \State Let $h_n = e_{(\lceil\gamma(n-1)\rceil)}$, the $\gamma$ sample quantile computed from $\{ e_{(i)} \}_{i=1}^{n-1}$.
     \State Compute the kernel density estimates at the scaled observations: $f_i = \hat{f}(\bm{z}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde} applied to $\bm{z}_1,\dots,\bm{z}_n$ with the Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m}(1 - \|\bm{u}\|^2)_+$ and $\bm{H} = (m+4)h_n^2\bm{I}_m$.
@@ -61,6 +55,6 @@ We are now in a position to describe the modified lookout algorithm.
 
 As with the original lookout algorithm, the values of $p_i$ can also act as anomaly scores, with lower values indicating more anomalous points. The probability $p_i$ in step 7 is the unconditional probability of a surprisal at least as large as $-\log f_{-i}$, which is $1-\beta$ times the exceedance probability of the fitted GPD. In step 6 the implementation fits the GPD without constraint and, if the estimated shape parameter is positive, refits it with the shape parameter fixed at zero.
 
-The default values for the parameters are $\alpha = 0.01$, $\beta = 0.90$ and $\gamma = 0.98$. The default values are used in all experiments reported here, unless explicitly stated otherwise. Scaling is also applied by default, unless otherwise stated.
+The default values are $\alpha = 0.01$, $\beta = 0.90$ and $\gamma = 0.98$, with scaling applied. They are used in all experiments reported here unless stated otherwise.
 
 Step 4 evaluates \eqref{eq:mkde} at each of the $n$ observations, which costs $O(n^2)$ if the sum is taken over all pairs, and the exact sum is practical only for $n$ up to about $10^4$ (\cref{tab:timing}). For larger $n$ the implementation sums each kernel over the nearest neighbours of the observation only, between 100 and 500 of them depending on $n$. \cref{tab:bwconst} shows that the kernel support around an observation in the bulk of the data can contain many more observations than that, so the truncated sum underestimates $\hat f$ there. The observations relevant to anomaly detection have few neighbours inside the support, and their estimates are unchanged. The truncated sum is used in Experiments 3 and 4 and for the wine reviews data in \cref{sec:applications}.
