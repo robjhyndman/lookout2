@@ -12,15 +12,15 @@ Let $T$ denote the Euclidean minimum spanning tree of $\{\bm{y}_1,\dots,\bm{y}_n
     h_n = e_{(\lceil \gamma(n-1)\rceil)}.
   \end{equation}
 \end{defn}
-We take $\gamma = 0.98$ throughout unless stated otherwise. (In computation, we use the median-unbiased quantile estimator of \citet{HF96} rather than the order statistic itself, but the distinction is immaterial asymptotically.) The kernel density estimate \eqref{eq:mkde} is then computed with the bandwidth matrix
+We take $\gamma = 0.98$ throughout unless stated otherwise. In computation we use the median-unbiased quantile estimator of \citet{HF96} rather than the order statistic itself; the difference is negligible for large $n$. The kernel density estimate \eqref{eq:mkde} is then computed with the bandwidth matrix
 \begin{equation}\label{eq:Hmst}
   \bm{H} = ah_n^2\bm{I}_m,
 \end{equation}
 where $a=m+4$ for the Epanechnikov kernel.
 
-The single linkage reading of \eqref{eq:mstbw} assists interpretability. Cutting the single linkage dendrogram at height $h_n$ splits the $n$ observations into about $(1-\gamma)n$ connected components. With $\gamma=0.98$, the bandwidth is the scale at which single linkage has gathered all but about 2\% of the observations into components. It is a measure of how far apart neighbouring observations are once the few most isolated ones are set aside.
+Equation \eqref{eq:mstbw} has an interpretation in terms of single linkage clustering. Cutting the single linkage dendrogram at height $h_n$ splits the $n$ observations into about $(1-\gamma)n$ clusters. With $\gamma=0.98$, $h_n$ is the height at which all but about 2\% of the observations have been merged into clusters, so it measures the distance between neighbouring observations, excluding the most isolated 2\%.
 
-To compute $h_n$, we use the dual-tree Bor\r{u}vka algorithm of \citet{March2010}, as implemented in \texttt{mlpack} \citep{mlpackR}, which builds the exact Euclidean minimum spanning tree in $O(n\log n)$ time under the same assumptions that make dual-tree nearest-neighbour search efficient, and degrades gracefully in higher dimensions.
+To compute $h_n$, we use the dual-tree Bor\r{u}vka algorithm of \citet{March2010}, as implemented in \texttt{mlpack} \citep{mlpackR}, which builds the exact Euclidean minimum spanning tree in $O(n\log n)$ time under the same assumptions that make dual-tree nearest-neighbour search efficient.
 
 % TODO (step 4): three-panel figure --- 2-d point cloud with its MST, the single
 % linkage dendrogram with the gamma cut marked, and the resulting KDE contours
@@ -31,16 +31,16 @@ To compute $h_n$, we use the dual-tree Bor\r{u}vka algorithm of \citet{March2010
 
 \subsection{Other uses of MST in anomaly detection}\label{sec:related}
 
-Minimum spanning trees have a long history in multivariate statistics, and we are not the first to use them in an anomaly detection context.
+Minimum spanning trees have been used in multivariate statistics for many years, including for anomaly detection.
 \citet{Rohlf1975} gave the classical minimum spanning tree test for multivariate outliers. When $m=1$, the edges of the minimum spanning tree are the gaps between consecutive order statistics, so the edge lengths of the tree are the natural multivariate generalization of the univariate gap test; Rohlf tests the largest squared edge length, divided by the mean squared edge length, against a gamma null distribution. However, \citet{caroni1995rohlf} argue that this is not a useful formal test.
 
 Related uses of the tree include single linkage detectors, which exploit the equivalence between the minimum spanning tree and single linkage clustering \citep{Gower1969} to cut the dendrogram and declare the resulting small clusters anomalous \citep{Jiang2001}, and minimum spanning tree clustering, which deletes inconsistently long edges to recover cluster structure \citep{Zahn1971}. \citet{FriedmanRafsky1979} give the broader statistical setting, using minimum spanning trees to construct multivariate analogues of the Wald-Wolfowitz and Smirnov two-sample tests.
 
-We use the minimum spanning tree differently from any of these authors. Rather than using the tree to label anomalies, we use it to choose a scale for the kernel density estimate. Labelling of anomalies is done by the leave-one-out kernel density estimate and the fitted generalized Pareto distribution, exactly as in \cref{alg:lookout}. A long edge of $T$ therefore does not make its endpoint an anomaly, and an observation can be anomalous without being incident to a long edge.
+Our use of the minimum spanning tree differs from these. We use the tree only to choose the bandwidth of the kernel density estimate; anomalies are identified by the leave-one-out kernel density estimate and the fitted generalized Pareto distribution, as in \cref{alg:lookout}. A long edge of $T$ therefore does not by itself make its endpoint an anomaly, and an observation can be anomalous without being incident to a long edge.
 
 \subsection{The order of the quantile edge length}\label{sec:order}
 
-The quantile is easiest to study through the single linkage reading of \eqref{eq:mstbw}. For $r>0$, let $C_n(r)$ be the number of connected components of the random geometric graph that joins every pair of observations at distance at most $r$. Kruskal's algorithm \citep{Kruskal1956} builds $T$ by adding edges in increasing order of length, so the edges of $T$ of length at most $r$ form a spanning forest of that graph, with one tree for each component \citep{Gower1969}. There are therefore $n-C_n(r)$ such edges, and $h_n\le r$ exactly when $C_n(r)\le n-\lceil\gamma(n-1)\rceil$.
+We study the quantile through its relationship to single linkage clustering. For $r>0$, let $C_n(r)$ be the number of connected components of the random geometric graph that joins every pair of observations at distance at most $r$. Kruskal's algorithm \citep{Kruskal1956} builds $T$ by adding edges in increasing order of length, so the edges of $T$ of length at most $r$ form a spanning forest of that graph, with one tree for each component \citep{Gower1969}. There are therefore $n-C_n(r)$ such edges, and $h_n\le r$ exactly when $C_n(r)\le n-\lceil\gamma(n-1)\rceil$.
 
 Component counts of random geometric graphs obey a law of large numbers \citep[Theorem 13.25]{Penrose2003}, which \citet{MitschePenrose2021} extend to points drawn from any distribution. The limit involves a Poisson process. For $\lambda>0$, let $\mathcal{P}_\lambda$ be a homogeneous Poisson process of intensity $\lambda$ on $\R^m$, join each pair of points of $\mathcal{P}_\lambda\cup\{\bm{0}\}$ at distance at most $1$, let $\mathcal{C}_\lambda$ be the component containing the origin, and put $\kappa(\lambda)=\E[1/|\mathcal{C}_\lambda|]$, with $1/|\mathcal{C}_\lambda|=0$ when the component is infinite. Thus $\kappa(\lambda)$ is the number of components per point when points of intensity $\lambda$ are joined at unit distance.
 
@@ -58,13 +58,13 @@ Component counts of random geometric graphs obey a law of large numbers \citep[T
   respectively, and $b_m$ is the volume of the unit ball in $\R^m$.
 \end{proposition}
 
-The proof is in \cref{app:proofs}. We have not assumed that $f$ is smooth or bounded, and there is no condition on its tails. Equation \eqref{eq:qgamma} is the single linkage reading in the limit: after rescaling distances by $n^{1/m}$, $q_\gamma(f)$ is the scale at which a large sample from $f$ has $1-\gamma$ components per observation.
+The proof is in \cref{app:proofs}. No smoothness, boundedness or tail condition on $f$ is required. Equation \eqref{eq:qgamma} is the single linkage interpretation in the limit: after rescaling distances by $n^{1/m}$, $q_\gamma(f)$ is the scale at which a large sample from $f$ has $1-\gamma$ components per observation.
 
-The bounds $t_-$ and $t_+$ follow from the inequalities $e^{-b_m\lambda}\le\kappa(\lambda)\le(1-e^{-b_m\lambda})/(b_m\lambda)$: the origin forms a component on its own with probability $e^{-b_m\lambda}$, and its component always contains its neighbours, whose number is Poisson with mean $b_m\lambda$. The lower bound also relates the tree to nearest-neighbour distances, which have the same $n^{-1/m}$ scaling and are cheaper to compute. By the cut property, every nearest-neighbour distance is an edge length of $T$. Moreover, each component of the graph at scale $r$ with $k\ge2$ observations contains $k-1$ edges of $T$ of length at most $r$ but $k$ observations whose nearest neighbour lies within $r$, and a component with one observation contains neither. Hence $h_n\ge D_{(\lceil\gamma(n-1)\rceil)}$ for every sample, where $D_{(1)}\le\cdots\le D_{(n)}$ are the ordered nearest-neighbour distances, and $t_-$ is the limit of $n^{1/m}D_{(\lceil\gamma(n-1)\rceil)}$. The gap between $t_-$ and $q_\gamma(f)$ comes from the components with more than one observation, which record how the observations join up, not only how close each is to its nearest neighbour. \cref{sec:experiments} compares lookout against detectors built directly on nearest-neighbour distances.
+The bounds $t_-$ and $t_+$ follow from the inequalities $e^{-b_m\lambda}\le\kappa(\lambda)\le(1-e^{-b_m\lambda})/(b_m\lambda)$: the origin forms a component on its own with probability $e^{-b_m\lambda}$, and its component always contains its neighbours, whose number is Poisson with mean $b_m\lambda$. The lower bound also relates the tree to nearest-neighbour distances, which have the same $n^{-1/m}$ scaling and are cheaper to compute. By the cut property, every nearest-neighbour distance is an edge length of $T$. Moreover, each component of the graph at scale $r$ with $k\ge2$ observations contains $k-1$ edges of $T$ of length at most $r$ but $k$ observations whose nearest neighbour lies within $r$, and a component with one observation contains neither. Hence $h_n\ge D_{(\lceil\gamma(n-1)\rceil)}$ for every sample, where $D_{(1)}\le\cdots\le D_{(n)}$ are the ordered nearest-neighbour distances, and $t_-$ is the limit of $n^{1/m}D_{(\lceil\gamma(n-1)\rceil)}$. The difference between $t_-$ and $q_\gamma(f)$ is due to the components with more than one observation: the tree records how the observations are connected to each other, whereas nearest-neighbour distances record only the distance from each observation to its nearest neighbour. \cref{sec:experiments} compares lookout against detectors built directly on nearest-neighbour distances.
 
 \cref{prop:order} does not cover the longest edge $e_{(n-1)}$, whose limiting distribution is known for uniform points in the unit square \citep{Penrose1997}, for normally distributed points \citep{Penrose1998}, and for a range of distributions on $\R^2$ with unbounded support \citep{HsingRootzen2005}. In each case the largest nearest-neighbour distance has the same limiting distribution.
 
-\subsection{Why a fixed quantile and not the largest gap}\label{sec:counterexample}
+\subsection{A fixed quantile versus the largest gap}\label{sec:counterexample}
 
 The original rule of \cref{alg:lookout} takes the lower end of the largest gap between consecutive edge lengths at or above their median. Under heavy tails that gap typically lies among the few longest edges, where \cref{prop:order} says nothing and the edge lengths can grow without bound.
 
@@ -76,9 +76,9 @@ The proof is in \cref{app:proofs}. With probability tending to one, more than $n
 
 Light-tailed distributions lead to a similar conclusion. For Gaussian observations in $\R^m$ with $m\ge2$, the longest edge of $T$ is of order $\log\log n/\sqrt{\log n}$ \citep{Penrose1998}, which tends to zero much more slowly than $n^{-1/m}$. A rule that chooses among the longest edges therefore has the right order only if the gap it finds lies well below the top of the edge-length distribution.
 
-\subsection{The bandwidth sits at the critical scaling}\label{sec:critical}
+\subsection{The critical scaling}\label{sec:critical}
 
-We can now say what \eqref{eq:Hmst} does to the kernel density estimate.
+We now consider the implications of \eqref{eq:Hmst} for the kernel density estimate.
 
 \begin{proposition}\label{prop:critical}
   Let $f$ be a density on $\R^m$ and let $\bm{H}=(m+4)h_n^2\bm{I}_m$ with $h_n=e_{(\lceil\gamma(n-1)\rceil)}$. Then $n|\bm{H}|^{1/2}\to(m+4)^{m/2}q_\gamma(f)^m$ in probability as $n\to\infty$, and the limit is finite and positive.
@@ -88,13 +88,13 @@ We can now say what \eqref{eq:Hmst} does to the kernel density estimate.
   $|\bm{H}|^{1/2}=(m+4)^{m/2}h_n^m$, so $n|\bm{H}|^{1/2}=(m+4)^{m/2}(n^{1/m}h_n)^m$, and \cref{prop:order} gives $n^{1/m}h_n\to q_\gamma(f)\in(0,\infty)$ in probability.
 \end{proof}
 
-Condition A3 therefore fails: $n|\bm{H}|^{1/2}$ is bounded rather than divergent, the variance term $n^{-1}|\bm{H}|^{-1/2}R(K)$ of the MISE does not vanish, and the estimator is not MISE-consistent. This is a consequence of the rule, and it has a simple interpretation. The expected number of observations inside the kernel support at a point $\bm{x}$ is asymptotically $nb_m|\bm{H}|^{1/2}f(\bm{x})$, which by \cref{prop:critical} converges to $b_m(m+4)^{m/2}q_\gamma(f)^mf(\bm{x})$. The number of observations in the window is therefore bounded as $n\to\infty$, and is proportional to the local density. Nearest-neighbour outlier scores and the local outlier factor \citep{breunig2000lof} are also based on a bounded number of neighbours, and are also inconsistent as density estimates. They fix the number of neighbours and let the radius vary, while \eqref{eq:Hmst} fixes the radius and lets the number of neighbours vary with $f$. In \cref{sec:whynotmise} we argue that this is appropriate for anomaly detection.
+Condition A3 therefore fails: $n|\bm{H}|^{1/2}$ is bounded, the variance term $n^{-1}|\bm{H}|^{-1/2}R(K)$ of the MISE does not vanish, and the estimator is not MISE-consistent. This is a consequence of the rule, and it has a simple interpretation. The expected number of observations inside the kernel support at a point $\bm{x}$ is asymptotically $nb_m|\bm{H}|^{1/2}f(\bm{x})$, which by \cref{prop:critical} converges to $b_m(m+4)^{m/2}q_\gamma(f)^mf(\bm{x})$. The number of observations in the window is therefore bounded as $n\to\infty$, and is proportional to the local density. Nearest-neighbour outlier scores and the local outlier factor \citep{breunig2000lof} are also based on a bounded number of neighbours, and are also inconsistent as density estimates. They fix the number of neighbours and let the radius vary, while \eqref{eq:Hmst} fixes the radius and lets the number of neighbours vary with $f$. In \cref{sec:whynotmise} we argue that this is appropriate for anomaly detection.
 
 \begin{remark}[Consistency by inflation]\label{rem:inflate}
   A consistent estimator can be obtained by inflating the bandwidth. For any $a_n\to\infty$, however slowly, the bandwidth $a_nh_n$ satisfies $a_nh_n\to0$ and $n(a_nh_n)^m\asymp a_n^m\to\infty$, so it is an admissible bandwidth in the sense of \cref{def:admissible_bandwidth} and the resulting estimator is MISE-consistent. For example, $a_n=\log\log n$ multiplies the bandwidth by a factor between $1.9$ and $2.6$ for $n$ between $10^3$ and $10^6$. We do not inflate the bandwidth, for the reasons given in the next section.
 \end{remark}
 
-\subsection{Why MISE-optimality is the wrong target}\label{sec:whynotmise}
+\subsection{The bandwidth and the MISE}\label{sec:whynotmise}
 
 An asymptotic approximation to the MISE \eqref{eq:mise} is given by \citet{chacon2018multivariate}:
 \begin{equation}\label{eq:amse}
@@ -104,7 +104,7 @@ where $R(K) = \int K(\bm{u})^2 d\bm{u}$ and $D^2 f$ is the Hessian of $f$. Writi
 \begin{equation}\label{eq:amse_iso}
   \text{AMISE} = n^{-1} h^{-m} R(K) + \frac{1}{4} \mu_2(K)^2 h^4 \int \big\{\Delta f(\bm{u})\big\}^2 d\bm{u},
 \end{equation}
-minimised at $h_{\text{opt}} \asymp n^{-1/(m+4)}$, with MISE of order $n^{-4/(m+4)}$. Against this, \cref{prop:order} gives $h_n \asymp n^{-1/m}$. The ratio is
+minimised at $h_{\text{opt}} \asymp n^{-1/(m+4)}$, with MISE of order $n^{-4/(m+4)}$. By \cref{prop:order}, $h_n \asymp n^{-1/m}$. The ratio is
 $$
 \frac{h_n}{h_{\text{opt}}} \asymp n^{-4/\{m(m+4)\}},
 $$

@@ -4,7 +4,7 @@ In light of the preceding theoretical considerations, we propose three modificat
 
 \subsection{Standardization}
 
-The \emph{minimum covariance determinant} estimator provides a robust estimate of $\bm{\Sigma}$, the covariance matrix of $\{\bm{y}_1,\dots,\bm{y}_n\}$, by searching for the subsample of a given size whose sample covariance matrix has the smallest determinant \citep{rousseeuw1999fast}. We take that subsample to be of size $0.9n$. This is less resistant than the usual choice of $n/2$, but anomalies are rare by assumption, and the larger subsample gives a more efficient estimate of $\bm{\Sigma}$ for the bulk of the data, which is what the scaling is for. Let
+The \emph{minimum covariance determinant} estimator provides a robust estimate of $\bm{\Sigma}$, the covariance matrix of $\{\bm{y}_1,\dots,\bm{y}_n\}$, by searching for the subsample of a given size whose sample covariance matrix has the smallest determinant \citep{rousseeuw1999fast}. We take that subsample to be of size $0.9n$. This has a lower breakdown point than the usual choice of $n/2$, but anomalies are assumed to be rare, and the larger subsample gives a more efficient estimate of $\bm{\Sigma}$ for the non-anomalous observations. Let
 \begin{equation}\label{eq:mcd}
   \hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{U}
 \end{equation}
@@ -38,7 +38,7 @@ For the multivariate Gaussian kernel $K(\bm{u}) = (2 \pi)^{-m/2} \exp ( -\tfrac1
 
 A generalized Pareto distribution with non-negative shape parameter has unbounded support, so when we fit a generalized Pareto distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$ we may constrain its shape parameter to be non-positive, which improves the stability of the GPD fitting.
 
-Two approximations are involved here. These surprisals are computed from $\hat{f}$ rather than from $f$, and they are evaluated at the observations rather than at independent draws, so the values to which the GPD is fitted are neither mutually independent nor distributed exactly as the $S$ of \cref{sec:intro}. The peaks-over-threshold model is used as an approximation on both counts.
+The GPD is fitted under two approximations. The surprisals are computed from $\hat{f}$ rather than from $f$, and they are evaluated at the observations rather than at independent draws, so the values to which the GPD is fitted are neither mutually independent nor distributed exactly as $S$ in \cref{sec:intro}.
 
 \subsection{Modified lookout algorithm}
 
