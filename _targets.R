@@ -47,6 +47,22 @@ list(
     tab_bandwidth,
     create_table_bandwidth(bandwidth_table)
   ),
+  tar_target(
+    illustration_data,
+    generate_illustration(alpha, beta, gamma)
+  ),
+  tar_target(
+    fig_illustration,
+    create_figure_illustration(illustration_data)
+  ),
+  tar_target(
+    timing_table,
+    run_timing(gamma)
+  ),
+  tar_target(
+    tab_timing,
+    create_table_timing(timing_table)
+  ),
 
   # ------------------------------------------------------
   # Experiment 1: Gamma distribution
@@ -136,6 +152,19 @@ list(
   tar_target(
     fig_exp7,
     create_figure_exp7(exp7_results)
+  ),
+
+  # ------------------------------------------------------
+  # Bandwidth sensitivity: Experiments 1, 2, 3 and 5 with scaled bandwidths
+  # ------------------------------------------------------
+
+  tar_target(
+    ablation_results,
+    run_bandwidth_ablation(alpha, beta, gamma)
+  ),
+  tar_target(
+    fig_ablation,
+    create_figure_ablation(ablation_results)
   ),
 
   # ------------------------------------------------------

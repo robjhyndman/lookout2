@@ -22,12 +22,23 @@ Equation \eqref{eq:mstbw} has an interpretation in terms of single linkage clust
 
 To compute $h_n$, we use the dual-tree Bor\r{u}vka algorithm of \citet{March2010}, as implemented in \texttt{mlpack} \citep{mlpackR}, which builds the exact Euclidean minimum spanning tree in $O(n\log n)$ time under the same assumptions that make dual-tree nearest-neighbour search efficient.
 
-% TODO (step 4): three-panel figure --- 2-d point cloud with its MST, the single
-% linkage dendrogram with the gamma cut marked, and the resulting KDE contours
-% with the detected anomalies.
+\cref{fig:mstillustration} shows the rule on a sample of 300 standard normal observations in $\R^2$ with three anomalies added. The left panel shows the minimum spanning tree, with the edges longer than $h_n$ drawn in colour; the middle panel shows the single linkage dendrogram with the cut at $h_n$; the right panel shows the kernel density estimate computed with the bandwidth matrix \eqref{eq:Hmst} and the observations declared anomalous by \cref{alg:modifiedlookout}.
 
-% TODO (step 4): timing table or figure over n and m, and the measured cost
-% against a Rips filtration. Needs new R scripts and targets.
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\linewidth]{Figures/mst_illustration.pdf}
+  \caption{The minimum spanning tree bandwidth for 300 standard normal observations in $\R^2$ and three anomalies. Left: the minimum spanning tree; edges longer than $h_n$ are shown in colour. Middle: the single linkage dendrogram, with the dashed line at height $h_n$. Right: contours of the kernel density estimate with bandwidth matrix \eqref{eq:Hmst}, and the observations identified as anomalous in red.}
+  \label{fig:mstillustration}
+\end{figure}
+
+\cref{tab:timing} gives the time taken by the tree and by the whole of \cref{alg:modifiedlookout} for standard normal samples, on a desktop computer with an Intel Core Ultra 9 285 processor. The tree takes under a second for $n$ up to $10^5$ when $m\le5$, and three seconds for $n=10^6$ when $m=2$; in ten dimensions it takes a minute at $n=10^5$. The kernel density estimate dominates the total. The exact leave-one-out estimate is computed from all pairwise distances and is practical only for $n$ up to about $10^4$. Beyond that, the implementation sums each kernel over at most 500 nearest neighbours, and the total is seven seconds for $n=10^5$ in two dimensions, just over two minutes for $n=10^6$, and about three minutes for $n=10^5$ in ten dimensions. In Experiments 5 to 7 of \cref{sec:experiments}, where $n\le805$, a run of lookout takes under $0.1$ seconds, about the same as KDEOS and stray, while RDOS takes between one and five seconds.
+
+\begin{table}[!ht]
+  \centering
+  \caption{Seconds taken by the minimum spanning tree and by the whole of \cref{alg:modifiedlookout} for standard normal samples in $\R^m$, on a desktop computer with an Intel Core Ultra 9 285 processor. The exact leave-one-out estimate uses all pairwise distances and was run only for $n\le10^4$; the truncated estimate sums each kernel over at most 500 nearest neighbours.}
+  \label{tab:timing}
+  \input{Data_Output/timing}
+\end{table}
 
 \subsection{Other uses of MST in anomaly detection}\label{sec:related}
 
@@ -119,5 +130,4 @@ which tends to zero for every $m\geq1$. Asymptotically, the minimum spanning tre
 
 The MISE is an integrated criterion weighted by the density, so it is dominated by the bulk of the distribution, and the bandwidth that minimises it is determined by the spacing of observations in the bulk. Anomalies are identified from the values of $\hat f$ at observations where $f$ is small, and from the upper tail of the surprisals $-\log\hat f(\bm{y}_i)$, so the relevant spacing is that of the observations in the tails, and the MISE does not measure it. A bandwidth determined by the bulk may be either too small or too large for the tails. If it is smaller than the spacing in the tails, as $h_{\text{opt}}$ is for $m\ge3$ in \cref{tab:bwconst}, then any observation with no other observation inside its kernel support has a leave-one-out estimate of exactly zero, and the isolated observations cannot be ranked. If it is larger, as $h_{\text{opt}}$ is for $m=2$ and large $n$, then the estimate at an isolated observation includes contributions from distant observations, and the observation no longer appears isolated. The quantile rule sets the bandwidth from the spacing in the tails. By the single linkage interpretation of \eqref{eq:mstbw}, $h_n$ is the scale at which all but about $2\%$ of the observations have joined a component, so the kernel support around any observation other than the most isolated few contains at least one other observation. In the bulk, the estimate is oversmoothed at practical sample sizes and undersmoothed in the limit. This has little effect on anomaly detection, because the estimates in the bulk are large in either case, and those observations are not identified as anomalies.
 
-We therefore do not require consistency or an optimal rate. We require that $h_n$ has the same order as the spacing between neighbouring observations in the sparse part of the sample, which is $n^{-1/m}$ with a constant determined by the low-density region of $f$ through \eqref{eq:qgamma}. \cref{prop:order} shows that the quantile rule has this property. The largest-gap rule typically chooses among the longest edges, and under the heavy tails of \cref{cex:fattails} these grow without bound. In \cref{sec:experiments} we examine the sensitivity of the results to the bandwidth, by scaling $h_n$ up and down and by replacing it with $h_{\text{opt}}$.
-% step 3a: point the last sentence at the ablation subsection once it exists.
+We therefore do not require consistency or an optimal rate. We require that $h_n$ has the same order as the spacing between neighbouring observations in the sparse part of the sample, which is $n^{-1/m}$ with a constant determined by the low-density region of $f$ through \eqref{eq:qgamma}. \cref{prop:order} shows that the quantile rule has this property. The largest-gap rule typically chooses among the longest edges, and under the heavy tails of \cref{cex:fattails} these grow without bound. In \cref{sec:bwablation} we examine the sensitivity of the results to the bandwidth, by scaling $h_n$ up and down and by replacing it with $h_{\text{opt}}$.
