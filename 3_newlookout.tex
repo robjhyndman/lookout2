@@ -24,26 +24,19 @@ An equivalent density estimate of the original data $\{\bm{y}_1,\dots,\bm{y}_n\}
 
 \subsection{Bounds for kernel density estimates}
 
-In the following lemma we show that the kernel density estimates at the observations, and their negative logarithms, are bounded by constants that depend only on the dimension $m$ and the sample size $n$.
+The surprisals to which the GPD is fitted are bounded, which constrains the shape parameter.
 
-\begin{lemma}\label{lemma:boundsforkde}
-  Let $\{\bm{y}_1, \dots, \bm{y}_n\}$ be $n$ data points in $\R^m$, with kernel density estimate given by
+\begin{remark}\label{lemma:boundsforkde}
+  Let $K$ be a kernel with $0\le K(\bm{u})\le K(\bm{0})=K_0$ for all $\bm{u}$, and let $\hat{f}$ be the estimate \eqref{eq:mkde} with bandwidth matrix $\bm{H}$. The term $i=j$ of the sum contributes $|\bm{H}|^{-1/2}K_0/n$ and no term exceeds that, so
   $$
-  \hat{f}(\bm{y}) = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{y} - \bm{y}_i)\right),
+  \frac{K_0|\bm{H}|^{-1/2}}{n} \le \hat{f}(\bm{y}_j) \le K_0|\bm{H}|^{-1/2}, \qquad j = 1,\dots,n,
   $$
-  where $K(\bm{u})$ is a multivariate kernel function that is bounded below by 0 and above by $K(\bm{0}) = K_0$, and $\bm{H}$ is an $m\times m$ symmetric positive-definite bandwidth matrix. Then for all $j \in \{1, \dots, n\}$, the kernel density estimates at the observations, $\hat{f}(\bm{y}_j)$, and their negative logarithms, $-\log \hat{f}(\bm{y}_j)$, are bounded by constants that depend only on $m$ and $n$.
-\end{lemma}
-\begin{proof}
-  $$
-  \frac{K_0|\bm{H}|^{-1/2}}{n} \leq\hat{f}(\bm{y}_j) =
-  \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{y}_j - \bm{y}_i)\right) \leq K_0|\bm{H}|^{-1/2}\, .
-  $$
-  The constant $K_0$ may depend on $m$.
-\end{proof}
+  and the surprisals $-\log\hat{f}(\bm{y}_j)$ lie in the interval $[\tfrac12\log|\bm{H}| - \log K_0,\ \tfrac12\log|\bm{H}| + \log(n/K_0)]$, whose endpoints depend on the sample only through $\bm{H}$.
+\end{remark}
 
-For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{m/2}} \exp \left( -\frac12 \|\bm{u}\|^2 \right)$, then $K_0 = \frac{1}{(2 \pi)^{m/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} \left( 1 - \|\bm{u}\|^2 \right)_{+}$, where $b_m$ is the volume of the unit ball in $\R^m$, and $u_+ = \max(0, u)$, then $K_0 = (m+2)/(2b_m)$.
+For the multivariate Gaussian kernel $K(\bm{u}) = (2 \pi)^{-m/2} \exp ( -\tfrac12 \|\bm{u}\|^2 )$, $K_0 = (2 \pi)^{-m/2}$. For the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} ( 1 - \|\bm{u}\|^2 )_{+}$, where $b_m$ is the volume of the unit ball in $\R^m$ and $u_+ = \max(0, u)$, $K_0 = (m+2)/(2b_m)$.
 
-In particular the surprisals $-\log\hat{f}(\bm{y}_j)$ are bounded above by $\log(n/K_0) + \tfrac12\log|\bm{H}|$. A generalized Pareto distribution with non-negative shape parameter has unbounded support, so when we fit a generalized Pareto distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$ we may constrain its shape parameter to be non-positive, which improves the stability of the GPD fitting.
+A generalized Pareto distribution with non-negative shape parameter has unbounded support, so when we fit a generalized Pareto distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$ we may constrain its shape parameter to be non-positive, which improves the stability of the GPD fitting.
 
 Two approximations are involved here. These surprisals are computed from $\hat{f}$ rather than from $f$, and they are evaluated at the observations rather than at independent draws, so the values to which the GPD is fitted are neither mutually independent nor distributed exactly as the $S$ of \cref{sec:intro}. The peaks-over-threshold model is used as an approximation on both counts.
 

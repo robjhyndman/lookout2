@@ -13,8 +13,7 @@ Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rce
   $$
   G(t):=\int_{\R^m}\kappa\big(t^mf(\bm{x})\big)f(\bm{x})\,d\bm{x}.
   $$
-  Joining at distance $r_n=tn^{-1/m}$ keeps $nr_n^m=t^m$ fixed, which is the thermodynamic regime, so the law of large numbers for component counts of \citet{MitschePenrose2021} gives $\Xi_n(t)\to G(t)$ in probability, for every $t>0$ and every density $f$. Their limit function for component counts is $\kappa$, and their convergence is in fact complete and in $L^2$.
-  % TODO: theorem numbers for MitschePenrose2021. In arXiv:2006.14915v1 the result is Theorem 3.13, applying Theorem 2.1; check them against the published version.
+  Joining at distance $r_n=tn^{-1/m}$ keeps $nr_n^m=t^m$ fixed, which is the thermodynamic regime, so the law of large numbers for component counts, \citet[Theorem 3.13, an application of their Theorem 2.1]{MitschePenrose2021}, gives $\Xi_n(t)\to G(t)$ in probability, for every $t>0$ and every density $f$. Their limit function for component counts is $\kappa$, and their convergence is in fact complete and in $L^2$. The same conclusion can be read off the law of large numbers for the empirical distribution of the rescaled edge lengths of $T$ \citep[Theorem 2.3(i), first obtained by \citealp{Penrose1996}]{PenroseYukich2003}, since $n-C_n(r)$ is the number of edges of $T$ of length at most $r$; the component-count form is used here because its limit is expressed through $\kappa$.
 
   \emph{Step 2: properties of $G$.} The origin forms a component on its own exactly when $\mathcal{P}_\lambda$ has no point in $B(\bm{0},1)$, so $\kappa(\lambda)\ge\P(|\mathcal{C}_\lambda|=1)=e^{-b_m\lambda}$. Its component contains the $N\sim\text{Poisson}(b_m\lambda)$ points of $\mathcal{P}_\lambda$ in $B(\bm{0},1)$, so $\kappa(\lambda)\le\E[1/(1+N)]=(1-e^{-b_m\lambda})/(b_m\lambda)$. Integrating,
   $$
@@ -22,11 +21,11 @@ Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rce
   $$
   By dominated convergence $G_-$ and $G_+$ are continuous and strictly decreasing, tending to $1$ as $t\to0$ and to $0$ as $t\to\infty$; for $G_+$ this uses that $(1-e^{-u})/u$ decreases strictly from $1$ to $0$ on $(0,\infty)$. Hence $t_-$ and $t_+$ are well defined, and $G(t)\to1$ as $t\to0$ and $G(t)\to0$ as $t\to\infty$.
 
-  To see that $G$ is itself continuous and strictly decreasing, fix $\tau>0$, take one realisation of $\mathcal{P}_\tau\cup\{\bm{0}\}$, and let $\mathcal{C}(s)$ be the component of the origin when points are joined at distance $s$, so that $\kappa(\tau s^m)=\E[1/|\mathcal{C}(s)|]$. Components only grow with $s$, so $1/|\mathcal{C}(s)|$ is non-increasing in $s$. It is also continuous at each fixed $s$ almost surely: almost surely no two points lie at distance exactly $s$, so every path that joins a point to the origin at scale $s$ already exists slightly below $s$, and a finite component gains no new point slightly above $s$. When $s_1<s_2$ and the nearest point to the origin lies at a distance in $(s_1,s_2]$, the origin is alone at scale $s_1$ and not at scale $s_2$, so
+  The function $\kappa$ is continuous on $(0,\infty)$, because $\lambda\mapsto\lambda\kappa(\lambda)$ is Lipschitz \citep[Proposition 2.3(ii) and Section 3.6]{MitschePenrose2021}, and dominated convergence then makes $G$ continuous. To see that $G$ is strictly decreasing, fix $\tau>0$, take one realisation of $\mathcal{P}_\tau\cup\{\bm{0}\}$, and let $\mathcal{C}(s)$ be the component of the origin when points are joined at distance $s$, so that $\kappa(\tau s^m)=\E[1/|\mathcal{C}(s)|]$. Components only grow with $s$, and when $s_1<s_2$ and the nearest point to the origin lies at a distance in $(s_1,s_2]$, the origin is alone at scale $s_1$ and not at scale $s_2$, so
   $$
   \kappa(\tau s_1^m)-\kappa(\tau s_2^m)\ \ge\ \tfrac12\big(e^{-b_m\tau s_1^m}-e^{-b_m\tau s_2^m}\big)>0.
   $$
-  Dominated convergence then makes $G$ continuous, and $G$ is strictly decreasing because its integrand decreases strictly in $t$ wherever $f>0$. So \eqref{eq:qgamma} has a unique solution $q_\gamma(f)\in(0,\infty)$. Since $G_-(q_\gamma(f))\le G(q_\gamma(f))=1-\gamma=G_-(t_-)$ and $G_-$ is decreasing, $q_\gamma(f)\ge t_-$, and the same argument with $G_+$ gives $q_\gamma(f)\le t_+$.
+  Hence $G$ is strictly decreasing, because its integrand decreases strictly in $t$ wherever $f>0$, and \eqref{eq:qgamma} has a unique solution $q_\gamma(f)\in(0,\infty)$. Since $G_-(q_\gamma(f))\le G(q_\gamma(f))=1-\gamma=G_-(t_-)$ and $G_-$ is decreasing, $q_\gamma(f)\ge t_-$, and the same argument with $G_+$ gives $q_\gamma(f)\le t_+$.
 
   \emph{Step 3: the quantile.} Write $q=q_\gamma(f)$ and fix $\varepsilon\in(0,q)$, so that $G(q-\varepsilon)>1-\gamma>G(q+\varepsilon)$. Since $h_n\le r$ exactly when $C_n(r)\le n-k_n$, and $\gamma(n-1)\le k_n<\gamma(n-1)+1$,
   $$
@@ -45,80 +44,33 @@ Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rce
 
 \subsection{Proof of \texorpdfstring{\cref{cex:fattails}}{Counterexample 6}}
 
-For the remainder of this appendix we consider the distribution on $\R^m$, $m\geq 3$, with density $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$, where $c_m$ is the appropriate normalising constant. A useful quantity is the number of samples with radius at least $R$: let $A_n^{[R, \infty)}$ be the number of samples lying in $\{\bm{x}\in \R^m\mid \|\bm{x}\|\geq R\}.$
-
-We want to show that outside a certain radius $R_n$ all the points are isolated at unit length scale and thus each contribute their own connected component. A sufficient condition is that there be no pair of points within distance $1$ of each other among those of radius at least $R_n-1$. We claim nothing about points in the annulus from radius $R_n-1$ to $R_n$, which could be joined to points of smaller radius.
-
-\begin{lemma}\label{lem:bound edges}
-  Fix a sequence of positive numbers $R_n$. Let $\mathcal{S}_n$ be a set of $n$ points sampled i.i.d.\ according to density $f$, and let $g(n)$ be any function bounded above by $\sqrt{R_n^{m-1}/\log n}$. Let $Y_n$ be the number of pairs within distance $1$ of each other among the points in $\{\bm{x}\in \R^m\mid \|\bm{x}\| > R_n-1\}$. Then
-  $$\P\left(Y_n=0 \;\Big|\; A^{[R_n-1, \infty)}_n < \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right)\to 1$$
-  as $n\to \infty$.
-\end{lemma}
-\begin{proof}
-  We first bound the probability that two points of large radius are within distance $1$:
-  \begin{align*}
-    \P(\|\bm{x}-\bm{y}\|\leq 1 \mid \|\bm{x}\|, \|\bm{y}\|\geq R-1)&=
-    \frac{1}{\P(\|\bm{x}\|,\|\bm{y}\|\geq R-1)}\int_{R-1}^\infty \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}} \P(\bm{y}\in B(\bm{x},1)\mid \|\bm{x}\|=r) \,dr.
-  \end{align*}
-  If $\|\bm{x}\|=r$ with $r$ sufficiently large, then the probability that another sample $\bm{y}$ lies in $B(\bm{x},1)$ is bounded above by $\int_{B(\bm{x},1)} c_m/(1+\|\bm{z}\|^{m+1})\,d\bm{z} \leq C/r^m$ for some constant $C$ independent of $r$. This implies that there exists a constant $C_1$ independent of $R$ such that
-  \begin{align*}
-    \P(\|\bm{x}-\bm{y}\|\leq 1 \mid \|\bm{x}\|, \|\bm{y}\| >R-1)& < (R-1)^2 C_1\int_{R-1}^\infty \frac{1}{r^{m+2}}\,dr,
-  \end{align*}
-  and hence a constant $C_2$ independent of $R$, for sufficiently large $R$, such that
-  $$
-  \P(\|\bm{x}-\bm{y}\|\leq 1 \mid \|\bm{x}\|, \|\bm{y}\| >R-1)\leq \frac{C_2}{R^{m-1}}.
-  $$
-
-  For each pair of points the probability of being within distance $1$ is thus bounded above by $C_2/R_n^{m-1}$. Changing the function $g(n)$ does not invalidate this upper bound. Together we get
-  \begin{align*}
-    \E\left[Y_n \;\Big|\; A^{[R_n-1, \infty)}_n\leq \sqrt{\frac{R_n^{m-1}}{\log n}} \text{ and } A^{[R_n, \infty)}>g(n)\right]
-    \leq \left(\frac{R_n^{m-1}}{\log n}\right)\frac{C_2}{2R_n^{m-1}}
-    = \frac{C_2}{2\log n}
-  \end{align*}
-  for some $C_2$ independent of sufficiently large $n$. Since $Y_n$ is a non-negative integer, $\P(Y_n\neq 0\mid\cdot)\leq \E[Y_n\mid\cdot]\to 0$, and the result follows.
-\end{proof}
-
-Given the above lemma, our next step is to show that with positive probability there are enough points of radius at least $R_n$, but not too many of radius more than $R_n-1$.
-
-\begin{lemma}\label{lem:bound points}
-  Let $\mathcal{S}_n$ be a sample of points i.i.d.\ according to $f$, and set $R_n=n^{2/m}/(c_m s_{m-1})$. Then
-  $$\P\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \tfrac{1}{4}n^{1-2/m}\right)>1/3$$
-  for $n$ sufficiently large.
-\end{lemma}
-
-\begin{proof}
-  For each radius $R$, the probability that a sample point has modulus at least $R$ is
-  $$
-  p_{[R,\infty)}=\int_{R}^\infty \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}}\,dr.
-  $$
-  We have $p_{[R, \infty)}\in \big(c_m s_{m-1}/(2R), c_m s_{m-1}/R\big)$ for $R>1$. Thus $A^{[R_n, \infty)}_n \sim \mathcal{B}(n, p)$, the binomial distribution, for some $p \in (n^{-2/m}/2, n^{-2/m})$. Using Chebyshev's inequality,
-  $$\P\left(A_n^{[R_n, \infty)}\in \left(\tfrac{1}{4}n^{1-2/m},2n^{1-2/m}\right)\right)>\tfrac{1}{2}.$$
-
-  Given that a sample point $\bm{x}$ lies in $B(\bm{0},R)$, the probability that $\bm{x}$ has modulus in $[R-1, R)$ is
-  \begin{align*}
-    \hat{p}&=\frac{\int_{R-1}^R \frac{c_m s_{m-1}r^{m-1}}{1+r^{m+1}}\,dr }{1-p_{[R, \infty)}}
-    <\frac{-\frac{c_m s_{m-1}}{R}+\frac{c_m s_{m-1}}{R-1}}{1-\frac{c_m s_{m-1}}{R}}
-    <\frac{2c_m s_{m-1}}{R^2}
-  \end{align*}
-  for sufficiently large $R$. For $R_n=n^{2/m}/(c_m s_{m-1})$ we have $\hat{p}_n\leq C_1 n^{-4/m}$ for large $n$, with $C_1$ a constant independent of $n$.
-
-  Let $\hat{A}^{[R_{n}-1, R_n)}_n$ be the number of samples with $\|\bm{x}\|\in[R_n-1, R_n)$, conditioned on there being $A^{[R_n, \infty)}_n$ samples outside $B(\bm{0},R_n)$. Then $\hat{A}^{[R_{n}-1, R_n)}_n \sim \mathcal{B}(n-A^{[R_n, \infty)}_n, \hat{p}_n)$. Coupling $\mathcal{B}(n-A^{[R_n, \infty)}_n, \hat{p}_n)$ to $\mathcal{B}(n, \hat{p}_n)$ implies that $\P(\hat{A}^{[R_n-1, R_n)}_n\leq n^{1-2/m})>2/3$ for large enough $n$. Combining,
-  \begin{align*}
-    \P&\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \tfrac{1}{4}n^{1-2/m}\right) \\
-    &\geq  \P\left( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n \in \left( \tfrac{1}{4}n^{1-2/m}, 2n^{1-2/m}\right)\right)\\
-    & \geq \P\left( \hat{A}^{[R_n-1, R_n)}_n < n^{1-2/m}\;\Big|\;  A^{[R_n, \infty)}_n \in \left( \tfrac{1}{4}n^{1-2/m}, 2n^{1-2/m}\right)\right)\P\left( A^{[R_n, \infty)}_n \in \left( \tfrac{1}{4}n^{1-2/m}, 2n^{1-2/m}\right)\right)\\
-    &\geq \tfrac{2}{3}\cdot\tfrac{1}{2}=\tfrac{1}{3}. \qedhere
-  \end{align*}
-\end{proof}
-
-We can finally combine these to complete the counterexample. The probabilities are far from tight, as we need only show that $e_{(\omega_n)}$ does not converge to $0$.
+Let $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$ on $\R^m$ with $m\ge1$, let $\bm{Y}$ have density $f$, and write $a_m=c_ms_{m-1}$. Two elementary bounds drive the proof. First, $\|\bm{Y}\|$ has density $a_mr^{m-1}/(1+r^{m+1})$, which for $r\ge1$ lies between $a_m/(2r^2)$ and $a_m/r^2$, so
+\begin{equation}\label{eq:tailprob}
+  \frac{a_m}{2R}\le p(R):=\P(\|\bm{Y}\|\ge R)\le\frac{a_m}{R},\qquad R\ge1.
+\end{equation}
+Second, $f(\bm{z})\le c_m\|\bm{z}\|^{-(m+1)}$, so for every $\bm{x}$ and every $s\in(0,\|\bm{x}\|)$,
+\begin{equation}\label{eq:ballprob}
+  \P\big(\|\bm{Y}-\bm{x}\|\le s\big)=\int_{B(\bm{x},s)}f(\bm{z})\,d\bm{z}\le\frac{b_mc_ms^m}{(\|\bm{x}\|-s)^{m+1}}.
+\end{equation}
 
 \begin{proof}[Proof of \cref{cex:fattails}]
-  A sufficient condition for $e_{(\omega_n)}>1$ is that the graph joining points within distance $1$ of each other has more than $\tfrac{1}{4}n^{1-2/m}$ isolated points. One way to obtain this many isolated points is to have $A_n^{[R_n, \infty)}>\tfrac{1}{4}n^{1-2/m}$ and $Y_n=0$. Consider $R_n=n^{2/m}/(c_m s_{m-1})$.
+  Put $R_n=a_mn^{3/4}$, $s_n=n^{1/8}$ and $K_n=n-\omega_n=\lfloor n^{1/4}/4\rfloor$. Let $N_n$ be the number of observations with $\|\bm{y}_i\|\ge R_n$, and let $Y_n$ be the number of pairs $\{i,j\}$ with $\|\bm{y}_i\|\ge R_n-s_n$, $\|\bm{y}_j\|\ge R_n-s_n$ and $\|\bm{y}_i-\bm{y}_j\|\le s_n$. Throughout, $n$ is large enough that $R_n-2s_n\ge\max(1,R_n/2)$.
 
-  From \cref{lem:bound points} we have $\P\big( A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \tfrac{1}{4}n^{1-2/m}\big)>1/3$ for $n$ sufficiently large. Substituting in $R_n$ shows that $3n^{1-2/m}<\sqrt{R_n^{m-1}/\log n}$, so \cref{lem:bound edges} applies and gives $\P\big(Y_n=0\mid A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \tfrac{1}{4}n^{1-2/m}\big)\to 1$ as $n\to \infty$, hence at least $\tfrac{3}{4}$ for sufficiently large $n$. Combining,
-  \begin{align*}
-    \P(e_{(\omega_n)}>1)&\geq \P\left(Y_n=0 \text{ and } A^{[R_n-1, \infty)}_n < 3n^{1-2/m} \text{ and } A^{[R_n, \infty)}_n > \tfrac{1}{4}n^{1-2/m}\right)\\
-    &\geq \tfrac{1}{3}\cdot\tfrac{3}{4}=\tfrac{1}{4}. \qedhere
-  \end{align*}
+  \emph{Enough observations far out.} $N_n$ is binomial with $n$ trials and success probability $p(R_n)$, which by \eqref{eq:tailprob} lies in $[n^{-3/4}/2,\,n^{-3/4}]$. Its mean $\mu_n$ therefore satisfies $n^{1/4}/2\le\mu_n\le n^{1/4}$, its variance is at most $\mu_n$, and $K_n\le\mu_n/2$. By Chebyshev's inequality,
+  $$
+  \P(N_n\le K_n)\le\P\big(|N_n-\mu_n|\ge\mu_n/2\big)\le\frac{4}{\mu_n}\le8n^{-1/4}\to0.
+  $$
+
+  \emph{No close pairs far out.} Conditioning on the position of the first point of a pair and applying \eqref{eq:tailprob} and \eqref{eq:ballprob},
+  $$
+  \E[Y_n]\le\binom{n}{2}\,p(R_n-s_n)\sup_{\|\bm{x}\|\ge R_n-s_n}\P\big(\|\bm{Y}-\bm{x}\|\le s_n\big)
+  \le\frac{n^2}{2}\cdot\frac{a_m}{R_n-s_n}\cdot\frac{b_mc_ms_n^m}{(R_n-2s_n)^{m+1}}
+  \le\frac{2^{m+1}a_mb_mc_m\,n^2s_n^m}{R_n^{m+2}}.
+  $$
+  The right side is $C_m\,n^{2+m/8-3(m+2)/4}=C_m\,n^{1/2-5m/8}$ with $C_m$ depending only on $m$, and tends to zero for every $m\ge1$. Hence $\P(Y_n\ge1)\le\E[Y_n]\to0$.
+
+  \emph{Conclusion.} Suppose $N_n>K_n$ and $Y_n=0$. Any observation within distance $s_n$ of an observation $\bm{y}_i$ with $\|\bm{y}_i\|\ge R_n$ has norm at least $R_n-s_n$, so the two would form a pair counted by $Y_n$; there is none. Each of the $N_n$ observations beyond $R_n$ is therefore a component on its own when observations are joined at distance $s_n$, so $C_n(s_n)\ge N_n>K_n=n-\omega_n$. By \cref{sec:order}, exactly $n-C_n(s_n)$ edges of $T$ have length at most $s_n$, which is fewer than $\omega_n$, so $e_{(\omega_n)}>s_n$. Therefore
+  \begin{equation*}
+  \P\big(e_{(\omega_n)}>n^{1/8}\big)\ge1-\P(N_n\le K_n)-\P(Y_n\ge1)\to1.\qedhere
+  \end{equation*}
 \end{proof}
