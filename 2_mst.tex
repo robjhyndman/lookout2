@@ -55,15 +55,15 @@ The proof is in the online Appendix. No smoothness, boundedness or tail conditio
 
 For the bandwidth matrix \eqref{eq:Hmst}, \cref{prop:order} has the following consequence.
 
-\begin{proposition}\label{prop:critical}
+\begin{corollary}\label{cor:critical}
   Let $f$ be a density on $\R^m$ and let $\bm{H}=(m+4)h_n^2\bm{I}_m$ with $h_n=e_{(\lceil\gamma(n-1)\rceil)}$. Then $n|\bm{H}|^{1/2}\to(m+4)^{m/2}q_\gamma(f)^m$ in probability as $n\to\infty$, and the limit is finite and positive.
-\end{proposition}
+\end{corollary}
 
 \begin{proof}
   $|\bm{H}|^{1/2}=(m+4)^{m/2}h_n^m$, so $n|\bm{H}|^{1/2}=(m+4)^{m/2}(n^{1/m}h_n)^m$, and \cref{prop:order} gives $n^{1/m}h_n\to q_\gamma(f)\in(0,\infty)$ in probability.
 \end{proof}
 
-The quantile bandwidth therefore satisfies \eqref{eq:hzero} but not \eqref{eq:nhinf}, since $nh_n^m$ converges to a positive constant. The variance term $n^{-1}|\bm{H}|^{-1/2}R(K)$ of the MISE does not vanish, and the estimator is not MISE-consistent. The expected number of observations inside the kernel support at a point $\bm{x}$ is asymptotically $nb_m|\bm{H}|^{1/2}f(\bm{x})$, which by \cref{prop:critical} converges to $b_m(m+4)^{m/2}q_\gamma(f)^mf(\bm{x})$. The number of observations in the window is therefore bounded as $n\to\infty$, and is proportional to the local density. Nearest-neighbour outlier scores and the local outlier factor \citep{breunig2000lof} are also based on a bounded number of neighbours, and are also inconsistent as density estimates. They fix the number of neighbours and let the radius vary, while \eqref{eq:Hmst} fixes the radius and lets the number of neighbours vary with $f$. In \cref{sec:whynotmise} we argue that this is appropriate for anomaly detection.
+The quantile bandwidth therefore satisfies \eqref{eq:hzero} but not \eqref{eq:nhinf}, since $nh_n^m$ converges to a positive constant. The variance term $n^{-1}|\bm{H}|^{-1/2}R(K)$ of the MISE does not vanish, and the estimator is not MISE-consistent. The expected number of observations inside the kernel support at a point $\bm{x}$ is asymptotically $nb_m|\bm{H}|^{1/2}f(\bm{x})$, which by \cref{cor:critical} converges to $b_m(m+4)^{m/2}q_\gamma(f)^mf(\bm{x})$. The number of observations in the window is therefore bounded as $n\to\infty$, and is proportional to the local density. Nearest-neighbour outlier scores and the local outlier factor \citep{breunig2000lof} are also based on a bounded number of neighbours, and are also inconsistent as density estimates. They fix the number of neighbours and let the radius vary, while \eqref{eq:Hmst} fixes the radius and lets the number of neighbours vary with $f$. In \cref{sec:whynotmise} we argue that this is appropriate for anomaly detection.
 
 \subsection{The bandwidth and the MISE}\label{sec:whynotmise}
 
