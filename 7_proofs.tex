@@ -52,12 +52,6 @@ Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rce
   \P(n^{1/m}h_n>q+\varepsilon)\le\P\big(\Xi_n(q+\varepsilon)>1-\gamma-1/n\big).
   $$
   Both tend to zero by Step 1, so $n^{1/m}h_n\to q$ in probability.
-
-  Finally, for a locally finite $\mathcal{X}\subset\R^m$ and $\bm{x}\in\mathcal{X}$, let $\psi_t(\bm{x};\mathcal{X})=\mathbf{1}\{\mathcal{X}\cap B(\bm{x},t)\neq\{\bm{x}\}\}$ indicate that some other point of $\mathcal{X}$ lies within distance $t$ of $\bm{x}$. It is bounded, unchanged when $\bm{x}$ and $\mathcal{X}$ are translated together, and depends only on the points within distance $t$ of $\bm{x}$, so \citet[Theorem 2.1]{PenroseYukich2003} applies and gives
-  $$
-  \frac1n\sum_{i=1}^n\psi_t(n^{1/m}\bm{y}_i;n^{1/m}\mathcal{Y}_n)\to\int_{\R^m}\P\big(\mathcal{P}_{f(\bm{x})}\cap B(\bm{0},t)\neq\emptyset\big)f(\bm{x})\,d\bm{x}=1-G_-(t)
-  $$
-  in probability. The left side is the proportion of observations whose nearest neighbour lies within $tn^{-1/m}$, so the argument of Step 3, with $G_-$ in place of $G$, gives $n^{1/m}D_{(k_n)}\to t_-$ in probability, as stated after Proposition 1 in the main paper.
 \end{proof}
 
 \section{Proof of \texorpdfstring{\cref{cex:fattails}}{Counterexample 1}}
