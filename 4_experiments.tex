@@ -19,57 +19,57 @@ The non-anomalous observations have independent $\text{Gamma}(2, 2)$ coordinates
   \centering
   \includegraphics[width=\textwidth]{Figures/Exp1_Gamma_Rates.pdf}
   \caption{Experiment 1 data and results. Left: data for two iterations of the experiment with $r = 0.2$ and $r = 0.9$. Anomalies with lower values of $r$ are easier to identify. Right: the relative performance of the two algorithms. The points in the right panel are slightly jittered horizontally to avoid overlapping points.}
-  \label{fig:exp1GammaRates}
+  \label{fig:exp1}
 \end{figure}
 
-\cref{fig:exp1GammaRates} shows the data and results. As $r$ increases the anomalies become more similar to the non-anomalies, so the true positive rate falls. The new version performs better than the original at every value of $r$, with the largest differences at the smallest values of $r$, where the anomalies are farthest from the non-anomalous observations.
+\cref{fig:exp1} shows the data and results. As $r$ increases the anomalies become more similar to the non-anomalies, so the true positive rate falls. The new version performs better than the original at every value of $r$, with the largest differences at the smallest values of $r$, where the anomalies are farthest from the non-anomalous observations.
 
 \subsection[Experiment 2: Anomalies on the boundary as n increases]{Experiment 2: Anomalies on the boundary as $n$ increases}
 
 Anomalies are often close to the non-anomalous observations rather than well separated from them. Here the non-anomalous observations have independent $\mathcal{N}(0,1)$ coordinates in $\R^2$, with $n \in \{1000, 2000, \ldots, 10000\}$, and there are $0.005n$ anomalies in a ring just beyond most of them. For each anomaly we sample $\mu_{i1} \sim \mathcal{U}(-2.2\sqrt2, 2.2\sqrt2)$, set $\mu_{i2} = \pm\sqrt{2\times2.2^2 - \mu_{i1}^2}$ with the negative sign for a randomly chosen half of the anomalies, so that the anomaly means lie on a circle of radius $2.2\sqrt2$ about the origin, and draw $Y_{i1} \sim \mathcal{N}(\mu_{i1}, 0.1)$ and $Y_{i2} \sim \mathcal{N}(\mu_{i2}, 0.1)$. There are 10 replications for each $n$, and for both versions the kernel density estimates use the truncated sum described in \cref{sec:modified}, with 100 neighbours.
 
-\cref{fig:exp3NormalIncreasingN} shows the data of one replication and the results. Both versions have low false positive rates. The new version has a higher true positive rate, with clear differences at the smaller sample sizes. The online Appendix repeats this experiment with gamma-distributed observations (Experiment S2); there the two versions differ little, and the original is slightly better at the largest sample sizes.
+\cref{fig:exp2} shows the data of one replication and the results. Both versions have low false positive rates. The new version has a higher true positive rate at the smaller sample sizes, and the two are similar beyond about $n=5000$. The online Appendix repeats this experiment with gamma-distributed observations (Experiment S2); there the two versions differ little, and the original is slightly better at the largest sample sizes.
 
 \begin{figure}[!hb]
   \centering
-  \includegraphics[width=\textwidth]{Figures/Exp3.pdf}
+  \includegraphics[width=\textwidth]{Figures/Exp2.pdf}
   \caption{Experiment 2 data and results using Normal distributions. Left: data for $n=10000$. Right: the relative performance of the two algorithms. The points in the right panel are slightly jittered horizontally to avoid overlapping points.}
-  \label{fig:exp3NormalIncreasingN}
+  \label{fig:exp2}
 \end{figure}
 
 \subsection{Experiment 3: Normal distributions moving out in each iteration}
 
 The sample has 405 points in $\R^6$, of which five are anomalies. The non-anomalies are $\mathcal{N}(0,1)$ in every dimension. The anomalies differ from the non-anomalies only in the first dimension, where they are $\mathcal{N}\left(2 + (i-1)\times0.5, \, 0.2 \right)$ at iteration $i \in \{1, \ldots, 10\}$, so they move further from the non-anomalous points at each iteration. Each iteration is repeated 10 times.
 
-\cref{fig:comparisonExp5} shows the data and the results, with anomalies in red. The top left plot shows the $Y_1Y_2$ plane at the third iteration, and the middle plots the $Y_1Y_2$ and $Y_3Y_4$ planes at the ninth, by which time the anomalies have separated from the other points in the $Y_1$ direction but remain mixed with them on the $Y_3Y_4$ plane. The right panel gives the AUC, Fmeasure and Gmean. The new version has higher Fmeasure and Gmean than the original from about the fourth iteration, the two versions have the same AUC, and both are ahead of the four other methods on every metric.
+\cref{fig:exp3} shows the data and the results, with anomalies in red. The top left plot shows the $Y_1Y_2$ plane at the third iteration, and the middle plots the $Y_1Y_2$ and $Y_3Y_4$ planes at the ninth, by which time the anomalies have separated from the other points in the $Y_1$ direction but remain mixed with them on the $Y_3Y_4$ plane. The right panel gives the AUC, Fmeasure and Gmean. The new version has higher Fmeasure and Gmean than the original from about the third iteration, the two versions have the same AUC, and both are at least as good as the four other methods on every metric.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\linewidth]{Figures/Exp5_Data_and_Results.pdf}
+  \includegraphics[width=\linewidth]{Figures/Exp3_Data_and_Results.pdf}
   \caption{Experiment 3 results. Top left: Data from the 3rd iteration showing the $Y_1Y_2$ plane with anomalies in red. Middle left: Data from the 9th iteration showing both the $Y_1Y_2$ plane and $Y_3Y_4$ plane, with anomalies moving further away in the $Y_1$ direction, resulting in the anomalies and non-anomalies being mixed on the $Y_3Y_4$ plane. Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
-  \label{fig:comparisonExp5}
+  \label{fig:exp3}
 \end{figure}
 
 \subsection[Experiment 4: Annulus in R3]{Experiment 4: Annulus in $\R^3$}
 
-The sample has 805 points in $\R^3$, of which five are anomalies. The non-anomalies lie in an annulus on the $Y_1Y_2$ plane with $Y_3 \sim \mathcal{U}(0,1)$, and the anomalies move towards the centre of the hole over 10 iterations, each repeated 10 times. \cref{fig:comparisonExp6} shows the data at iterations 3 and 9 and the results. The new version identifies all five anomalies from the fourth iteration, with AUC, Fmeasure and Gmean equal to one. The original version is lower and more variable, KDEOS and RDOS have AUC below 0.6 throughout, and HDoutliers and stray identify no anomalies until about the eighth iteration.
+The sample has 805 points in $\R^3$, of which five are anomalies. The non-anomalies lie in an annulus on the $Y_1Y_2$ plane with $Y_3 \sim \mathcal{U}(0,1)$, and the anomalies move towards the centre of the hole over 10 iterations, each repeated 10 times. \cref{fig:exp4} shows the data at iterations 3 and 9 and the results. The new version identifies all five anomalies from the fifth iteration, with AUC, Fmeasure and Gmean equal to one. The original version is lower and more variable, KDEOS and RDOS have AUC of at most about 0.6 throughout, and HDoutliers and stray identify no anomalies until about the eighth iteration.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\linewidth]{Figures/Exp6_Data_and_Results.pdf}
+  \includegraphics[width=\linewidth]{Figures/Exp4_Data_and_Results.pdf}
   \caption{Experiment 4 results. Top left: Data from the 3rd iteration showing the $Y_1Y_2$ plane with anomalies in red. Middle left: Data from the 9th iteration showing both the $Y_1Y_2$ plane and $Y_2Y_3$ plane, with anomalies moving into the annulus. Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
-  \label{fig:comparisonExp6}
+  \label{fig:exp4}
 \end{figure}
 
 \subsection[Experiment 5: Unit cube in R20]{Experiment 5: Unit cube in $\R^{20}$}
 
-The sample has 500 points in $\R^{20}$, of which one is an anomaly. Initially all 500 points are uniform on $(0,1)$ in each dimension. At iteration $i \in \{1, \dots, 20\}$ the first $i$ coordinates of the anomaly are set to $0.9$, so that at iteration 20 it is $(0.9, \dots, 0.9)$, and each iteration is repeated 10 times. The anomaly is not anomalous in any single dimension or on any $Y_iY_j$ plane, nor in the space of the first two principal components. To display it we use \textit{dobin} \citep{dobinPaper}, a dimension reduction method designed for anomalies. \cref{fig:comparisonExp7} shows the $D_1D_2$ plane of the dobin projection at iterations 5, 12 and 20, where the anomaly is clearly separated only at the last, together with the results. Both versions of lookout are run without scaling, and they perform identically. Their AUC reaches one by about the twelfth iteration, as does that of RDOS, while KDEOS stays near $0.8$. Gmean reaches one soon after; Fmeasure stays below $0.5$, because a single false positive halves it when there is one anomaly. HDoutliers and stray never identify the anomaly.
+The sample has 500 points in $\R^{20}$, of which one is an anomaly. Initially all 500 points are uniform on $(0,1)$ in each dimension. At iteration $i \in \{1, \dots, 20\}$ the first $i$ coordinates of the anomaly are set to $0.9$, so that at iteration 20 it is $(0.9, \dots, 0.9)$, and each iteration is repeated 10 times. The anomaly is not anomalous in any single dimension or on any $Y_iY_j$ plane, nor in the space of the first two principal components. To display it we use \textit{dobin} \citep{dobinPaper}, a dimension reduction method designed for anomalies. \cref{fig:exp5} shows the $D_1D_2$ plane of the dobin projection at iterations 5, 12 and 20, where the anomaly is clearly separated only at the last, together with the results. Both versions of lookout are run without scaling, and they perform identically. Their AUC reaches one by about the twelfth iteration, as does that of RDOS, with KDEOS a little lower. Gmean reaches one soon after; Fmeasure stays below $0.5$, because a single false positive halves it when there is one anomaly. HDoutliers and stray never identify the anomaly.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=\linewidth]{Figures/Exp7_Data_and_Results.pdf}
+  \includegraphics[width=\linewidth]{Figures/Exp5_Data_and_Results.pdf}
   \caption{Experiment 5 results. Left: Data from the 5th, 12th and 20th iterations, showing the $D_1D_2$ plane from the dobin projection. Anomalies are shown in red. Right: AUC, Fmeasure and Gmean of old and new versions of lookout, HDoutliers, KDEOS, RDOS and stray.}
-  \label{fig:comparisonExp7}
+  \label{fig:exp5}
 \end{figure}
 
 \subsection{Sensitivity to the bandwidth}\label{sec:bwablation}

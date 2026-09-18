@@ -1037,13 +1037,13 @@ requires = ["zoo"]
 name = "lookout"
 version = "2.0.2-4.9000"
 source = "github"
-url = "https://api.github.com/repos/sevvandi/lookout/tarball/2b5d49ada6ec0f5ceec0e036fae15af45fb04ba9"
-checksum = "git:2b5d49ada6ec0f5ceec0e036fae15af45fb04ba9"
+url = "https://api.github.com/repos/sevvandi/lookout/tarball/3ae6ac40241afceed7dea5f4d82a6dee38ca6f00"
+checksum = "git:3ae6ac40241afceed7dea5f4d82a6dee38ca6f00"
 requires = [
+    "dbscan",
     "evd",
     "ggplot2",
     "mlpack",
-    "RANN",
     "robustbase",
     "tidyr",
 ]
@@ -1707,11 +1707,11 @@ checksum = "md5:354e0ef7bec83cc6d14d3106529043cc"
 
 [[package]]
 name = "tinytex"
-version = "0.60.0"
+version = "0.61.0"
 source = "cran"
-raw_version = "0.60"
-url = "https://cran.r-project.org/src/contrib/tinytex_0.60.tar.gz"
-checksum = "md5:c680dc21cfd948a22a4f72427967e3e0"
+raw_version = "0.61"
+url = "https://cran.r-project.org/src/contrib/tinytex_0.61.tar.gz"
+checksum = "md5:67e114649aa529e1631baed939110e97"
 requires = ["xfun"]
 
 [[package]]
@@ -1821,11 +1821,11 @@ checksum = "md5:121bf3699aadb9d1b47d648964b934f8"
 
 [[package]]
 name = "xfun"
-version = "0.60.0"
+version = "0.61.0"
 source = "cran"
-raw_version = "0.60"
-url = "https://cran.r-project.org/src/contrib/xfun_0.60.tar.gz"
-checksum = "md5:1bea9ab58602d9b6eac3b5823a95e5e6"
+raw_version = "0.61"
+url = "https://cran.r-project.org/src/contrib/xfun_0.61.tar.gz"
+checksum = "md5:70130070c686204fb71dbf20c6c871ac"
 
 [[package]]
 name = "yaml"

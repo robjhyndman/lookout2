@@ -1,18 +1,14 @@
-# Experiment 5: Comparison with other methods
+# Experiment 5: High-dimensional comparison
 
 generate_exp5 <- function(iterate) {
-  Y <- data.frame(
-    Y2 = rnorm(405),
-    Y3 = rnorm(405),
-    Y4 = rnorm(405),
-    Y5 = rnorm(405),
-    Y6 = rnorm(405)
-  )
-  Y1_1 <- rnorm(400)
-  Y1_2 <- rnorm(5, mean = 2 + (iterate - 1) * 0.5, sd = 0.2)
-  Y$Y1 <- c(Y1_1, Y1_2)
-  Y$Points <- c(rep("Non-anomaly", 400), rep("Anomaly", 5))
-  as_tibble(Y)
+  nn <- 500
+  dd <- 19
+  X <- matrix(runif(nn * (dd + 1)), ncol = dd + 1, nrow = nn)
+  colnames(X) <- paste("x", seq(dd + 1), sep = "")
+  X[nn, seq(iterate)] <- rep(0.9, iterate)
+  X <- as_tibble(X)
+  X$Points <- c(rep("Non-anomaly", nn - 1), rep("Anomaly", 1))
+  X
 }
 
 run_synthetic_exp5 <- function(reps, pp, scale, alpha, beta, gamma) {
@@ -20,35 +16,30 @@ run_synthetic_exp5 <- function(reps, pp, scale, alpha, beta, gamma) {
 }
 
 create_figure_exp5 <- function(results) {
-  # Plot data
-  X <- generate_exp5(3) |>
-    mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
-  g1 <- X |>
-    ggplot(aes(Y1, Y2)) +
-    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
-    scale_color_manual(
-      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
-      name = "Points"
+  # plot data
+  df <- bind_rows(
+    generate_exp5(5) |> as_dobin() |> mutate(iterate = 5),
+    generate_exp5(12) |> as_dobin() |> mutate(iterate = 12),
+    generate_exp5(20) |> as_dobin() |> mutate(iterate = 20)
+  ) |>
+    mutate(
+      alpha = 0.4 + 0.6 * (labels == "Anomaly"),
+      iterate = factor(
+        paste("Iteration", iterate),
+        levels = paste("Iteration", c(5, 12, 20))
+      )
     )
-  X <- generate_exp5(9) |>
-    mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
-  g2 <- X |>
-    ggplot(aes(Y1, Y2)) +
-    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
-    scale_color_manual(
-      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
-      name = "Points"
-    )
-  g3 <- X |>
-    ggplot(aes(Y3, Y4)) +
-    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
+
+  p <- df |>
+    ggplot() +
+    aes(D1, D2) +
+    geom_point(aes(color = labels), alpha = df$alpha, size = 0.75) +
+    facet_wrap(~iterate, strip.position = "right", ncol = 1) +
+    theme(legend.position = "bottom") +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
       name = "Points"
     )
 
-  p <- patchwork::wrap_plots(g1, g2, patchwork::guide_area(), g3) +
-    patchwork::plot_layout(guides = "collect")
-
-  create_figure_exp567(5, p, results)
+  create_figure_comparison(5, p, results)
 }

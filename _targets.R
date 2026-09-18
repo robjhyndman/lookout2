@@ -78,7 +78,20 @@ list(
   ),
 
   # ------------------------------------------------------
-  # Experiment 2: Normal distribution
+  # Experiment S1: Normal distribution
+  # ------------------------------------------------------
+
+  tar_target(
+    expS1_results,
+    run_synthetic_expS1(scale, alpha, beta, gamma)
+  ),
+  tar_target(
+    fig_expS1,
+    create_figure_expS1(expS1_results)
+  ),
+
+  # ------------------------------------------------------
+  # Experiment 2: Increasing N with normal distribution
   # ------------------------------------------------------
 
   tar_target(
@@ -91,12 +104,24 @@ list(
   ),
 
   # ------------------------------------------------------
-  # Experiment 3: Increasing N with normal distribution
+  # Experiment S2: Increasing N with gamma distribution
+  # ------------------------------------------------------
+
+  tar_target(
+    expS2_results,
+    run_synthetic_expS2(scale, alpha, beta, gamma)
+  ),
+  tar_target(
+    fig_expS2,
+    create_figure_expS2(expS2_results)
+  ),
+  # ------------------------------------------------------
+  # Experiment 3: Comparison with other methods
   # ------------------------------------------------------
 
   tar_target(
     exp3_results,
-    run_synthetic_exp3(scale, alpha, beta, gamma)
+    run_synthetic_exp3(reps = 10, pp = 10, scale = scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp3,
@@ -104,54 +129,29 @@ list(
   ),
 
   # ------------------------------------------------------
-  # Experiment 4: Increasing N with gamma distribution
+  # Experiment 4: Comparison with other methods (different setup)
   # ------------------------------------------------------
 
   tar_target(
     exp4_results,
-    run_synthetic_exp4(scale, alpha, beta, gamma)
+    run_synthetic_exp4(reps = 10, pp = 10, scale = scale, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp4,
     create_figure_exp4(exp4_results)
   ),
+
   # ------------------------------------------------------
-  # Experiment 5: Comparison with other methods
+  # Experiment 5: High-dimensional comparison
   # ------------------------------------------------------
 
   tar_target(
     exp5_results,
-    run_synthetic_exp5(reps = 10, pp = 10, scale = scale, alpha, beta, gamma)
+    run_synthetic_exp5(reps = 20, pp = 10, scale = FALSE, alpha, beta, gamma)
   ),
   tar_target(
     fig_exp5,
     create_figure_exp5(exp5_results)
-  ),
-
-  # ------------------------------------------------------
-  # Experiment 6: Comparison with other methods (different setup)
-  # ------------------------------------------------------
-
-  tar_target(
-    exp6_results,
-    run_synthetic_exp6(reps = 10, pp = 10, scale = scale, alpha, beta, gamma)
-  ),
-  tar_target(
-    fig_exp6,
-    create_figure_exp6(exp6_results)
-  ),
-
-  # ------------------------------------------------------
-  # Experiment 7: High-dimensional comparison
-  # ------------------------------------------------------
-
-  tar_target(
-    exp7_results,
-    run_synthetic_exp7(reps = 20, pp = 10, scale = FALSE, alpha, beta, gamma)
-  ),
-  tar_target(
-    fig_exp7,
-    create_figure_exp7(exp7_results)
   ),
 
   # ------------------------------------------------------

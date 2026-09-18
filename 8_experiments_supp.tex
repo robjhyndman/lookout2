@@ -6,24 +6,24 @@ This section reports two further comparisons of the original and modified versio
 
 \subsection{Experiment S1: Different anomaly means for Normal distribution}
 
-The non-anomalous observations have independent $\mathcal{N}(0, 1)$ coordinates in $\R^2$, and the anomalies independent $\mathcal{N}(\mu, 1)$ coordinates with $\mu \in \{2.50, 2.75, \dots, 4.00\}$. Each replication has 1000 non-anomalies and 10 anomalies, and there are 20 replications for each value of $\mu$. \cref{fig:exp2NormalRates} shows the data and results. As $\mu$ increases the anomalies move away from the non-anomalies and the true positive rate rises. The two versions are indistinguishable at every value of $\mu$.
+The non-anomalous observations have independent $\mathcal{N}(0, 1)$ coordinates in $\R^2$, and the anomalies independent $\mathcal{N}(\mu, 1)$ coordinates with $\mu \in \{2.50, 2.75, \dots, 4.00\}$. Each replication has 1000 non-anomalies and 10 anomalies, and there are 20 replications for each value of $\mu$. \cref{fig:expS1} shows the data and results. As $\mu$ increases the anomalies move away from the non-anomalies and the true positive rate rises. The two versions are indistinguishable at every value of $\mu$.
 
 \begin{figure}[!hb]
   \centering
-  \includegraphics[width=1\textwidth]{Figures/Exp2_Normal_Rates.pdf}
+  \includegraphics[width=1\textwidth]{Figures/ExpS1_Normal_Rates.pdf}
   \caption{Experiment S1 data and results. Left: data for two iterations of the experiment with $\mu = 2.5$ and $\mu = 3.75$. Anomalies with higher values of $\mu$ are easier to identify. Right: the relative performance of the two algorithms. The points in the right panel are slightly jittered horizontally to avoid overlapping points.}
-  \label{fig:exp2NormalRates}
+  \label{fig:expS1}
 \end{figure}
 
 \subsection[Experiment S2: Anomalies on the boundary as n increases, Gamma distribution]{Experiment S2: Anomalies on the boundary as $n$ increases, Gamma distribution}
 
-This experiment repeats Experiment 2 of the main paper with $Y_{ij} \sim \text{Gamma}(2, 2)$ for the non-anomalous points. To obtain anomalies, we generate $n$ further points $Y_i = (Y_{i1},Y_{i2})$ with independent $\text{Gamma}(2.2, 2)$ coordinates, keep those with $\lVert Y_i \rVert > q_{0.99}$, where $\lVert Y_i \rVert = \sqrt{ Y_{i1}^2 + Y_{i2}^2}$ is the distance from the origin and $q_{0.99}$ is the 0.99 quantile of the distances from the origin of the $n$ non-anomalous points, and sample $0.005 \times n$ of them. Each $n$ is repeated 10 times, and the kernel density estimates use the truncated sum with 100 neighbours. \cref{fig:exp4GammaIncreasingN} shows the data for $n = 10000$ and the results. The two versions differ little; the original is slightly better at the largest sample sizes.
+This experiment repeats Experiment 2 of the main paper with $Y_{ij} \sim \text{Gamma}(2, 2)$ for the non-anomalous points. To obtain anomalies, we generate $n$ further points $Y_i = (Y_{i1},Y_{i2})$ with independent $\text{Gamma}(2.2, 2)$ coordinates, keep those with $\lVert Y_i \rVert > q_{0.99}$, where $\lVert Y_i \rVert = \sqrt{ Y_{i1}^2 + Y_{i2}^2}$ is the distance from the origin and $q_{0.99}$ is the 0.99 quantile of the distances from the origin of the $n$ non-anomalous points, and sample $0.005 \times n$ of them. Each $n$ is repeated 10 times, and the kernel density estimates use the truncated sum with 100 neighbours. \cref{fig:expS2} shows the data for $n = 10000$ and the results. The two versions differ little; the original is slightly better at the largest sample sizes.
 
 \begin{figure}[!thb]
   \centering
-  \includegraphics[width=\textwidth]{Figures/Exp4.pdf}
+  \includegraphics[width=\textwidth]{Figures/ExpS2.pdf}
   \caption{Experiment S2 data and results using Gamma distributions. Left: data for $n=10000$. Right: the relative performance of the two algorithms. The points in the right panel are slightly jittered horizontally to avoid overlapping points.}
-  \label{fig:exp4GammaIncreasingN}
+  \label{fig:expS2}
 \end{figure}
 
 \subsection{Showcase examples}\label{sec:showcase}

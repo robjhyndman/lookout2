@@ -1,4 +1,4 @@
-# Bandwidth sensitivity (Section 4): Experiments 1, 2, 3 and 5 rerun with the
+# Bandwidth sensitivity (Section 4): Experiments 1, 2, 3 and S1 rerun with the
 # minimum spanning tree bandwidth h_n scaled by 1/4, 1/2, 1, 2 and 4, and with
 # the bandwidth h_opt of Table 1 (the AMISE-optimal bandwidth for the
 # Epanechnikov kernel and a standard normal density), all on the
@@ -70,11 +70,12 @@ run_bandwidth_ablation <- function(alpha, beta, gamma, reps = 10) {
       })
     })
   }
+  # The order of the four runs fixes the random number stream; keep it.
   bind_rows(
     run("Experiment 1", seq(10) / 10, function(r) generate_exp1(500, 10, r)),
-    run("Experiment 2", seq(2.5, 4, by = 0.25), function(mm) generate_exp2(1000, 10, mm)),
-    run("Experiment 3", c(1000, 2000, 4000), generate_exp3),
-    run("Experiment 5", seq(10), generate_exp5)
+    run("Experiment S1", seq(2.5, 4, by = 0.25), function(mm) generate_expS1(1000, 10, mm)),
+    run("Experiment 2", c(1000, 2000, 4000), generate_exp2),
+    run("Experiment 3", seq(10), generate_exp3)
   )
 }
 
@@ -100,19 +101,11 @@ create_figure_ablation <- function(results) {
         levels = c("AUC", "True positive rate", "False positive rate")
       )
     )
-  # Results are stored under the experiment numbers used when they were run;
-  # the paper numbers them 1, 2, 3 and S1 (the last in the online appendix).
   xlabs <- c(
     "Experiment 1" = "r",
-    "Experiment 3" = "Number of points (n)",
-    "Experiment 5" = "Iteration",
-    "Experiment 2" = "Mean (µ)"
-  )
-  titles <- c(
-    "Experiment 1" = "Experiment 1",
-    "Experiment 3" = "Experiment 2",
-    "Experiment 5" = "Experiment 3",
-    "Experiment 2" = "Experiment S1"
+    "Experiment 2" = "Number of points (n)",
+    "Experiment 3" = "Iteration",
+    "Experiment S1" = "Mean (µ)"
   )
   colours <- c(scales::viridis_pal(end = 0.85)(5), "black")
   plots <- purrr::map(names(xlabs), function(ex) {
@@ -127,7 +120,7 @@ create_figure_ablation <- function(results) {
         values = c(rep("solid", 5), "dashed"),
         name = "Bandwidth"
       ) +
-      labs(x = xlabs[[ex]], y = NULL, title = titles[[ex]])
+      labs(x = xlabs[[ex]], y = NULL, title = ex)
   })
   dir.create("Figures", showWarnings = FALSE)
   fig <- here::here("Figures/bandwidth_ablation.pdf")

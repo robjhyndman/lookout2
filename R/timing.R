@@ -1,8 +1,11 @@
 # Timing (Section 2): seconds taken by the minimum spanning tree and by the
 # whole algorithm on standard normal samples. "exact" uses the full
-# leave-one-out kernel density estimate (fast = FALSE), and is run only for
-# n <= 10^4 because it needs an n x n distance matrix; "truncated" sums each
-# kernel over at most 500 nearest neighbours (fast = TRUE).
+# leave-one-out kernel density estimate (fast = FALSE), computed with a
+# fixed-radius neighbour search whose cost is proportional to the number of
+# pairs of observations inside the kernel support; it is run for n <= 10^4 in
+# every dimension and up to n = 10^5 in two dimensions, where the support
+# holds few observations. "truncated" sums each kernel over at most 500
+# nearest neighbours (fast = TRUE).
 
 run_timing <- function(gamma) {
   grid <- bind_rows(
@@ -15,7 +18,7 @@ run_timing <- function(gamma) {
     truncated <- system.time(
       lookout::lookout(X, gamma = gamma, fast = TRUE)
     )["elapsed"]
-    exact <- if (n <= 1e4) {
+    exact <- if (n <= 1e4 || (m == 2 && n <= 1e5)) {
       system.time(lookout::lookout(X, gamma = gamma, fast = FALSE))["elapsed"]
     } else {
       NA_real_

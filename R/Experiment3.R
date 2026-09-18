@@ -1,94 +1,54 @@
-# Experiment 3: Increasing N with normal distribution
+# Experiment 3: Comparison with other methods
 
-generate_exp3 <- function(nn) {
-  num_outliers <- ceiling(5 / 1000 * nn)
-  meanx <- runif(num_outliers, min = -sqrt(2) * 2.2, max = sqrt(2) * 2.2)
-  meany <- sqrt(2 * 2.2^2 - meanx^2)
-  inds <- sample(seq(num_outliers), ceiling(num_outliers / 2))
-  meany[inds] <- -1 * meany[inds]
-
-  out <- bind_rows(
-    data.frame(
-      x = rnorm(nn),
-      y = rnorm(nn)
-    ),
-    data.frame(
-      x = rnorm(num_outliers, mean = meanx, sd = 0.1), # meanx
-      y = rnorm(num_outliers, mean = meany, sd = 0.1) # meany
-    )
+generate_exp3 <- function(iterate) {
+  Y <- data.frame(
+    Y2 = rnorm(405),
+    Y3 = rnorm(405),
+    Y4 = rnorm(405),
+    Y5 = rnorm(405),
+    Y6 = rnorm(405)
   )
-  colnames(out) <- c("Y1", "Y2")
-  out$Points <- c(rep("Non-anomaly", nn), rep("Anomaly", num_outliers))
-  as_tibble(out)
+  Y1_1 <- rnorm(400)
+  Y1_2 <- rnorm(5, mean = 2 + (iterate - 1) * 0.5, sd = 0.2)
+  Y$Y1 <- c(Y1_1, Y1_2)
+  Y$Points <- c(rep("Non-anomaly", 400), rep("Anomaly", 5))
+  as_tibble(Y)
 }
 
-run_synthetic_exp3 <- function(scale, alpha, beta, gamma) {
-  nnvals <- seq(10) * 1000
-  nnvals <- rep(nnvals, each = 10)
-  df3 <- df1 <- set_up_diff_metrics(length(nnvals))
-
-  for (ii in seq_along(nnvals)) {
-    X <- generate_exp3(nnvals[ii])
-    lookobj_new <- lookout::lookout(
-      X[, 1:2],
-      scale = scale,
-      alpha = alpha,
-      beta = beta,
-      gamma = gamma,
-      fast = TRUE,
-      old_version = FALSE
-    )
-    lookobj_old <- lookout::lookout(
-      X[, 1:2],
-      alpha = alpha,
-      beta = beta,
-      scale = scale,
-      fast = TRUE,
-      old_version = TRUE
-    )
-    act <- X$Points == "Anomaly"
-    df1[ii, ] <- diff_metrics(act, which_outliers(lookobj_new))
-    df3[ii, ] <- diff_metrics(act, which_outliers(lookobj_old))
-  }
-
-  bind_rows(
-    df1 |> mutate(Algorithm = "New Lookout", N = nnvals),
-    df3 |> mutate(Algorithm = "Old Lookout", N = nnvals)
-  ) |>
-    select(
-      Algorithm,
-      N,
-      true_positive_rate,
-      true_negative_rate,
-      false_positive_rate,
-      false_negative_rate
-    ) |>
-    rename(
-      "True Positive Rate" = true_positive_rate,
-      "False Positive Rate" = false_positive_rate,
-      "False Negative Rate" = false_negative_rate,
-      "True Negative Rate" = true_negative_rate
-    ) |>
-    pivot_longer(cols = 3:6)
+run_synthetic_exp3 <- function(reps, pp, scale, alpha, beta, gamma) {
+  compare_algorithms(3, generate_exp3, reps, pp, scale, alpha, beta, gamma)
 }
 
 create_figure_exp3 <- function(results) {
-  g1 <- ggplot(results, aes(x = N, y = value, color = Algorithm)) +
-    geom_jitter(width = 1000 / 4, height = 0, alpha = 0.4, size = 0.75) +
-    facet_wrap(name ~ .) +
-    labs(x = "Number of points (n)", y = "Anomaly rate") +
-    geom_smooth()
-
-  # Generate Data to plot
-  nn <- 10000
-  df <- generate_exp3(nn) |>
+  # Plot data
+  X <- generate_exp3(3) |>
     mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
-  g2 <- ggplot(df, aes(Y1, Y2, color = Points)) +
-    geom_point(alpha = df$alpha, size = 1) +
-    coord_fixed() +
+  g1 <- X |>
+    ggplot(aes(Y1, Y2)) +
+    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
       name = "Points"
     )
-  experiment_plot(g2, g1, "Exp3.pdf")
+  X <- generate_exp3(9) |>
+    mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
+  g2 <- X |>
+    ggplot(aes(Y1, Y2)) +
+    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
+    scale_color_manual(
+      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
+      name = "Points"
+    )
+  g3 <- X |>
+    ggplot(aes(Y3, Y4)) +
+    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
+    scale_color_manual(
+      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
+      name = "Points"
+    )
+
+  p <- patchwork::wrap_plots(g1, g2, patchwork::guide_area(), g3) +
+    patchwork::plot_layout(guides = "collect")
+
+  create_figure_comparison(3, p, results)
 }

@@ -1,5 +1,5 @@
 # ------------------------------------------------------
-# Common functions for Experiments 5, 6 and 7
+# Common functions for Experiments 3, 4 and 5
 # ------------------------------------------------------
 
 algorithm_configs <- function() {
@@ -204,7 +204,7 @@ save_time <- function(experiment, results) {
     )
 }
 
-create_figure_exp567 <- function(experiment, p, results) {
+create_figure_comparison <- function(experiment, p, results) {
   set_ggplot_options()
   # Plot metrics
   scale <- pretty(results$Iteration)
