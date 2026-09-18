@@ -27,6 +27,11 @@ fig_wine|stem|5199bc2b96ed2aca|89ab52db62901876|3776b39336f68983|1404005279||t20
 bandwidth_table|stem|386aa8600cbbb31d|85bd7e54c898837e|b52403e37697b333|-1215201585||t20714.0202820239s|s416b|416|rds|local|vector|||4.837||
 tab_bandwidth|stem|bd894169aaf0ec37|f78efde207f7a84e|6545328ffb5106f0|-989940832||t20714.0202822307s|s124b|124|rds|local|vector|||0.001||
 timing_table|stem|f9ed28652c288582|90d8cdfcb60877dd|ca6373c1a49492f7|594914473||t20714.0478842712s|s411b|411|rds|local|vector|||577.802||
+ablation_results|stem|73dc4256a18498d5|650bf7f1069f7324|d0d584665bb9e59b|-921981994||t20714.0545740365s|s16000b|16000|rds|local|vector|||252.969||
+illustration_data|stem|098b6e0c2230f114|ce4fc1905f6dd40f|c17a6990151a3134|523109447||t20714.0545750889s|s87172b|87172|rds|local|vector|||0.068||
+tab_timing|stem|e139b0cd81158a83|e619accea189a8bd|523e210bae1d8c4d|2009669461||t20714.0545754263s|s111b|111|rds|local|vector|||0.005||
+fig_ablation|stem|22a0408e4adb971d|85e8f0e0ea11a7df|f6e401ad712b3c68|723862534||t20714.0545884823s|s118b|118|rds|local|vector|||1.121||
+fig_illustration|stem|c93832ff19da874b|d43da217edff4fe5|582379303b25043a|1952127182||t20714.0545948871s|s117b|117|rds|local|vector|||0.546||
 analyze_old_faithful|function|abf098636c56b212
 set_ggplot_options|function|074ff9b95545498d
 dendrogram_segments|function|da5e427dddd04e88
@@ -85,8 +90,3 @@ compare_algorithms|function|f3294b8f04f197a7
 run_synthetic_exp5|function|61c6ce3b90871341
 run_synthetic_exp6|function|5cfe4cb9784e7dcf
 run_synthetic_exp7|function|a370ee5fe56045e4
-ablation_results|stem|73dc4256a18498d5|650bf7f1069f7324|d0d584665bb9e59b|-921981994||t20714.0545740365s|s16000b|16000|rds|local|vector|||252.969||
-illustration_data|stem|098b6e0c2230f114|ce4fc1905f6dd40f|c17a6990151a3134|523109447||t20714.0545750889s|s87172b|87172|rds|local|vector|||0.068||
-tab_timing|stem|e139b0cd81158a83|e619accea189a8bd|523e210bae1d8c4d|2009669461||t20714.0545754263s|s111b|111|rds|local|vector|||0.005||
-fig_ablation|stem|22a0408e4adb971d|85e8f0e0ea11a7df|f6e401ad712b3c68|723862534||t20714.0545884823s|s118b|118|rds|local|vector|||1.121||
-fig_illustration|stem|c93832ff19da874b|d43da217edff4fe5|582379303b25043a|1952127182||t20714.0545948871s|s117b|117|rds|local|vector|||0.546||
