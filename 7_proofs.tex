@@ -4,7 +4,7 @@
 
 Throughout this appendix, $b_m$ denotes the volume of the unit ball in $\R^m$, $s_{m-1}=mb_m$ the $(m-1)$-dimensional surface measure of the unit sphere $S^{m-1}\subset\R^m$, and $B(\bm{x},r)$ the closed ball of radius $r$ centred at $\bm{x}$.
 
-\subsection{Proof of \texorpdfstring{\cref{prop:order}}{Proposition 5}}
+\subsection{Proof of \texorpdfstring{\cref{prop:order}}{Proposition 1}}
 
 Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rceil$, and recall from \cref{sec:order} that $C_n(r)$ is the number of components of the graph on $\mathcal{Y}_n$ that joins pairs at distance at most $r$.
 
@@ -15,15 +15,15 @@ Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rce
   $$
   Joining at distance $r_n=tn^{-1/m}$ keeps $nr_n^m=t^m$ fixed, which is the thermodynamic regime, so the law of large numbers for component counts, \citet[Theorem 3.13, an application of their Theorem 2.1]{MitschePenrose2021}, gives $\Xi_n(t)\to G(t)$ in probability, for every $t>0$ and every density $f$. Their limit function for component counts is $\kappa$, and their convergence is in fact complete and in $L^2$. The same conclusion follows from the law of large numbers for the empirical distribution of the rescaled edge lengths of $T$ \citep[Theorem 2.3(i), first obtained by \citealp{Penrose1996}]{PenroseYukich2003}, since $n-C_n(r)$ is the number of edges of $T$ of length at most $r$; the component-count form is used here because its limit is expressed through $\kappa$.
 
-  \emph{Step 2: properties of $G$.} The origin forms a component on its own exactly when $\mathcal{P}_\lambda$ has no point in $B(\bm{0},1)$, so $\kappa(\lambda)\ge\P(|\mathcal{C}_\lambda|=1)=e^{-b_m\lambda}$. Its component contains the $N\sim\text{Poisson}(b_m\lambda)$ points of $\mathcal{P}_\lambda$ in $B(\bm{0},1)$, so $\kappa(\lambda)\le\E[1/(1+N)]=(1-e^{-b_m\lambda})/(b_m\lambda)$. Integrating,
+  \emph{Step 2: properties of $G$.} The origin forms a component on its own exactly when $\mathcal{P}_\lambda$ has no point in $B(\bm{0},1)$, so $\kappa(\lambda)\ge\P(|\mathcal{C}_\lambda|=1)=\exp(-b_m\lambda)$. Its component contains the $N\sim\text{Poisson}(b_m\lambda)$ points of $\mathcal{P}_\lambda$ in $B(\bm{0},1)$, so $\kappa(\lambda)\le\E[1/(1+N)]=(1-\exp(-b_m\lambda))/(b_m\lambda)$. Integrating,
   $$
-  G_-(t):=\int_{\R^m}e^{-b_mt^mf(\bm{x})}f(\bm{x})\,d\bm{x}\ \le\ G(t)\ \le\ G_+(t):=\frac{1}{b_mt^m}\int_{\R^m}\big(1-e^{-b_mt^mf(\bm{x})}\big)\,d\bm{x}.
+  G_-(t):=\int_{\R^m}\exp(-b_mt^mf(\bm{x}))f(\bm{x})\,d\bm{x}\ \le\ G(t)\ \le\ G_+(t):=\frac{1}{b_mt^m}\int_{\R^m}\big(1-\exp(-b_mt^mf(\bm{x}))\big)\,d\bm{x}.
   $$
-  By dominated convergence $G_-$ and $G_+$ are continuous and strictly decreasing, tending to $1$ as $t\to0$ and to $0$ as $t\to\infty$; for $G_+$ this uses that $(1-e^{-u})/u$ decreases strictly from $1$ to $0$ on $(0,\infty)$. Hence $t_-$ and $t_+$ are well defined, and $G(t)\to1$ as $t\to0$ and $G(t)\to0$ as $t\to\infty$.
+  By dominated convergence $G_-$ and $G_+$ are continuous and strictly decreasing, tending to $1$ as $t\to0$ and to $0$ as $t\to\infty$; for $G_+$ this uses that $(1-\exp(-u))/u$ decreases strictly from $1$ to $0$ on $(0,\infty)$. Hence $t_-$ and $t_+$ are well defined, and $G(t)\to1$ as $t\to0$ and $G(t)\to0$ as $t\to\infty$.
 
   The function $\kappa$ is continuous on $(0,\infty)$, because $\lambda\mapsto\lambda\kappa(\lambda)$ is Lipschitz \citep[Proposition 2.3(ii) and Section 3.6]{MitschePenrose2021}, and dominated convergence then makes $G$ continuous. To see that $G$ is strictly decreasing, fix $\tau>0$, take one realisation of $\mathcal{P}_\tau\cup\{\bm{0}\}$, and let $\mathcal{C}(s)$ be the component of the origin when points are joined at distance $s$, so that $\kappa(\tau s^m)=\E[1/|\mathcal{C}(s)|]$. Components only grow with $s$, and when $s_1<s_2$ and the nearest point to the origin lies at a distance in $(s_1,s_2]$, the origin is alone at scale $s_1$ and not at scale $s_2$, so
   $$
-  \kappa(\tau s_1^m)-\kappa(\tau s_2^m)\ \ge\ \tfrac12\big(e^{-b_m\tau s_1^m}-e^{-b_m\tau s_2^m}\big)>0.
+  \kappa(\tau s_1^m)-\kappa(\tau s_2^m)\ \ge\ \tfrac12\big(\exp(-b_m\tau s_1^m)-\exp(-b_m\tau s_2^m)\big)>0.
   $$
   Hence $G$ is strictly decreasing, because its integrand decreases strictly in $t$ wherever $f>0$, and \eqref{eq:qgamma} has a unique solution $q_\gamma(f)\in(0,\infty)$. Since $G_-(q_\gamma(f))\le G(q_\gamma(f))=1-\gamma=G_-(t_-)$ and $G_-$ is decreasing, $q_\gamma(f)\ge t_-$, and the same argument with $G_+$ gives $q_\gamma(f)\le t_+$.
 
@@ -42,7 +42,7 @@ Write $\mathcal{Y}_n=\{\bm{y}_1,\dots,\bm{y}_n\}$ and $k_n=\lceil\gamma(n-1)\rce
   in probability. The left side is the proportion of observations whose nearest neighbour lies within $tn^{-1/m}$, so the argument of Step 3, with $G_-$ in place of $G$, gives $n^{1/m}D_{(k_n)}\to t_-$ in probability, as stated in \cref{sec:order}.
 \end{proof}
 
-\subsection{Proof of \texorpdfstring{\cref{cex:fattails}}{Counterexample 6}}
+\subsection{Proof of \texorpdfstring{\cref{cex:fattails}}{Counterexample 1}}
 
 Let $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$ on $\R^m$ with $m\ge1$, let $\bm{Y}$ have density $f$, and write $a_m=c_ms_{m-1}$. We use two elementary bounds. First, $\|\bm{Y}\|$ has density $a_mr^{m-1}/(1+r^{m+1})$, which for $r\ge1$ lies between $a_m/(2r^2)$ and $a_m/r^2$, so
 \begin{equation}\label{eq:tailprob}
