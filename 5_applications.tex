@@ -5,7 +5,7 @@
 We check the new and old versions of lookout on two sets of real data. Neither of these examples have labeled anomalies and so we cannot compute accuracy measures. However, as both datasets have a small number of variables, we can visualize the output. The datasets are
 \begin{enumerate}
   \item Old faithful dataset\footnote{Data downloaded from \url{https://geysertimes.org}.}: eruptions of the Old Faithful Geyser in Yellowstone National Park, Wyoming, USA, from 14 January 2017 to 29 December 2023. For each recorded eruption the duration is given in seconds along with the waiting time to the following eruption. The records are incomplete, especially during winter.
-  \item Wine reviews dataset\footnote{Data downloaded from \url{https://www.kaggle.com/datasets/zynicide/wine-reviews/data}.}: different attributes of wines from 44 countries, obtained from the \emph{Wine Enthusiast Magazine} during the week of 15 June 2017. We focus on the numerical points score given by the \emph{Wine Enthusiast} reviewer on a scale of 0--100 and the corresponding price of each bottle of wine.
+  \item Wine reviews dataset\footnote{Data downloaded from \url{https://www.kaggle.com/datasets/zynicide/wine-reviews/data}.}: 110,203 reviews of wines from 42 countries, obtained from the \emph{Wine Enthusiast Magazine} during the week of 15 June 2017. We use the 4,496 wines labelled Shiraz or Syrah, and two variables: the points score given by the \emph{Wine Enthusiast} reviewer on a scale of 0--100, and the price of a bottle. The kernel density estimates use the truncated sum described in \cref{sec:modified}, with 100 neighbours.
 \end{enumerate}
 
 \begin{figure}[!htb]
