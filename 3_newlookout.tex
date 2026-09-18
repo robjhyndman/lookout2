@@ -46,9 +46,9 @@ The GPD is fitted under two approximations. The surprisals are computed from $\h
     \State Compute the Euclidean minimum spanning tree of $\{\bm{z}_1,\dots,\bm{z}_n\}$ (set $\bm{z}_i = \bm{y}_i$ if no scaling is applied), and obtain its ordered edge lengths $e_{(1)} \le \cdots \le e_{(n-1)}$.
     \State Let $h_n = e_{(\lceil\gamma(n-1)\rceil)}$, the $\gamma$ sample quantile computed from $\{ e_{(i)} \}_{i=1}^{n-1}$.
     \State Compute the kernel density estimates at the scaled observations: $f_i = \hat{f}(\bm{z}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde} applied to $\bm{z}_1,\dots,\bm{z}_n$ with the Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m}(1 - \|\bm{u}\|^2)_+$ and $\bm{H} = (m+4)h_n^2\bm{I}_m$.
-    \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - |\bm{H}|^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
-    \State Fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, constraining the shape parameter to be non-positive, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
-    \State Calculate the probability of each observation by applying the estimated GPD to the leave-one-out kde values: $p_i = (1-\beta)\big(1 - \hat{F}(-\log f_{-i})\big)$, where $\hat{F}$ is the distribution function of the fitted GPD.
+    \State Compute the leave-one-out estimates $f_{-i} = \frac{1}{n-1} \big( n f_i - |\bm{H}|^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
+    \State Fit a GPD to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, constraining the shape parameter to be non-positive, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
+    \State Calculate the probability of each observation by applying the estimated GPD to the leave-one-out estimates: $p_i = (1-\beta)\big(1 - \hat{F}(-\log f_{-i})\big)$, where $\hat{F}$ is the distribution function of the fitted GPD.
     \State If $p_i < \alpha$, declare $\bm{y}_i$ anomalous.
   \end{algorithmic}
 \end{algorithm}

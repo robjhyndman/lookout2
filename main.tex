@@ -8,6 +8,7 @@
 \usepackage[dvipsnames,svgnames,x11names]{xcolor}%
 \usepackage{booktabs}%
 \usepackage{algorithm,algorithmicx,algpseudocode}%
+\makeatletter\renewcommand{\theHALG@line}{\thealgorithm.\arabic{ALG@line}}\makeatother
 \usepackage{natbib}%
 \bibliographystyle{agsm}
 \usepackage{hyperref,xurl}
@@ -19,7 +20,7 @@
   urlcolor={Blue}
 }
 \usepackage[capitalize,nameinlink]{cleveref}
-\usepackage{subfig,todonotes}
+\usepackage{subfig}
 \usepackage[margin=2cm]{geometry}
 
 \raggedbottom\sloppy

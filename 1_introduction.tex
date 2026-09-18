@@ -2,7 +2,7 @@
 \section{Introduction} \label{sec:intro}
 % ------------------------------------------------------------
 
-Anomaly detection is used in many application domains such as credit card fraud and scam detection \citep{kolupuri2025scams}.  \cite{lookout} proposed the \textit{lookout} algorithm for anomaly detection using a kernel density estimate with bandwidth based on persistent homology. Anomalies are identified by fitting a Generalized Pareto Distribution (GPD) to the negative logarithm of the smallest leave-one-out kernel density estimates, and declaring points with low GPD probabilities as anomalies.
+Anomaly detection is used in many application domains such as credit card fraud and scam detection \citep{kolupuri2025scams}.  \cite{lookout} proposed the \textit{lookout} algorithm for anomaly detection using a kernel density estimate with bandwidth based on persistent homology. Anomalies are identified by fitting a generalized Pareto distribution (GPD) to the negative logarithm of the smallest leave-one-out kernel density estimates, and declaring points with low GPD probabilities as anomalies.
 
 In this paper we study the bandwidth of the lookout algorithm and what it implies for the kernel density estimates. The bandwidth was originally expressed in terms of the death diameters of a Vietoris-Rips filtration; these are the edge lengths of the Euclidean minimum spanning tree of the data, and we work with the tree throughout. This allows us to analyse the asymptotic behaviour of the bandwidth, and to propose a modified algorithm that takes its bandwidth from a different feature of the same edge lengths. The modified algorithm improves the performance and robustness of the original.
 
@@ -29,7 +29,7 @@ where $s_i = -\log f (\bm{y}_i)$, and $G(s_i^-) = \lim_{t \uparrow s_i} G(t)$ is
 
 \subsection{Extreme value theory}
 
-The lookout algorithm determines which surprisals are unusually large by using a peaks-over-threshold approach \citep{Pickands1975,coles2001introduction}, and fitting a Generalized Pareto distribution (GPD) to the upper tail of the observed surprisals. That is,
+The lookout algorithm determines which surprisals are unusually large by using a peaks-over-threshold approach \citep{Pickands1975,coles2001introduction}, and fitting a GPD to the upper tail of the observed surprisals. That is,
 \begin{equation}\label{eq:POT4}
   \P(S \le s \mid S > u) = \frac{G(s) - G(u)}{1 - G(u)}
   \approx 1 - (1 + \xi (s-u)/\sigma_u)^{-1/\xi}, \qquad s > u, \quad 1 + \xi (s-u)/\sigma_u > 0,
@@ -58,7 +58,7 @@ For an admissible bandwidth, $\hat{f}$ is a consistent estimator of $f$ whenever
 
 \subsection{The lookout algorithm for anomaly detection}
 
-The \textit{lookout} algorithm of \cite{lookout}, as implemented in the \texttt{lookout} package, has four inputs: the dataset $\{\bm{y}_1,\dots,\bm{y}_n\}$, where each $\bm{y}_i \in \R^m$; a parameter $\beta \in (0,1)$ such that the Generalized Pareto Distribution (GPD) is fitted to the largest $1-\beta$ of the surprisals, with $\beta = 0.9$ following \citet{bommier2014peaks}; a parameter $\alpha \in (0,1)$ signifying the cut-off threshold for determining an anomaly; and a logical variable \textit{unitize} indicating whether to scale the data. We briefly outline the steps below.
+The \textit{lookout} algorithm of \cite{lookout}, as implemented in the \texttt{lookout} package, has four inputs: the dataset $\{\bm{y}_1,\dots,\bm{y}_n\}$, where each $\bm{y}_i \in \R^m$; a parameter $\beta \in (0,1)$ such that the GPD is fitted to the largest $1-\beta$ of the surprisals, with $\beta = 0.9$ following \citet{bommier2014peaks}; a parameter $\alpha \in (0,1)$ signifying the cut-off threshold for determining an anomaly; and a logical variable \textit{unitize} indicating whether to scale the data. We briefly outline the steps below.
 
 \begin{algorithm}
   \caption{Lookout algorithm}\label{alg:lookout}
@@ -69,9 +69,9 @@ The \textit{lookout} algorithm of \cite{lookout}, as implemented in the \texttt{
     \State From the barcode, obtain the ordered finite death diameters $\{d_i\}_{i = 1}^{n-1}$ for connected components, and their successive differences $\Delta d_i = d_{i+1} - d_i$.
     \State Let $d_* = d_{i_*}$ where $i_* = \text{arg\! max} \{\Delta d_i\}_{i=1}^{n-2}$; that is, $d_*$ is the diameter corresponding to the lower point of the maximum $\Delta d_i$.
     \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde} with the kernel $K(\bm{u}) = \frac{m+2}{b_m}(1 - \|\bm{u}\|^2/5)_+$, $b_m$ being the volume of the unit ball in $\R^m$, and $\bm{H} = d_*^2\bm{I}_m$, so that the kernel has support radius $\sqrt5\,d_*$.
-    \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - |\bm{H}|^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
+    \State Compute the leave-one-out estimates $f_{-i} = \frac{1}{n-1} \big( n f_i - |\bm{H}|^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
     \State Fit a GPD to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
-    \State Calculate the probability of each observation by applying the estimated GPD to the leave-one-out kde values: $p_i = (1-\beta)\big(1 - \hat{F}(-\log f_{-i})\big)$, where $\hat{F}$ is the distribution function of the fitted GPD.
+    \State Calculate the probability of each observation by applying the estimated GPD to the leave-one-out estimates: $p_i = (1-\beta)\big(1 - \hat{F}(-\log f_{-i})\big)$, where $\hat{F}$ is the distribution function of the fitted GPD.
     \State If $p_i < \alpha$, declare $\bm{y}_i$ anomalous.
   \end{algorithmic}
 \end{algorithm}
@@ -89,7 +89,7 @@ While \citet{lookout} demonstrated excellent results in applying their algorithm
 As a result of these considerations, we propose three modifications to the lookout algorithm, described in detail in \cref{sec:modified}.
 
 \begin{enumerate}
-  \item Rather than use a max-min scaling of the data, we standardize the data using a robust covariance estimator. That is, we scale and rotate the data to ensure that the covariance matrix of the transformed data is approximately the identity matrix. This ensures that the data have zero pairwise correlations, which leads to more efficient kernel density estimates. It also leads to each variable having approximately unit variance, which provides a more robust scaling than min-max scaling.
+  \item Rather than use a min-max scaling of the data, we standardize the data using a robust covariance estimator. That is, we scale and rotate the data to ensure that the covariance matrix of the transformed data is approximately the identity matrix. This ensures that the data have zero pairwise correlations, which leads to more efficient kernel density estimates. It also leads to each variable having approximately unit variance, which provides a more robust scaling than min-max scaling.
   \item Rather than using the lower point of the largest gap in the minimum spanning tree edge lengths, we use an upper quantile of those edge lengths. This avoids the problem that a few anomalies at the top of the edge length distribution can determine the largest gap and hence the bandwidth. It also gives the bandwidth the order $n^{-1/m}$ of the spacing between neighbouring observations, for any density.
   \item The estimated GPD shape parameter is constrained to be non-positive, which improves the stability of the GPD fitting. This is justified by noting that the kernel density estimates are bounded away from zero, so the surprisals are bounded above and the fitted GPD cannot have a positive shape parameter.
 \end{enumerate}
