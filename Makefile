@@ -7,7 +7,7 @@ TEX_FILES = $(wildcard *.tex)
 BIB_FILES = $(wildcard *.bib)
 R_SCRIPTS = $(wildcard $(RDIR)/*.R)
 
-.PHONY: all update clean clean-latex clean-figures
+.PHONY: all update clean clean-latex clean-figures sync-desktop sync-laptop
 
 # Default target
 all: $(TEXFILE).pdf supplement.pdf
@@ -34,6 +34,19 @@ $(TEXFILE).pdf: $(TEX_FILES) $(BIB_FILES) figures
 # Online appendix
 supplement.pdf: supplement.tex 7_proofs.tex $(BIB_FILES)
 	ratex supplement.tex
+
+# Copy the targets store, figures and tables from another machine instead of
+# running the pipeline here. Both machines must hold the repository at the same
+# path relative to the home directory. The ssh options override RemoteCommand
+# and RequestTTY in ~/.ssh/config, which break rsync. Touching the figures
+# stamp stops make from rerunning tar_make().
+SYNC_DIRS = _targets Figures Data_Output
+REMOTE_DIR = $(patsubst $(HOME)/%,%,$(CURDIR))
+RSH = ssh -o RemoteCommand=none -o RequestTTY=no
+
+sync-desktop sync-laptop: sync-%:
+	rsync -av -e "$(RSH)" $(addprefix $*:$(REMOTE_DIR)/,$(SYNC_DIRS)) ./
+	@touch figures
 
 # Clean auxiliary LaTeX files (using latexmk)
 clean-latex:
