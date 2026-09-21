@@ -29,11 +29,11 @@ figures: $(R_SCRIPTS) _targets.R
 
 # Main PDF compilation using latexmk
 $(TEXFILE).pdf: $(TEX_FILES) $(BIB_FILES) figures
-	latexmk -pdf -quiet $(TEXFILE)
+	ratex $(TEXFILE).tex
 
 # Online appendix
 supplement.pdf: supplement.tex 7_proofs.tex $(BIB_FILES)
-	latexmk -pdf -quiet supplement
+	ratex supplement.tex
 
 # Clean auxiliary LaTeX files (using latexmk)
 clean-latex:
