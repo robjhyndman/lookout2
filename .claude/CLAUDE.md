@@ -22,7 +22,7 @@ The experiments are numbered the same way everywhere: 1 to 5 in the paper (Gamma
 
 ## Building
 
-For text-only edits, `latexmk -pdf main` and `latexmk -pdf supplement` are enough and do not touch R. `make` runs `targets::tar_make()` first to regenerate figures, then compiles both documents. After any edit, rebuild and check `main.log` and `supplement.log` for errors and undefined references.
+For text-only edits, `ratex --keep-logs main.tex` and `ratex --keep-logs supplement.tex` are enough and do not touch R; without `--keep-logs`, ratex writes no `.log` file. Positron rebuilds automatically with ratex whenever a `.tex` file is saved (LaTeX Workshop, set in the global Positron settings). `make` runs `targets::tar_make()` first to regenerate figures, then compiles both documents. After any edit, rebuild and check `main.log` and `supplement.log` for errors and undefined references.
 
 The document uses the JCGS submission format from the Taylor & Francis template (`files.taylorandfrancis.com/ucgs-template.zip`): plain `article`, `\spacingset{1.8}`, `agsm.bst` through `natbib`. Do not switch to the `interact` class or to `tfs.bst`. `main.tex` currently sets `11pt` and 2cm margins instead of the template's 12pt and default margins; that is fixed at step 6, not before.
 
