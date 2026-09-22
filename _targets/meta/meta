@@ -41,6 +41,8 @@ timing_table|stem|81d4d9655cb9edbe|90d8cdfcb60877dd|c282208a6c3f25c4|594914473||
 tab_timing|stem|e139b0cd81158a83|e619accea189a8bd|2c41e6c38af98204|2009669461||t20714.169632578s|s111b|111|rds|local|vector|||0.005||
 illustration_data|stem|2d55fecf4d2b4ce8|eaf26a3578d4f68c|b2158d78ef91cce8|523109447||t20714.2650766098s|s87145b|87145|rds|local|vector|||0.519||
 fig_illustration|stem|c93832ff19da874b|d43da217edff4fe5|2f67795f1f685158|1952127182||t20714.2650840091s|s117b|117|rds|local|vector|||0.622||
+wine_results|stem|5096b16886645bcc|37e0910c3434387d|30c70bb248164d1c|-1420548536||t20718.2514420994s|s21610b|21610|rds|local|vector|||0.176||
+fig_wine|stem|5199bc2b96ed2aca|89ab52db62901876|3776b39336f68983|1404005279||t20718.2514459746s|s113b|113|rds|local|vector|||0.314||
 analyze_old_faithful|function|abf098636c56b212
 set_ggplot_options|function|074ff9b95545498d
 dendrogram_segments|function|da5e427dddd04e88
@@ -99,5 +101,3 @@ compare_algorithms|function|f3294b8f04f197a7
 run_synthetic_exp3|function|9b04e951ba1ee06d
 run_synthetic_exp4|function|6a752329f2816105
 run_synthetic_exp5|function|c331f7c15ae12ff0
-wine_results|stem|5096b16886645bcc|37e0910c3434387d|30c70bb248164d1c|-1420548536||t20718.2514420994s|s21610b|21610|rds|local|vector|||0.176||
-fig_wine|stem|5199bc2b96ed2aca|89ab52db62901876|3776b39336f68983|1404005279||t20718.2514459746s|s113b|113|rds|local|vector|||0.314||
