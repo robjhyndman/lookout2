@@ -32,7 +32,7 @@ $(TEXFILE).pdf: $(TEX_FILES) $(BIB_FILES) figures
 	ratex --keep-logs $(TEXFILE).tex
 
 # Online appendix
-supplement.pdf: supplement.tex 7_proofs.tex $(BIB_FILES)
+supplement.pdf: supplement.tex 7_proofs.tex 8_experiments_supp.tex $(BIB_FILES) figures
 	ratex --keep-logs supplement.tex
 
 # Copy the targets store, figures and tables from another machine instead of
