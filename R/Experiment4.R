@@ -1,92 +1,57 @@
-# Experiment 4: Increasing N with gamma distribution
+# Experiment 4: Comparison with other methods (different setup)
 
-generate_exp4 <- function(nn) {
-  num_outliers <- ceiling(5 / 1000 * nn)
-  Y1 <- matrix(rgamma(n = 2 * nn, shape = 2, rate = 2), ncol = 2)
-  Y2 <- matrix(rgamma(n = 2 * nn, shape = 2.2, rate = 2), ncol = 2)
-  x1dist <- apply(Y1, 1, function(x) sqrt(x[1]^2 + x[2]^2))
-  qq <- quantile(x1dist, probs = 0.99)
-  x2dist <- apply(Y2, 1, function(x) sqrt(x[1]^2 + x[2]^2))
-  inds <- sample(which(x2dist > qq), num_outliers)
-  out <- as.data.frame(rbind(Y1, Y2[inds, ]))
-  colnames(out) <- c("Y1", "Y2")
-  out$Points <- c(
-    rep("Non-anomaly", NROW(Y1)),
-    rep("Anomaly", length(inds))
+generate_exp4 <- function(iterate) {
+  nn <- 805
+  r1 <- runif(nn)
+  r2 <- rnorm(nn, mean = 5)
+  theta <- 2 * pi * r1
+  R2 <- 2
+  dist <- r2 + R2
+  X <- tibble(
+    Y1 = dist * cos(theta),
+    Y2 = dist * sin(theta),
+    Y3 = runif(nn)
   )
-  as_tibble(out)
+  X[nn - 5 + seq(5), 1] <- rnorm(5, 5 - (iterate - 1) * 0.5, sd = 0.1)
+  X[nn - 5 + seq(5), 2] <- rnorm(5, 0, sd = 0.1)
+  X$Points <- c(rep("Non-anomaly", nn - 5), rep("Anomaly", 5))
+  X
 }
 
-run_synthetic_exp4 <- function(scale, alpha, beta, gamma) {
-  nnvals <- rep((1:10) * 1000, each = 10)
-  df3 <- df1 <- set_up_diff_metrics(length(nnvals))
-
-  for (ii in 1:length(nnvals)) {
-    X <- generate_exp4(nnvals[[ii]])
-    lookobj_new <- lookout::lookout(
-      X[, 1:2],
-      scale = scale,
-      alpha = alpha,
-      beta = beta,
-      gamma = gamma,
-      fast = TRUE,
-      old_version = FALSE
-    )
-    lookobj_old <- lookout::lookout(
-      X[, 1:2],
-      alpha = alpha,
-      beta = beta,
-      scale = scale,
-      fast = TRUE,
-      old_version = TRUE
-    )
-    act <- X$Points == "Anomaly"
-    df1[ii, ] <- diff_metrics(act, which_outliers(lookobj_new))
-    df3[ii, ] <- diff_metrics(act, which_outliers(lookobj_old))
-  }
-
-  bind_rows(
-    df1 |> mutate(Algorithm = "New Lookout", N = nnvals),
-    df3 |> mutate(Algorithm = "Old Lookout", N = nnvals)
-  ) |>
-    relocate(Algorithm) |>
-    select(
-      Algorithm,
-      N,
-      true_positive_rate,
-      true_negative_rate,
-      false_positive_rate,
-      false_negative_rate
-    ) |>
-    rename(
-      "True Positive Rate" = true_positive_rate,
-      "False Positive Rate" = false_positive_rate,
-      "False Negative Rate" = false_negative_rate,
-      "True Negative Rate" = true_negative_rate
-    ) |>
-    pivot_longer(cols = 3:6)
+run_synthetic_exp4 <- function(reps, pp, scale, alpha, beta, gamma) {
+  compare_algorithms(4, generate_exp4, reps, pp, scale, alpha, beta, gamma)
 }
 
 create_figure_exp4 <- function(results) {
-  g1 <- results |>
-    ggplot(aes(x = N, y = value, color = Algorithm)) +
-    geom_jitter(size = 0.75, width = 1000 / 4, height = 0.0, alpha = 0.4) +
-    facet_wrap(name ~ .) +
-    labs(x = "Number of points (n)", y = "Anomaly rate") +
-    geom_smooth()
-
-  # Generate Data to plot
-  nn <- 10000
-  df_data <- generate_exp4(nn) |>
+  # Plot data
+  X <- generate_exp4(3) |>
     mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
-
-  g2 <- ggplot(df_data, aes(Y1, Y2, color = Points)) +
-    geom_point(alpha = df_data$alpha, size = 1) +
-    coord_fixed() +
+  g1 <- X |>
+    ggplot(aes(Y1, Y2)) +
+    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
+    scale_color_manual(
+      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
+      name = "Points"
+    )
+  X <- generate_exp4(9) |>
+    mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
+  g2 <- X |>
+    ggplot(aes(Y1, Y2)) +
+    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
+    scale_color_manual(
+      values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
+      name = "Points"
+    )
+  g3 <- X |>
+    ggplot(aes(Y2, Y3)) +
+    geom_point(aes(color = Points), alpha = X$alpha, size = 0.75) +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
       name = "Points"
     )
 
-  experiment_plot(g2, g1, "Exp4.pdf")
+  p <- patchwork::wrap_plots(g1, g2, patchwork::guide_area(), g3) +
+    patchwork::plot_layout(guides = "collect")
+
+  create_figure_comparison(4, p, results)
 }

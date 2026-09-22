@@ -1,0 +1,29 @@
+[project]
+name = "lookout2"
+r_version = ">=4.5.0"
+
+[dependencies]
+crop = "*"
+dobin = "*"
+dplyr = "*"
+ggplot2 = "*"
+here = "*"
+pROC = "*"
+patchwork = "*"
+purrr = "*"
+readr = "*"
+stray = "*"
+targets = "*"
+tidyr = "*"
+weird = "*"
+
+[dependencies.DDoutlier]
+git = "jhmadsen/DDoutlier"
+rev = "6408950fd119eb98321b6260e0bf894153754e27"
+
+[dependencies.HDoutliers]
+git = "cran/HDoutliers"
+rev = "1.0.4"
+
+[dependencies.lookout]
+git = "sevvandi/lookout"

@@ -4,67 +4,60 @@ In light of the preceding theoretical considerations, we propose three modificat
 
 \subsection{Standardization}
 
-The \emph{orthogonalized Gnanadesikan-Kettenring estimator} provides an iterative robust estimate of $\bm{\Sigma}$, the covariance matrix of $\{\bm{y}_1,\dots,\bm{y}_n\}$ \citep{Maronna2002-qn}. Let
-\begin{equation}\label{eq:ogk}
+The \emph{minimum covariance determinant} estimator provides a robust estimate of $\bm{\Sigma}$, the covariance matrix of $\{\bm{y}_1,\dots,\bm{y}_n\}$, by searching for the subsample of a given size whose sample covariance matrix has the smallest determinant, followed by a reweighting step \citep{rousseeuw1999fast}. We take that subsample to be of size $0.9n$. This has a lower breakdown point than the usual choice of $n/2$, but anomalies are assumed to be rare, and the larger subsample gives a more efficient estimate of $\bm{\Sigma}$ for the non-anomalous observations. Let
+\begin{equation}\label{eq:mcd}
   \hat{\bm{\Sigma}}^{-1} = \bm{U}' \bm{U}
 \end{equation}
 denote the Cholesky decomposition of its inverse. Then, the data can be scaled by $\bm{U}$, giving $\bm{z}_i = \bm{U}(\bm{y}_i - \bm{m})$, where $\bm{m}$ is the vector of medians of $\{\bm{y}_1,\dots,\bm{y}_n\}$. The covariance matrix of the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ is (approximately) the identity matrix. This can be thought of as both scaling and rotating the data; it is the multivariate equivalent of computing robust z-scores.
 
-We prefer this to the min-max scaling used in the original lookout algorithm, as it is robust to outliers and removes the correlations between variables, leading to more efficient kernel density estimates.
+We prefer this to the min-max scaling used in the original lookout algorithm. The minimum covariance determinant estimate is robust to outliers, whereas the minimum and maximum of each variable are often determined by the anomalies themselves, and the transformation removes the correlations between variables. The kernel in \cref{alg:modifiedlookout} has a covariance matrix proportional to the identity, and the covariance matrix of the standardized data is approximately the identity, so the kernel has the same orientation as the data. This is not necessary, but it improves the efficiency of the kernel density estimate \citep{chacon2018multivariate}.
 
 \subsection{Bandwidth matrix selection}
 
-Let $d_1,\dots,d_{n-1}$ denote the finite (ordered) Rips death diameters, computed from the scaled and rotated data $\bm{z}_1,\dots,\bm{z}_n$, and let $d_{\gamma(n-1)}$ denote the $\gamma$-quantile computed from $\{d_1,\dots,d_{n-1}\}$ \citep{HF96}, for a large value of $\gamma \in (0,1)$.
-
-A kernel density estimator is applied to the scaled data $\{\bm{z}_1,\dots,\bm{z}_n\}$ using the bandwidth matrix $\bm{H} = d_{\gamma(n-1)}\bm{I}_m$, where $m$ is the dimension of the data. Under reasonable assumptions, the density estimator is consistent under Theorem \ref{thm:consistency}. When the proportion of anomalies in the data is small, we would expect this estimate to be close to the density of the non-anomalous observations.
-
-Further, the kernels are now aligned with the data, as both have covariance matrices that are scalar multiples of the identity matrix. While alignment is not necessary for consistency, it does improve the efficiency of the kernel density estimates \citep{chacon2018multivariate}.
-
-An equivalent density estimate of the original data $\{\bm{y}_1,\dots,\bm{y}_n\}$ could be obtained using $\bm{H} = d_{\gamma(n-1)}\hat{\bm{\Sigma}}$, although for our purposes, working with the scaled data is sufficient.
+Let $e_{(1)} \le \cdots \le e_{(n-1)}$ denote the ordered edge lengths of the Euclidean minimum spanning tree of the standardized data $\bm{z}_1,\dots,\bm{z}_n$, and let $h_n = e_{(\lceil\gamma(n-1)\rceil)}$ be the bandwidth of \cref{def:mstbw}. The kernel density estimate is computed from the standardized data with the bandwidth matrix \eqref{eq:Hmst}, so that by \cref{cor:critical} the expected number of observations inside the kernel window is bounded as $n\to\infty$, which \cref{sec:whynotmise} argues is appropriate for anomaly detection. When the proportion of anomalies is small, they have little effect on the estimate at the non-anomalous observations. An equivalent estimate for the original data would use $\bm{H} = (m+4)h_n^2\hat{\bm{\Sigma}}$; we work with the standardized data throughout.
 
 \subsection{Bounds for kernel density estimates}
 
-In the following lemma we show that the kernel density estimates at the observations, and their negative logarithms, are bounded by constants that depend only on the dimension $m$ and the sample size $n$.
+The surprisals to which the GPD is fitted are bounded, which constrains the shape parameter. Let $K$ be a kernel with $0\le K(\bm{u})\le K(\bm{0})=K_0$ for all $\bm{u}$, and let $\hat{f}$ be the estimate \eqref{eq:mkde} with bandwidth matrix $\bm{H}$. The term $i=j$ of the sum contributes $|\bm{H}|^{-1/2}K_0/n$ and no term exceeds that, so
+$$
+\frac{K_0|\bm{H}|^{-1/2}}{n} \le \hat{f}(\bm{y}_j) \le K_0|\bm{H}|^{-1/2}, \qquad j = 1,\dots,n,
+$$
+and the surprisals $-\log\hat{f}(\bm{y}_j)$ lie in the interval $[\tfrac12\log|\bm{H}| - \log K_0,\ \tfrac12\log|\bm{H}| + \log(n/K_0)]$, whose endpoints depend on the sample only through $n$ and $\bm{H}$. For the Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} ( 1 - \|\bm{u}\|^2 )_{+}$, where $u_+ = \max(0, u)$, $K_0 = (m+2)/(2b_m)$.
 
-\begin{lemma}\label{lemma:boundsforkde}
-  Let $\{\bm{y}_1, \dots, \bm{y}_n\}$ be $n$ data points in $\R^m$, with kernel density estimate given by
-  $$
-  \hat{f}(\bm{y}) = \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{y} - \bm{y}_i)\right),
-  $$
-  where $K(\bm{u})$ is a multivariate kernel function that is bounded below by 0 and above by $K(\bm{0}) = K_0$, and $\bm{H}$ is an $m\times m$ symmetric positive-definite bandwidth matrix. Then for all $j \in \{1, \dots, n\}$, the kernel density estimates at the observations, $\hat{f}(\bm{y}_j)$, and their negative logarithms, $-\log \hat{f}(\bm{y}_j)$, are bounded by constants that depend only on $m$ and $n$.
-\end{lemma}
-\begin{proof}
-  $$
-  \frac{K_0|\bm{H}|^{-1/2}}{n} \leq\hat{f}(\bm{y}_j) =
-  \frac{1}{n} \sum_{i = 1}^n |\bm{H}|^{-1/2}K\left(\bm{H}^{-1/2}(\bm{y}_j - \bm{y}_i)\right) \leq K_0|\bm{H}|^{-1/2}\, .
-  $$
-  The constant $K_0$ may depend on $m$.
-\end{proof}
+A GPD has a bounded upper tail when its shape parameter is negative, an exponential tail when it is zero, and a polynomial tail when it is positive. A polynomial tail is inconsistent with bounded surprisals, so when we fit the GPD to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$ we constrain its shape parameter to be non-positive, which improves the stability of the fit.
 
-For example, if we use the multivariate Gaussian kernel $K(\bm{u}) = \frac{1}{(2 \pi)^{m/2}} \exp \left( -\frac12 \|\bm{u}\| \right)$, then $K_0 = \frac{1}{(2 \pi)^{m/2}}$. If we use the multivariate Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m} \left( 1 - \|\bm{u}\| \right)_{+}$, where $b_m$ is the volume of the unit sphere in $\R^m$, and $u_+ = \max(0, u)$, then $K_0 = (m+2)/(2b_m)$.
-
-Under Theorem \ref{thm:FisherTippett}, the limiting distribution of the extremes of $-\log\hat{f}(\bm{y}_j)$ is a Weibull distribution, corresponding to a Generalized Extreme Value distribution with $\xi<0$. Thus, when we fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of $\{-\log\hat{f}(\bm{y}_j)\}_{j=1}^n$, we can constrain the shape parameter to be non-positive, which improves the stability of the GPD fitting.
+The GPD is fitted under two approximations. The surprisals are computed from $\hat{f}$ rather than from $f$, and they are evaluated at the observations rather than at independent draws, so the values to which the GPD is fitted are neither mutually independent nor distributed exactly as $S$ in \cref{sec:intro}.
 
 \subsection{Modified lookout algorithm}
 
-We are now in a position to describe the modified lookout algorithm.
+\cref{alg:modifiedlookout} summarises the modified algorithm.
 
 \begin{algorithm}
   \caption{Modified lookout algorithm}\label{alg:modifiedlookout}
   \begin{algorithmic}[1]
     \Require Data $\{\bm{y}_1, \dots, \bm{y}_n\}$, proportion $\beta \in (0,1)$, threshold $\alpha \in (0,1)$, and quantile level $\gamma \in (0,1)$.
-    \State Let $\bm{Y}$ be the $m\times n$ data matrix with rows $\bm{y}_1, \dots, \bm{y}_n$.
-    \State Optional scaling: Calculate the eigendecomposition \eqref{eq:ogk}, and rotate and scale the data using $\bm{U}$, giving $\bm{Z} = \bm{U}\bm{Y}$, with scaled observations $\bm{z}_1, \dots, \bm{z}_n$ comprising the rows of $\bm{Z}$.
-    \State Compute the persistence homology barcode of the data cloud $\bm{Z}$ (set $\bm{Z} = \bm{Y}$ if no scaling is applied) for dimension zero using the Vietoris-Rips diameter \citep{ghrist2008barcodes}, and obtain the ordered death diameters $\{d_i\}_{i = 1}^n$ for connected components.
-    \State Let $d_{\gamma(n-1)} =$ the $\gamma$ sample quantile computed from $\{ d_i \}_{i=1}^n$.
-    \State Compute the kernel density estimates at the observations: $f_i = \hat{f}(\bm{y}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde}, $\bm{H} = h_n\bm{I}_m$, and $h_n = d_{\gamma(n-1)}$.
-    \State Compute the leave-one-out kde values $f_{-i} = \frac{1}{n-1} \big( n f_i - \bm{H}^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
-    \State Fit a Generalized Pareto Distribution (GPD) to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, constraining the shape parameter to be non-positive, obtaining estimates of the location, scale and shape parameters $(\mu, \sigma, \xi)$.
-    \State Calculate the probability of each observation by applying the estimated GDP to the leave-one-out kde values: $p_i = (1-\beta)P(-\log f_{-i} \mid \hat{\mu}, \hat{\sigma}, \hat{\xi})$.
+    \State Optional scaling: calculate the minimum covariance determinant estimate $\hat{\bm{\Sigma}}$ and the Cholesky decomposition \eqref{eq:mcd}, and centre, rotate and scale the data using $\bm{U}$, giving $\bm{z}_i = \bm{U}(\bm{y}_i - \bm{m})$ for $i = 1,\dots,n$, where $\bm{m}$ is the vector of medians of $\{\bm{y}_1,\dots,\bm{y}_n\}$.
+    \State Compute the Euclidean minimum spanning tree of $\{\bm{z}_1,\dots,\bm{z}_n\}$ (set $\bm{z}_i = \bm{y}_i$ if no scaling is applied), and obtain its ordered edge lengths $e_{(1)} \le \cdots \le e_{(n-1)}$.
+    \State Let $h_n$ be the $\gamma$ sample quantile of $\{ e_{(i)} \}_{i=1}^{n-1}$, computed with the type 8 estimator of \citet{HF96}.
+    \State Compute the kernel density estimates at the scaled observations: $f_i = \hat{f}(\bm{z}_i)$, $i=1,\dots,n$, where $\hat{f}$ is given by \eqref{eq:mkde} applied to $\bm{z}_1,\dots,\bm{z}_n$ with the Epanechnikov kernel $K(\bm{u}) = \frac{m+2}{2b_m}(1 - \|\bm{u}\|^2)_+$ and $\bm{H} = (m+4)h_n^2\bm{I}_m$.
+    \State Compute the leave-one-out estimates $f_{-i} = \frac{1}{n-1} \big( n f_i - |\bm{H}|^{-1/2} K(\bm{0}) \big)$ for $i=1,\dots,n$.
+    \State Fit a GPD to the largest $1-\beta$ of the surprisals $\{-\log f_i\}_{i=1}^n$, with location $\mu$ equal to the $\beta$ sample quantile of the surprisals, constraining the shape parameter to be non-positive, and obtaining estimates of the scale and shape parameters $(\sigma, \xi)$.
+    \State Calculate the probability of each observation by applying the estimated GPD to the leave-one-out estimates: $p_i = (1-\beta)\big(1 - \hat{F}(-\log f_{-i})\big)$, where $\hat{F}$ is the distribution function of the fitted GPD.
     \State If $p_i < \alpha$, declare $\bm{y}_i$ anomalous.
   \end{algorithmic}
 \end{algorithm}
 
-As with the original lookout algorithm, the values of $p_i$ can also act as anomaly scores, with lower values indicating more anomalous points.
+As with the original lookout algorithm, the values of $p_i$ can also act as anomaly scores, with lower values indicating more anomalous points. The probability $p_i$ in step 7 estimates the probability of a surprisal at least as large as $-\log f_{-i}$. When $-\log f_{-i}$ exceeds $\mu$, this is the probability $1-\beta$ of exceeding $\mu$ multiplied by the conditional exceedance probability from the fitted GPD; otherwise $p_i = 1-\beta$. In step 6 the implementation fits the GPD without constraint and, if the estimated shape parameter is positive, refits it with the shape parameter fixed at zero.
 
-The default values for the parameters are $\alpha = 0.001$, $\beta = 0.90$ and $\gamma = 0.98$. The default values are used in all experiments reported here, unless explicitly stated otherwise. Scaling is also applied by default, unless otherwise stated.
+The default values are $\alpha = 0.01$, $\beta = 0.90$ and $\gamma = 0.98$, with scaling applied. They are used in all experiments reported here unless stated otherwise.
+
+Step 4 evaluates \eqref{eq:mkde} at each of the $n$ observations. The implementation finds the observations inside the kernel support of each observation by a fixed-radius search, so the cost is proportional to the number of such pairs. \cref{tab:bwconst} shows that in three or more dimensions the support around an observation in the bulk of the data can hold a large fraction of the sample, in which case the cost is of order $n^2$ at these sample sizes, and the exact sum is practical only for $n$ up to about $10^4$ (\cref{tab:timing}). For larger $n$ the implementation instead sums the kernel over the $k$ observations nearest to each observation, including the observation itself, where $k$ is between 100 and 500 depending on $n$. This underestimates $\hat f$ in the bulk. The observations relevant to anomaly detection have fewer than $k$ observations inside their kernel support, so their estimates are unchanged. The truncated sum is used in Experiment 2, in Experiment S2 of the online Appendix, and for the wine reviews data in \cref{sec:applications}.
+
+\cref{tab:timing} gives the time taken by the tree and by the whole of \cref{alg:modifiedlookout} for standard normal samples, on a desktop computer with an Intel Core Ultra 9 285 processor. The tree takes under four seconds in every case except $m=10$ at $n=10^5$, where it takes a minute. In Experiments 3 to 5 of \cref{sec:experiments}, where $n\le805$, a run of lookout takes about $0.1$ seconds or less; KDEOS takes about the same, stray and HDoutliers less, and RDOS one to five seconds.
+
+\begin{table}[!ht]
+  \centering
+  \caption{Seconds taken by the minimum spanning tree and by the whole of \cref{alg:modifiedlookout} for standard normal samples in $\R^m$, on a desktop computer with an Intel Core Ultra 9 285 processor. The exact leave-one-out estimate uses a fixed-radius neighbour search and was run for $n\le10^4$, and up to $n=10^5$ in two dimensions; the truncated estimate sums each kernel over at most 500 nearest neighbours.}
+  \label{tab:timing}
+  \input{Data_Output/timing}
+\end{table}

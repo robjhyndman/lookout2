@@ -1,34 +1,28 @@
-# Experiment 2: Increasing N with normal distribution
+# Experiment S2: Increasing N with gamma distribution
 
-generate_exp2 <- function(nn) {
+generate_expS2 <- function(nn) {
   num_outliers <- ceiling(5 / 1000 * nn)
-  meanx <- runif(num_outliers, min = -sqrt(2) * 2.2, max = sqrt(2) * 2.2)
-  meany <- sqrt(2 * 2.2^2 - meanx^2)
-  inds <- sample(seq(num_outliers), ceiling(num_outliers / 2))
-  meany[inds] <- -1 * meany[inds]
-
-  out <- bind_rows(
-    data.frame(
-      x = rnorm(nn),
-      y = rnorm(nn)
-    ),
-    data.frame(
-      x = rnorm(num_outliers, mean = meanx, sd = 0.1), # meanx
-      y = rnorm(num_outliers, mean = meany, sd = 0.1) # meany
-    )
-  )
+  Y1 <- matrix(rgamma(n = 2 * nn, shape = 2, rate = 2), ncol = 2)
+  Y2 <- matrix(rgamma(n = 2 * nn, shape = 2.2, rate = 2), ncol = 2)
+  x1dist <- apply(Y1, 1, function(x) sqrt(x[1]^2 + x[2]^2))
+  qq <- quantile(x1dist, probs = 0.99)
+  x2dist <- apply(Y2, 1, function(x) sqrt(x[1]^2 + x[2]^2))
+  inds <- sample(which(x2dist > qq), num_outliers)
+  out <- as.data.frame(rbind(Y1, Y2[inds, ]))
   colnames(out) <- c("Y1", "Y2")
-  out$Points <- c(rep("Non-anomaly", nn), rep("Anomaly", num_outliers))
+  out$Points <- c(
+    rep("Non-anomaly", NROW(Y1)),
+    rep("Anomaly", length(inds))
+  )
   as_tibble(out)
 }
 
-run_synthetic_exp2 <- function(scale, alpha, beta, gamma) {
-  nnvals <- seq(10) * 1000
-  nnvals <- rep(nnvals, each = 10)
+run_synthetic_expS2 <- function(scale, alpha, beta, gamma) {
+  nnvals <- rep((1:10) * 1000, each = 10)
   df3 <- df1 <- set_up_diff_metrics(length(nnvals))
 
-  for (ii in seq_along(nnvals)) {
-    X <- generate_exp2(nnvals[ii])
+  for (ii in 1:length(nnvals)) {
+    X <- generate_expS2(nnvals[[ii]])
     lookobj_new <- lookout::lookout(
       X[, 1:2],
       scale = scale,
@@ -55,6 +49,7 @@ run_synthetic_exp2 <- function(scale, alpha, beta, gamma) {
     df1 |> mutate(Algorithm = "New Lookout", N = nnvals),
     df3 |> mutate(Algorithm = "Old Lookout", N = nnvals)
   ) |>
+    relocate(Algorithm) |>
     select(
       Algorithm,
       N,
@@ -72,23 +67,26 @@ run_synthetic_exp2 <- function(scale, alpha, beta, gamma) {
     pivot_longer(cols = 3:6)
 }
 
-create_figure_exp2 <- function(results) {
-  g1 <- ggplot(results, aes(x = N, y = value, color = Algorithm)) +
-    geom_jitter(width = 1000 / 4, height = 0, alpha = 0.4, size = 0.75) +
+create_figure_expS2 <- function(results) {
+  g1 <- results |>
+    ggplot(aes(x = N, y = value, color = Algorithm)) +
+    geom_jitter(size = 0.75, width = 1000 / 4, height = 0.0, alpha = 0.4) +
     facet_wrap(name ~ .) +
     labs(x = "Number of points (n)", y = "Anomaly rate") +
     geom_smooth()
 
   # Generate Data to plot
   nn <- 10000
-  df <- generate_exp2(nn) |>
+  df_data <- generate_expS2(nn) |>
     mutate(alpha = 0.4 + 0.6 * (Points == "Anomaly"))
-  g2 <- ggplot(df, aes(Y1, Y2, color = Points)) +
-    geom_point(alpha = df$alpha, size = 1) +
+
+  g2 <- ggplot(df_data, aes(Y1, Y2, color = Points)) +
+    geom_point(alpha = df_data$alpha, size = 1) +
     coord_fixed() +
     scale_color_manual(
       values = c("Non-anomaly" = "#999999", "Anomaly" = "red"),
       name = "Points"
     )
-  experiment_plot(g2, g1, "Exp2.pdf")
+
+  experiment_plot(g2, g1, "ExpS2.pdf")
 }

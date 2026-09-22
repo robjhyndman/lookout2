@@ -1,0 +1,30 @@
+% -------------------------------------------------------------------------
+\section{Applications}\label{sec:applications}
+% -------------------------------------------------------------------------
+
+We apply the new and original versions of lookout to two real datasets. Neither has labelled anomalies, so accuracy cannot be measured, but both have two variables, so the output can be inspected.
+\begin{enumerate}
+  \item Old Faithful dataset\footnote{Data downloaded from \url{https://geysertimes.org}.}: 2,097 eruptions of the Old Faithful Geyser in Yellowstone National Park, Wyoming, USA, from 14 January 2017 to 29 December 2023. For each recorded eruption the duration is given in seconds along with the waiting time to the following eruption. The records are incomplete, especially during winter.
+  \item Wine reviews dataset\footnote{Data downloaded from \url{https://www.kaggle.com/datasets/zynicide/wine-reviews/data}.}: 110,203 reviews of wines from 42 countries, obtained from the \emph{Wine Enthusiast Magazine} during the week of 15 June 2017. We use the 4,496 wines labelled Shiraz or Syrah, and two variables: the points score given by the \emph{Wine Enthusiast} reviewer on a scale of 0--100, and the price of a bottle in US dollars. The kernel density estimates use the truncated sum described in \cref{sec:modified}, with 100 neighbours.
+\end{enumerate}
+
+\cref{fig:oldfaithful} shows the Old Faithful data. The new version flags 25 eruptions in the sparse regions between and around the two clusters. The original flags 15, nine of which are also flagged by the new version; the other six form a group at the lower edge of the smaller cluster.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.8\linewidth]{Figures/old_faithful.pdf}
+  \caption{Anomalies (red) identified in the Old Faithful data by the new version of lookout (left) and the original version (right).}
+  \label{fig:oldfaithful}
+\end{figure}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.8\linewidth]{Figures/wine_reviews.pdf}
+  \caption{Anomalies (red) identified in the wine reviews data by the new version of lookout (left) and the original version (right).}
+  \label{fig:winereviews}
+\end{figure}
+
+\cref{fig:winereviews} shows the wine reviews. The new version flags 66 wines and the original 67, with 42 in common. Both flag the most expensive wines at scores from 89 to 96. The new version also flags the most expensive wine at six of the eight scores from 81 to 88, although these prices are moderate: at 85 points it flags two wines at \$80, where the median price is \$21. Of the 52 wines scoring above 95, it flags 20, including the cheapest wines at 96, 97 and 98 points. The original flags no wine scoring 81 to 88. It flags all 13 wines with the lowest score of 80 and all 22 wines scoring 97 or more, whatever their price. Most of this difference comes from the scaling. After min--max scaling one point of score is equivalent to \$42, and after minimum covariance determinant (MCD) scaling to about \$5, so the original treats a one-point gap in score as large, and the new version treats it as small compared with gaps in price.
+
+In both datasets the new version flags observations in sparse regions of the two-dimensional space. The original also flags observations at the edge of the data that are close to other observations: the lower edge of the smaller Old Faithful cluster, and the wines with the lowest and highest scores. We regard the behaviour of the new version as the more useful.
+

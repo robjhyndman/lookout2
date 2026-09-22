@@ -2,7 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-main.pdf
 *.aux
 *.bbl
 *.blg
@@ -18,3 +17,10 @@ OldR/*
 figures
 .history
 .positai
+/.uvr/library/
+/.uvr/activate*
+JACT-2026-47*.pdf
+MST_anomaly_detection_references.pdf
+JACT_Submission.pdf
+tasks/lessons.md
+tasks/lookout*
