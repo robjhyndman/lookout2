@@ -2,7 +2,7 @@
 \section{Notation and results}
 % ------------------------------------------------------------
 
-Section S1 restates \cref{prop:order} and \cref{cex:fattails} of the main paper, Sections S2 and S3 prove them, and Section S4 reports additional experiments. Throughout, $\bm{y}_1,\dots,\bm{y}_n$ are sampled independently from a density $f$ on $\R^m$, $T$ is their Euclidean minimum spanning tree, which is almost surely unique, with ordered edge lengths $e_{(1)}\le\cdots\le e_{(n-1)}$, and $h_n=e_{(\lceil\gamma(n-1)\rceil)}$ for a fixed $\gamma\in(0,1)$. For $r>0$, $C_n(r)$ is the number of connected components of the graph that joins every pair of observations at distance at most $r$. The edges of $T$ of length at most $r$ form a spanning forest of that graph, so there are $n-C_n(r)$ of them, and $e_{(k)}\le r$ exactly when $C_n(r)\le n-k$. For $\lambda>0$, $\mathcal{P}_\lambda$ is a homogeneous Poisson process of intensity $\lambda$ on $\R^m$; joining each pair of points of $\mathcal{P}_\lambda\cup\{\bm{0}\}$ at distance at most $1$, $\mathcal{C}_\lambda$ is the component containing the origin, and $\kappa(\lambda)=\E[1/|\mathcal{C}_\lambda|]$, with $1/|\mathcal{C}_\lambda|=0$ when the component is infinite. Finally, $b_m$ denotes the volume of the unit ball in $\R^m$, $s_{m-1}=mb_m$ the $(m-1)$-dimensional surface measure of the unit sphere $S^{m-1}\subset\R^m$, and $B(\bm{x},r)$ the closed ball of radius $r$ centred at $\bm{x}$.
+Section S1 restates \cref{prop:order} and \cref{cex:fattails} of the main paper, Sections S2 and S3 prove them, and Section S4 reports additional experiments. Throughout, $\bm{y}_1,\dots,\bm{y}_n$ are sampled independently from a density $f$ on $\R^m$, $T$ is their Euclidean minimum spanning tree, which is almost surely unique, with ordered edge lengths $e_{(1)}\le\cdots\le e_{(n-1)}$, and $h_n=e_{(\lceil\gamma(n-1)\rceil)}$ for a fixed $\gamma\in(0,1)$. For $r>0$, $C_n(r)$ is the number of connected components of the graph that joins every pair of observations at distance at most $r$. The edges of $T$ of length at most $r$ form a spanning forest of that graph, so there are $n-C_n(r)$ of them, and $e_{(k)}\le r$ exactly when $C_n(r)\le n-k$. For $\lambda>0$, $\mathcal{P}_\lambda$ is a homogeneous Poisson process of intensity $\lambda$ on $\R^m$; joining each pair of points of $\mathcal{P}_\lambda\cup\{\bm{0}\}$ at distance at most $1$, $\mathcal{C}_\lambda$ is the component containing the origin, $|\mathcal{C}_\lambda|$ is its number of points, and $\kappa(\lambda)=\E[1/|\mathcal{C}_\lambda|]$, with $1/|\mathcal{C}_\lambda|=0$ when the component is infinite. Finally, $b_m$ denotes the volume of the unit ball in $\R^m$, $s_{m-1}=mb_m$ the $(m-1)$-dimensional surface measure of the unit sphere $S^{m-1}\subset\R^m$, and $B(\bm{x},r)$ the closed ball of radius $r$ centred at $\bm{x}$.
 
 \begin{proposition}\label{prop:order}
   Let $\bm{y}_1,\dots,\bm{y}_n$ be sampled independently from a density $f$ on $\R^m$, and fix $\gamma\in(0,1)$. Then $n^{1/m}h_n\to q_\gamma(f)$ in probability as $n\to\infty$, where $q_\gamma(f)\in(0,\infty)$ is the unique solution $q$ of
@@ -45,18 +45,18 @@ Write $k_n=\lceil\gamma(n-1)\rceil$.
   $$
   Hence $G$ is strictly decreasing, because its integrand decreases strictly in $t$ wherever $f>0$, and \eqref{eq:qgamma} has a unique solution $q_\gamma(f)\in(0,\infty)$. Since $G_-(q_\gamma(f))\le G(q_\gamma(f))=1-\gamma=G_-(t_-)$ and $G_-$ is decreasing, $q_\gamma(f)\ge t_-$, and the same argument with $G_+$ gives $q_\gamma(f)\le t_+$.
 
-  \emph{Step 3: the quantile.} Write $q=q_\gamma(f)$ and fix $\varepsilon\in(0,q)$, so that $G(q-\varepsilon)>1-\gamma>G(q+\varepsilon)$. Since $h_n\le r$ exactly when $C_n(r)\le n-k_n$, and $\gamma(n-1)\le k_n<\gamma(n-1)+1$,
+  \emph{Step 3: the quantile.} Write $q=q_\gamma(f)$ and fix $\varepsilon\in(0,q)$, so that $G(q-\varepsilon)>1-\gamma>G(q+\varepsilon)$. Since $h_n=e_{(k_n)}$ with $k_n=\lceil\gamma(n-1)\rceil$, $h_n\le r$ exactly when $C_n(r)\le n-k_n$. Putting $r=(q-\varepsilon)n^{-1/m}$ and $r=(q+\varepsilon)n^{-1/m}$ and dividing by $n$, $n^{1/m}h_n\le q-\varepsilon$ exactly when $\Xi_n(q-\varepsilon)\le1-k_n/n$, and $n^{1/m}h_n>q+\varepsilon$ exactly when $\Xi_n(q+\varepsilon)>1-k_n/n$. Since $\gamma(n-1)\le k_n<\gamma(n-1)+1$, we have $1-\gamma-1/n<1-k_n/n\le1-\gamma+\gamma/n$, so
   $$
   \P(n^{1/m}h_n\le q-\varepsilon)\le\P\big(\Xi_n(q-\varepsilon)\le1-\gamma+\gamma/n\big)
   \quad\text{and}\quad
   \P(n^{1/m}h_n>q+\varepsilon)\le\P\big(\Xi_n(q+\varepsilon)>1-\gamma-1/n\big).
   $$
-  Both tend to zero by Step 1, so $n^{1/m}h_n\to q$ in probability.
+  By Step 1, $\Xi_n(q-\varepsilon)\to G(q-\varepsilon)>1-\gamma$ and $\Xi_n(q+\varepsilon)\to G(q+\varepsilon)<1-\gamma$ in probability, while both thresholds tend to $1-\gamma$. Both probabilities therefore tend to zero, so $n^{1/m}h_n\to q$ in probability.
 \end{proof}
 
 \section{Proof of \texorpdfstring{\cref{cex:fattails}}{Counterexample 1}}
 
-Let $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$ on $\R^m$ with $m\ge1$, where $c_m$ is the normalizing constant, let $\bm{Y}$ have density $f$, and write $a_m=c_ms_{m-1}$. We use two elementary bounds. First, $\|\bm{Y}\|$ has density $a_mr^{m-1}/(1+r^{m+1})$, which for $r\ge1$ lies between $a_m/(2r^2)$ and $a_m/r^2$, so
+Let $f(\bm{x})=c_m/(1+\|\bm{x}\|^{m+1})$ on $\R^m$ with $m\ge1$, where $c_m$ is the normalizing constant, let $\bm{Y}$ have density $f$, and write $a_m=c_ms_{m-1}$. We use two elementary bounds. First, $\|\bm{Y}\|$ has density $a_mr^{m-1}/(1+r^{m+1})$, which for $r\ge1$ lies between $a_m/(2r^2)$ and $a_m/r^2$, so integrating from $R$ to $\infty$,
 \begin{equation}\label{eq:tailprob}
   \frac{a_m}{2R}\le p(R):=\P(\|\bm{Y}\|\ge R)\le\frac{a_m}{R},\qquad R\ge1.
 \end{equation}
