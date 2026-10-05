@@ -27,13 +27,13 @@ figures: $(R_SCRIPTS) _targets.R
 	Rscript -e "targets::tar_make()"
 	@touch figures # Create timestamp file
 
-# Main PDF compilation using ratex; --keep-logs writes main.log beside the PDF
+# Main PDF compilation using texres; --keep-logs writes main.log beside the PDF
 $(TEXFILE).pdf: $(TEX_FILES) $(BIB_FILES) figures
-	ratex --keep-logs $(TEXFILE).tex
+	texres --keep-logs $(TEXFILE).tex
 
 # Online appendix
 supplement.pdf: supplement.tex 7_proofs.tex 8_experiments_supp.tex $(BIB_FILES) figures
-	ratex --keep-logs supplement.tex
+	texres --keep-logs supplement.tex
 
 # Copy the targets store, figures and tables from another machine instead of
 # running the pipeline here. Both machines must hold the repository at the same
@@ -48,10 +48,10 @@ sync-desktop sync-laptop: sync-%:
 	rsync -av -e "$(RSH)" $(addprefix $*:$(REMOTE_DIR)/,$(SYNC_DIRS)) ./
 	@touch figures
 
-# Clean ratex build state and the PDFs it produced
+# Clean texres build state and the PDFs it produced
 clean-latex:
-	ratex -C $(TEXFILE).tex
-	ratex -C supplement.tex
+	texres -C $(TEXFILE).tex
+	texres -C supplement.tex
 
 # Clean R targets cache
 clean-figures:
